@@ -34,11 +34,19 @@ app.controller('detailsController', function ($scope, $http) {
 			title : "User's destination",
 			desc : $scope.job.Order.To.Address
 		};
+
+		$scope.assetLocation = {
+			user : "Asset Nazrul",
+			lat : 23.800490,
+			lng: 90.408450,
+			title : "Asset's Location",
+			desc : "Somewhere Asset is"
+		}
 		
 
 		console.log($scope.usersLocation);
 		var mapOptions = {
-			zoom: 17,
+			zoom: 16,
 			center: new google.maps.LatLng($scope.usersLocation.lat, $scope.usersLocation.lng),
 			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
@@ -68,6 +76,6 @@ app.controller('detailsController', function ($scope, $http) {
 		
 		createMarker($scope.usersLocation, $scope.markerIconUri.greenMarker);
 		createMarker($scope.destination, $scope.markerIconUri.redMarker);
+		createMarker($scope.assetLocation, $scope.markerIconUri.purpleMarker);
 	});
-
 });

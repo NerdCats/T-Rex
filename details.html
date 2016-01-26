@@ -18,7 +18,7 @@
 </head>
 <body>
 	<div id="container" class="horizontal pure-g">
-		<div id="sidebar" class="pure-u-lg-1-5">
+		<div id="sidebar" class="pure-u-lg-3-24">
             <div class="horizontal">
                 <img id="menu-icon" src="img/menu.png"/>
                 <h1 id="menu-heading">GO! Fetch</h1>
@@ -33,50 +33,75 @@
 		<div id="content" class="pure-u-lg-5-5">
 			<div id="content-header" class="pure-u-lg-5-5">
 				<h1 id="content-header-h1">{{job.Name}}</h1>
+				<table id="content-header-table">
+					<tr>
+						<td>Order Type</td>
+						<td>:</td>
+						<td>{{job.Order.Type}}</td>
+					</tr>
+					<tr>
+						<td>State</td>
+						<td>:</td>
+						<td>{{job.State}}</td>
+					</tr>
+					<tr>
+						<td>Preference</td>
+						<td>:</td>
+						<td>CNG > SEDAN</td>
+					</tr>
+					<tr>
+						<td>ETA</td>
+						<td>:</td>
+						<td>No Asset asigned yet</td>
+					</tr>
+				</table>
 			</div>
 			<div id="content-body" class="horizontal">
 				<div id="order-details" class="pure-u-lg-1-5">
 					<h3>Order ID</h3>
-					<h1>CNG1025</h1>
-					<span>In Progress</span>
-					<h3>Customer ID</h3>
-					<p>*(WUE*))W</p>
-					<h3>Customer ID</h3>
-					<p>*(WUE*))W</p>
-					<h3>Contact No.</h3>
+					<p>{{job._id}}</p>
+					
+
+					<h3>Customer</h3>
+					<p>{{job.User}}</p>
 					<p>01911725897</p>
-					<h3>Asset ID</h3>
-					<p>CNG#$#@#</p>
-					<h3>Asset Name</h3>
+					
+					<h3>Asset UserName</h3>
 					<p>Nabil Rahman</p>
-					<h3>Contact No</h3>
 					<p>01911987548</p>
 					
-					<h3>Agent ID</h3>
-					<p>CNG</p>
 					
-					<h3>Agent Name</h3>
+					<h3>This Order is Currently Serving by</h3>
 					<p>Redwan</p>
 				</div>
-				<div id="from-to"  class="pure-u-lg-4-22">
-					<h3>From</h3>
-					<p>2/KA/14, Nabab Habibullah Road, Shahbag, Dhaka - 1000</p>
-					<p>Beside Bangabandhu Sheikh Mujib Medical University</p>
+				<div id="from-to"  class="pure-u-lg-1-2">
+					<h3>{{job.User}}'s Location <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png"></h3>
+					<p>{{job.Order.From.Address}}</p>
 
-					<h3>To</h3>
-					<p>2/KA/14, Nabab Habibullah Road, Shahbag, Dhaka - 1000</p>
+					<h3>{{job.User}}'s Destination<img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png"></h3>
+					<p>{{job.Order.To.Address}}</p>
 
-					<p>Looking for an asset</p>
-                    <h4>In Progress</h4>
+					<h3>Asset's Location<img src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png"></h3>
+                    <p>Somewhere where asset is</p>
                     
-                    <p>Asset is on the Way</p>
-                    <h4>Undecided</h4>
-                    
-                    <p>Reached user's destination</p>
-                    <h4>Undecided</h4>
-                    
-                    <p>Picked Up</p>
-                    <h4>Undecided</h4>
+
+                    <table>
+                    	<tr>
+                    		<td>Looking  for an asset : </td>
+                    		<td>:</td>
+                    		<td>Complete</td>
+                    	</tr>
+                    	<tr>
+                    		<td>Asset is on the way : </td>
+                    		<td>:</td>
+                    		<td><b>{{ job.Tasks[0].State }}</b></td>
+                    	</tr>
+                    	<tr>
+                    		<td>Picked Up :</td>
+                    		<td>:</td>
+                    		<td>Undecided</td>
+                    	</tr>
+                    </table>
 				</div>
 				<div id="map">col 3</div>
 			</div>
