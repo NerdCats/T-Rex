@@ -1,0 +1,64 @@
+html, body{
+	margin: 0;
+	padding: 0;
+    height: 100%
+}
+#container{
+    
+}
+.horizontal{
+	display: flex;
+	flex-flow: row;
+}
+.vertical{
+	display: flex;
+	flex-flow: column;
+}
+
+#sidebar{
+	background-color: #8BC34A;
+    padding: 15px;
+    color: white;
+	
+}
+
+#content{	
+}
+
+#content-header{
+	background-color: #C5E1A5;
+    
+}
+
+#order-details{
+	background-color: #E0E0E0;
+    padding: 20px;
+}
+#from-to{
+	background-color: #F5F5F5;
+    padding: 20px;
+}
+#map{
+	background-color: #FFFFFF;
+	width: 100%;
+}	
+#content-body {
+    width: 100%;    
+}
+
+#content-header-h1 {
+    margin: 20px;
+}
+#menu-icon{
+    width: 40px;
+    height: 30px;
+}
+#menu-heading{
+    margin-top: -5px;
+    margin-left: 10px;
+}
+#menu-list{
+    list-style: none;
+    line-height: 60px;
+    font-size: 1.2em;
+}

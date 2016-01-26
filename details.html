@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app="details" ng-controller="detailsController">
+<head>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>Request Details</title>
+
+	<link rel="stylesheet" type="text/css" href="/node_modules/purecss/build/grids-responsive.css">
+	<link rel="stylesheet" type="text/css" href="/styles/style.css">
+	<link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
+
+	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
+
+
+
+	<script type="text/javascript" src="node_modules/angular-animate/angular-animate.js"></script>
+	<script type="text/javascript" src="node_modules/angular-aria/angular-aria.js"></script>
+	<script type="text/javascript" src="node_modules/angular-messages/angular-messages.js"></script>
+	<script type="text/javascript" src="node_modules/angular-material/angular-material.js"></script>
+
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrpwrT3ffXkV2ID2VN-zKCWs5_YcQpT8g&signed_in=true" async defer></script>
+</head>
+<body>
+	<div id="container" class="horizontal pure-g">
+		<div id="sidebar" class="pure-u-lg-1-5">
+            <div class="horizontal">
+                <img id="menu-icon" src="img/menu.png"/>
+                <h1 id="menu-heading">GO! Fetch</h1>
+            </div>
+	        <md-list>
+	        	<md-list-item ng-repeat="menu in menus" ng-click="">
+			    	<img src="img/dummy.png" class="md-avatar" />
+				    <p>{{ menu }}</p>
+				</md-list-item>
+	        </md-list>
+		</div>
+		<div id="content" class="pure-u-lg-5-5">
+			<div id="content-header" class="pure-u-lg-5-5">
+				<h1 id="content-header-h1">{{job.Name}}</h1>
+			</div>
+			<div id="content-body" class="horizontal">
+				<div id="order-details" class="pure-u-lg-1-5">
+					<h3>Order ID</h3>
+					<h1>CNG1025</h1>
+					<span>In Progress</span>
+					<h3>Customer ID</h3>
+					<p>*(WUE*))W</p>
+					<h3>Customer ID</h3>
+					<p>*(WUE*))W</p>
+					<h3>Contact No.</h3>
+					<p>01911725897</p>
+					<h3>Asset ID</h3>
+					<p>CNG#$#@#</p>
+					<h3>Asset Name</h3>
+					<p>Nabil Rahman</p>
+					<h3>Contact No</h3>
+					<p>01911987548</p>
+					
+					<h3>Agent ID</h3>
+					<p>CNG</p>
+					
+					<h3>Agent Name</h3>
+					<p>Redwan</p>
+				</div>
+				<div id="from-to"  class="pure-u-lg-4-22">
+					<h3>From</h3>
+					<p>2/KA/14, Nabab Habibullah Road, Shahbag, Dhaka - 1000</p>
+					<p>Beside Bangabandhu Sheikh Mujib Medical University</p>
+
+					<h3>To</h3>
+					<p>2/KA/14, Nabab Habibullah Road, Shahbag, Dhaka - 1000</p>
+
+					<p>Looking for an asset</p>
+                    <h4>In Progress</h4>
+                    
+                    <p>Asset is on the Way</p>
+                    <h4>Undecided</h4>
+                    
+                    <p>Reached user's destination</p>
+                    <h4>Undecided</h4>
+                    
+                    <p>Picked Up</p>
+                    <h4>Undecided</h4>
+				</div>
+				<div id="map">col 3</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<script type="text/javascript" src="js/map.js"></script>
+	<script type="text/javascript" src="js/details.js"></script>
+</body>
+</html>
