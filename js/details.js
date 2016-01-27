@@ -1,6 +1,6 @@
 var app = angular.module('details', ['ngMaterial']);
 
-app.controller('detailsController', function ($scope, $http) {
+app.controller('detailsController', function ($scope, $http, $interval) {
 
 	//menu options
 	$scope.menus = ["Dashboard","Orders","Services","Customers","Agents","Preferences","Administration"];
@@ -43,8 +43,31 @@ app.controller('detailsController', function ($scope, $http) {
 			desc : "Somewhere Asset is"
 		}
 		
+		$scope.requestedAgo = function () {
+			var creationTime = new Date($scope.job.CreateTime);
+			var nowTime = Date.now();
+			var diffInMin = (nowTime - creationTime)/1000/60;
+			console.log(diffInMin);
+			return Math.round(diffInMin);
+		}
 
-		console.log($scope.usersLocation);
+		$scope.detailsTable = {
+			orderId : $scope.job._id,
+			user : $scope.job.User,
+			phoneNumber : "01911725897",
+			orderType : $scope.job.Order.Type,
+			preferences : $scope.job.Order.VehiclePreference[0],
+			eta : ""
+		}
+
+		$scope.asset = {
+			name : "Rahim Mia",
+			phoneNumber : "01911726389"
+		}
+
+		$scope.servingby = {
+			name : "Redwan"
+		}
 		var mapOptions = {
 			zoom: 16,
 			center: new google.maps.LatLng($scope.usersLocation.lat, $scope.usersLocation.lng),
