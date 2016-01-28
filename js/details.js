@@ -1,4 +1,4 @@
-var app = angular.module('details', ['ngMaterial']);
+var app = angular.module('details', ['ngMaterial','ngMessages']);
 
 app.controller('detailsController', function ($scope, $http, $interval) {
 
@@ -24,7 +24,8 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			lat : $scope.job.Order.From.Point.coordinates[1],
 			lng : $scope.job.Order.From.Point.coordinates[0],
 			title : "User's location",
-			desc : $scope.job.Order.From.Address
+			desc : $scope.job.Order.From.Address,
+			markerUrl : $scope.markerIconUri.greenMarker
 		};
 
 		$scope.destination = {
@@ -32,7 +33,8 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			lat : $scope.job.Order.To.Point.coordinates[1],
 			lng : $scope.job.Order.To.Point.coordinates[0],
 			title : "User's destination",
-			desc : $scope.job.Order.To.Address
+			desc : $scope.job.Order.To.Address,
+			markerUrl : $scope.markerIconUri.redMarker
 		};
 
 		$scope.assetLocation = {
@@ -40,9 +42,54 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			lat : 23.800490,
 			lng: 90.408450,
 			title : "Asset's Location",
-			desc : "Somewhere Asset is"
-		}
+			desc : "Somewhere Asset is",
+			markerUrl : $scope.markerIconUri.purpleMarker
+		};
 		
+		$scope.locations = [
+			 $scope.usersLocation, 
+			 $scope.destination,
+			 $scope.assetLocation
+		];
+
+		$scope.jobStates = [];
+		(function assignJobsState() {
+					if ($scope.job.Order.Type == "Ride") {
+						var findAsset = {
+							job : "Find Asset",
+							jobTaskStates : $scope.job.Tasks[0].State,
+							stateChanged : function (state) {
+								this.jobStates = state;
+								this.jobTaskStates = state;
+								console.log(this.jobTaskStates);
+							}
+						};
+						var assetIsOnWay = {
+							job : "Asset is on way",
+							jobTaskStates : $scope.job.Tasks[0].State,
+							stateChanged : function (state) {
+								this.jobStates = state;
+								this.jobTaskStates = state;
+								console.log(this.jobTaskStates);
+							}
+						};
+						var pickUp = {
+							job : "Pick up",
+							jobTaskStates : $scope.job.Tasks[1].State,
+							stateChanged : function (state) {
+								this.jobTaskStates = state;
+								console.log(this.jobTaskStates);
+							}
+						};
+		
+						$scope.jobStates = [findAsset, assetIsOnWay, pickUp]
+					};
+				})();
+
+		$scope.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
+		$scope.jobState = ["ENQUEUED","IN_PROGRESS","COMPLETED"];
+
+
 		$scope.requestedAgo = function () {
 			var creationTime = new Date($scope.job.CreateTime);
 			var nowTime = Date.now();
@@ -68,6 +115,8 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 		$scope.servingby = {
 			name : "Redwan"
 		}
+
+
 		var mapOptions = {
 			zoom: 16,
 			center: new google.maps.LatLng($scope.usersLocation.lat, $scope.usersLocation.lng),
@@ -81,13 +130,13 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 		$scope.markers = [];
 
 		var infoWindow = new google.maps.InfoWindow();
-		var createMarker = function (info, markerUrl){
+		var createMarker = function (info){
 			var marker = new google.maps.Marker({
 			  	map: $scope.map,
 			  	position: new google.maps.LatLng(info.lat, info.lng),
 			  	title: info.title
 			});
-			marker.setIcon(markerUrl);
+			marker.setIcon(info.markerUrl);
 			marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
 
 			google.maps.event.addListener(marker, 'click', function(){
@@ -97,8 +146,8 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			$scope.markers.push(marker);
 		}
 		
-		createMarker($scope.usersLocation, $scope.markerIconUri.greenMarker);
-		createMarker($scope.destination, $scope.markerIconUri.redMarker);
-		createMarker($scope.assetLocation, $scope.markerIconUri.purpleMarker);
+		createMarker($scope.usersLocation );
+		createMarker($scope.destination);
+		createMarker($scope.assetLocation);
 	});
 });

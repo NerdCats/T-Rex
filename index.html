@@ -122,30 +122,51 @@
 	                                <p>{{servingby.name}}</p>
                                 </div>
                             </div>
-                            <div id="from-to"  flex="22">
+                            <div id="from-to"  flex="22">                             
+                                <md-list>
+                                    <md-list-item  ng-repeat="(key, value) in locations track by $index">
+                                        <md-card flex="100">
+                                            <md-card-actions layout="row" layout-align="end center">
+                                                <md-button>
+                                                    <md-card-title>
+                                                        <md-card-title-text>
+                                                            <span class="md-headline">{{value.title}}</span>
+                                                        </md-card-title-text>                                                  
+                                                    </md-card-title>
+                                                    <md-card-content>
+                                                        <p>{{value.desc}}</p>
+                                                    </md-card-content>
+                                                </md-button>
+                                            </md-card-actions>
+                                        </md-card>
+                                    </md-list-item>
+                                </md-list>
+
                                 <md-card>
-	                                <md-card-header>
-	                                	<md-card-header-text>
-		                                	<h3>{{job.User}}'s Location</h3>
-	                                	</md-card-header-text>
-	                                	<md-card-title-media>
-		                                	<img class="md-card-image menu-icon" src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">
-	                                	</md-card-title-media>
-	                                </md-card-header>
-	                                <md-card-content>
-	                                	<p>{{job.Order.From.Address}}</p>
-	                                </md-card-content>
+                                    <md-card-content>
+                                        <md-list>
+                                            <md-list-item ng-repeat="state in jobStates track by $index">
+                                                <p><b>{{state.job}}</b></p>
+                                                <span ng-model="state.jobTaskStates">{{state.jobTaskStates}}</span>
+
+                                                <div layout="column">                                                   
+                                                    <md-menu md-offset="0 -7">
+                                                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                                            <span><img src="img/ic_settings.png"></span>
+                                                        </md-button>
+                                                        <md-menu-content width="2">
+                                                            <md-menu-item ng-repeat="item in jobTaskStates">
+                                                                <md-button ng-click="state.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
+                                                            </md-menu-item>
+                                                        </md-menu-content>
+                                                    </md-menu>
+                                                </div>                                                
+                                            </md-list-item>
+                                        </md-list>
+                                        
+                                    </md-card-content>
                                 </md-card>
-                                <h3>
-                                	{{job.User}}'s Destination
-                                	<img class="md-card-image menu-icon" src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
-                                </h3>
-                                <p>{{job.Order.To.Address}}</p>
-
-                                <h3>Asset's Location<img src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png"></h3>
-                                <p>Somewhere where asset is</p>
-
-                                <table>
+                                <!-- <table>
                                     <tr>
                                         <td><b>Find asset</b></td>
                                         <td class="td-value complete">Complete</td>
@@ -167,7 +188,7 @@
                                         	<img src="img/ic_settings.png">
                                         </td>
                                     </tr>
-                                </table>
+                                </table> -->
                             </div>
                             <div id="map" flex="60"></div>					 
                     </article>				
