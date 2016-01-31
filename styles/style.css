@@ -21,7 +21,17 @@ header{
 header p{
     margin: 5px;
 }
-a:link, a:visited {
+
+.menu-link{
+    text-decoration: none;
+    display: inline-block;
+}
+.menu-link:hover{
+    background-color: none;
+    display: inline-block;
+}
+
+a{
     color: black;
     padding: 5px 5px;
     text-align: center; 
@@ -29,12 +39,14 @@ a:link, a:visited {
     display: inline-block;
 }
 
-a:hover{
+
+.details-link:hover{
     background-color: #F5F5F5
 }
- a:active {
+.details-link:active {
     background-color: #F44336;
 }
+
 .complete{
     color: #33691E;
 }

@@ -1,7 +1,9 @@
 var app = angular.module('details', ['ngMaterial','ngMessages']);
 
-app.controller('detailsController', function ($scope, $http, $interval) {
+app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia) {
 
+
+	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 	//menu options
 	$scope.menus = [{"title" : "Dashboard" ,"href"	: "/index.html"},
 					{"title" : "Orders" ,"href"	: "/index.html"},
@@ -60,6 +62,32 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 
 
 		$scope.assignAsset = ["Assign new Asset", "Change current Asset"];
+
+		$scope.assetAssignPopup = function (ev) {
+			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+		    $mdDialog.show({
+		      controller: DialogController,
+		      templateUrl: 'dialog/dialog1.tmpl.html',
+		      parent: angular.element(document.body),
+		      targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: useFullScreen
+		    })
+		    .then(function(answer) {
+		      $scope.status = 'You said the information was "' + answer + '".';
+		    }, function() {
+		      $scope.status = 'You cancelled the dialog.';
+		    });
+		    $scope.$watch(function() {
+		      return $mdMedia('xs') || $mdMedia('sm');
+		    }, function(wantsFullScreen) {
+		      $scope.customFullscreen = (wantsFullScreen === true);
+		    });
+		};
+
+
+
+
 		$scope.jobStates = [];
 		(function assignJobsState() {
 					if ($scope.job.Order.Type == "Ride") {
@@ -171,3 +199,16 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 		createMarker($scope.assetLocation);
 	});
 });
+
+
+function DialogController($scope, $mdDialog) {
+  $scope.hide = function() {
+    $mdDialog.hide();
+  };
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+  $scope.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}
