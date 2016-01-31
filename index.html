@@ -52,76 +52,112 @@
 				        	<md-list-item ng-repeat="menu in menus" ng-click="">
 						    	<md-button class="md-button">
 						    		<!-- <img src="img/dummy.png" class="menu-icon md-avatar" class="md-avatar"/> -->
-								    <p>{{ menu }}</p>
+								    <p><a href="{{menu.href}}">{{ menu.title }} </a></p>
 						    	</md-button>
 						    	<md-divider></md-divider>
 							</md-list-item>
 				        </md-list>
 					</div>
 	        	</aside>
-                <div id="header-and-container" flex="90">
+                <div flex="90">
                     <div class="header-container" >
                         <div class="clearfix">
 	                        <div class="title">
 	                        	<h1>Ride request for {{job.User}} </h1>
 	                        	<p>Requested {{ requestedAgo() }} minutes ago</p>
-	                        	<p><b>{{job.State}}</b></p>
+	                        	<div class="horizontal">
+                                    <p><b>{{job.State}}</b></p>
+                                    <div layout="column">                                                   
+                                        <md-menu md-offset="0 -7">
+                                            <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                                <span><img src="img/ic_settings.png"></span>
+                                            </md-button>
+                                            <md-menu-content width="2">
+                                                <md-menu-item ng-repeat="item in jobState">
+                                                    <md-button ng-click="jobStateChanged(item)" ng-model="state.jobState"><span md-menu-align-target></span> {{item}} </md-button>
+                                                </md-menu-item>
+                                            </md-menu-content>
+                                        </md-menu>
+                                    </div>           
+                                </div>
 	                        </div>
                         </div>
                     </div>
                     <article id="container" class="horizontal">
                          
+                                <div id="order-details" flex="25">
+                                	<md-card>
+                                        <md-card-title>
+                                            <md-card-title-text>
+                                                <span class="md-headline">Details</span>
+                                            </md-card-title-text>
+                                        </md-card-title>
+                                        <md-card-content>                                            
+                                            <table id="content-header-table">
+                                                <tr>
+                                                    <td><b>Order ID</b></td>
+                                                    <td class="td-value">
+                                                        <a href="#">{{detailsTable.orderId}}</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>User</b></td>
+                                                    <td class="td-value">
+                                                        <a href="#">{{detailsTable.user}}</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Phone</b></td>
+                                                    <td class="td-value">
+                                                        <a href="#">{{detailsTable.phoneNumber}}</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Order</b></td>
+                                                    <td class="td-value">
+                                                        <a href="#">{{detailsTable.orderType}}</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Preference</b></td>
+                                                    <td class="td-value">
+                                                        <a href="#">{{detailsTable.preferences}}</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>ETA</b></td>
+                                                    <td class="td-value">
+                                                        <a href="#">{{detailsTable.eta}}</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </md-card-content>
+                                    </md-card>
 
-                            <div flex="25">
-                                <div id="order-details">
-                                	<h3>Details</h3>
-	                                <table id="content-header-table">
-		                                <tr>
-		                                	<td><b>Order ID</b></td>
-		                                	<td class="td-value">
-		                                		<a href="#">{{detailsTable.orderId}}</a>
-		                                	</td>
-		                                </tr>
-		                                <tr>
-		                                	<td><b>User</b></td>
-		                                	<td class="td-value">
-		                                		<a href="#">{{detailsTable.user}}</a>
-		                                	</td>
-		                                </tr>
-		                                <tr>
-		                                	<td><b>Phone</b></td>
-		                                	<td class="td-value">
-		                                		<a href="#">{{detailsTable.phoneNumber}}</a>
-		                                	</td>
-		                                </tr>
-	                                    <tr>
-	                                        <td><b>Order</b></td>
-	                                        <td class="td-value">
-	                                        	<a href="#">{{detailsTable.orderType}}</a>
-	                                        </td>
-	                                    </tr>
-	                                    <tr>
-	                                        <td><b>Preference</b></td>
-	                                        <td class="td-value">
-	                                        	<a href="#">{{detailsTable.preferences}}</a>
-	                                        </td>
-	                                    </tr>
-	                                    <tr>
-	                                        <td><b>ETA</b></td>
-	                                        <td class="td-value">
-	                                        	<a href="#">{{detailsTable.eta}}</a>
-	                                        </td>
-	                                    </tr>
-	                                </table>
-	                                <h3>Asset</h3>
-	                                <p>{{asset.name}}</p>
-	                                <p>{{asset.phoneNumber}}</p>
-
-
-	                                <h3>This Order is Currently Serving by</h3>
-	                                <p>{{servingby.name}}</p>
+                                    <md-card>
+                                        <md-card-title>
+                                            <md-card-title-text>
+                                                <span class="md-headline">Asset</span>
+                                            </md-card-title-text>
+                                        </md-card-title>
+                                        <md-card-content>
+                                            <p>{{asset.name}}</p>
+                                            <p>{{asset.phoneNumber}}</p>
+                                        </md-card-content>
+                                    </md-card>
+	                                
+                                    <md-card>
+                                        <md-card-title>
+                                            <md-card-title-text>
+                                                <span class="md-headline">This Order is Currently Serving by</span>
+                                            </md-card-title-text>
+                                        </md-card-title>
+                                        <md-card-content>
+                                            <p>{{servingby.name}}</p>
+                                        </md-card-content>
+                                    </md-card>	                                
                                 </div>
-                            </div>
+                       
                             <div id="from-to"  flex="22">                             
                                 <md-list>
                                     <md-list-item  ng-repeat="(key, value) in locations track by $index">
@@ -166,29 +202,6 @@
                                         
                                     </md-card-content>
                                 </md-card>
-                                <!-- <table>
-                                    <tr>
-                                        <td><b>Find asset</b></td>
-                                        <td class="td-value complete">Complete</td>
-                                        <td  class="">
-                                        	<img src="img/ic_settings.png">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Asset is on way</b></td>
-                                        <td class="td-value in-progress"><b>In Progress</b>
-                                        <td  class="">
-                                        	<img src="img/ic_settings.png"></td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Pick up {{job.User}}</b></td>
-                                        <td class="td-value pending">PENDING</td>
-                                        <td  class="">
-                                        	<img src="img/ic_settings.png">
-                                        </td>
-                                    </tr>
-                                </table> -->
                             </div>
                             <div id="map" flex="60"></div>					 
                     </article>				

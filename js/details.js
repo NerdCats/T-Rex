@@ -3,7 +3,13 @@ var app = angular.module('details', ['ngMaterial','ngMessages']);
 app.controller('detailsController', function ($scope, $http, $interval) {
 
 	//menu options
-	$scope.menus = ["Dashboard","Orders","Services","Customers","Agents","Preferences","Administration"];
+	$scope.menus = [{"title" : "Dashboard" ,"href"	: "/index.html"},
+					{"title" : "Orders" ,"href"	: "/index.html"},
+					{"title" : "Services" ,"href"	: "/index.html"},
+					{"title" : "Customers" ,"href"	: "/index.html"},
+					{"title" : "Agents" ,"href"	: "/index.html"},
+					{"title" : "Preferences" ,"href"	: "/index.html"},
+					{"title" : "Administration", "href"	: "/index.html"}];
 
 	//marker colors
 	$scope.markerIconUri = {
@@ -25,7 +31,7 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			lng : $scope.job.Order.From.Point.coordinates[0],
 			title : "User's location",
 			desc : $scope.job.Order.From.Address,
-			markerUrl : $scope.markerIconUri.greenMarker
+			markerUrl : $scope.markerIconUri.greenMarker				
 		};
 
 		$scope.destination = {
@@ -34,7 +40,7 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			lng : $scope.job.Order.To.Point.coordinates[0],
 			title : "User's destination",
 			desc : $scope.job.Order.To.Address,
-			markerUrl : $scope.markerIconUri.redMarker
+			markerUrl : $scope.markerIconUri.redMarker				
 		};
 
 		$scope.assetLocation = {
@@ -43,7 +49,7 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			lng: 90.408450,
 			title : "Asset's Location",
 			desc : "Somewhere Asset is",
-			markerUrl : $scope.markerIconUri.purpleMarker
+			markerUrl : $scope.markerIconUri.purpleMarker				
 		};
 		
 		$scope.locations = [
@@ -52,6 +58,8 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			 $scope.assetLocation
 		];
 
+
+		$scope.assignAsset = ["Assign new Asset", "Change current Asset"];
 		$scope.jobStates = [];
 		(function assignJobsState() {
 					if ($scope.job.Order.Type == "Ride") {
@@ -87,7 +95,11 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 				})();
 
 		$scope.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
+
 		$scope.jobState = ["ENQUEUED","IN_PROGRESS","COMPLETED"];
+		$scope.jobStateChanged = function (state) {
+			$scope.job.State = state;
+		}
 
 
 		$scope.requestedAgo = function () {
@@ -138,7 +150,15 @@ app.controller('detailsController', function ($scope, $http, $interval) {
 			});
 			marker.setIcon(info.markerUrl);
 			marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
+			marker.addListener('click', toggleBounce);
 
+			function toggleBounce() {
+			  if (marker.getAnimation() !== null) {
+			    marker.setAnimation(null);
+			  } else {
+			    marker.setAnimation(google.maps.Animation.BOUNCE);
+			  }
+			}
 			google.maps.event.addListener(marker, 'click', function(){
 			  	infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
 			  	infoWindow.open($scope.map, marker);
