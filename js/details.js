@@ -1,7 +1,4 @@
-app.config(function($locationProvider) {
-	$locationProvider.html5Mode(true);
-});
-app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window) {
+app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus) {
 	
 	var id = $location.search().id;
 	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -12,14 +9,7 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
       	{ name: 'template2.html', url: 'template2.html'} 
     ];
 	//menu options
-	$scope.menus = [
-		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Orders",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Users",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Assets",  Navigate: function(){$window.location.href = '/assets.html'}},
-		{Title : "Agents",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Administration",  Navigate: function(){$window.location.href = '/index.html'}}
-	];
+	$scope.menus = menus;
 
 	//marker colors
 	$scope.markerIconUri = {

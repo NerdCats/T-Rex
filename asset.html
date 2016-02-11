@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="fetch_dashboard" ng-controller="indexController"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="fetch_dashboard" ng-controller="assetController"> <!--<![endif]-->
     <head>
         <base href="/">
         <meta charset="utf-8">
@@ -13,7 +13,7 @@
 
 		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-		<title>Dashboard</title>
+		<title>Asset</title>
 
 		<link rel="stylesheet" type="text/css" href="/styles/style.css">
         <link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
@@ -57,23 +57,23 @@
                                 <thead>
                                     <tr>
                                         <th class="number rg-th">S/L no</th>
-                                        <th class="text rg-th">Order</th>
+                                        <th class="text rg-th">Username</th>
                                         <th class="text rg-th">Type</th>
-                                        <th class="text rg-th">From</th>
-                                        <th class="text rg-th">To</th>
-                                        <th class="text rg-th">User</th>
-                                        <th class="text rg-th">Requested</th>
+                                        <th class="text rg-th">Phone</th>
+                                        <th class="text rg-th">AreaOfOperation</th>
+                                        <th class="text rg-th">CurrentLocation</th>
+                                        <th class="text rg-th">IsAvailable</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="order in newOrders track by $index" ng-click="order.Details()">
+                                    <tr ng-repeat="asset in assetlist track by $index" ng-click="asset.Details()">
                                         <td class="number">{{$index + 1}}</td>
-                                        <td class="text">{{order.Name}}</td>
-                                        <td class="text">{{order.Type}}</td>
-                                        <td class="text">{{order.From}}</td>
-                                        <td class="text">{{order.To}}</td>
-                                        <td class="text">{{order.User}}</td>
-                                        <td class="text">{{order.RequestedAgo}}</td>
+                                        <td class="text">{{asset.Username}}</td>
+                                        <td class="text">{{asset.Type}}</td>
+                                        <td class="text">{{asset.Phone}}</td>
+                                        <td class="text">{{asset.AreaOfOperation}}</td>
+                                        <td class="text">{{asset.CurrentLocation}}</td>
+                                        <td class="text">{{asset.IsAvailable}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -130,7 +130,7 @@
 
         <script src="js/main.js"></script>
         <script type="text/javascript" src="js/map.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/asset.js"></script>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

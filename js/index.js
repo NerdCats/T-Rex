@@ -1,4 +1,4 @@
-app.controller('indexController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window) {
+app.controller('indexController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window,menus) {
 
 	$scope.templates = [ 
 	 	{ name: 'sidebar.html', url: 'template/sidebar.html'},
@@ -6,14 +6,7 @@ app.controller('indexController', function ($scope, $http, $interval, $mdDialog,
     ];
 	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 	//menu options
-	$scope.menus = [
-		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Orders",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Users",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Assets",  Navigate: function(){$window.location.href = '/assets.html'}},
-		{Title : "Agents",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Administration",  Navigate: function(){$window.location.href = '/index.html'}}
-	];
+	$scope.menus = menus;
 
 
 	var url1 = "http://localhost:23873/api/Job?envelope=true";
