@@ -1,0 +1,63 @@
+<link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
+<md-dialog ng-cloak>
+	<form>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Assign Asset</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="cancel()">
+					X
+				</md-button>
+	  		</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<table>
+					<thead>
+						<tr>
+							<th flex="50" class=".md-headline">Name</th>
+							<th class=".md-headline">Phone Number</th>
+							<th class=".md-headline">IsAvailable</th>
+							<th class=".md-headline">Role</th>
+							<th class=".md-headline">Current Addres</th>
+							<th class=".md-headline">Assigned JobId</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="asset in assets">
+							<td><input type="checkbox" ng-click="assinged(asset)"/></td>				
+							<td>{{asset.Name}}</td>
+							<td>{{asset.PhoneNumber}}</td>
+							<td>{{asset.IsAvailable}}</td>
+							<td>{{asset.Role}}</td>
+							<td>{{asset.CurrentAddres}}</td>
+							<td>{{asset.AssignedJobId}}</td>
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<md-button ng-click="answer('Close')">
+				Close
+			</md-button>
+			<md-button ng-click="answer('Confirm')" style="margin-right:20px;">
+				Confirm
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>
+
+<style type="text/css">
+	th, td{
+		padding: 10px;
+		width: 20%;
+		
+	}
+	th{
+		text-align: left;
+	}
+	tr:hover {
+		background-color: #BDBDBD;
+	}
+</style>

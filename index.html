@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="details" ng-controller="detailsController"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="index" ng-controller="indexController"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -12,20 +12,22 @@
 
 		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-		<title>Request Details</title>
+		<title>Dashboard</title>
 
 		<link rel="stylesheet" type="text/css" href="/styles/style.css">
-		<link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrpwrT3ffXkV2ID2VN-zKCWs5_YcQpT8g" ></script>
-
-		<script type="text/javascript" src="node_modules/angular/angular.js"></script>
-		<script type="text/javascript" src="node_modules/angular-animate/angular-animate.js"></script>
-		<script type="text/javascript" src="node_modules/angular-aria/angular-aria.js"></script>
-		<script type="text/javascript" src="node_modules/angular-messages/angular-messages.js"></script>
-		<script type="text/javascript" src="node_modules/angular-material/angular-material.js"></script>
-
+        <link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
+        <link rel="stylesheet" type="text/css" href="/styles/table.css">
         <link rel="stylesheet" href="styles/normalize.min.css">
-        <link rel="stylesheet" href="styles/main.css">
+        <!-- <link rel="stylesheet" href="styles/main.css"> -->
+
+
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrpwrT3ffXkV2ID2VN-zKCWs5_YcQpT8g" ></script>
+
+        <script type="text/javascript" src="node_modules/angular/angular.js"></script>
+        <script type="text/javascript" src="node_modules/angular-animate/angular-animate.js"></script>
+        <script type="text/javascript" src="node_modules/angular-aria/angular-aria.js"></script>
+        <script type="text/javascript" src="node_modules/angular-messages/angular-messages.js"></script>
+        <script type="text/javascript" src="node_modules/angular-material/angular-material.js"></script>
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
@@ -40,175 +42,80 @@
             </header>
         </div> -->
 
-        <div>
+        <div id="container">
             <div class="horizontal"  flex="100">
-				<aside id="sidebar" flex="10">
-		        <header class="horizontal" flex="100">	
-                    <img src="img/ic_small_home.png"/>
-		            <p>GO! Fetch</p>
-		        </header>
-		            <div>			            
-				        <md-list>
-				        	<md-list-item ng-repeat="menu in menus" ng-click="">
-						    	<md-button class="md-button">
-						    		<!-- <img src="img/dummy.png" class="menu-icon md-avatar" class="md-avatar"/> -->
-								    <p><a href="{{menu.href}}">{{ menu.title }} </a></p>
-						    	</md-button>
-						    	<md-divider></md-divider>
-							</md-list-item>
-				        </md-list>
-					</div>
-	        	</aside>
+                <aside id="sidebar" flex="10" ng-include="templates[0].url"></aside>
                 <div flex="90">
-                    <div class="header-container" >
-                        <div class="clearfix">
-	                        <div class="title">
-	                        	<h1>Ride request for {{job.User}} </h1>
-	                        	<p>Requested {{ requestedAgo() }} minutes ago</p>
-	                        	<div class="horizontal">
-                                    <p><b>{{job.State}}</b></p>
-                                    <div layout="column">                                                   
-                                        <md-menu md-offset="0 -7">
-                                            <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                                                <span><img src="img/ic_settings.png"></span>
-                                            </md-button>
-                                            <md-menu-content width="2">
-                                                <md-menu-item ng-repeat="item in jobState">
-                                                    <md-button ng-click="jobStateChanged(item)" ng-model="state.jobState"><span md-menu-align-target></span> {{item}} </md-button>
-                                                </md-menu-item>
-                                            </md-menu-content>
-                                        </md-menu>
-                                    </div>           
-                                </div>
-	                        </div>
-                        </div>
+                    <div class="title">
+                    	<h1>Dashboard</h1>
                     </div>
-                    <article id="container" class="horizontal">
-                         
-                                <div id="order-details" flex="25">
-                                	<md-card>
-                                        <md-card-title>
-                                            <md-card-title-text>
-                                                <span class="md-headline">Details</span>
-                                            </md-card-title-text>
-                                        </md-card-title>
-                                        <md-card-content>                                            
-                                            <table id="content-header-table">
-                                                <tr>
-                                                    <td><b>Order ID</b></td>
-                                                    <td class="td-value">
-                                                        <a href="#">{{detailsTable.orderId}}</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>User</b></td>
-                                                    <td class="td-value">
-                                                        <a href="#">{{detailsTable.user}}</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Phone</b></td>
-                                                    <td class="td-value">
-                                                        <a href="#">{{detailsTable.phoneNumber}}</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Order</b></td>
-                                                    <td class="td-value">
-                                                        <a href="#">{{detailsTable.orderType}}</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>Preference</b></td>
-                                                    <td class="td-value">
-                                                        <a href="#">{{detailsTable.preferences}}</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><b>ETA</b></td>
-                                                    <td class="td-value">
-                                                        <a href="#">{{detailsTable.eta}}</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </md-card-content>
-                                    </md-card>
-
-                                    <md-card>
-                                        <md-card-title>
-                                            <md-card-title-text>
-                                                <span class="md-headline">Asset</span>
-                                            </md-card-title-text>
-                                        </md-card-title>
-                                        <md-card-content>
-                                            <p>{{asset.name}}</p>
-                                            <p>{{asset.phoneNumber}}</p>
-                                        </md-card-content>
-                                    </md-card>
-	                                
-                                    <md-card>
-                                        <md-card-title>
-                                            <md-card-title-text>
-                                                <span class="md-headline">This Order is Currently Serving by</span>
-                                            </md-card-title-text>
-                                        </md-card-title>
-                                        <md-card-content>
-                                            <p>{{servingby.name}}</p>
-                                        </md-card-content>
-                                    </md-card>	                                
-                                </div>
-                       
-                            <div id="from-to"  flex="22">                             
-                                <md-list>
-                                    <md-list-item  ng-repeat="(key, value) in locations track by $index">
-                                        <md-card flex="100">
-                                            <md-card-actions layout="row" layout-align="end center">
-                                                <md-button>
-                                                    <md-card-title>
-                                                        <md-card-title-text>
-                                                            <span class="md-headline">{{value.title}}</span>
-                                                        </md-card-title-text>                                                  
-                                                    </md-card-title>
-                                                    <md-card-content>
-                                                        <p>{{value.desc}}</p>
-                                                    </md-card-content>
-                                                </md-button>
-                                            </md-card-actions>
-                                        </md-card>
-                                    </md-list-item>
-                                </md-list>
-
-                                <md-card>
-                                    <md-card-content>
-                                        <md-list>
-                                            <md-list-item ng-repeat="state in jobStates track by $index">
-                                                <p><b>{{state.job}}</b></p>
-                                                <span ng-model="state.jobTaskStates">{{state.jobTaskStates}}</span>
-
-                                                <div layout="column">                                                   
-                                                    <md-menu md-offset="0 -7">
-                                                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                                                            <span><img src="img/ic_settings.png"></span>
-                                                        </md-button>
-                                                        <md-menu-content width="2">
-                                                            <md-menu-item ng-repeat="item in jobTaskStates">
-                                                                <md-button ng-click="state.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
-                                                            </md-menu-item>
-                                                        </md-menu-content>
-                                                    </md-menu>
-                                                </div>                                                
-                                            </md-list-item>
-                                        </md-list>
-                                        
-                                    </md-card-content>
-                                </md-card>
+                    <article id="container">
+                        <div id="new-orders" class="order-table-div">
+                            <h1>Newly arrived orders</h1>
+                            <table class="rg-table zebra">
+                                <thead>
+                                    <tr>
+                                        <th class="number rg-th">S/L no</th>
+                                        <th class="text rg-th">Order</th>
+                                        <th class="text rg-th">Type</th>
+                                        <th class="text rg-th">From</th>
+                                        <th class="text rg-th">To</th>
+                                        <th class="text rg-th">User</th>
+                                        <th class="text rg-th">Requested</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in newOrders track by $index" ng-click="order.Details()">
+                                        <td class="number">{{$index + 1}}</td>
+                                        <td class="text">{{order.Name}}</td>
+                                        <td class="text">{{order.Type}}</td>
+                                        <td class="text">{{order.From}}</td>
+                                        <td class="text">{{order.To}}</td>
+                                        <td class="text">{{order.User}}</td>
+                                        <td class="text">{{order.RequestedAgo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="float:right">
+                                <ul layout="row">
+                                    <li ng-repeat="page in pages()">{{page}}</li>                                    
+                                </ul>
                             </div>
-                            <div id="map" flex="60"></div>					 
+                         </div>		 
+                        <div id="processing-order" class="order-table-div">
+                            <h1>Currently processing orders</h1>
+                            <table class="rg-table zebra">
+                                <thead>
+                                    <tr>
+                                        <th class="number rg-th">S/L no</th>
+                                        <th class="text rg-th">Order</th>
+                                        <th class="text rg-th">Type</th>
+                                        <th class="text rg-th">From</th>
+                                        <th class="text rg-th">To</th>
+                                        <th class="text rg-th">User</th>
+                                        <th class="text rg-th">State</th>
+                                        <th class="text rg-th">Requested</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in processingOrders track by $index" ng-click="order.Details()">
+                                        <td class="number">{{$index + 1}}</td>
+                                        <td class="text">{{order.Name}}</td>
+                                        <td class="text">{{order.Type}}</td>
+                                        <td class="text">{{order.From}}</td>
+                                        <td class="text">{{order.To}}</td>
+                                        <td class="text">{{order.User}}</td>
+                                        <td class="text">{{order.State}}</td>
+                                        <td class="text">{{order.RequestedAgo}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </article>				
                 </div> <!-- #main -->
                
             </div>
-            <div class="footer-container">
+            <div id="footer" class="footer-container">
                 <footer class="wrapper">
                     <h3>footer</h3>
                 </footer>
@@ -222,7 +129,7 @@
 
         <script src="js/main.js"></script>
         <script type="text/javascript" src="js/map.js"></script>
-		<script type="text/javascript" src="js/details.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

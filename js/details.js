@@ -1,17 +1,27 @@
+
 var app = angular.module('details', ['ngMaterial','ngMessages']);
-
-app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia) {
-
-
+app.config(function($locationProvider) {
+	$locationProvider.html5Mode(true);
+});
+app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window) {
+	
+	var id = $location.search().id;
 	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
+
+	$scope.templates = [ 
+	 	{ name: 'sidebar.html', url: 'template/sidebar.html'},
+      	{ name: 'template2.html', url: 'template2.html'} 
+    ];
 	//menu options
-	$scope.menus = [{"title" : "Dashboard" ,"href"	: "/index.html"},
-					{"title" : "Orders" ,"href"	: "/index.html"},
-					{"title" : "Services" ,"href"	: "/index.html"},
-					{"title" : "Customers" ,"href"	: "/index.html"},
-					{"title" : "Agents" ,"href"	: "/index.html"},
-					{"title" : "Preferences" ,"href"	: "/index.html"},
-					{"title" : "Administration", "href"	: "/index.html"}];
+	$scope.menus = [
+		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Orders",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Users",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Assets",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Agents",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Administration",  Navigate: function(){$window.location.href = '/index.html'}}
+	];
 
 	//marker colors
 	$scope.markerIconUri = {
@@ -23,41 +33,40 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 	}
 
 	//get jobs json
-	$http.get("http://localhost:23873/api/Job?id=56a5c7571510df254024dc59").then(function(response) {
+	var url1 = "http://localhost:23873/api/Job?id="+id;
+	var url2 = "http://127.0.0.1:8080/json/order.json"
+	console.log(url1);
+	$http.get(url1).then(function(response) {
 		$scope.job = response.data;
 		console.log($scope.job);
 
-		$scope.usersLocation = {
-			user : $scope.job.Order.From.Address,
-			lat : $scope.job.Order.From.Point.coordinates[1],
-			lng : $scope.job.Order.From.Point.coordinates[0],
-			title : "User's location",
-			desc : $scope.job.Order.From.Address,
-			markerUrl : $scope.markerIconUri.greenMarker				
-		};
-
-		$scope.destination = {
-			user : $scope.job.User,
-			lat : $scope.job.Order.To.Point.coordinates[1],
-			lng : $scope.job.Order.To.Point.coordinates[0],
-			title : "User's destination",
-			desc : $scope.job.Order.To.Address,
-			markerUrl : $scope.markerIconUri.redMarker				
-		};
-
-		$scope.assetLocation = {
-			user : "Asset Nazrul",
-			lat : 23.800490,
-			lng: 90.408450,
-			title : "Asset's Location",
-			desc : "Somewhere Asset is",
-			markerUrl : $scope.markerIconUri.purpleMarker				
-		};
+		
 		
 		$scope.locations = [
-			 $scope.usersLocation, 
-			 $scope.destination,
-			 $scope.assetLocation
+			 {
+				user : $scope.job.Order.From.Address,
+				lat : $scope.job.Order.From.Point.coordinates[1],
+				lng : $scope.job.Order.From.Point.coordinates[0],
+				title : "User's location",
+				desc : $scope.job.Order.From.Address,
+				markerUrl : $scope.markerIconUri.greenMarker				
+			},
+			{
+				user : $scope.job.User,
+				lat : $scope.job.Order.To.Point.coordinates[1],
+				lng : $scope.job.Order.To.Point.coordinates[0],
+				title : "User's destination",
+				desc : $scope.job.Order.To.Address,
+				markerUrl : $scope.markerIconUri.redMarker				
+			},
+			{
+				user : "Asset Nazrul",
+				lat : 23.800490,
+				lng: 90.408450,
+				title : "Asset's Location",
+				desc : "Somewhere Asset is",
+				markerUrl : $scope.markerIconUri.purpleMarker				
+			}
 		];
 
 
@@ -67,7 +76,7 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
 		    $mdDialog.show({
 		      controller: DialogController,
-		      templateUrl: 'dialog/dialog1.tmpl.html',
+		      templateUrl: "template/asset.tmpl.html",
 		      parent: angular.element(document.body),
 		      targetEvent: ev,
 		      clickOutsideToClose:true,
@@ -75,9 +84,14 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 		    })
 		    .then(function(answer) {
 		      $scope.status = 'You said the information was "' + answer + '".';
+		    	console.log(answer);
+		      console.log($scope.status);
 		    }, function() {
 		      $scope.status = 'You cancelled the dialog.';
+		      console.log($scope.status);
+		    }, function (assignedAssets) {
 		    });
+
 		    $scope.$watch(function() {
 		      return $mdMedia('xs') || $mdMedia('sm');
 		    }, function(wantsFullScreen) {
@@ -85,42 +99,37 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 		    });
 		};
 
-
-
-
 		$scope.jobStates = [];
 		(function assignJobsState() {
-					if ($scope.job.Order.Type == "Ride") {
-						var findAsset = {
-							job : "Find Asset",
-							jobTaskStates : $scope.job.Tasks[0].State,
-							stateChanged : function (state) {
-								this.jobStates = state;
-								this.jobTaskStates = state;
-								console.log(this.jobTaskStates);
-							}
-						};
-						var assetIsOnWay = {
-							job : "Asset is on way",
-							jobTaskStates : $scope.job.Tasks[0].State,
-							stateChanged : function (state) {
-								this.jobStates = state;
-								this.jobTaskStates = state;
-								console.log(this.jobTaskStates);
-							}
-						};
-						var pickUp = {
-							job : "Pick up",
-							jobTaskStates : $scope.job.Tasks[1].State,
-							stateChanged : function (state) {
-								this.jobTaskStates = state;
-								console.log(this.jobTaskStates);
-							}
-						};
-		
-						$scope.jobStates = [findAsset, assetIsOnWay, pickUp]
-					};
-				})();
+			if ($scope.job.Order.Type == "Ride") {
+				var findAsset = {
+					job : "Find Asset",
+					jobTaskStates : $scope.job.Tasks[0].State,
+					stateChanged : function (state) {
+						this.jobTaskStates = state;
+						console.log(this.jobTaskStates);
+					}
+				};
+				var assetIsOnWay = {
+					job : "Asset is on way",
+					jobTaskStates : $scope.job.Tasks[0].State,
+					stateChanged : function (state) {
+						this.jobTaskStates = state;
+						console.log(this.jobTaskStates);
+					}
+				};
+				var pickUp = {
+					job : "Pick up",
+					jobTaskStates : $scope.job.Tasks[1].State,
+					stateChanged : function (state) {
+						this.jobTaskStates = state;
+						console.log(this.jobTaskStates);
+					}
+				};
+
+				$scope.jobStates = [findAsset, assetIsOnWay, pickUp]
+			};
+		})();
 
 		$scope.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
 
@@ -134,7 +143,6 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 			var creationTime = new Date($scope.job.CreateTime);
 			var nowTime = Date.now();
 			var diffInMin = (nowTime - creationTime)/1000/60;
-			console.log(diffInMin);
 			return Math.round(diffInMin);
 		}
 
@@ -156,10 +164,9 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 			name : "Redwan"
 		}
 
-
 		var mapOptions = {
 			zoom: 16,
-			center: new google.maps.LatLng($scope.usersLocation.lat, $scope.usersLocation.lng),
+			center: new google.maps.LatLng($scope.locations[0].lat, $scope.locations[0].lng),
 			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
 
@@ -194,21 +201,34 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 			$scope.markers.push(marker);
 		}
 		
-		createMarker($scope.usersLocation );
-		createMarker($scope.destination);
-		createMarker($scope.assetLocation);
+		createMarker($scope.locations[0]);
+		createMarker($scope.locations[1]);
+		createMarker($scope.locations[2]);
 	});
 });
 
 
-function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
+function DialogController($scope, $mdDialog, $http) {
+	$scope.hide = function() {
+		$mdDialog.hide();
+	};
+	$scope.cancel = function() {
+		$mdDialog.cancel();
+	};
+	$scope.answer = function(answer) {
+		console.log("this is from answer hiding");
+		console.log($scope.assignedAssets)
+		$mdDialog.hide($scope.assignedAssets);
+	};
+
+	var url = "http://localhost:23873/api/Job?id=56a5c7571510df254024dc59";
+	var url2 = "http://127.0.0.1:8080/json/asset-list.json"
+	$http.get(url2).then(function(response) {
+		$scope.assets = response.data;
+		console.log($scope.assets);
+	});
+	$scope.assignedAssets = [];
+	$scope.assinged = function (asset) {
+		$scope.assignedAssets.push(asset);
+	}
 }
