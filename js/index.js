@@ -1,5 +1,3 @@
-var app = angular.module('index', ['ngMaterial','ngMessages']);
-
 app.controller('indexController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window) {
 
 	$scope.templates = [ 
@@ -12,7 +10,7 @@ app.controller('indexController', function ($scope, $http, $interval, $mdDialog,
 		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
 		{Title : "Orders",  Navigate: function(){$window.location.href = '/index.html'}},
 		{Title : "Users",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Assets",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Assets",  Navigate: function(){$window.location.href = '/assets.html'}},
 		{Title : "Agents",  Navigate: function(){$window.location.href = '/index.html'}},
 		{Title : "Administration",  Navigate: function(){$window.location.href = '/index.html'}}
 	];

@@ -1,5 +1,3 @@
-
-var app = angular.module('details', ['ngMaterial','ngMessages']);
 app.config(function($locationProvider) {
 	$locationProvider.html5Mode(true);
 });
@@ -18,7 +16,7 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
 		{Title : "Orders",  Navigate: function(){$window.location.href = '/index.html'}},
 		{Title : "Users",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Assets",  Navigate: function(){$window.location.href = '/index.html'}},
+		{Title : "Assets",  Navigate: function(){$window.location.href = '/assets.html'}},
 		{Title : "Agents",  Navigate: function(){$window.location.href = '/index.html'}},
 		{Title : "Administration",  Navigate: function(){$window.location.href = '/index.html'}}
 	];
