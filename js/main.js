@@ -1,5 +1,6 @@
 var app = angular.module('fetch_dashboard', ['ngMaterial','ngMessages']);
-angular.module('fetch_dashboard').factory('menus', function($window) {
+
+app.factory('menus', function($window) {
 	//menu options
 	var menus = [
 		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
@@ -12,6 +13,17 @@ angular.module('fetch_dashboard').factory('menus', function($window) {
 
 	return menus;
 });
+
+app.factory('templates', function() {
+	var templates = [ 
+	 	{ name: 'sidebar.html', url: 'template/sidebar.html'},
+      	{ name: 'template2.html', url: 'template2.html'} 
+    ];
+
+    return templates;
+});
+
+
 
 app.config(function($locationProvider) {
 	$locationProvider.html5Mode(true);

@@ -14,12 +14,21 @@ html, body{
     background-color: #B5B5B5;
     padding: 10px 29px;
 }
+#upper{
+    margin-bottom: 50px;
+}
 #footer {
    position:fixed;
    bottom:0;
    width:100%;
    height:60px;   /* Height of the footer */
    background-color: #B5B5B5;
+}
+#add-more{
+    background-color: #F5F5F5;
+    width: 10%;
+    float: right;
+    margin-bottom: 20px;
 }
 h1{
     margin: 0px;

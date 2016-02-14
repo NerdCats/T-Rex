@@ -1,13 +1,9 @@
-app.controller('indexController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window,menus) {
+app.controller('indexController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window,menus, templates) {
 
-	$scope.templates = [ 
-	 	{ name: 'sidebar.html', url: 'template/sidebar.html'},
-      	{ name: 'template2.html', url: 'template2.html'} 
-    ];
 	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 	//menu options
 	$scope.menus = menus;
-
+	$scope.templates = templates;
 
 	var url1 = "http://localhost:23873/api/Job?envelope=true";
 	var url2 = "http://127.0.0.1:8080/json/orders.json";
@@ -42,7 +38,7 @@ app.controller('indexController', function ($scope, $http, $interval, $mdDialog,
 			});
 			$scope.pages = function(){
 				var arr = [];
-				for (var i = 1; i <= $scope.orders.pagination.TotalPages ; i++) {
+				for (var i = 0; i < $scope.orders.pagination.TotalPages ; i++) {
 					arr.push(i);
 				};
 				return arr;
@@ -51,9 +47,15 @@ app.controller('indexController', function ($scope, $http, $interval, $mdDialog,
 		});
 	};
 
+	$scope.loadNextPage = function(page,state){
+		var host = "http://localhost:23873/api/Job?";
+		var parameter = "envelope=true&page="+page;
+		var url = host + parameter;
+		$scope.newOrders = [];
+		$scope.populateTable(url, $scope.newOrders, state);
+	};
+
 	$scope.newOrders = [];
 	$scope.populateTable(url1, $scope.newOrders, "ENQUEUED");
 	$scope.populateTable(url1, $scope.processingOrders, "IN_PROGRESS");
-
-	
 });

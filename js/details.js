@@ -1,15 +1,11 @@
-app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus) {
+app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus, templates) {
 	
 	var id = $location.search().id;
-	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+	
 
 
-	$scope.templates = [ 
-	 	{ name: 'sidebar.html', url: 'template/sidebar.html'},
-      	{ name: 'template2.html', url: 'template2.html'} 
-    ];
-	//menu options
 	$scope.menus = menus;
+	$scope.templates = templates;
 
 	//marker colors
 	$scope.markerIconUri = {
@@ -60,11 +56,12 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 
 		$scope.assignAsset = ["Assign new Asset", "Change current Asset"];
 
+		$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 		$scope.assetAssignPopup = function (ev) {
 			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
 		    $mdDialog.show({
 		      controller: DialogController,
-		      templateUrl: "template/asset.tmpl.html",
+		      templateUrl: "template/asset.html",
 		      parent: angular.element(document.body),
 		      targetEvent: ev,
 		      clickOutsideToClose:true,

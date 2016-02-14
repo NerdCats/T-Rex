@@ -1,7 +1,8 @@
-app.controller('assetController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus) {
+app.controller('assetController', function ($scope,$http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates) {
 
-
-
+	$scope.menus = menus;
+	$scope.templates = templates;
+	  
 	var url = "/json/assetlist.json";
 	$scope.populateTable = function(url, Assets){
 		$http.get(url).then(function(response){
@@ -21,11 +22,10 @@ app.controller('assetController', function ($scope, $http, $interval, $mdDialog,
 					}
 				};
 				Assets.push(asset);
-				console.log(asset)
 			});
 			$scope.pages = function(){
 				var arr = [];
-				for (var i = 1; i <= assets.pagination.TotalPages ; i++) {
+				for (var i = 0; i < assets.pagination.TotalPages ; i++) {
 					arr.push(i);
 				};
 				return arr;
@@ -34,6 +34,11 @@ app.controller('assetController', function ($scope, $http, $interval, $mdDialog,
 		});
 	};
 
+
+
 	$scope.assetlist = [];
-	$scope.populateTable(url, $scope.assetlist)
+	$scope.populateTable(url, $scope.assetlist);	
+	$scope.Register = function (ev) {
+		$window.location.href = 'asset/create.html';
+	};
 });
