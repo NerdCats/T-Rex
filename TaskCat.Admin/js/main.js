@@ -23,7 +23,12 @@ app.factory('templates', function() {
     return templates;
 });
 
-
+app.config(function($mdThemingProvider) {
+	// Configure a dark theme with primary foreground yellow
+	$mdThemingProvider.theme('docs-dark', 'default')
+	.primaryPalette('grey')
+	.dark();
+});
 
 app.config(function($locationProvider) {
 	$locationProvider.html5Mode(true);

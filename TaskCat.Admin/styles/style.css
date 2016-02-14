@@ -14,6 +14,11 @@ html, body{
     background-color: #B5B5B5;
     padding: 10px 29px;
 }
+#asset-registration-form{
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
 #upper{
     margin-bottom: 50px;
 }
