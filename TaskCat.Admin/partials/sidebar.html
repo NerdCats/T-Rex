@@ -4,10 +4,12 @@
 </header>
 <div>			            
     <md-list>
-    	<md-list-item ng-repeat="menu in menus" ng-click="">
-	    	<md-button class="md-button" ng-click="menu.Navigate()">
-			    <p>{{ menu.Title }}</p>
-	    	</md-button>
+    	<md-list-item ng-repeat="menu in menus">
+    		<a href="{{menu.Href}}" style="width: 85%">
+		    	<md-button class="md-button">
+				    <p>{{ menu.Title }}</p>
+		    	</md-button>    			
+    		</a>
 	    	<md-divider></md-divider>
 		</md-list-item>
     </md-list>

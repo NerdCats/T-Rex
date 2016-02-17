@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="fetch_dashboard" ng-controller="indexController"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="fetch_dashboard"> <!--<![endif]-->
     <head>
         <base href="/">
         <meta charset="utf-8">
@@ -25,10 +25,20 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrpwrT3ffXkV2ID2VN-zKCWs5_YcQpT8g" ></script>
 
         <script type="text/javascript" src="node_modules/angular/angular.js"></script>
+        <script type="text/javascript" src="node_modules/angular-route/angular-route.js"></script>
         <script type="text/javascript" src="node_modules/angular-animate/angular-animate.js"></script>
         <script type="text/javascript" src="node_modules/angular-aria/angular-aria.js"></script>
         <script type="text/javascript" src="node_modules/angular-messages/angular-messages.js"></script>
         <script type="text/javascript" src="node_modules/angular-material/angular-material.js"></script>
+
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers/sidebar.js"></script>
+        <script src="js/controllers/index.js"></script>
+        <script src="js/controllers/details.js"></script>
+        <script src="js/controllers/asset.js"></script>
+        <script src="js/controllers/asset/create.js"></script>
+
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
@@ -43,94 +53,26 @@
             </header>
         </div> -->
 
-        <div id="container">
-            <div class="horizontal"  flex="100">
-                <aside id="sidebar" flex="10" ng-include="templates[0].url"></aside>
-                <div flex="90">
-                    <div class="title">
-                    	<h1>Dashboard</h1>
-                    </div>
-                    <article id="container">
-                        <div id="new-orders" class="order-table-div">
-                            <h1>Newly arrived orders</h1>
-                            <table class="rg-table zebra">
-                                <thead>
-                                    <tr>
-                                        <th class="number rg-th">S/L no</th>
-                                        <th class="text rg-th">Order</th>
-                                        <th class="text rg-th">Type</th>
-                                        <th class="text rg-th">From</th>
-                                        <th class="text rg-th">To</th>
-                                        <th class="text rg-th">User</th>
-                                        <th class="text rg-th">Requested</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="order in newOrders track by $index" ng-click="order.Details()">
-                                        <td class="number">{{$index + 1}}</td>
-                                        <td class="text">{{order.Name}}</td>
-                                        <td class="text">{{order.Type}}</td>
-                                        <td class="text">{{order.From}}</td>
-                                        <td class="text">{{order.To}}</td>
-                                        <td class="text">{{order.User}}</td>
-                                        <td class="text">{{order.RequestedAgo}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div style="float:right">
-                                <ul layout="row">
-                                    <li ng-repeat="page in pages()" ng-click="loadNextPage(page,'ENQUEUED')">{{page+1}}</li>                                    
-                                </ul>
-                            </div>
-                         </div>		 
-                        <div id="processing-order" class="order-table-div">
-                            <h1>Currently processing orders</h1>
-                            <table class="rg-table zebra">
-                                <thead>
-                                    <tr>
-                                        <th class="number rg-th">S/L no</th>
-                                        <th class="text rg-th">Order</th>
-                                        <th class="text rg-th">Type</th>
-                                        <th class="text rg-th">From</th>
-                                        <th class="text rg-th">To</th>
-                                        <th class="text rg-th">User</th>
-                                        <th class="text rg-th">State</th>
-                                        <th class="text rg-th">Requested</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="order in processingOrders track by $index" ng-click="order.Details()">
-                                        <td class="number">{{$index + 1}}</td>
-                                        <td class="text">{{order.Name}}</td>
-                                        <td class="text">{{order.Type}}</td>
-                                        <td class="text">{{order.From}}</td>
-                                        <td class="text">{{order.To}}</td>
-                                        <td class="text">{{order.User}}</td>
-                                        <td class="text">{{order.State}}</td>
-                                        <td class="text">{{order.RequestedAgo}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </article>				
-                </div> <!-- #main -->
-               
+        <div class="view-container" flex="100" layout="row">
+            <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates"></aside>
+            <div flex="100">
+                <div ng-view class="view-frame">
+                    
+                </div>                
             </div>
-            <div id="footer" class="footer-container">
-                <footer class="wrapper">
-                    <h3>footer</h3>
-                </footer>
-            </div>    
+              
         </div> <!-- #main-container -->
-        
+        <div id="footer" class="footer-container">
+            <footer class="wrapper">
+                <h3>footer</h3>
+            </footer>
+        </div>  
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
-        <script src="js/main.js"></script>
-        <script type="text/javascript" src="js/map.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
+        
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

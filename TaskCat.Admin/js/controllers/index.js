@@ -1,4 +1,6 @@
-app.controller('indexController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window,menus, templates) {
+'use strict';
+
+app.controller('indexController', function ($scope, $http, $location, $interval, $mdDialog, $mdMedia,$window,menus, templates) {
 
 	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 	//menu options
@@ -23,6 +25,7 @@ app.controller('indexController', function ($scope, $http, $interval, $mdDialog,
 
 			angular.forEach($scope.orders.data, function(value, key){
 				var newOrder = {
+					Id : value._id,
 					Name : value.Name,
 					Type : value.Order.Type,
 					From : value.Order.From.Address,
@@ -31,7 +34,10 @@ app.controller('indexController', function ($scope, $http, $interval, $mdDialog,
 					RequestedAgo : $scope.requestedAgo(value.CreateTime),
 					State : value.State,
 					Details : function(){
-						$window.location.href = '/details.html?id='+ value._id;
+						//$window.location.href = '/details.html?id='+ value._id;
+						$location.path('/details/'+ value._id);
+						console.log("navigate to details : " + value._id);
+
 					}
 				};
 				if (value.State == state) Orders.push(newOrder);
