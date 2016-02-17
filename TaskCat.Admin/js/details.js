@@ -1,8 +1,10 @@
-app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus, templates) {
-	
-	var id = $location.search().id;
-	
+'use strict';
 
+app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus, templates,$routeParams) {
+	
+	var id = $routeParams.id;
+	
+	console.log(id)
 
 	$scope.menus = menus;
 	$scope.templates = templates;
@@ -19,7 +21,6 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 	//get jobs json
 	var url1 = "http://localhost:23873/api/Job?id="+id;
 	var url2 = "http://127.0.0.1:8080/json/order.json"
-	console.log(url1);
 	$http.get(url1).then(function(response) {
 		$scope.job = response.data;
 		console.log($scope.job);

@@ -1,0 +1,68 @@
+<div class="title">
+	<h1>Dashboard</h1>
+</div>
+<article id="container">
+    <div id="new-orders" class="order-table-div">
+        <h1>Newly arrived orders</h1>
+        <table class="rg-table zebra">
+            <thead>
+                <tr>
+                    <th class="number rg-th">S/L no</th>
+                    <th class="text rg-th">Order</th>
+                    <th class="text rg-th">Type</th>
+                    <th class="text rg-th">From</th>
+                    <th class="text rg-th">To</th>
+                    <th class="text rg-th">User</th>
+                    <th class="text rg-th">Requested</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="order in newOrders track by $index">
+                        <td class="number"><a href="#/details/{{order.Id}}">{{$index + 1}}</a></td>
+                        <td class="text"><a href="#/details/{{order.Id}}">{{order.Name}}</a></td>
+                        <td class="text"><a href="#/details/{{order.Id}}">{{order.Type}}</a></td>
+                        <td class="text"><a href="#/details/{{order.Id}}">{{order.From}}</a></td>
+                        <td class="text"><a href="#/details/{{order.Id}}">{{order.To}}</a></td>
+                        <td class="text"><a href="#/details/{{order.Id}}">{{order.User}}</a></td>
+                        <td class="text"><a href="#/details/{{order.Id}}">{{order.RequestedAgo}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="float:right">
+            <ul layout="row">
+                <li ng-repeat="page in pages()" ng-click="loadNextPage(page,'ENQUEUED')">{{page+1}}</li>                                    
+            </ul>
+        </div>
+     </div>		 
+    <div id="processing-order" class="order-table-div">
+        <h1>Currently processing orders</h1>
+        <table class="rg-table zebra">
+            <thead>
+                <tr>
+                    <th class="number rg-th">S/L no</th>
+                    <th class="text rg-th">Order</th>
+                    <th class="text rg-th">Type</th>
+                    <th class="text rg-th">From</th>
+                    <th class="text rg-th">To</th>
+                    <th class="text rg-th">User</th>
+                    <th class="text rg-th">State</th>
+                    <th class="text rg-th">Requested</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="order in processingOrders track by $index">
+                    <a href="/details/{{order.Id}}">
+                        <td class="number">{{$index + 1}}</td>
+                        <td class="text">{{order.Name}}</td>
+                        <td class="text">{{order.Type}}</td>
+                        <td class="text">{{order.From}}</td>
+                        <td class="text">{{order.To}}</td>
+                        <td class="text">{{order.User}}</td>
+                        <td class="text">{{order.State}}</td>
+                        <td class="text">{{order.RequestedAgo}}</td>
+                    </a>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</article>				

@@ -1,0 +1,156 @@
+<div class="title">
+    <h1>Ride request for {{job.User}} </h1>
+    <p>Requested {{ requestedAgo() }} minutes ago</p>
+    <div class="horizontal">
+        <p><b>{{job.State}}</b></p>
+        <div layout="column">                                                   
+            <md-menu md-offset="0 -7">
+                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <span><img src="img/ic_settings.png"></span>
+                </md-button>
+                <md-menu-content width="2">
+                    <md-menu-item ng-repeat="item in jobState">
+                        <md-button ng-click="jobStateChanged(item)" ng-model="state.jobState"><span md-menu-align-target></span> {{item}} </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>           
+    </div>
+</div>
+<article id="container" class="horizontal">
+     
+    <div id="order-details" flex="25">
+    	<md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Details</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>                                            
+                <table id="content-header-table">
+                    <tr>
+                        <td><b>Order ID</b></td>
+                        <td class="td-value">
+                            <a class="details-link" href="#">{{detailsTable.orderId}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>User</b></td>
+                        <td class="td-value">
+                            <a class="details-link" href="#">{{detailsTable.user}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Phone</b></td>
+                        <td class="td-value">
+                            <a class="details-link" href="#">{{detailsTable.phoneNumber}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Order</b></td>
+                        <td class="td-value">
+                            <a class="details-link" href="#">{{detailsTable.orderType}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Preference</b></td>
+                        <td class="td-value">
+                            <a class="details-link" href="#">{{detailsTable.preferences}}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>ETA</b></td>
+                        <td class="td-value">
+                            <a class="details-link" href="#">{{detailsTable.eta}}</a>
+                        </td>
+                    </tr>
+                </table>
+            </md-card-content>
+        </md-card>
+
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Asset</span>                                                
+                </md-card-title-text>
+                <div layout="column">                                                   
+                    <md-menu md-offset="0 -7">
+                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                            <span><img src="img/ic_settings.png"></span>
+                        </md-button>
+                        <md-menu-content width="2">
+                            <md-menu-item ng-repeat="item in assignAsset">
+                                <md-button ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto"><span md-menu-align-target></span> {{item}} </md-button>
+                                <div hide-gt-sm layout="row" layout-align="center center" flex="100">
+							        <md-checkbox ng-model="customFullscreen" aria-label="Fullscreen Custom Dialog">Custom Dialog Fullscreen</md-checkbox>
+								</div>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </div>   
+            </md-card-title>
+            <md-card-content>
+                <p>{{asset.name}}</p>
+                <p>{{asset.phoneNumber}}</p>
+            </md-card-content>
+        </md-card>
+        
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">This Order is Currently Serving by</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>{{servingby.name}}</p>
+            </md-card-content>
+        </md-card>	                                
+    </div>
+
+    <div id="from-to"  flex="22">                             
+        <md-list>
+            <md-list-item  ng-repeat="(key, value) in locations track by $index">
+                <md-card flex="100">
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button ng-click="value.bounce()">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">{{value.title}}</span>
+                                </md-card-title-text>                                                  
+                            </md-card-title>
+                            <md-card-content>
+                                <p>{{value.desc}}</p>
+                            </md-card-content>
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+            </md-list-item>
+        </md-list>
+
+        <md-card>
+            <md-card-content>
+                <md-list>
+                    <md-list-item ng-repeat="state in jobStates track by $index">
+                        <p><b>{{state.job}}</b></p>
+                        <span ng-model="state.jobTaskStates">{{state.jobTaskStates}}</span>
+
+                        <div layout="column">                                                   
+                            <md-menu md-offset="0 -7">
+                                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                    <span><img src="img/ic_settings.png"></span>
+                                </md-button>
+                                <md-menu-content width="2">
+                                    <md-menu-item ng-repeat="item in jobTaskStates">
+                                        <md-button ng-click="state.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>                                                
+                    </md-list-item>
+                </md-list>
+                
+            </md-card-content>
+        </md-card>
+    </div>
+    <div id="map" flex="60"></div>					 
+</article>		

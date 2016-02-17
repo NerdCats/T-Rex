@@ -1,0 +1,842 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fun",
+				"fun	Function"
+			],
+			[
+				"page",
+				"page"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"templ",
+				"templates"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"menu",
+				"menus"
+			],
+			[
+				"loca",
+				"locations"
+			],
+			[
+				"use",
+				"usersLocation"
+			],
+			[
+				"pro",
+				"processingOrders"
+			],
+			[
+				"mod",
+				"modon"
+			],
+			[
+				"res",
+				"requestedAgo"
+			],
+			[
+				"new",
+				"newOrder"
+			],
+			[
+				"url",
+				"url1"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"Te",
+				"TextindexOptions"
+			],
+			[
+				"mock",
+				"mockUrl2"
+			],
+			[
+				"moc",
+				"mockUrl1"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "TaskCat.Admin/js/app.js",
+			"settings":
+			{
+				"buffer_size": 681,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/index.html",
+			"settings":
+			{
+				"buffer_size": 4080,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/partials/dashboard.html",
+			"settings":
+			{
+				"buffer_size": 3163,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/partials/detailsJob.html",
+			"settings":
+			{
+				"buffer_size": 7280,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/js/index.js",
+			"settings":
+			{
+				"buffer_size": 2012,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/js/details.js",
+			"settings":
+			{
+				"buffer_size": 6254,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<!doctype html>\n<!--[if lt IE 7]>      <html class=\"no-js lt-ie9 lt-ie8 lt-ie7\" lang=\"\"> <![endif]-->\n<!--[if IE 7]>         <html class=\"no-js lt-ie9 lt-ie8\" lang=\"\"> <![endif]-->\n<!--[if IE 8]>         <html class=\"no-js lt-ie9\" lang=\"\"> <![endif]-->\n<!--[if gt IE 8]><!--> <html class=\"no-js\" lang=\"\" ng-app=\"fetch_dashboard\" ng-controller=\"detailsController\"> <!--<![endif]-->\n    <head>\n        <base href=\"/\">\n        <meta charset=\"utf-8\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n        <meta name=\"description\" content=\"\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n        <link rel=\"apple-touch-icon\" href=\"apple-touch-icon.png\">\n\n		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>\n        <meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=1, user-scalable=no\" />\n		<title>Request Details</title>\n\n		<link rel=\"stylesheet\" type=\"text/css\" href=\"/styles/style.css\">\n		<link rel=\"stylesheet\" type=\"text/css\" href=\"/node_modules/angular-material/angular-material.css\">\n\n        <!-- <link rel=\"stylesheet\" href=\"styles/normalize.min.css\"> -->\n        <!-- <link rel=\"stylesheet\" href=\"styles/main.css\"> -->\n\n        <script type=\"text/javascript\" src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyDrpwrT3ffXkV2ID2VN-zKCWs5_YcQpT8g\" ></script>\n\n        <script type=\"text/javascript\" src=\"node_modules/angular/angular.js\"></script>\n        <script type=\"text/javascript\" src=\"node_modules/angular-animate/angular-animate.js\"></script>\n        <script type=\"text/javascript\" src=\"node_modules/angular-aria/angular-aria.js\"></script>\n        <script type=\"text/javascript\" src=\"node_modules/angular-messages/angular-messages.js\"></script>\n        <script type=\"text/javascript\" src=\"node_modules/angular-material/angular-material.js\"></script>\n\n\n        <script src=\"js/vendor/modernizr-2.8.3-respond-1.4.2.min.js\"></script>\n    </head>\n    <body>\n        <!--[if lt IE 8]>\n            <p class=\"browserupgrade\">You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/\">upgrade your browser</a> to improve your experience.</p>\n        <![endif]-->\n\n        <!-- <div class=\"header-container\">\n            <header class=\"wrapper clearfix\">\n                <h1 class=\"title\">{{job.Name}}</h1>\n            </header>\n        </div> -->\n\n        <div>\n            <div class=\"horizontal\"  flex=\"100\">\n				<aside id=\"sidebar\" flex=\"10\" ng-include=\"templates[0].url\"></aside>\n                <div flex=\"90\">\n                    <div class=\"title\">\n                        <h1>Ride request for {{job.User}} </h1>\n                        <p>Requested {{ requestedAgo() }} minutes ago</p>\n                        <div class=\"horizontal\">\n                            <p><b>{{job.State}}</b></p>\n                            <div layout=\"column\">                                                   \n                                <md-menu md-offset=\"0 -7\">\n                                    <md-button aria-label=\"Open demo menu\" class=\"md-icon-button\" ng-click=\"$mdOpenMenu($event)\">\n                                        <span><img src=\"img/ic_settings.png\"></span>\n                                    </md-button>\n                                    <md-menu-content width=\"2\">\n                                        <md-menu-item ng-repeat=\"item in jobState\">\n                                            <md-button ng-click=\"jobStateChanged(item)\" ng-model=\"state.jobState\"><span md-menu-align-target></span> {{item}} </md-button>\n                                        </md-menu-item>\n                                    </md-menu-content>\n                                </md-menu>\n                            </div>           \n                        </div>\n                    </div>\n                    <article id=\"container\" class=\"horizontal\">\n                         \n                        <div id=\"order-details\" flex=\"25\">\n                        	<md-card>\n                                <md-card-title>\n                                    <md-card-title-text>\n                                        <span class=\"md-headline\">Details</span>\n                                    </md-card-title-text>\n                                </md-card-title>\n                                <md-card-content>                                            \n                                    <table id=\"content-header-table\">\n                                        <tr>\n                                            <td><b>Order ID</b></td>\n                                            <td class=\"td-value\">\n                                                <a class=\"details-link\" href=\"#\">{{detailsTable.orderId}}</a>\n                                            </td>\n                                        </tr>\n                                        <tr>\n                                            <td><b>User</b></td>\n                                            <td class=\"td-value\">\n                                                <a class=\"details-link\" href=\"#\">{{detailsTable.user}}</a>\n                                            </td>\n                                        </tr>\n                                        <tr>\n                                            <td><b>Phone</b></td>\n                                            <td class=\"td-value\">\n                                                <a class=\"details-link\" href=\"#\">{{detailsTable.phoneNumber}}</a>\n                                            </td>\n                                        </tr>\n                                        <tr>\n                                            <td><b>Order</b></td>\n                                            <td class=\"td-value\">\n                                                <a class=\"details-link\" href=\"#\">{{detailsTable.orderType}}</a>\n                                            </td>\n                                        </tr>\n                                        <tr>\n                                            <td><b>Preference</b></td>\n                                            <td class=\"td-value\">\n                                                <a class=\"details-link\" href=\"#\">{{detailsTable.preferences}}</a>\n                                            </td>\n                                        </tr>\n                                        <tr>\n                                            <td><b>ETA</b></td>\n                                            <td class=\"td-value\">\n                                                <a class=\"details-link\" href=\"#\">{{detailsTable.eta}}</a>\n                                            </td>\n                                        </tr>\n                                    </table>\n                                </md-card-content>\n                            </md-card>\n\n                            <md-card>\n                                <md-card-title>\n                                    <md-card-title-text>\n                                        <span class=\"md-headline\">Asset</span>                                                \n                                    </md-card-title-text>\n                                    <div layout=\"column\">                                                   \n                                        <md-menu md-offset=\"0 -7\">\n                                            <md-button aria-label=\"Open demo menu\" class=\"md-icon-button\" ng-click=\"$mdOpenMenu($event)\">\n                                                <span><img src=\"img/ic_settings.png\"></span>\n                                            </md-button>\n                                            <md-menu-content width=\"2\">\n                                                <md-menu-item ng-repeat=\"item in assignAsset\">\n                                                    <md-button ng-click=\"assetAssignPopup($event)\" flex=\"100\"  flex-gt-md=\"auto\"><span md-menu-align-target></span> {{item}} </md-button>\n                                                    <div hide-gt-sm layout=\"row\" layout-align=\"center center\" flex=\"100\">\n												        <md-checkbox ng-model=\"customFullscreen\" aria-label=\"Fullscreen Custom Dialog\">Custom Dialog Fullscreen</md-checkbox>\n													</div>\n                                                </md-menu-item>\n                                            </md-menu-content>\n                                        </md-menu>\n                                    </div>   \n                                </md-card-title>\n                                <md-card-content>\n                                    <p>{{asset.name}}</p>\n                                    <p>{{asset.phoneNumber}}</p>\n                                </md-card-content>\n                            </md-card>\n                            \n                            <md-card>\n                                <md-card-title>\n                                    <md-card-title-text>\n                                        <span class=\"md-headline\">This Order is Currently Serving by</span>\n                                    </md-card-title-text>\n                                </md-card-title>\n                                <md-card-content>\n                                    <p>{{servingby.name}}</p>\n                                </md-card-content>\n                            </md-card>	                                \n                        </div>\n               \n	                    <div id=\"from-to\"  flex=\"22\">                             \n	                        <md-list>\n	                            <md-list-item  ng-repeat=\"(key, value) in locations track by $index\">\n	                                <md-card flex=\"100\">\n	                                    <md-card-actions layout=\"row\" layout-align=\"end center\">\n	                                        <md-button ng-click=\"value.bounce()\">\n	                                            <md-card-title>\n	                                                <md-card-title-text>\n	                                                    <span class=\"md-headline\">{{value.title}}</span>\n	                                                </md-card-title-text>                                                  \n	                                            </md-card-title>\n	                                            <md-card-content>\n	                                                <p>{{value.desc}}</p>\n	                                            </md-card-content>\n	                                        </md-button>\n	                                    </md-card-actions>\n	                                </md-card>\n	                            </md-list-item>\n	                        </md-list>\n\n	                        <md-card>\n	                            <md-card-content>\n	                                <md-list>\n	                                    <md-list-item ng-repeat=\"state in jobStates track by $index\">\n	                                        <p><b>{{state.job}}</b></p>\n	                                        <span ng-model=\"state.jobTaskStates\">{{state.jobTaskStates}}</span>\n\n	                                        <div layout=\"column\">                                                   \n	                                            <md-menu md-offset=\"0 -7\">\n	                                                <md-button aria-label=\"Open demo menu\" class=\"md-icon-button\" ng-click=\"$mdOpenMenu($event)\">\n	                                                    <span><img src=\"img/ic_settings.png\"></span>\n	                                                </md-button>\n	                                                <md-menu-content width=\"2\">\n	                                                    <md-menu-item ng-repeat=\"item in jobTaskStates\">\n	                                                        <md-button ng-click=\"state.stateChanged(item)\" ng-model=\"state.jobTaskStates\"><span md-menu-align-target></span> {{item}} </md-button>\n	                                                    </md-menu-item>\n	                                                </md-menu-content>\n	                                            </md-menu>\n	                                        </div>                                                \n	                                    </md-list-item>\n	                                </md-list>\n	                                \n	                            </md-card-content>\n	                        </md-card>\n	                    </div>\n	                    <div id=\"map\" flex=\"60\"></div>					 \n                    </article>				\n                </div> <!-- #main -->\n               \n            </div>\n            <div id=\"footer\" class=\"footer-container\">\n                <footer class=\"wrapper\">\n                    <h3>footer</h3>\n                </footer>\n            </div>    \n        </div> <!-- #main-container -->\n        \n\n\n        <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"></script>\n        <script>window.jQuery || document.write('<script src=\"js/vendor/jquery-1.11.2.min.js\"><\\/script>')</script>\n\n        <script src=\"js/main.js\"></script>\n        <script type=\"text/javascript\" src=\"js/map.js\"></script>\n		<script type=\"text/javascript\" src=\"js/details.js\"></script>\n        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->\n        <script>\n            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=\n            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;\n            e=o.createElement(i);r=o.getElementsByTagName(i)[0];\n            e.src='//www.google-analytics.com/analytics.js';\n            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));\n            ga('create','UA-XXXXX-X','auto');ga('send','pageview');\n        </script>\n    </body>\n</html>\n",
+			"file": "TaskCat.Admin/details.html",
+			"file_size": 14222,
+			"file_write_time": 131000749507704284,
+			"settings":
+			{
+				"buffer_size": 13988,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/styles/style.css",
+			"settings":
+			{
+				"buffer_size": 2611,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/js/sidebar.js",
+			"settings":
+			{
+				"buffer_size": 270,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "TaskCat.Admin/js/services.js",
+			"settings":
+			{
+				"buffer_size": 1253,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 104.0,
+		"last_filter": "Package Control: insta",
+		"selected_items":
+		[
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/node_modules/angular-route",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/partials"
+	],
+	"file_history":
+	[
+		"/C/Users/Zarvis/Documents/angular-phonecat/node_modules/accepts/README.md",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js/services.js",
+		"/C/Users/Zarvis/Documents/angular-phonecat/app/js/controllers.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/details.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/asset.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/asset/create.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/index.html",
+		"/C/Users/Zarvis/Documents/angular-phonecat/app/js/app.js",
+		"/C/Users/Zarvis/Documents/angular-phonecat/README.md",
+		"/C/Users/Zarvis/Documents/angular-phonecat/bower.json",
+		"/C/Users/Zarvis/Documents/angular-phonecat/package.json",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js/details.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js/asset.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js/index.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js/main.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/styles/style.css",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/TaskCat.Admin/js/asset/create.js",
+		"/C/Users/Zarvis/Downloads/using koi_jabo.cs",
+		"/D/KoiJabo/KoiJabo.iml",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/js/main.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/asset/create.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/js/asset/create.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/js/asset.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/template/assetRegistration.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/index.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/asset.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/styles/style.css",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/template/asset.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/js/index.js",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/details.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/js/details.js",
+		"/C/Users/Zarvis/Documents/TaskCat/TaskCat/TaskCat/bin/TaskCat.XML",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/template/sidebar.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/json/assetlist.json",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/styles/table.css",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/json/asset.json",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/json/asset-list.json",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/json/orders.json",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/template/asset.tmpl.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/dialog/assetAssigner.tmpl.html",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/json/order.json",
+		"/D/restaurant.json",
+		"/C/Users/Zarvis/Documents/KOIJABO/koi-jabo/app/src/main/res/layout/content_details_page.xml",
+		"/C/Users/Zarvis/AppData/Roaming/Sublime Text 3/Packages/User/HTMLBeautify.sublime-settings",
+		"/C/Users/Zarvis/AppData/Roaming/Sublime Text 3/Packages/HTMLBeautify/HTMLBeautify.sublime-settings",
+		"/C/Users/Zarvis/Documents/go_fetch_dashboard/package.json"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 102.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"type=\"text/javascript\"",
+			"index.js",
+			"indexController",
+			"?id=",
+			"?",
+			"js/main.js",
+			"url1",
+			"url2",
+			"model",
+			"newentity",
+			"this",
+			"model",
+			"goodForParams",
+			"newentity",
+			"this",
+			"$scope",
+			": ",
+			"information",
+			"40",
+			"role",
+			"aria-label",
+			"   ",
+			"  ",
+			"&",
+			"%601%5",
+			"Key",
+			"angular.module('fetch_dashboard')",
+			"menus",
+			"templates",
+			"angular.module('fetch_dashboard')",
+			"templates",
+			"Assets",
+			"assetlist",
+			"asset",
+			"Asset",
+			"Username",
+			"Area of Operation",
+			"assetlist",
+			"orders",
+			"Orders",
+			"orders",
+			"Mohammadpur",
+			"Redwan",
+			"class",
+			"text",
+			"Window",
+			"window",
+			"$window",
+			"usersLocation",
+			"= {",
+			"usersLocation",
+			"createMarker",
+			"destination",
+			"= {",
+			"$scope.",
+			"assignJobsState",
+			"},",
+			"state",
+			"},",
+			"Href : \"\"",
+			"\"/index.html\"",
+			"$window.location.href",
+			"$window.location.hr",
+			" function()",
+			"= href",
+			"Href",
+			"href",
+			"menus",
+			"title",
+			"modons",
+			"flex",
+			"li {",
+			"li{",
+			"<li>",
+			"table.rg-table tr ",
+			"DialogController",
+			"table.rg-table td",
+			"table",
+			"from",
+			"#",
+			"title",
+			"container",
+			"result_list_item_title",
+			"result_list_item_key_cuisine",
+			"=",
+			"TextView",
+			"line",
+			"\\r\\n",
+			"android",
+			"\" :",
+			":",
+			"if (",
+			") newen",
+			"oftop)",
+			"{ get; set; }",
+			"\"Day\" :\n\"StartTime\" :\n\"EndTime\" :",
+			":",
+			"rev",
+			"weight",
+			"(\\+8801\\d{9})|(01\\d{9})",
+			"(\\+8801\\d{9})|01\\d{9}",
+			"(\\+8801\\d{9})",
+			"(\\+880\\d{4})",
+			"(\\+880\\d{4})|(0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d)",
+			"(\\+880\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d)|(0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d)",
+			"\\+880\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d|0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+			"\\+880\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d|0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+			"\\+88\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d|0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+			"\\+880\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d|0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+			"\\+88\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d|0\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+			"\\+88\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d|\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+			"\\+88..",
+			"+88..",
+			"p",
+			"p>",
+			"th>",
+			"th",
+			"CurrentAddress",
+			"\"_id\": \"529385798345\"",
+			"scope"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"js/app.js"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 9,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "TaskCat.Admin/js/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 681,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "TaskCat.Admin/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4080,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2235,
+								2235
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 223.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "TaskCat.Admin/partials/dashboard.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3163,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								811,
+								811
+							],
+							[
+								908,
+								908
+							],
+							[
+								1005,
+								1005
+							],
+							[
+								1102,
+								1102
+							],
+							[
+								1199,
+								1199
+							],
+							[
+								1294,
+								1294
+							],
+							[
+								1391,
+								1391
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "TaskCat.Admin/partials/detailsJob.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7280,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								801,
+								801
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "TaskCat.Admin/js/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2012,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13,
+								13
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "TaskCat.Admin/js/details.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6254,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12,
+								12
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "TaskCat.Admin/details.html",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 13988,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1539.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "TaskCat.Admin/styles/style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1764,
+								1764
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1807.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "TaskCat.Admin/js/sidebar.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 270,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13,
+								13
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "TaskCat.Admin/js/services.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15,
+								15
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "dashboard.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"style",
+				"styles\\style.css"
+			],
+			[
+				"main",
+				"js\\main.js"
+			],
+			[
+				"index",
+				"go_fetch_dashboard\\index.html"
+			],
+			[
+				"styl",
+				"go_fetch_dashboard\\styles\\style.css"
+			],
+			[
+				"side",
+				"go_fetch_dashboard\\template\\sidebar.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 222.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
