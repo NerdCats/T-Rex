@@ -16,10 +16,10 @@ app.factory('menus', function($window) {
 });
 
 app.factory('templates', function() {
-	var templates = [ 
-	 	{ name: 'sidebar.html', url: 'template/sidebar.html'},
-      	{ name: 'template2.html', url: 'template2.html'} 
-    ];
+	var templates = {
+	 	sidebar: 'partials/sidebar.html',
+      	availableAsset: 'partials/detailsJob/availableAsset.html'
+    };
 
     return templates;
 });

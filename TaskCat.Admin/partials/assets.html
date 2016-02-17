@@ -1,4 +1,3 @@
- <div flex="90">
     <div class="title">
     	<h1>Asset</h1>
     </div>
@@ -6,12 +5,12 @@
         <div id="new-orders" class="order-table-div">
             
             <div>
-                <md-button class="md-primary" id="add-more" ng-click="Register()">
-                    <p>Register new asset</p>
-                </md-button>
-                <div hide-gt-sm layout="row" layout-align="center center" flex="100">
-                    <md-checkbox ng-model="customFullscreen" aria-label="Fullscreen Custom Dialog">Custom Dialog Fullscreen</md-checkbox>
-                </div>
+                <md-button class="md-primary" id="add-more">
+                    <a href="#/asset/create" >
+                        <p>Register new asset</p>
+                    </a>
+                </md-button> 
+                
             </div>
             <table class="rg-table zebra">
                 <thead>
@@ -44,4 +43,3 @@
             </div>
          </div>		 
     </article>				
-</div> <!-- #main -->

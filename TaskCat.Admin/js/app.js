@@ -21,7 +21,11 @@ app.config(['$routeProvider',
 			when('/asset', {
 				templateUrl: 'partials/assets.html',
 				controller: 'assetController'
-			});
+			}).
+			when('/asset/create',{
+				templateUrl: 'partials/asset/create.html',
+				controller: 'createAssetController'
+			})
 	}
 ]);
 

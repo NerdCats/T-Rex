@@ -1,0 +1,87 @@
+<div class="title">
+    <h1>Register New Asset</h1>
+</div>
+<article id="container" flex="100">
+    <form name="assetRegistration" id="asset-registration-form" flex="60">
+        <h1 class="md-headline">Important Information</h1>
+        <md-content layout-gt-sm="row" layout-padding flex="100">                            
+            <md-input-container flex="30">
+                <label>User Name</label>
+                <input required name="UserName" ng-model="asset.UserName">
+                <div ng-messages="assetRegistration.UserName.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>Email</label>
+                <input ng-model="asset.email" type="email">
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>Phone</label>
+                <input ng-model="asset.PhoneNumber" type="phonenumber">
+            </md-input-container>
+        </md-content>
+        <md-content layout-gt-sm="row" layout-padding flex="100">                            
+            <md-input-container flex="30">
+                <label>Password</label>
+                <input ng-model="asset.Password" type="password">
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>Confirm Password</label>
+                <input ng-model="asset.ConfirmPassword" type="password">
+            </md-input-container>
+        </md-content>
+        <md-content layout-gt-sm="row" layout-padding flex="100">                            
+            <md-input-container flex="55">
+                <label>Address</label>
+                <input ng-model="asset.Address">
+            </md-input-container>                                
+        </md-content>
+        <h1 class="md-headline">Profile Information</h1>
+        <md-content layout-gt-sm="row" layout-padding flex="100">                            
+            <md-input-container flex="30">
+                <label>First Name</label>
+                <input ng-model="asset.FirstName">
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>Last Name</label>
+                <input ng-model="asset.LastName">
+            </md-input-container>
+        </md-content>
+        <md-content layout-gt-sm="row" layout-padding flex="100">                            
+            <md-input-container flex="30">
+                <label>Age</label>
+                <input ng-model="asset.Age" type="number">
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>Gender</label>
+                <md-select ng-model="asset.Gender">
+                    <md-option ng-repeat="g in gender" value="{{g}}">
+                        {{g}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>Type</label>
+                <md-select ng-model="asset.Type">
+                    <md-option ng-repeat="t in type" value="{{t}}">
+                        {{t}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </md-content>
+        <md-content layout-gt-sm="row" layout-padding flex="100">                            
+            <md-input-container flex="30">
+                <label>NationalId</label>
+                <input ng-model="asset.NationalId">
+            </md-input-container>
+            <md-input-container flex="25">
+                <label>DrivingLicenceId</label>
+                <input ng-model="asset.DrivingLicenceId">
+            </md-input-container>                           
+        </md-content>
+        <md-button class="md-raised" flex="20" ng-click="RegisterNewAsset()">REGISTER</md-button>
+    </form>
+    
+</article>

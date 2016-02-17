@@ -33,9 +33,12 @@
 
         <script src="js/app.js"></script>
         <script src="js/services.js"></script>
-        <script src="js/sidebar.js"></script>
-        <script src="js/index.js"></script>
-        <script src="js/details.js"></script>
+        <script src="js/controllers/sidebar.js"></script>
+        <script src="js/controllers/index.js"></script>
+        <script src="js/controllers/details.js"></script>
+        <script src="js/controllers/asset.js"></script>
+        <script src="js/controllers/asset/create.js"></script>
+
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
@@ -51,7 +54,7 @@
         </div> -->
 
         <div class="view-container" flex="100" layout="row">
-            <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates[0].url"></aside>
+            <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates"></aside>
             <div flex="100">
                 <div ng-view class="view-frame">
                     

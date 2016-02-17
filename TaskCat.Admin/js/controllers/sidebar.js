@@ -5,5 +5,6 @@ app.controller('sidebarController', function ($scope, $http, $interval, $mdDialo
 	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 	//menu options
 	$scope.menus = menus;
-	$scope.templates = templates;
+	$scope.templates = templates.sidebar;
+	console.log(templates)
 });
