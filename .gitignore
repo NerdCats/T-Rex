@@ -1,1 +1,3 @@
-/node_modules
+node_modules/
+dashboard.sublime-project
+dashboard.sublime-workspace
