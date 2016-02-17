@@ -17,9 +17,14 @@ app.config(['$routeProvider',
 			when('/details/:id',{
 				templateUrl: 'partials/detailsJob.html',
 				controller: 'detailsController'
-			});		
+			}).
+			when('/asset', {
+				templateUrl: 'partials/assets.html',
+				controller: 'assetController'
+			});
 	}
 ]);
+
 app.config(function($mdThemingProvider) {
 	// Configure a dark theme with primary foreground yellow
 	$mdThemingProvider.theme('docs-dark', 'default')

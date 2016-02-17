@@ -1,0 +1,47 @@
+ <div flex="90">
+    <div class="title">
+    	<h1>Asset</h1>
+    </div>
+    <article id="container">
+        <div id="new-orders" class="order-table-div">
+            
+            <div>
+                <md-button class="md-primary" id="add-more" ng-click="Register()">
+                    <p>Register new asset</p>
+                </md-button>
+                <div hide-gt-sm layout="row" layout-align="center center" flex="100">
+                    <md-checkbox ng-model="customFullscreen" aria-label="Fullscreen Custom Dialog">Custom Dialog Fullscreen</md-checkbox>
+                </div>
+            </div>
+            <table class="rg-table zebra">
+                <thead>
+                    <tr>
+                        <th class="number rg-th">S/L no</th>
+                        <th class="text rg-th">Username</th>
+                        <th class="text rg-th">Type</th>
+                        <th class="text rg-th">Phone</th>
+                        <th class="text rg-th">AreaOfOperation</th>
+                        <th class="text rg-th">CurrentLocation</th>
+                        <th class="text rg-th">IsAvailable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="asset in assetlist track by $index" ng-click="asset.Details()">
+                        <td class="number">{{$index + 1}}</td>
+                        <td class="text">{{asset.Username}}</td>
+                        <td class="text">{{asset.Type}}</td>
+                        <td class="text">{{asset.Phone}}</td>
+                        <td class="text">{{asset.AreaOfOperation}}</td>
+                        <td class="text">{{asset.CurrentLocation}}</td>
+                        <td class="text">{{asset.IsAvailable}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="float:right;margin-bottom: 100px;">
+                <ul layout="row">
+                    <li ng-repeat="page in pages()" ng-click="loadNextPage(page)">{{page+1}}</li>                                    
+                </ul>
+            </div>
+         </div>		 
+    </article>				
+</div> <!-- #main -->

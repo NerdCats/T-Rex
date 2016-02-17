@@ -4,12 +4,12 @@
 app.factory('menus', function($window) {
 	//menu options
 	var menus = [
-		{Title : "Dashboard",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Orders",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Users",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Assets",  Navigate: function(){$window.location.href = '/asset.html'}},
-		{Title : "Agents",  Navigate: function(){$window.location.href = '/index.html'}},
-		{Title : "Administration",  Navigate: function(){$window.location.href = '/index.html'}}
+		{ Title : "Dashboard", Href: '#/'},
+		{ Title : "Orders", Href: '#/'},
+		{ Title : "Users", Href: '#/'},
+		{ Title : "Assets", Href: '#/asset'},
+		{ Title : "Agents", Href: '#/'},
+		{ Title : "Administration", Href: '#/'}
 	];
 
 	return menus;
