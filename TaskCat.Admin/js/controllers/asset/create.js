@@ -23,8 +23,24 @@ app.controller('createAssetController', function ($scope,$http,$interval,$mdDial
 		DrivingLicenceId : ""
   	}
   	
-  	$scope.Register = function(){
+  	$scope.RegisterNewAsset = function(){
   		console.log($scope.asset);
+  		$http({
+  			method: 'POST',
+  			url: 'http://localhost:23873/api/Account/Register',
+  			data: $scope.asset,
+  			header: {
+  				'Content-Type' : 'application/json'
+  			} 
+  		}).then(function success(response) {
+  			console.log("success : ");
+  			console.log(response);
+  			$window.location.href = '#/asset';
+
+  		}, function error(response) {
+  			console.log("error : ");
+  			console.log(response);
+  		});
   	}
 
 });
