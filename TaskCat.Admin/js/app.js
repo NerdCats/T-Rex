@@ -36,10 +36,10 @@ app.config(function($mdThemingProvider) {
 	.dark();
 });
 
-app.config(function($locationProvider) {
-	$locationProvider.html5Mode(true);
-});
+// app.config(function($locationProvider) {
+// 	$locationProvider.html5Mode(true);
+// });
 
-app.config(function($locationProvider) {
-	$locationProvider.html5Mode(false);
-});
+// app.config(function($locationProvider) {
+// 	$locationProvider.html5Mode(false);
+// });
