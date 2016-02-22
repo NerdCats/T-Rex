@@ -1,14 +1,18 @@
 {
-  "name": "go_fetch_dashboard",
+  "name": "pussycat",
   "version": "1.0.0",
-  "description": "Dashboard for GO Fetch",
+  "description": "This is an admina dashboard for TaskCat",
   "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
     "angular": "^1.4.9",
     "angular-animate": "^1.4.9",
     "angular-material": "^1.0.4",
     "angular-aria": "^1.4.9",
-    "angular-messages": "^1.4.9"
+    "angular-messages": "^1.4.9",
+    "angular-route": "^1.5.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -16,9 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://tareqGO@bitbucket.org/gobdco/go_fetch_dashboard.git"
+    "url": "git+https://github.com/NerdCats/PussyCat.git"
   },
   "author": "Muhammed Tareq Aziz",
   "license": "Apache-2.0",
-  "homepage": "https://bitbucket.org/gobdco/go_fetch_dashboard#readme"
+  "bugs": {
+    "url": "https://github.com/NerdCats/PussyCat/issues"
+  },
+  "homepage": "https://github.com/NerdCats/PussyCat#readme"
 }
