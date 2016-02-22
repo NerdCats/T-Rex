@@ -1,13 +1,18 @@
-app.controller('assetController', function ($scope,$http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates) {
+angular
+	.module('app')
+	.controller('assetController', assetController);
 
-	$scope.menus = menus;
-	$scope.templates = templates;
+
+function assetController($scope,$http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates) {
+
+	var vm = $scope;
+	vm.menus = menus;
+	vm.templates = templates;
 	  
 	var url = "/json/assetlist.json";
-	$scope.populateTable = function(url, Assets){
+	vm.populateTable = function(url){
 		$http.get(url).then(function(response){
 			var assets = response.data;			
-			console.log(assets)
 			angular.forEach(assets.data, function(value, key){
 				var asset = {
 					Username : value.Username,
@@ -21,24 +26,27 @@ app.controller('assetController', function ($scope,$http,$interval,$mdDialog,$md
 						$window.location.href = '/index.html?id='+ value._id;
 					}
 				};
-				Assets.push(asset);
+				vm.assetlist.push(asset);
 			});
-			$scope.pages = function(){
+			console.log(vm.assetlist)
+			vm.pages = function(){
 				var arr = [];
 				for (var i = 0; i < assets.pagination.TotalPages ; i++) {
 					arr.push(i);
 				};
 				return arr;
 			};
-			console.log($scope.pages())
+			console.log(vm.pages())
 		});
 	};
 
 
 
-	$scope.assetlist = [];
-	$scope.populateTable(url, $scope.assetlist);	
-	$scope.Register = function (ev) {
+	vm.assetlist = [];
+	vm.populateTable(url);	
+	console.log(vm.assetlist);
+
+	vm.Register = function (ev) {
 		$window.location.href = 'asset/create.html';
 	};
-});
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.factory('menus', function($window) {
+angular.module('app').factory('menus', function($window) {
 	//menu options
 	var menus = [
 		{ Title : "Dashboard", Href: '#/'},
@@ -15,7 +15,7 @@ app.factory('menus', function($window) {
 	return menus;
 });
 
-app.factory('templates', function() {
+angular.module('app').factory('templates', function() {
 	var templates = {
 	 	sidebar: 'partials/sidebar.html',
       	availableAsset: 'partials/detailsJob/availableAsset.html'
@@ -24,7 +24,7 @@ app.factory('templates', function() {
     return templates;
 });
 
-app.factory("urls", function(){
+angular.module('app').factory("urls", function(){
 	var host = "http://localhost:23873";
 	var urls = {
 		index :  {

@@ -1,13 +1,13 @@
 'use strict';
 
 
-var app = angular.module('fetch_dashboard', [
+var app = angular.module('app', [
 	'ngMaterial',
 	'ngMessages',
 	'ngRoute'
 ]);
 
-app.config(['$routeProvider',
+angular.module('app').config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 			when('/',{
@@ -29,7 +29,7 @@ app.config(['$routeProvider',
 	}
 ]);
 
-app.config(function($mdThemingProvider) {
+angular.module('app').config(function($mdThemingProvider) {
 	// Configure a dark theme with primary foreground yellow
 	$mdThemingProvider.theme('docs-dark', 'default')
 	.primaryPalette('grey')
