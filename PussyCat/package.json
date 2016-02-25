@@ -24,7 +24,10 @@
     "karma-jasmine": "^0.3.7"
   },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "prestart": "npm install",
+    "start": "http-server -a 0.0.0.0 -p 8000",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
