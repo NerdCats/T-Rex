@@ -11,19 +11,19 @@ angular.module('app').config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 			when('/',{
-				templateUrl: 'partials/dashboard.html',
+				templateUrl: 'app/views/dashboard.html',
 		        controller: 'indexController'
 			}).
 			when('/details/:id',{
-				templateUrl: 'partials/detailsJob.html',
+				templateUrl: 'app/views/detailsJob.html',
 				controller: 'detailsController'
 			}).
 			when('/asset', {
-				templateUrl: 'partials/assets.html',
+				templateUrl: 'app/views/assets.html',
 				controller: 'assetController'
 			}).
 			when('/asset/create',{
-				templateUrl: 'partials/asset/create.html',
+				templateUrl: 'app/views/asset/create.html',
 				controller: 'createAssetController'
 			})
 	}

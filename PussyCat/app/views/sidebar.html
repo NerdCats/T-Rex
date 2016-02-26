@@ -1,14 +1,14 @@
-<header class="horizontal" flex="100">	
-    <img src="img/ic_small_home.png"/>
+<header class="horizontal" flex="100">
+    <img src="../../content/img/ic_small_home.png"/>
     <p>GO! Fetch</p>
 </header>
-<div>			            
+<div>
     <md-list>
     	<md-list-item ng-repeat="menu in menus">
     		<a href="{{menu.Href}}" style="width: 85%">
 		    	<md-button class="md-button">
 				    <p>{{ menu.Title }}</p>
-		    	</md-button>    			
+		    	</md-button>
     		</a>
 	    	<md-divider></md-divider>
 		</md-list-item>
