@@ -25,7 +25,9 @@ angular.module('app').config(['$routeProvider',
 			when('/asset/create',{
 				templateUrl: 'app/views/asset/create.html',
 				controller: 'createAssetController'
-			})
+			});
+			
+			$routeProvider.otherwise({ redirectTo: "/"});
 	}
 ]);
 
