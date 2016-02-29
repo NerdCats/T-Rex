@@ -17,9 +17,9 @@ angular.module('app').factory('menus', function($window) {
 
 angular.module('app').factory('templates', function() {
 	var templates = {
-	 	sidebar: 'partials/sidebar.html',
-      	availableAsset: 'partials/detailsJob/availableAsset.html'
-    };
+		sidebar: 'app/views/sidebar.html',
+		availableAsset: 'app/views/detailsJob/availableAsset.html'
+	};
 
     return templates;
 });
