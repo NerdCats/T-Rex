@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="asset in assetlist track by $index" ng-click="asset.Details()">
+                    <tr ng-repeat="asset in assets.Collection track by $index" ng-click="asset.Details()">
                         <td class="number">{{$index + 1}}</td>
                         <td class="text">{{asset.Username}}</td>
                         <td class="text">{{asset.Type}}</td>

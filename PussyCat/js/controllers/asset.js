@@ -3,9 +3,9 @@ angular
 	.controller('assetController', assetController);
 
 
-function assetController($scope,$http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates) {
+function assetController($http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates) {
 
-	var vm = $scope;
+	var vm = this;
 	vm.menus = menus;
 	vm.templates = templates;
 	  
@@ -26,9 +26,9 @@ function assetController($scope,$http,$interval,$mdDialog,$mdMedia,$location,$wi
 						$window.location.href = '/index.html?id='+ value._id;
 					}
 				};
-				vm.assetlist.push(asset);
+				vm.Collection.push(asset);
 			});
-			console.log(vm.assetlist)
+			console.log(vm.Collection)
 			vm.pages = function(){
 				var arr = [];
 				for (var i = 0; i < assets.pagination.TotalPages ; i++) {
@@ -42,9 +42,9 @@ function assetController($scope,$http,$interval,$mdDialog,$mdMedia,$location,$wi
 
 
 
-	vm.assetlist = [];
+	vm.Collection = [];
 	vm.populateTable(url);	
-	console.log(vm.assetlist);
+	console.log(vm.Collection);
 
 	vm.Register = function (ev) {
 		$window.location.href = 'asset/create.html';

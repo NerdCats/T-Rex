@@ -12,19 +12,23 @@ angular.module('app').config(['$routeProvider',
 		$routeProvider.
 			when('/',{
 				templateUrl: 'partials/dashboard.html',
-		        controller: 'indexController'
+		        controller: 'indexController',
+		        controllerAs: 'index'
 			}).
 			when('/details/:id',{
 				templateUrl: 'partials/detailsJob.html',
-				controller: 'detailsController'
+				controller: 'detailsController',
+				controllerAs: 'details'
 			}).
 			when('/asset', {
 				templateUrl: 'partials/assets.html',
-				controller: 'assetController'
+				controller: 'assetController',
+				controllerAs: 'assets'
 			}).
 			when('/asset/create',{
 				templateUrl: 'partials/asset/create.html',
-				controller: 'createAssetController'
+				controller: 'createAssetController',
+				controllerAs: 'createAsset'
 			})
 	}
 ]);
