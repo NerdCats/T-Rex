@@ -10,23 +10,26 @@ var app = angular.module('app', [
 angular.module('app').config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
-			when('/',{
+			when('/',{	
 				templateUrl: 'app/views/dashboard.html',
-		        controller: 'indexController'
+		        controller: 'indexController',
+		        controllerAs: 'index'
 			}).
 			when('/details/:id',{
 				templateUrl: 'app/views/detailsJob.html',
-				controller: 'detailsController'
+				controller: 'detailsController',
+				controllerAs: 'details'
 			}).
 			when('/asset', {
 				templateUrl: 'app/views/assets.html',
-				controller: 'assetController'
+				controller: 'assetController',
+				controllerAs: 'assets'
 			}).
 			when('/asset/create',{
 				templateUrl: 'app/views/asset/create.html',
-				controller: 'createAssetController'
-			});
-			
+				controller: 'createAssetController',
+				controllerAs: 'createAsset'
+			})
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}
 ]);
