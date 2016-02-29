@@ -1,183 +1,151 @@
 'use strict';
 
-app.controller('detailsController', function (
-	$scope, 
-	$http, 
-	$interval,
-	$mdDialog,
-	$mdMedia,
-	$location,
-	$window,
-	menus,
-	templates,
-	listToString,
-	$routeParams) {
+app.controller('detailsController', detailsController);
+
+function detailsController($scope,$http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates,listToString,$routeParams) {
 	
-	var id = $routeParams.id;
-	
+	var id = $routeParams.id;	
 	console.log(id)
 
-	$scope.menus = menus;
-	$scope.templates = templates;
-	$scope.listToString = listToString;
-
-	//marker colors
-	$scope.markerIconUri = {
+	var vm = $scope;
+	vm.menus = menus; 
+	vm.templates = templates;
+	vm.listToString = listToString;	
+	vm.job = {};
+	vm.jobStates = [];
+	vm.locations = [];
+	vm.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
+	vm.jobState = ["ENQUEUED","IN_PROGRESS","COMPLETED"];
+	vm.assignAsset = ["Assign new Asset", "Change current Asset"];
+	vm.markerIconUri = {
 		blueMarker : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
 		redMarker : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
 		purpleMarker : "http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
 		yellowMarker : "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
 		greenMarker : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"		
-	}
+	};
+	
 
-	//get jobs json
+	vm.jobStateChanged = function (state) {
+		vm.job.State = state;
+	};
+	
+
+	function populateLocation() {
+		return [
+				 {
+					user : vm.job.Order.From.Address,
+					lat : vm.job.Order.From.Point.coordinates[1],
+					lng : vm.job.Order.From.Point.coordinates[0],
+					title : "User's location",
+					desc : vm.job.Order.From.Address,
+					markerUrl : vm.markerIconUri.greenMarker				
+				},
+				{
+					user : vm.job.User,
+					lat : vm.job.Order.To.Point.coordinates[1],
+					lng : vm.job.Order.To.Point.coordinates[0],
+					title : "User's destination",
+					desc : vm.job.Order.To.Address,
+					markerUrl : vm.markerIconUri.redMarker				
+				},
+				{
+					user : "Asset Nazrul",
+					lat : 23.800490,
+					lng: 90.408450,
+					title : "Asset's Location",
+					desc : "Somewhere Asset is",
+					markerUrl : vm.markerIconUri.purpleMarker				
+				}
+			];
+	};
+	function populateTaskState() {
+		var jobStates = [];
+		if (vm.job.Order.Type == "Ride") {
+			var findAsset = {
+				job : "Find Asset",
+				jobTaskStates : vm.job.Tasks[0].State,
+				stateChanged : function (state) {
+					this.jobTaskStates = state;
+					console.log(this.jobTaskStates);
+				}
+			};
+			var assetIsOnWay = {
+				job : "Asset is on way",
+				jobTaskStates : vm.job.Tasks[0].State,
+				stateChanged : function (state) {
+					this.jobTaskStates = state;
+					console.log(this.jobTaskStates);
+				}
+			};
+			var pickUp = {
+				job : "Pick up",
+				jobTaskStates : vm.job.Tasks[1].State,
+				stateChanged : function (state) {
+					this.jobTaskStates = state;
+					console.log(this.jobTaskStates);
+				}
+			};
+
+			jobStates.push(findAsset)
+			jobStates.push(assetIsOnWay)
+			jobStates.push(pickUp)
+		};
+		console.log(jobStates);
+		return jobStates;
+	};
+	function timeAgo() {
+		var creationTime = new Date(vm.job.CreateTime);
+		var nowTime = Date.now();
+		var diffInMin = (nowTime - creationTime)/1000/60;
+		var time =  Math.round(diffInMin);
+		console.log(time)
+		return time;
+	};
+
 	var url1 = "http://localhost:23873/api/Job?id="+id;
 	var url2 = "http://127.0.0.1:8080/json/order.json"
 	$http.get(url1).then(function(response) {
-		$scope.job = response.data;
-		console.log($scope.job);
+		vm.job = response.data;				
+		vm.locations = populateLocation();
+		vm.jobStates = populateTaskState();		
+		vm.requestedAgo = timeAgo();
+		// console.log(vm.requestedAgo)
 
-		
-		
-		$scope.locations = [
-			 {
-				user : $scope.job.Order.From.Address,
-				lat : $scope.job.Order.From.Point.coordinates[1],
-				lng : $scope.job.Order.From.Point.coordinates[0],
-				title : "User's location",
-				desc : $scope.job.Order.From.Address,
-				markerUrl : $scope.markerIconUri.greenMarker				
-			},
-			{
-				user : $scope.job.User,
-				lat : $scope.job.Order.To.Point.coordinates[1],
-				lng : $scope.job.Order.To.Point.coordinates[0],
-				title : "User's destination",
-				desc : $scope.job.Order.To.Address,
-				markerUrl : $scope.markerIconUri.redMarker				
-			},
-			{
-				user : "Asset Nazrul",
-				lat : 23.800490,
-				lng: 90.408450,
-				title : "Asset's Location",
-				desc : "Somewhere Asset is",
-				markerUrl : $scope.markerIconUri.purpleMarker				
-			}
-		];
-
-
-		$scope.assignAsset = ["Assign new Asset", "Change current Asset"];
-
-		$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-		$scope.assetAssignPopup = function (ev) {
-			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-		    $mdDialog.show({
-		      controller: DialogController,
-		      templateUrl: templates.availableAsset,
-		      parent: angular.element(document.body),
-		      targetEvent: ev,
-		      clickOutsideToClose:true,
-		      fullscreen: useFullScreen
-		    })
-		    .then(function(answer) {
-		      $scope.status = 'You said the information was "' + answer + '".';
-		    	console.log(answer);
-		      console.log($scope.status);
-		    }, function() {
-		      $scope.status = 'You cancelled the dialog.';
-		      console.log($scope.status);
-		    }, function (assignedAssets) {
-		    });
-
-		    $scope.$watch(function() {
-		      return $mdMedia('xs') || $mdMedia('sm');
-		    }, function(wantsFullScreen) {
-		      $scope.customFullscreen = (wantsFullScreen === true);
-		    });
-		};
-
-		$scope.jobStates = [];
-		(function assignJobsState() {
-			if ($scope.job.Order.Type == "Ride") {
-				var findAsset = {
-					job : "Find Asset",
-					jobTaskStates : $scope.job.Tasks[0].State,
-					stateChanged : function (state) {
-						this.jobTaskStates = state;
-						console.log(this.jobTaskStates);
-					}
-				};
-				var assetIsOnWay = {
-					job : "Asset is on way",
-					jobTaskStates : $scope.job.Tasks[0].State,
-					stateChanged : function (state) {
-						this.jobTaskStates = state;
-						console.log(this.jobTaskStates);
-					}
-				};
-				var pickUp = {
-					job : "Pick up",
-					jobTaskStates : $scope.job.Tasks[1].State,
-					stateChanged : function (state) {
-						this.jobTaskStates = state;
-						console.log(this.jobTaskStates);
-					}
-				};
-
-				$scope.jobStates = [findAsset, assetIsOnWay, pickUp]
-			};
-		})();
-
-		$scope.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
-
-		$scope.jobState = ["ENQUEUED","IN_PROGRESS","COMPLETED"];
-		$scope.jobStateChanged = function (state) {
-			$scope.job.State = state;
-		}
-
-
-		$scope.requestedAgo = function () {
-			var creationTime = new Date($scope.job.CreateTime);
-			var nowTime = Date.now();
-			var diffInMin = (nowTime - creationTime)/1000/60;
-			return Math.round(diffInMin);
-		}
-
-		$scope.detailsTable = {
-			orderId : $scope.job._id,
-			user : $scope.job.User,
+		vm.detailsTable = {
+			orderId : vm.job._id,
+			user : vm.job.User,
 			phoneNumber : "01911725897",
-			orderType : $scope.job.Order.Type,
-			preferences : $scope.listToString($scope.job.Order.VehiclePreference),
+			orderType : vm.job.Order.Type,
+			preferences : listToString(vm.job.Order.VehiclePreference),
 			eta : ""
 		}
 
-		$scope.asset = {
+		vm.asset = {
 			name : "Rahim Mia",
 			phoneNumber : "01911726389"
 		}
 
-		$scope.servingby = {
+		vm.servingby = {
 			name : "Redwan"
 		}
 
 		var mapOptions = {
 			zoom: 16,
-			center: new google.maps.LatLng($scope.locations[0].lat, $scope.locations[0].lng),
+			center: new google.maps.LatLng(vm.locations[0].lat, vm.locations[0].lng),
 			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
 
 		
 
 		//create map
-		$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-		$scope.markers = [];
+		vm.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		vm.markers = [];
 
 		var infoWindow = new google.maps.InfoWindow();
 		var createMarker = function (info){
 			var marker = new google.maps.Marker({
-			  	map: $scope.map,
+			  	map: vm.map,
 			  	position: new google.maps.LatLng(info.lat, info.lng),
 			  	title: info.title
 			});
@@ -194,39 +162,67 @@ app.controller('detailsController', function (
 			}
 			google.maps.event.addListener(marker, 'click', function(){
 			  	infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
-			  	infoWindow.open($scope.map, marker);
+			  	infoWindow.open(vm.map, marker);
 			});
-			$scope.markers.push(marker);
+			vm.markers.push(marker);
 		}
 		
-		createMarker($scope.locations[0]);
-		createMarker($scope.locations[1]);
-		createMarker($scope.locations[2]);
+		createMarker(vm.locations[0]);
+		createMarker(vm.locations[1]);
+		createMarker(vm.locations[2]);
 	});
-});
+
+		vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+		vm.assetAssignPopup = function (ev) {
+			var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
+		    $mdDialog.show({
+		      controller: DialogController,
+		      templateUrl: templates.availableAsset,
+		      parent: angular.element(document.body),
+		      targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: useFullScreen
+		    })
+		    .then(function(answer) {
+		      vm.status = 'You said the information was "' + answer + '".';
+		    	console.log(answer);
+		      console.log(vm.status);
+		    }, function() {
+		      vm.status = 'You cancelled the dialog.';
+		      console.log(vm.status);
+		    }, function (assignedAssets) {
+		    });
+
+		    vm.$watch(function() {
+		      return $mdMedia('xs') || $mdMedia('sm');
+		    }, function(wantsFullScreen) {
+		      vm.customFullscreen = (wantsFullScreen === true);
+		    });
+		};
+};
 
 
-function DialogController($scope, $mdDialog, $http) {
-	$scope.hide = function() {
+function DialogController(vm, $mdDialog, $http) {
+	vm.hide = function() {
 		$mdDialog.hide();
 	};
-	$scope.cancel = function() {
+	vm.cancel = function() {
 		$mdDialog.cancel();
 	};
-	$scope.answer = function(answer) {
+	vm.answer = function(answer) {
 		console.log("this is from answer hiding");
-		console.log($scope.assignedAssets)
-		$mdDialog.hide($scope.assignedAssets);
+		console.log(vm.assignedAssets)
+		$mdDialog.hide(vm.assignedAssets);
 	};
 
 	var url = "http://localhost:23873/api/Job?id=56a5c7571510df254024dc59";
 	var url2 = "http://127.0.0.1:8080/json/asset-list.json"
 	$http.get(url2).then(function(response) {
-		$scope.assets = response.data;
-		console.log($scope.assets);
+		vm.assets = response.data;
+		console.log(vm.assets);
 	});
-	$scope.assignedAssets = [];
-	$scope.assinged = function (asset) {
-		$scope.assignedAssets.push(asset);
+	vm.assignedAssets = [];
+	vm.assinged = function (asset) {
+		vm.assignedAssets.push(asset);
 	}
 }
