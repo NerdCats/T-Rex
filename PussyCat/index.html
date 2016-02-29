@@ -53,20 +53,21 @@
             </header>
         </div> -->
 
-        <div class="view-container" flex="100" layout="row">
-            <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates"></aside>
-            <div flex="100">
-                <div ng-view class="view-frame">
+        <div class="view-container" flex="100">
+            <div flex="100" layout="row">
+                <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates"></aside>
+                <div flex="100">
+                    <div ng-view class="view-frame">
 
-                </div>
+                    </div>
+                </div>            
             </div>
-
-        </div> <!-- #main-container -->
-        <div id="footer" class="footer-container">
-            <footer class="wrapper">
+            <footer flex="100" id="footer">
                 <h3>footer</h3>
             </footer>
-        </div>
+        </div> <!-- #main-container -->
+       
+        
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

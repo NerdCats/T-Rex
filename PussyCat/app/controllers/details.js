@@ -1,6 +1,17 @@
 'use strict';
 
-app.controller('detailsController', function ($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, menus, templates,$routeParams) {
+app.controller('detailsController', function (
+	$scope, 
+	$http, 
+	$interval,
+	$mdDialog,
+	$mdMedia,
+	$location,
+	$window,
+	menus,
+	templates,
+	listToString,
+	$routeParams) {
 	
 	var id = $routeParams.id;
 	
@@ -8,6 +19,7 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 
 	$scope.menus = menus;
 	$scope.templates = templates;
+	$scope.listToString = listToString;
 
 	//marker colors
 	$scope.markerIconUri = {
@@ -137,7 +149,7 @@ app.controller('detailsController', function ($scope, $http, $interval, $mdDialo
 			user : $scope.job.User,
 			phoneNumber : "01911725897",
 			orderType : $scope.job.Order.Type,
-			preferences : $scope.job.Order.VehiclePreference[0],
+			preferences : $scope.listToString($scope.job.Order.VehiclePreference),
 			eta : ""
 		}
 

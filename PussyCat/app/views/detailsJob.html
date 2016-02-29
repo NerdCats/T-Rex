@@ -6,7 +6,7 @@
         <div layout="column">                                                   
             <md-menu md-offset="0 -7">
                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                    <span><img src="img/ic_settings.png"></span>
+                    <span><img src="content/img/ic_settings.png"></span>
                 </md-button>
                 <md-menu-content width="2">
                     <md-menu-item ng-repeat="item in jobState">
@@ -26,45 +26,34 @@
                     <span class="md-headline">Details</span>
                 </md-card-title-text>
             </md-card-title>
-            <md-card-content>                                            
-                <table id="content-header-table">
-                    <tr>
-                        <td><b>Order ID</b></td>
-                        <td class="td-value">
-                            <a class="details-link" href="#">{{detailsTable.orderId}}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>User</b></td>
-                        <td class="td-value">
-                            <a class="details-link" href="#">{{detailsTable.user}}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>Phone</b></td>
-                        <td class="td-value">
-                            <a class="details-link" href="#">{{detailsTable.phoneNumber}}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>Order</b></td>
-                        <td class="td-value">
-                            <a class="details-link" href="#">{{detailsTable.orderType}}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>Preference</b></td>
-                        <td class="td-value">
-                            <a class="details-link" href="#">{{detailsTable.preferences}}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>ETA</b></td>
-                        <td class="td-value">
-                            <a class="details-link" href="#">{{detailsTable.eta}}</a>
-                        </td>
-                    </tr>
-                </table>
+            <md-card-content>                                                             
+<!--                 <div layout="row">
+                    <div flex="25"><b>Order ID</b></div>
+                    <div> {{detailsTable.orderId}}</div>
+                </div> -->
+                <div layout="row">
+                    <div flex="30"><b>User</b></div>
+                    <div> {{detailsTable.user}}</div>
+                </div>
+                <div layout="row">
+                    <div flex="30"><b>Phone</b></div>
+                    <div> {{detailsTable.phoneNumber}}</div>
+                </div>
+                <div layout="row">
+                    <div flex="30"><b>Order</b></div>
+                    <div> {{detailsTable.orderType}}</div>
+                </div>
+                <div layout="row">
+                    <div flex="30"><b>Preference  </b></div>
+                    <!-- <div><ul> -->
+                       <!--  <li ng-repeat="vehicle in detailsTable.preferences">{{vehicle}}</li> -->
+                    <!-- </ul></div> -->
+                    <div> {{detailsTable.preferences}} </div>
+                </div>
+                <div layout="row">
+                    <div flex="30"><b>ETA</b></div>
+                    <div> {{detailsTable.eta}}</div>
+                </div>                  
             </md-card-content>
         </md-card>
 
@@ -76,7 +65,7 @@
                 <div layout="column">                                                   
                     <md-menu md-offset="0 -7">
                         <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                            <span><img src="img/ic_settings.png"></span>
+                            <span><img src="content/img/ic_settings.png"></span>
                         </md-button>
                         <md-menu-content width="2">
                             <md-menu-item ng-repeat="item in assignAsset">
@@ -137,7 +126,7 @@
                         <div layout="column">                                                   
                             <md-menu md-offset="0 -7">
                                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                                    <span><img src="img/ic_settings.png"></span>
+                                    <span><img src="content/img/ic_settings.png"></span>
                                 </md-button>
                                 <md-menu-content width="2">
                                     <md-menu-item ng-repeat="item in jobTaskStates">
