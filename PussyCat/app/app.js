@@ -12,7 +12,7 @@ angular.module('app').config(['$routeProvider',
 		$routeProvider.
 			when('/',{	
 				templateUrl: 'app/views/dashboard.html',
-		        controller: 'indexController',
+		        controller: 'dashBoardController',
 		        controllerAs: 'index'
 			}).
 			when('/details/:id',{
