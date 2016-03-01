@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="order in newOrders track by $index">
+                <tr ng-repeat="order in newOrders.orders track by $index">
                         <td class="number"><a href="#/details/{{order.Id}}">{{$index + 1}}</a></td>
                         <td class="text"><a href="#/details/{{order.Id}}">{{order.Name}}</a></td>
                         <td class="text"><a href="#/details/{{order.Id}}">{{order.Type}}</a></td>
@@ -30,7 +30,7 @@
         </table>
         <div style="float:right">
             <ul layout="row">
-                <li ng-repeat="page in pages()" ng-click="loadNextPage(page,'ENQUEUED')">{{page+1}}</li>                                    
+                <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, page,'ENQUEUED')">{{page+1}}</li>                                    
             </ul>
         </div>
      </div>		 
@@ -50,7 +50,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="order in processingOrders track by $index">
+                <tr ng-repeat="order in processingOrders.orders track by $index">
                     <a href="/details/{{order.Id}}">
                         <td class="number">{{$index + 1}}</td>
                         <td class="text">{{order.Name}}</td>
@@ -64,5 +64,10 @@
                 </tr>
             </tbody>
         </table>
+        <div style="float:right">
+            <ul layout="row">
+                <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(page,'ENQUEUED')">{{page+1}}</li>
+            </ul>
+        </div>
     </div>
 </article>				

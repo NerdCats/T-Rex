@@ -55,8 +55,14 @@ angular.module('app').factory('timeAgo', function () {
 		var nowTime = Date.now();
 		var diffInMin = (nowTime - creationTime)/1000/60;
 		var time =  Math.round(diffInMin);
-		console.log(time)
 		return time;
 	};
 });
 
+// angular.module('app').factory('$exceptionHandler', function() {
+//   return function(exception, cause) {
+//     exception.message += ' (caused by "' + cause + '")';
+//     console.log(exception.message);
+//     // throw exception;
+//   };
+// });
