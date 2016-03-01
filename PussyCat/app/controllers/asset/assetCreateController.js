@@ -1,46 +1,29 @@
-app.controller('createAssetController', function ($scope,$http,$interval,$mdDialog,$mdMedia,$location,$window,menus,templates) {
+app.controller('createAssetController', function ($scope,menus,templates,registerNewAsset) {
 
-	$scope.menus = menus;
-	$scope.templates = templates;
+    var vm = $scope;
+	vm.menus = menus;
+	vm.templates = templates;
 	
-	$scope.gender = ["MALE", "FEMALE"];
-	$scope.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER"];
+	vm.gender = ["MALE", "FEMALE"];
+	vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER"];
 
-  	$scope.asset = {
+  	vm.asset = {
   		UserName : "",
-		Password : "",
-		ConfirmPassword : "",
-		Email : "",
-		PhoneNumber : "",
-		FirstName : "",
-		LastName : "",
-		Age : "",
-		Gender : "",
-		Address : "",
-		PicUri : "",
-		Type : "",
-		NationalId : "",
-		DrivingLicenceId : ""
-  	}
-  	
-  	$scope.RegisterNewAsset = function(){
-  		console.log($scope.asset);
-  		$http({
-  			method: 'POST',
-  			url: 'http://localhost:23873/api/Account/Register',
-  			data: $scope.asset,
-  			header: {
-  				'Content-Type' : 'application/json'
-  			} 
-  		}).then(function success(response) {
-  			console.log("success : ");
-  			console.log(response);
-  			$window.location.href = '#/asset';
-
-  		}, function error(response) {
-  			console.log("error : ");
-  			console.log(response);
-  		});
-  	}
-
+  		Password : "",
+  		ConfirmPassword : "",
+  		Email : "",
+  		PhoneNumber : "",
+  		FirstName : "",
+  		LastName : "",
+  		Age : "",
+  		Gender : "",
+  		Address : "",
+  		PicUri : "",
+  		Type : "",
+  		NationalId : "",
+  		DrivingLicenceId : ""
+  	};
+    
+  	vm.RegisterNewAsset = registerNewAsset;
+    
 });

@@ -1,9 +1,6 @@
 'use strict';
 
-app.controller('sidebarController', function ($scope, $http, $interval, $mdDialog, $mdMedia,$window,menus, templates) {
-
-	$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-	//menu options
+app.controller('sidebarController', function ($scope, menus, templates) {
 	$scope.menus = menus;
 	$scope.templates = templates.sidebar;
 	console.log(templates)
