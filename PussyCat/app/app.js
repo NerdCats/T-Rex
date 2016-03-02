@@ -12,8 +12,8 @@ angular.module('app').config(['$routeProvider',
 		$routeProvider.
 			when('/',{	
 				templateUrl: 'app/views/dashboard.html',
-		        controller: 'indexController',
-		        controllerAs: 'index'
+		        controller: 'dashBoardController',
+		        controllerAs: 'dashboard'
 			}).
 			when('/details/:id',{
 				templateUrl: 'app/views/detailsJob.html',
