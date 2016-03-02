@@ -9,7 +9,7 @@
 
   /* @ngInject */
   function authService($http, $q, localStorageService, ngAuthSettings) {
-    var serviceBase = ngAuthSettings.apServiceBaseUri;
+    var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var service = {};
 
     var _authentication = {

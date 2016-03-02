@@ -7,10 +7,11 @@ var app = angular.module('app', [
 	'ngRoute'
 ]);
 
+//FIXME: route configuration really should be moved to somewhere else
 angular.module('app').config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
-			when('/',{	
+			when('/',{
 				templateUrl: 'app/views/dashboard.html',
 		        controller: 'dashBoardController',
 		        controllerAs: 'dashboard'
@@ -39,6 +40,13 @@ angular.module('app').config(function($mdThemingProvider) {
 	.primaryPalette('grey')
 	.dark();
 });
+
+angular.constant('ngAuthSettings', {
+	apiServiceBaseUri: "http://localhost:23873/",
+	clientId:'GoFetchDevWebApp'
+});
+
+
 
 // app.config(function($locationProvider) {
 // 	$locationProvider.html5Mode(true);
