@@ -3,9 +3,9 @@ angular
 	.controller('assetController', assetController);
 
 
-function assetController(menus, templates, populateAssetTable) {
+function assetController($scope, menus, templates, populateAssetTable) {
 
-	var vm = this;
+	var vm = $scope;
 	vm.menus = menus;
 	vm.templates = templates;
 	vm.Assets = {Collection : [], pages: []};

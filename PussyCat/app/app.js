@@ -23,7 +23,6 @@ angular.module('app').config(['$routeProvider',
 			when('/asset', {
 				templateUrl: 'app/views/assets.html',
 				controller: 'assetController',
-				controllerAs: 'assets'
 			}).
 			when('/asset/create',{
 				templateUrl: 'app/views/asset/create.html',
