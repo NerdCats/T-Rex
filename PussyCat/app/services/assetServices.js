@@ -17,10 +17,9 @@ angular.module('app').factory('populateAssetTable', function($http, $window){
 				};
 				Assets.Collection.push(asset);
 			});
-			console.log(Assets.Collection)
 			for (var i = 0; i < assets.pagination.TotalPages ; i++) {
 				Assets.pages.push(i);
-			};
+			};			
 			console.log(Assets.Collection);
 			console.log(Assets.pages)
 		});
