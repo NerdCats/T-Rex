@@ -4,9 +4,9 @@ angular
   .module('app')
   .controller('authController', authController);
 
-authController.$inject = ['$scope', 'authService'];
+authController.$inject = ['$scope', 'authService', '$location', '$window'];
 
-function authController($scope, authService) {
+function authController($scope, authService, $location, $window) {
   var vm = this;
   vm.loginData = {};
   vm.loginData.username = "";
@@ -24,7 +24,7 @@ function authController($scope, authService) {
 
   function login() {
     authService.login(vm.loginData).then(function(response) {
-        $location.path('/home');
+        $window.location.href = '../../index.html';
       },
       function(err) {
         console.log(err);
