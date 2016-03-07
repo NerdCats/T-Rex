@@ -34,12 +34,10 @@
       //FIXME: This has to be fixed too. Im just adding it over manually as a querystring
       //really shouldnt do this and I think I have to add client to this as far as Im concerned
 
-      var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
+      var data = "grant_type=password&username=" + loginData.username + "&password=" + loginData.password;
+      data = data + "&client_id=" + ngAuthSettings.clientId;
 
-      if (loginData.useRefreshTokens) {
-        data = data + "&client_id=" + ngAuthSettings.client_id;
-      }
-
+      console.log(data);
       var deferred = $q.defer();
 
       //FIXME: I do can keep these routes noted somewhere
