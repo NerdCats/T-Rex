@@ -1,9 +1,8 @@
-angular
-	.module('app')
-	.controller('assetController', assetController);
+'use strict';
 
+app.controller('assetController', assetController);
 
-function assetController($scope, menus, templates, populateAssetTable) {
+function assetController($scope, $http, $window, menus, templates, assetsFactory) {
 
 	var vm = $scope;
 	vm.menus = menus;
@@ -11,11 +10,17 @@ function assetController($scope, menus, templates, populateAssetTable) {
 	vm.Assets = {Collection : [], pages: []};
 	  
 	var url = "/json/assetlist.json";
+	$http.get(url).then(function(response){
+		var assets = response.data;	
+		console.log(assets);		
+		vm.Assets = assetsFactory.populateAssets(assets, url)
+	});
 	
-	populateAssetTable(vm.Assets, url);	
-	console.log(vm.Assets);
-
 	vm.Register = function (ev) {
 		$window.location.href = 'asset/create.html';
+	};
+
+	vm.Details = function(_id){
+		$window.location.href = '/index.html?id='+ _id;
 	};
 }

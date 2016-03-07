@@ -79,8 +79,12 @@
                 </div>   
             </md-card-title>
             <md-card-content>
-                <p>{{asset.name}}</p>
-                <p>{{asset.phoneNumber}}</p>
+                <ul>
+                    <li ng-repeat="asset in assets">
+                        <p>{{asset.name}}</p>
+                        <p>{{asset.phoneNumber}}</p>                        
+                    </li>
+                </ul>
             </md-card-content>
         </md-card>
         
@@ -122,7 +126,6 @@
                     <md-list-item ng-repeat="state in jobStates track by $index">
                         <p><b>{{state.job}}</b></p>
                         <span ng-model="state.jobTaskStates">{{state.jobTaskStates}}</span>
-
                         <div layout="column">                                                   
                             <md-menu md-offset="0 -7">
                                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -136,8 +139,7 @@
                             </md-menu>
                         </div>                                                
                     </md-list-item>
-                </md-list>
-                
+                </md-list>                
             </md-card-content>
         </md-card>
     </div>

@@ -4,14 +4,10 @@ app.controller('detailsController', detailsController);
 
 function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams, 
 							menus, templates,  markerIconUri, 
-							timeAgo, 
-							populateLocation, populateTaskState, populateJobDetailsTable, populateAssetInfo, populateServingBy, populateMap, populateAssetAssignDialog,
-							jobDetailsFactory) {
+							timeAgo,jobDetailsFactory) {
 	
 	var id = $routeParams.id;	
 	var vm = $scope;
-
-	// console.log(jobDetailsFactory);
 
 	vm.menus = menus; 
 	vm.job = {};
@@ -28,22 +24,31 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 	};
 	
 	var url1 = "http://localhost:23873/api/Job?id="+id;
-	var url2 = "http://127.0.0.1:8080/json/order.json"
+	var url2 = "http://127.0.0.1:8080/json/order.json";
 	$http.get(url1).then(function(response) {
+
 		vm.job = response.data;				
+
 		vm.locations = jobDetailsFactory.populateLocation(vm.job);
-		console.log("baboon");
-		console.log(vm.locations);
-		vm.jobStates = jobDetailsFactory.populateTaskState(vm.job);		
+
+		vm.jobStates = jobDetailsFactory.populateJobTaskState(vm.job);		
+
 		vm.requestedAgo = timeAgo(vm.job.CreateTime);
+
 		vm.detailsTable = jobDetailsFactory.populateJobDetailsTable(vm.job);
-		vm.asset = jobDetailsFactory.populateAssetInfo(vm.job);
+
+		vm.assets = jobDetailsFactory.populateAssetInfo(vm.job);
+
 		vm.servingby = jobDetailsFactory.populateServingBy(vm.job);
+
 		jobDetailsFactory.populateMap(vm.job ,vm.map, vm.markers);
+
 	});
+	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+
 	vm.assetAssignPopup = function (event) {
-		jobDetailsFactory.populateAssetAssignDialog(vm,event);
+		jobDetailsFactory.populateAssetAssignDialog(vm, event, vm.job);
 	};
 };
 

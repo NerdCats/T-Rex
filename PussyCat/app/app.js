@@ -7,7 +7,7 @@ var app = angular.module('app', [
 	'ngRoute'
 ]);
 
-angular.module('app').config(['$routeProvider',
+app.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 			when('/',{	
@@ -33,7 +33,7 @@ angular.module('app').config(['$routeProvider',
 	}
 ]);
 
-angular.module('app').config(function($mdThemingProvider) {
+app.config(function($mdThemingProvider) {
 	// Configure a dark theme with primary foreground yellow
 	$mdThemingProvider.theme('docs-dark', 'default')
 	.primaryPalette('grey')
