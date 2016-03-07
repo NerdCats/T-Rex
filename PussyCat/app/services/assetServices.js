@@ -28,7 +28,7 @@ angular.module('app').factory('populateAssetTable', function($http, $window){
 
 
 
-angular.module('app').factory('registerNewAsset', function($http){
+angular.module('app').factory('registerNewAsset', function($http, $window){
 	return function (asset){
 		console.log(asset);
   		$http({
