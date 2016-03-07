@@ -4,7 +4,8 @@
 var app = angular.module('app', [
 	'ngMaterial',
 	'ngMessages',
-	'ngRoute'
+	'ngRoute',
+	'LocalStorageModule'
 ]);
 
 app.config(['$routeProvider',
@@ -40,7 +41,7 @@ app.config(function($mdThemingProvider) {
 	.dark();
 });
 
-angular.constant('ngAuthSettings', {
+angular.module('app').constant('ngAuthSettings', {
 	apiServiceBaseUri: "http://localhost:23873/",
 	clientId:'GoFetchDevWebApp'
 });
