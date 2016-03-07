@@ -4,7 +4,8 @@
 var app = angular.module('app', [
 	'ngMaterial',
 	'ngMessages',
-	'ngRoute'
+	'ngRoute',
+	'LocalStorageModule'
 ]);
 
 //FIXME: route configuration really should be moved to somewhere else
@@ -41,7 +42,7 @@ angular.module('app').config(function($mdThemingProvider) {
 	.dark();
 });
 
-angular.constant('ngAuthSettings', {
+angular.module('app').constant('ngAuthSettings', {
 	apiServiceBaseUri: "http://localhost:23873/",
 	clientId:'GoFetchDevWebApp'
 });

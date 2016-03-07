@@ -49,7 +49,6 @@
           }
         })
         .success(function(response) {
-
           var authorizationData = {};
           authorizationData.token = response.access_token;
           authorizationData.userName = loginData.userName;
