@@ -16,6 +16,11 @@ app.config(['$routeProvider',
 		        controller: 'dashBoardController',
 		        controllerAs: 'dashboard'
 			}).
+			when('/order/create',{
+				templateUrl: 'app/views/order/create.html',
+				controller: 'createOrderController',
+				controllerAs: 'createOrder'
+			}).
 			when('/details/:id',{
 				templateUrl: 'app/views/detailsJob.html',
 				controller: 'detailsController',
