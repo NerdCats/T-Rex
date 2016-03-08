@@ -24,7 +24,7 @@ angular.module('app').factory('populateOrdersTable', function ($http, timeAgo) {
 						Id : value._id,
 						Name : value.Name,
 						Type : value.Order.Type,
-						// this ridiculus things has been done to protect the app from From To null value, need to have a better mechanism
+						// this ridiculus things has been done to protect the app from 'From' 'To' null value, need to have a better mechanism
 						User : value.Order.User,
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,

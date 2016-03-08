@@ -42,6 +42,7 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 			console.log("success : ");
   			console.log(response);
   			alert("success");
+  			location.reload();
   			return true;
 		};
 
@@ -160,6 +161,7 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 			console.log("success : ");
   			console.log(response);
   			alert("success");
+  			location.reload();
   			return true;
 		};
 
@@ -182,9 +184,7 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 			job: job
 	    })
 	    .then(function(selectedAssets) {		    
-
-		    var result = patchUpdate(selectedAssets[0].Id, "/AssetRef", "replace", job._id, job.Tasks[0].id, success, error);
-			if (result) location.reload();
+		    var result = patchUpdate(selectedAssets[0].Id, "/AssetRef", "replace", job._id, job.Tasks[0].id, success, error);			
 	    }, function() {
 			console.log("Asset Assign dialog canceled");
 	    });
