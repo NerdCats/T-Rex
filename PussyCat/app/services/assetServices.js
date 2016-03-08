@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('assetsFactory', function(){
+app.factory('assetsFactory', function($http){
 	
 	var populateAssets = function (assets, url){	
 		var Assets = {Collection : [], pages: []};	

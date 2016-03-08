@@ -1,4 +1,4 @@
-app.controller('createAssetController', function ($scope,menus,templates,registerNewAsset) {
+app.controller('createAssetController', function ($scope,menus,templates,assetsFactory) {
 
     var vm = $scope;
 	vm.menus = menus;
@@ -24,6 +24,6 @@ app.controller('createAssetController', function ($scope,menus,templates,registe
   		DrivingLicenceId : ""
   	};
     
-  	vm.RegisterNewAsset = registerNewAsset;
+  	vm.RegisterNewAsset = assetsFactory.registerNewAsset;
     
 });
