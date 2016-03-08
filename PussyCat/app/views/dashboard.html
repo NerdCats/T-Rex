@@ -32,7 +32,7 @@
         </table>
         <div style="float:right">
             <ul layout="row">
-                <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, page,'ENQUEUED')">{{page+1}}</li>                                    
+                <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>                                    
             </ul>
         </div>
      </div>		 
@@ -68,7 +68,7 @@
         </table>
         <div style="float:right">
             <ul layout="row">
-                <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(page,'ENQUEUED')">{{page+1}}</li>
+                <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
             </ul>
         </div>
     </div>
