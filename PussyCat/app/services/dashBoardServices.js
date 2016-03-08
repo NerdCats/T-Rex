@@ -10,6 +10,7 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
 		console.log(url);
 		return url;
 	};
+	
 	var populateOrdersTable = function(Orders, state, envelope, page, pageSize){
 
 		var url = urlMaker(state, envelope, page, pageSize);
