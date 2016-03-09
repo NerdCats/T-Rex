@@ -23,8 +23,19 @@ app.factory('orderFactory', ['$http', 'restCall', function($http, restCall){
 		console.log(newOrder);
 	};
 
+	var populateMap = function (map) {
+		var mapOptions = {
+			zoom : 16,
+			center : new google.maps.LatLng(23,90),
+			mapTypeId : google.maps.MapTypeId.TERRAIN
+		};
+		map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		var infoWindows = new google.maps.InfoWindow();
+	};
+
 	return {
 		hello : hello,
-		createNewOrder : createNewOrder
+		createNewOrder : createNewOrder,
+		populateMap : populateMap
 	}
 }]);

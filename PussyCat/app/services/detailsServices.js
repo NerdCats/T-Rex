@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('app').factory('jobDetailsFactory', function(listToString, markerIconUri, $http, $mdMedia, $mdDialog, templates, patchUpdate){
+angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory','$http','$mdMedia','$mdDialog','templates','patchUpdate', jobDetailsFactory]);
+	
+	function jobDetailsFactory(listToString, mapFactory, $http, $mdMedia, $mdDialog, templates, patchUpdate){
 	
  	var populateLocation = function (job) {
 		var userLocation  = {
@@ -9,7 +11,7 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 			lng : job.Order.From.Point.coordinates[0],
 			title : "User's location",
 			desc : job.Order.From.Address,
-			markerUrl : markerIconUri.greenMarker				
+			markerUrl : mapFactory.markerIconUri.greenMarker				
 		};
 		var userDestination = {
 			user : job.User,
@@ -17,7 +19,7 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 			lng : job.Order.To.Point.coordinates[0],
 			title : "User's destination",
 			desc : job.Order.To.Address,
-			markerUrl : markerIconUri.redMarker				
+			markerUrl : mapFactory.markerIconUri.redMarker				
 		};
 		var assetLocation = {
 			// since asset module is not ready, just putting dummy location
@@ -26,7 +28,7 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 			lng: 90.408450,
 			title : "Asset's Location",
 			desc : "Somewhere Asset is",
-			markerUrl : markerIconUri.purpleMarker				
+			markerUrl : mapFactory.markerIconUri.purpleMarker				
 		};
 
 		return {
@@ -118,41 +120,31 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 	var populateMap = function (job, map, markers) {
 
 		var locations = populateLocation(job);
-		var mapOptions = {
-			zoom: 16,
-			center: new google.maps.LatLng(locations.userLocation.lat, locations.userLocation.lng),
-			mapTypeId: google.maps.MapTypeId.TERRAIN
-		};
-		map = new google.maps.Map(document.getElementById('map'), mapOptions);		
-		var infoWindow = new google.maps.InfoWindow();
-
-		var createMarker = function (info){
-			var marker = new google.maps.Marker({
-			  	map: map,
-			  	position: new google.maps.LatLng(info.lat, info.lng),
-			  	title: info.title
-			});
-			marker.setIcon(info.markerUrl);
-			marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
-			marker.addListener('click', toggleBounce);
-
-			function toggleBounce() {
-			  if (marker.getAnimation() !== null) {
-			    marker.setAnimation(null);
-			  } else {
-			    marker.setAnimation(google.maps.Animation.BOUNCE);
-			  }
-			}
-			google.maps.event.addListener(marker, 'click', function(){
-			  	infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
-			  	infoWindow.open(map, marker);
-			});
-			markers.push(marker);
-		}
 		
-		createMarker(locations.userLocation);
-		createMarker(locations.userDestination);
-		createMarker(locations.assetLocation);
+		var createMarkersCallback = function (map) {
+			mapFactory.createMarker(locations.userLocation.lat,
+									locations.userLocation.lng,
+									locations.userLocation.title,
+									locations.userLocation.desc,
+									locations.userLocation.markerUrl,
+									map, markers);
+			mapFactory.createMarker(locations.userDestination.lat,
+									locations.userDestination.lng,
+									locations.userDestination.title,
+									locations.userDestination.desc,
+									locations.userDestination.markerUrl,
+									map, markers);
+			mapFactory.createMarker(locations.assetLocation.lat,
+									locations.assetLocation.lng,
+									locations.assetLocation.title,
+									locations.assetLocation.desc,
+									locations.assetLocation.markerUrl,
+									map, markers);
+		}
+
+		mapFactory.createMap(locations.userLocation.lat, 
+							locations.userLocation.lng,
+							'map', map, 16, createMarkersCallback);	 
 	};
 
 	var populateAssetAssignDialog = function (vm, event, job) {
@@ -194,7 +186,6 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 	    }, function(wantsFullScreen) {
 	      vm.customFullscreen = (wantsFullScreen === true);
 	    });	
-
 	};
 
 
@@ -207,4 +198,4 @@ angular.module('app').factory('jobDetailsFactory', function(listToString, marker
 		populateMap : populateMap,
 		populateAssetAssignDialog : populateAssetAssignDialog
 	}
-});
+};
