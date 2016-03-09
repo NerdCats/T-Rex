@@ -1,86 +1,32 @@
-<!doctype HTML>
-<html class="no-js" lang="" ng-app="app">
-  <head>
-    <base href="/">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="login page for Pussycat?">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
-    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-    <link rel="stylesheet" type="text/css" href="../../node_modules/angular-material/angular-material.css">
-
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>Login</title>
-
-    <script type="text/javascript" src="../../node_modules/angular/angular.js"></script>
-    <script type="text/javascript" src="../../node_modules/angular-route/angular-route.js"></script>
-    <script type="text/javascript" src="../../node_modules/angular-animate/angular-animate.js"></script>
-    <script type="text/javascript" src="../../node_modules/angular-aria/angular-aria.js"></script>
-    <script type="text/javascript" src="../../node_modules/angular-messages/angular-messages.js"></script>
-    <script type="text/javascript" src="../../node_modules/angular-material/angular-material.js"></script>
-    <script type="text/javascript" src="../../node_modules/angular-local-storage/dist/angular-local-storage.js"></script>
-
-    <script src="../app/app.js"></script>
-    <script src="../app/services/authService.js"></script>
-    <script type="text/javascript" src="../../app/controllers/authController.js"></script>
-
-  </head>
-
-  <body layout="row">
-
-    <body layout="row">
-      <!-- <script>
-        angular.module('app').controller('authController', function($scope) {
-          var vm = this;
-          vm.email = "thehoneymad@hotmail.com";
-
-          function activate() {
-            alert("hello");
-            vm.submit = function() {
-              alert("hello")
-            }
-          };
-          activate();
-
-        });
-      </script> -->
-
-      <div layout="column" flex id="content" role="main" ng-controller="authController as auth" ng-cloak>
-        <md-content layout="vertical" flex id="content">
-          <div layout="row" layout-align="center center" layout-fill>
-            <md-whiteframe class="md-whiteframe-z1" layout="row" flex="30" layout-padding>
-              <form name="loginForm">
-                <md-content layout="column" flex="100">
-                  <md-input-container flex>
-                    <label>User Name</label>
-                    <input name="username" required ng-model="auth.loginData.username">
-                    <div ng-messages="loginForm.username.$error" role="alert">
-                      <div ng-message="required">This field is required</div>
-                    </div>
-                  </md-input-container>
-                  <md-input-container>
-                    <label>Password</label>
-                    <input required name="password" ng-model="auth.loginData.password" type="password">
-                    <div ng-messages="loginForm.password.$error" role="alert">
-                      <div ng-message="required">This field is required</div>
-                    </div>
-                  </md-input-container>
-
-                  <md-input-container >
-                    <div layout="row" layout-sm="column" layout-margin>
-                      <md-button type="submit" ng-click="auth.login()" class="md-raised md-primary" flex="40" flex-sm="100">Login</md-button>
-                    </div>
-                  </md-input-container>
-                </md-content>
-                <form></md-whiteframe>
+<div layout="column" flex id="content" role="main" ng-cloak>
+  <md-content layout="vertical" flex id="content">
+    <div layout="row" layout-align="center center" layout-fill>
+      <md-whiteframe class="md-whiteframe-z1" layout="row" flex="30" layout-padding>
+        <form name="loginForm">
+          <md-content layout="column" flex="100">
+            <md-input-container flex>
+              <label>User Name</label>
+              <input name="username" required ng-model="auth.loginData.username">
+              <div ng-messages="loginForm.username.$error" role="alert">
+                <div ng-message="required">This field is required</div>
               </div>
+            </md-input-container>
+            <md-input-container>
+              <label>Password</label>
+              <input required name="password" ng-model="auth.loginData.password" type="password">
+              <div ng-messages="loginForm.password.$error" role="alert">
+                <div ng-message="required">This field is required</div>
+              </div>
+            </md-input-container>
 
-            </md-content>
-          </div>
-        </body>
-
-      </body>
-
-    </html>
+            <md-input-container >
+              <div layout="row" layout-sm="column" layout-margin>
+                <md-button type="submit" ng-click="auth.login()" class="md-raised md-primary" flex="40" flex-sm="100">Login</md-button>
+              </div>
+            </md-input-container>
+          </md-content>
+        </form>
+      </md-whiteframe>
+    </div>
+  </md-content>
+</div>

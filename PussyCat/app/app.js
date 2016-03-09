@@ -13,8 +13,13 @@ app.config(['$routeProvider',
 		$routeProvider.
 			when('/',{
 				templateUrl: 'app/views/dashboard.html',
-		        controller: 'dashBoardController',
-		        controllerAs: 'dashboard'
+		    controller: 'dashBoardController',
+		    controllerAs: 'dashboard'
+			}).
+			when('/login', {
+				templateUrl: 'app/views/login.html',
+				controller: 'authController',
+				controllerAs: 'auth'
 			}).
 			when('/details/:id',{
 				templateUrl: 'app/views/detailsJob.html',

@@ -2,16 +2,24 @@
 
 app.controller('indexController', indexController);
 
-function indexController($scope) {
+indexController.$inject = ['$scope', '$location'];
+
+function indexController($scope, $location) {
 
 	var vm = $scope;
 
-	vm.sidebardVisible = true;
+	vm.sidebarVisible = true;
+	vm.shouldShowMenuAndFooter = true;
+
+	activate();
+
 	vm.menuShow = function () {
-		if (vm.sidebardVisible) {
-			vm.sidebardVisible = false;
-		} else {
-			vm.sidebardVisible = true;
-		}
+		vm.sidebarVisible = !vm.sidebarVisible;
 	}
+
+	function activate()
+	{
+		vm.sidebarVisible = vm.shouldShowMenuAndFooter = $location.path() !== '/login';
+	}
+
 }

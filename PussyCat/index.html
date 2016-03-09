@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> 
+<!--[if gt IE 8]><!-->
 <html class="no-js" lang="" ng-app="app">
 <!--<![endif]-->
     <head>
@@ -62,7 +62,7 @@
 
         <script src="app/controllers/assetController.js"></script>
         <script src="app/controllers/asset/assetCreateController.js"></script>
-
+        <script type="text/javascript" src="app/controllers/authController.js"></script>
 
         <script src="scripts/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
@@ -77,24 +77,24 @@
             </header>
         </div> -->
 
-        <div ng-controller="indexController" class="view-container" flex="100">
-            <div id="header" layout="row" flex="100">
+        <div ng-controller="indexController" class="view-container" flex="100" ng-cloak>
+            <div id="header" layout="row" flex="100" ng-show="shouldShowMenuAndFooter">
                 <md-button id="menu-button" ng-click="menuShow()" flex="5">
                     <i class="material-icons material-icon-style">menu</i>
                 </md-button>
             </div>
             <div flex="100" layout="row">
-                <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates" ng-show="sidebardVisible"></aside>
-                <div flex="100">                   
+                <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></aside>
+                <div flex="100">
                     <div ng-view class="view-frame"></div>
-                </div>            
+                </div>
             </div>
-            <footer flex="100" id="footer">
+            <footer flex="100" id="footer" ng-show="shouldShowMenuAndFooter">
                 <h3>footer</h3>
             </footer>
         </div> <!-- #main-container -->
-       
-        
+
+
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
