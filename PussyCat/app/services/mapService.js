@@ -7,7 +7,7 @@ app.factory('mapFactory', [function(){
 		yellowMarker : "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
 		greenMarker : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"		
 	};
-	
+
 	var createMap = function (lat, lon, mapElement, map, zoom, createMarkersCallback) {
 		var mapOptions = {
 			zoom: zoom,
@@ -19,36 +19,46 @@ app.factory('mapFactory', [function(){
 	};
 
 
-	var createMarker = function (lat, lng, title, description, markerUrl, map, markers) {
+	var createMarker = function (lat, lng, title, draggable, description, markerUrl, map, markers) {
 		var marker = new google.maps.Marker({
 			  	map: map,
 			  	position: new google.maps.LatLng(lat, lng),
-			  	title: title
+			  	title: title,
+		  	    draggable: draggable
 			});
 		marker.setIcon(markerUrl);
 		marker.content = '<div class="infoWindowContent">' + description + '</div>';
-		marker.addListener('click', toggleBounce);
+		return marker;
+	};
 
-		function toggleBounce() {
-		  if (marker.getAnimation() !== null) {
-		    marker.setAnimation(null);
-		  } else {
-		    marker.setAnimation(google.maps.Animation.BOUNCE);
-		  }
-		}
-
+	var markerClickEvent = function (map, marker) {
 		var infoWindow = new google.maps.InfoWindow();
-		google.maps.event.addListener(marker, 'click', function(){
+		marker.addListener('click', function(){
 		  	infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
 		  	infoWindow.open(map, marker);
 		});
-		markers.push(marker);
-		console.log(markers)
+	};
+
+	var getAddress = function (latLng, addressFoundCallback) {
+		var geocoder = new google.maps.Geocoder();
+		geocoder.geocode({
+				latLng: latLng
+			}, function(responses) {
+				if (responses && responses.length > 0) {
+					var address = responses[0].formatted_address;
+					addressFoundCallback(latLng, address);
+				} else {
+					addressFoundCallback(latLng, address);
+				}
+			}
+		); 
 	};
 
 	return {
 		createMap : createMap,
 		createMarker : createMarker,
-		markerIconUri : markerIconUri
+		markerIconUri : markerIconUri,
+		markerClickEvent : markerClickEvent,
+		getAddress : getAddress
 	};
-}])
+}]);

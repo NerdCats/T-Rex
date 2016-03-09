@@ -9,6 +9,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			user : job.Order.From.Address,
 			lat : job.Order.From.Point.coordinates[1],
 			lng : job.Order.From.Point.coordinates[0],
+			draggable : true,
 			title : "User's location",
 			desc : job.Order.From.Address,
 			markerUrl : mapFactory.markerIconUri.greenMarker				
@@ -122,24 +123,35 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 		var locations = populateLocation(job);
 		
 		var createMarkersCallback = function (map) {
-			mapFactory.createMarker(locations.userLocation.lat,
+			var userLocationMarker = mapFactory.createMarker(locations.userLocation.lat,
 									locations.userLocation.lng,
 									locations.userLocation.title,
+									locations.userLocation.draggable,
 									locations.userLocation.desc,
 									locations.userLocation.markerUrl,
-									map, markers);
-			mapFactory.createMarker(locations.userDestination.lat,
+									map);
+			mapFactory.markerClickEvent(map, userLocationMarker);
+			
+			var destinationMarker = mapFactory.createMarker(locations.userDestination.lat,
 									locations.userDestination.lng,
 									locations.userDestination.title,
+									locations.userDestination.draggable,
 									locations.userDestination.desc,
 									locations.userDestination.markerUrl,
-									map, markers);
-			mapFactory.createMarker(locations.assetLocation.lat,
+									map);
+			mapFactory.markerClickEvent(map, destinationMarker);
+			
+			var assetLocationMarker = mapFactory.createMarker(locations.assetLocation.lat,
 									locations.assetLocation.lng,
 									locations.assetLocation.title,
+									locations.assetLocation.draggable,
 									locations.assetLocation.desc,
 									locations.assetLocation.markerUrl,
-									map, markers);
+									map);
+			mapFactory.markerClickEvent(map, assetLocationMarker);
+			
+			
+
 		}
 
 		mapFactory.createMap(locations.userLocation.lat, 

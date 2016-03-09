@@ -1,7 +1,6 @@
-app.factory('orderFactory', ['$http', 'restCall', function($http, restCall){
+app.factory('orderFactory', ['$http', 'restCall', 'mapFactory', function($http, restCall, mapFactory){
 	
 	var hello = "hello tareq!";
-
 
 	var createNewOrder = function (newOrder) {
 
@@ -30,7 +29,9 @@ app.factory('orderFactory', ['$http', 'restCall', function($http, restCall){
 			mapTypeId : google.maps.MapTypeId.TERRAIN
 		};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-		var infoWindows = new google.maps.InfoWindow();
+		// var infoWindows = new google.maps.InfoWindow();
+
+		// var create
 	};
 
 	return {
