@@ -25,7 +25,7 @@ html, body{
     /*background-color: #B5B5B5;*/
     padding: 10px 10px;
 }
-#asset-registration-form{
+.generic-form{
     margin: auto;
     margin-top: 50px;
     margin-bottom: 100px;
@@ -111,7 +111,7 @@ a{
     color: #F44336;
 }
 
-#container{
+.container{
     height: 100%;
     /*background-color: #F5F5F5;*/
 }
