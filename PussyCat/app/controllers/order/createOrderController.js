@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', 'orderFactory',function($scope, orderFactory){
+app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',function($scope, orderFactory, mapFactory){
 	var vm = $scope;
 	vm.hello = orderFactory.hello;
 	vm.OrderType = ["RIDE", "FETCH"];
@@ -10,8 +10,6 @@ app.controller('createOrderController', ['$scope', 'orderFactory',function($scop
 	        Point: {
 	            type: "Point",
 	            coordinates: [
-	                90,
-	                21
 	            ]
 	        },
 	        Address: ""
@@ -20,8 +18,6 @@ app.controller('createOrderController', ['$scope', 'orderFactory',function($scop
 	        Point: {
 	            type: "Point",
 	            coordinates: [
-	                90,
-	                21
 	            ]
 	        },
 	    	Address: ""
@@ -38,4 +34,33 @@ app.controller('createOrderController', ['$scope', 'orderFactory',function($scop
 
 	vm.createNewOrder = orderFactory.createNewOrder;
 	orderFactory.populateMap();
+	var createMarkersCallback = function (map) {
+
+		var markerFromCallback = function (address, latLng) {
+			var lat = latLng.lat();
+			var lng = latLng.lng();
+
+			vm.newOrder.From.Point.coordinates.push(lat);
+			vm.newOrder.From.Point.coordinates.push(lng);
+			vm.newOrder.From.Address = address;
+			$scope.$apply();
+		};
+
+		var markerToCallback = function (address, latLng) {
+			var lat = latLng.lat();
+			var lng = latLng.lng();
+
+			vm.newOrder.To.Point.coordinates.push(lat);
+			vm.newOrder.To.Point.coordinates.push(lng);
+			vm.newOrder.To.Address = address;
+			$scope.$apply();
+		};
+
+		var fromMarker = mapFactory.createMarker(23.345345, 90.239434, "From", true, "User is here", mapFactory.markerIconUri.greenMarker, map);
+		mapFactory.markerDragEvent(fromMarker, markerFromCallback);
+		var toMarker = mapFactory.createMarker(23.345345, 90.239434, "To", true, "User's destination", mapFactory.markerIconUri.redMarker, map);
+		mapFactory.markerDragEvent(toMarker, markerToCallback);
+	};
+	
+	mapFactory.createMap(23.790888, 90.391430, 'map', map, 14, createMarkersCallback);
 }]);

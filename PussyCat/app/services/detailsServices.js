@@ -152,7 +152,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			
 			
 
-		}
+		};
 
 		mapFactory.createMap(locations.userLocation.lat, 
 							locations.userLocation.lng,

@@ -19,7 +19,7 @@ app.factory('mapFactory', [function(){
 	};
 
 
-	var createMarker = function (lat, lng, title, draggable, description, markerUrl, map, markers) {
+	var createMarker = function (lat, lng, title, draggable, description, markerUrl, map) {
 		var marker = new google.maps.Marker({
 			  	map: map,
 			  	position: new google.maps.LatLng(lat, lng),
@@ -38,6 +38,32 @@ app.factory('mapFactory', [function(){
 		  	infoWindow.open(map, marker);
 		});
 	};
+
+	var markerDragEvent = function (marker, populateVmCallback) {
+		var geocoder = new google.maps.Geocoder();
+		function geocodePosition(pos, populateVmCallback) {
+			geocoder.geocode({
+				latLng: pos
+			}, function(responses) {
+				if (responses && responses.length > 0) {
+					var address = responses[0].formatted_address;
+					console.log(address);
+					populateVmCallback(address, pos);
+				} else {
+					return "no address";
+				}
+			});
+		}
+		var markerDrag = function (marker) {
+			var lat = marker.latLng.lat();
+			var lon = marker.latLng.lng();
+			console.log(lat + " " + lon);
+			geocodePosition(marker.latLng, populateVmCallback);
+		};
+
+		google.maps.event.addListener(marker, 'dragend', markerDrag);
+
+	}
 
 	var getAddress = function (latLng, addressFoundCallback) {
 		var geocoder = new google.maps.Geocoder();
@@ -59,6 +85,7 @@ app.factory('mapFactory', [function(){
 		createMarker : createMarker,
 		markerIconUri : markerIconUri,
 		markerClickEvent : markerClickEvent,
+		markerDragEvent : markerDragEvent,
 		getAddress : getAddress
 	};
 }]);

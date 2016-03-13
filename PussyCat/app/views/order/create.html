@@ -30,7 +30,7 @@
         <md-content layout-gt-sm="row" layout-padding flex="100">
             <md-input-container flex="100">
                 <label>User's Location</label>
-                <input required name="FromAddress" ng-model="newOrder.From.Address">
+                <input required name="FromAddress" ng-model="newOrder.From.Address" value="{{newOrder.From.Address}}">
                 <div ng-messages="newOrderForm.FromAddress.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -41,7 +41,7 @@
         <md-content layout-gt-sm="row" layout-padding flex="100">
             <md-input-container flex="100">
                 <label>User's Destination</label>
-                <input required name="ToAddress" ng-model="newOrder.To.Address">
+                <input required name="ToAddress" ng-model="newOrder.To.Address"  value="{{newOrder.To.Address}}">
                 <div ng-messages="newOrderForm.ToAddress.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
