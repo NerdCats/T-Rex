@@ -40,6 +40,8 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 			var lat = latLng.lat();
 			var lng = latLng.lng();
 
+			vm.newOrder.From.Point.coordinates = [];
+
 			vm.newOrder.From.Point.coordinates.push(lng);
 			vm.newOrder.From.Point.coordinates.push(lat);
 			vm.newOrder.From.Address = address;
@@ -49,6 +51,8 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 		var markerToCallback = function (address, latLng) {
 			var lat = latLng.lat();
 			var lng = latLng.lng();
+
+			vm.newOrder.To.Point.coordinates = [];
 
 			vm.newOrder.To.Point.coordinates.push(lng);
 			vm.newOrder.To.Point.coordinates.push(lat);
