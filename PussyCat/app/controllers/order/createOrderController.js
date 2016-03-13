@@ -37,4 +37,5 @@ app.controller('createOrderController', ['$scope', 'orderFactory',function($scop
 	};
 
 	vm.createNewOrder = orderFactory.createNewOrder;
+	orderFactory.populateMap();
 }]);

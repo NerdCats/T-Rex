@@ -1,12 +1,12 @@
 <div class="title">
     <h1>Register New Asset</h1>
 </div>
-<article class="container" flex="100">
-    <form name="newOrderForm" class="generic-form" flex="60">
+<article class="container" layout="row" flex="100">
+    <form name="newOrderForm" class="generic-form" flex="30">
         <h1 class="md-headline">Please fill up the fields below to register an asset</h1>
 
         <md-content layout-gt-sm="row" layout-padding flex="100">
-        	<md-input-container flex="25">
+        	<md-input-container flex="100">
                 <label>Order Type</label>
                 <md-select ng-model="newOrder.Type">
                     <md-option ng-repeat="type in OrderType" value="{{type}}">
@@ -17,7 +17,7 @@
 		</md-content>
 
 		<md-content layout-gt-sm="row" layout-padding flex="100">
-            <md-input-container flex="30">
+            <md-input-container flex="100">
                 <label>Name</label>
                 <input required name="Name" ng-model="newOrder.Name">
                 <div ng-messages="newOrderForm.Name.$error">
@@ -28,7 +28,7 @@
         </md-content>
 
         <md-content layout-gt-sm="row" layout-padding flex="100">
-            <md-input-container flex="30">
+            <md-input-container flex="100">
                 <label>User's Location</label>
                 <input required name="FromAddress" ng-model="newOrder.From.Address">
                 <div ng-messages="newOrderForm.FromAddress.$error">
@@ -39,7 +39,7 @@
         </md-content>
 
         <md-content layout-gt-sm="row" layout-padding flex="100">
-            <md-input-container flex="30">
+            <md-input-container flex="100">
                 <label>User's Destination</label>
                 <input required name="ToAddress" ng-model="newOrder.To.Address">
                 <div ng-messages="newOrderForm.ToAddress.$error">
@@ -49,7 +49,8 @@
             </md-input-container>           
         </md-content>
         
-        <md-button class="md-raised" flex="20" ng-click="createNewOrder(newOrder)">REGISTER</md-button>
+        <md-button class="md-raised" flex="50" ng-click="createNewOrder(newOrder)">REGISTER</md-button>
     </form>
     
+	<div id="map" flex="50"></div>
 </article>
