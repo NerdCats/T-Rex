@@ -9,36 +9,34 @@ var app = angular.module('app', [
 ]);
 
 app.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-    when('/', {
-      templateUrl: 'app/views/dashboard.html',
-      controller: 'dashBoardController',
-      controllerAs: 'dashboard'
-    }).
-    when('/login', {
-      templateUrl: 'app/views/login.html',
-      controller: 'authController',
-      controllerAs: 'auth'
-    }).
-    when('/details/:id', {
-      templateUrl: 'app/views/detailsJob.html',
-      controller: 'detailsController',
-      controllerAs: 'details'
-    }).
-    when('/asset', {
-      templateUrl: 'app/views/assets.html',
-      controller: 'assetController',
-    }).
-    when('/asset/create', {
-      templateUrl: 'app/views/asset/create.html',
-      controller: 'createAssetController',
-      controllerAs: 'createAsset'
-    })
-    $routeProvider.otherwise({
-      redirectTo: "/"
-    });
-  }
+	function($routeProvider) {
+		$routeProvider.
+			when('/',{
+				templateUrl: 'app/views/dashboard.html',
+		        controller: 'dashBoardController',
+		        controllerAs: 'dashboard'
+			}).
+			when('/order/create',{
+				templateUrl: 'app/views/order/create.html',
+				controller: 'createOrderController',
+				controllerAs: 'createOrder'
+			}).
+			when('/details/:id',{
+				templateUrl: 'app/views/detailsJob.html',
+				controller: 'detailsController',
+				controllerAs: 'details'
+			}).
+			when('/asset', {
+				templateUrl: 'app/views/assets.html',
+				controller: 'assetController',
+			}).
+			when('/asset/create',{
+				templateUrl: 'app/views/asset/create.html',
+				controller: 'createAssetController',
+				controllerAs: 'createAsset'
+			})
+			$routeProvider.otherwise({ redirectTo: "/"});
+	}
 ]);
 
 app.config(function($mdThemingProvider) {

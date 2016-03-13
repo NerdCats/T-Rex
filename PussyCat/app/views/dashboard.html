@@ -4,6 +4,14 @@
 <article id="container">
     <div id="new-orders" class="order-table-div">
         <h1>Newly arrived orders</h1>
+        <div>
+            <md-button class="md-primary" id="add-more">
+                <a href="#/order/create" >
+                    <p>Create new Order</p>
+                </a>
+            </md-button> 
+            
+        </div>
         <table class="rg-table zebra">
             <thead>
                 <tr>
@@ -32,7 +40,7 @@
         </table>
         <div style="float:right">
             <ul layout="row">
-                <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, page,'ENQUEUED')">{{page+1}}</li>                                    
+                <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>                                    
             </ul>
         </div>
      </div>		 
@@ -68,7 +76,7 @@
         </table>
         <div style="float:right">
             <ul layout="row">
-                <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(page,'ENQUEUED')">{{page+1}}</li>
+                <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
             </ul>
         </div>
     </div>

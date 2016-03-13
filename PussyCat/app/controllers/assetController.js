@@ -9,12 +9,7 @@ function assetController($scope, $http, $window, menus, templates, assetsFactory
 	vm.templates = templates;
 	vm.Assets = {Collection : [], pages: []};
 	  
-	var url = "/json/assetlist.json";
-	$http.get(url).then(function(response){
-		var assets = response.data;	
-		console.log(assets);		
-		vm.Assets = assetsFactory.populateAssets(assets, url)
-	});
+	assetsFactory.populateAssets(vm.Assets, "", true, 0, 25)
 	
 	vm.Register = function (ev) {
 		$window.location.href = 'asset/create.html';

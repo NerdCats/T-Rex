@@ -24,7 +24,7 @@ app.factory('timeAgo', function () {
 	};
 });
 
-app.factory('patchUpdate', function($http){
+app.factory('patchUpdate', function($http, restCall){
 	return function (value, path, op, jobId, taskId, successCallback, errorCallback) {
 		var url = 'http://localhost:23873/api/Job/' + jobId + "/" + taskId;
 		var data = [
@@ -35,8 +35,15 @@ app.factory('patchUpdate', function($http){
 			    }
 			];
 		console.log(data);
+		restCall('PATCH', url, data, successCallback, errorCallback);
+	};
+});
+
+
+app.factory('restCall', ['$http', function($http){
+	return function (method, url, data, successCallback, errorCallback){
 		$http({
-  			method: 'PATCH',
+  			method: method,
   			url : url,
   			data: data,
   			header: {
@@ -48,13 +55,7 @@ app.factory('patchUpdate', function($http){
   			errorCallback(response);  		
   		});
 	};
-});
-
-
-
-
-
-
+}]);
 
 
 angular.module('app').factory('menus', function() {

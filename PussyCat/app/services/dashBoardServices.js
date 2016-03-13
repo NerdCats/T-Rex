@@ -1,9 +1,22 @@
-angular.module('app').factory('populateOrdersTable', function ($http, timeAgo) {
-	return function(url, Orders, state){
+app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
+
+	var urlMaker = function (state, envelope, page, pageSize) {
+		var host = "http://localhost:23873/api/Job/odata?";
+		var odataQUery = "$filter=State eq " + "'" + state + "'";
+		var envelope = envelope;
+		var page = page;
+
+		var url = host + odataQUery + "&envelope=" + envelope + "&page=" + page;
+		console.log(url);
+		return url;
+	};
+	
+	var populateOrdersTable = function(Orders, state, envelope, page, pageSize){
+
+		var url = urlMaker(state, envelope, page, pageSize);
 		$http.get(url).then(function(response){			
 			var orders = response.data;
 			angular.forEach(orders.data, function(value, key){
-				console.log(value._id);
 				try{
 					var newOrder = {
 						Id : value._id,
@@ -33,10 +46,8 @@ angular.module('app').factory('populateOrdersTable', function ($http, timeAgo) {
 							console.log("navigate to details : " + value._id);
 						}
 					};
-				}
-
-				if (value.State == state)
-					Orders.orders.push(newOrder);
+				}				
+				Orders.orders.push(newOrder);
 			});
 			console.log("Order : ");
 			console.log(Orders);
@@ -45,15 +56,17 @@ angular.module('app').factory('populateOrdersTable', function ($http, timeAgo) {
 			};
  		});
 	};
-});
 
-angular.module('app').factory('loadNextPage', function(populateOrdersTable) {
-	return function(Orders, page,state){
-		var host = "http://localhost:23873/api/Job?";
-		var parameter = "envelope=true&page="+page;
-		var url = host + parameter;
+	var loadNextPage = function(Orders, state, envelope, page, pageSize){
+		
+		var url = urlMaker(state, envelope, page, pageSize);
 		Orders.orders= [];
 		Orders.pages = [];
-		populateOrdersTable(url, Orders, state);
+		populateOrdersTable(Orders, state, envelope, page, pageSize);
 	};
-});
+
+	return {
+		populateOrdersTable : populateOrdersTable,
+		loadNextPage : loadNextPage
+	};
+}]);

@@ -1,9 +1,7 @@
-app.controller('createAssetController', function ($scope,menus,templates,assetsFactory) {
+app.controller('createAssetController', function ($scope,assetsFactory) {
 
     var vm = $scope;
-	vm.menus = menus;
-	vm.templates = templates;
-	
+
 	vm.gender = ["MALE", "FEMALE"];
 	vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER"];
 
