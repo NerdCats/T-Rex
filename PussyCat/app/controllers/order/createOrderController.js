@@ -3,7 +3,7 @@
 app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',function($scope, orderFactory, mapFactory){
 	var vm = $scope;
 	vm.hello = orderFactory.hello;
-	vm.OrderType = ["RIDE", "FETCH"];
+	vm.OrderType = ["Ride", "Fetch"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	vm.newOrder = {
 	    From: {
@@ -40,8 +40,8 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 			var lat = latLng.lat();
 			var lng = latLng.lng();
 
-			vm.newOrder.From.Point.coordinates.push(lat);
 			vm.newOrder.From.Point.coordinates.push(lng);
+			vm.newOrder.From.Point.coordinates.push(lat);
 			vm.newOrder.From.Address = address;
 			$scope.$apply();
 		};
@@ -50,17 +50,17 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 			var lat = latLng.lat();
 			var lng = latLng.lng();
 
-			vm.newOrder.To.Point.coordinates.push(lat);
 			vm.newOrder.To.Point.coordinates.push(lng);
+			vm.newOrder.To.Point.coordinates.push(lat);
 			vm.newOrder.To.Address = address;
 			$scope.$apply();
 		};
 
-		var fromMarker = mapFactory.createMarker(23.345345, 90.239434, "From", true, "User is here", mapFactory.markerIconUri.greenMarker, map);
+		var fromMarker = mapFactory.createMarker(23.790888, 90.391430, "From", true, "User is here", mapFactory.markerIconUri.greenMarker, map);
 		mapFactory.markerDragEvent(fromMarker, markerFromCallback);
-		var toMarker = mapFactory.createMarker(23.345345, 90.239434, "To", true, "User's destination", mapFactory.markerIconUri.redMarker, map);
+		var toMarker = mapFactory.createMarker(23.790888, 90.391430, "To", true, "User's destination", mapFactory.markerIconUri.redMarker, map);
 		mapFactory.markerDragEvent(toMarker, markerToCallback);
 	};
 	
-	mapFactory.createMap(23.790888, 90.391430, 'map', map, 14, createMarkersCallback);
+	mapFactory.createMap(23.790888, 90.391430, 'map', vm.map, 14, createMarkersCallback);
 }]);
