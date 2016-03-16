@@ -19,7 +19,7 @@
 </div>
 <article id="container" class="horizontal">
      
-    <div id="order-details" flex="25">
+    <div id="order-details" flex="30">
     	<md-card>
             <md-card-title>
                 <md-card-title-text>
@@ -27,32 +27,34 @@
                 </md-card-title-text>
             </md-card-title>
             <md-card-content>                                                             
-<!--                 <div layout="row">
+                <!--
+                <div layout="row">
                     <div flex="25"><b>Order ID</b></div>
                     <div> {{detailsTable.orderId}}</div>
-                </div> -->
+                </div> 
+                -->
                 <div layout="row">
-                    <div flex="30"><b>User</b></div>
-                    <div> {{detailsTable.user}}</div>
+                    <div flex="40"><b>User</b></div>
+                    <div flex="60"> {{detailsTable.user}}</div>
                 </div>
                 <div layout="row">
-                    <div flex="30"><b>Phone</b></div>
-                    <div> {{detailsTable.phoneNumber}}</div>
+                    <div flex="40"><b>Phone</b></div>
+                    <div flex="60"> {{detailsTable.phoneNumber}}</div>
                 </div>
                 <div layout="row">
-                    <div flex="30"><b>Order</b></div>
-                    <div> {{detailsTable.orderType}}</div>
+                    <div flex="40"><b>Order</b></div>
+                    <div flex="60"> {{detailsTable.orderType}}</div>
                 </div>
                 <div layout="row">
-                    <div flex="30"><b>Preference  </b></div>
-                    <!-- <div><ul> -->
+                    <div flex="40"><b>Preference  </b></div>
+                    <!-- <div> -->
                        <!--  <li ng-repeat="vehicle in detailsTable.preferences">{{vehicle}}</li> -->
                     <!-- </ul></div> -->
-                    <div> {{detailsTable.preferences}} </div>
+                    <div flex="60"> {{detailsTable.preferences}} </div>
                 </div>
                 <div layout="row">
-                    <div flex="30"><b>ETA</b></div>
-                    <div> {{detailsTable.eta}}</div>
+                    <div flex="40"><b>ETA</b></div>
+                    <div flex="60"> {{detailsTable.eta}}</div>
                 </div>                  
             </md-card-content>
         </md-card>
@@ -100,7 +102,7 @@
         </md-card>	                                
     </div>
 
-    <div id="from-to"  flex="22">                             
+    <div id="from-to" flex="21">                             
         <md-list>
             <md-list-item  ng-repeat="(key, value) in locations track by $index">
                 <md-card flex="100">
@@ -108,7 +110,7 @@
                         <md-button ng-click="value.bounce()">
                             <md-card-title>
                                 <md-card-title-text>
-                                    <span class="md-headline">{{value.title}}</span>
+                                    <span class="md-title">{{value.title}}</span>
                                 </md-card-title-text>                                                  
                             </md-card-title>
                             <md-card-content>

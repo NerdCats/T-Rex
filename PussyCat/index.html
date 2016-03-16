@@ -86,9 +86,13 @@
                 <md-button id="menu-button" ng-click="menuShow()" flex="5">
                     <i class="material-icons material-icon-style">menu</i>
                 </md-button>
+                <div flex="90"></div>
+                <md-button id="menu-button" ng-click="logout()" flex="5">
+                    <i class="material-icons material-icon-style">exit_to_app</i>
+                </md-button>
             </div>
             <div flex="100" layout="row">
-                <aside ng-controller="sidebarController" id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></aside>
+                <aside id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></aside>
                 <div flex="100">
                     <div ng-view class="view-frame"></div>
                 </div>

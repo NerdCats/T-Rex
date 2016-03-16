@@ -5,10 +5,10 @@
     .module('app')
     .factory('authService', authService);
 
-  authService.$inject = ['$http', '$q', 'localStorageService', 'ngAuthSettings'];
+  authService.$inject = ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$window'];
 
   /* @ngInject */
-  function authService($http, $q, localStorageService, ngAuthSettings) {
+  function authService($http, $q, localStorageService, ngAuthSettings, $window ) {
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var service = {};
 
@@ -81,7 +81,7 @@
       _authentication.isAuth = false;
       _authentication.userName = "";
       _authentication.useRefreshTokens = false;
-
+      console.log(_authentication);
     };
 
     var _populateAuthData = function() {
@@ -138,12 +138,22 @@
       return deferred.promise;
     };
 
+    var _fillAuthData = function () {
+ 
+        var authData = localStorageService.get('authorizationData');
+        console.log(authData);
+        if (!authData)
+        {
+            $window.location.href = '#/login'
+        } 
+    }
     service.register = _register;
     service.login = _login;
     service.logOut = _logOut;
     service.populateAuthData = _populateAuthData;
     service.authentication = _authentication;
     service.refreshToken = _refreshToken;
+    service.fillAuthData = _fillAuthData
 
     return service;
   }

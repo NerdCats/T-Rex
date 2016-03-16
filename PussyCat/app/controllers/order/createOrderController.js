@@ -34,7 +34,7 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 
 	vm.createNewOrder = orderFactory.createNewOrder;
 	orderFactory.populateMap();
-	var createMarkersCallback = function (map) {
+	var createMarkersCallback = function (map) { // need a map parameter to reuse mapService
 
 		var markerFromCallback = function (address, latLng) {
 			var lat = latLng.lat();
@@ -60,9 +60,9 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 			$scope.$apply();
 		};
 
-		var fromMarker = mapFactory.createMarker(23.790888, 90.391430, "From", true, "User is here", mapFactory.markerIconUri.greenMarker, map);
+		var fromMarker = mapFactory.createMarker(23.790888, 90.391430, "From", true, "User is here", mapFactory.markerIconUri.start, map);
 		mapFactory.markerDragEvent(fromMarker, markerFromCallback);
-		var toMarker = mapFactory.createMarker(23.790888, 90.391430, "To", true, "User's destination", mapFactory.markerIconUri.redMarker, map);
+		var toMarker = mapFactory.createMarker(23.790888, 90.391430, "To", true, "User's destination", mapFactory.markerIconUri.destination, map);
 		mapFactory.markerDragEvent(toMarker, markerToCallback);
 	};
 	

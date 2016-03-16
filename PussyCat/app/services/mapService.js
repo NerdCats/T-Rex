@@ -5,7 +5,9 @@ app.factory('mapFactory', [function(){
 		redMarker : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
 		purpleMarker : "http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
 		yellowMarker : "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-		greenMarker : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"		
+		greenMarker : "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+		destination : "/content/img/ic_destination1.png",
+		start : "/content/img/ic_start1.png"	
 	};
 
 	var createMap = function (lat, lon, mapElement, map, zoom, createMarkersCallback) {

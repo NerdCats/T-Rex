@@ -6,8 +6,7 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
 		var envelope = envelope;
 		var page = page;
 
-		var url = host + odataQUery + "&envelope=" + envelope + "&page=" + page;
-		console.log(url);
+		var url = host + odataQUery + "&envelope=" + envelope + "&page=" + page;		
 		return url;
 	};
 	
@@ -28,8 +27,7 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$location.path('/details/'+ value._id);
-							console.log("navigate to details : " + value._id);
+							$location.path('/details/'+ value._id);							
 						}
 					};
 				} catch (e){
@@ -42,15 +40,12 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$location.path('/details/'+ value._id);
-							console.log("navigate to details : " + value._id);
+							$location.path('/details/'+ value._id);							
 						}
 					};
 				}				
 				Orders.orders.push(newOrder);
-			});
-			console.log("Order : ");
-			console.log(Orders);
+			});						
 			for (var i = 0; i < orders.pagination.TotalPages ; i++) {
 				Orders.pages.push(i);
 			};

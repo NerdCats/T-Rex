@@ -2,14 +2,26 @@
 
 app.controller('indexController', indexController);
 
-indexController.$inject = ['$scope', '$location'];
+indexController.$inject = ['$scope', '$location', 'menus', 'templates', '$window', 'authService'];
 
-function indexController($scope, $location) {
+function indexController($scope, $location, menus, templates, $window, authService) {
+	console.log($window.location.hash);
+	console.log(authService);
 
 	var vm = $scope;
 
 	vm.sidebarVisible = true;
 	vm.shouldShowMenuAndFooter = true;
+
+	vm.menus = menus;
+	vm.templates = templates.sidebar;
+
+	vm.logout = function () {
+		console.log("logout");
+		authService.logOut();
+		$window.location.reload();
+	};
+
 
 	activate();
 
@@ -19,7 +31,10 @@ function indexController($scope, $location) {
 
 	function activate()
 	{
-		vm.sidebarVisible = vm.shouldShowMenuAndFooter = $location.path() !== '/login';
+		if ($window.location.hash == '#/login'){
+			vm.sidebarVisible = false;
+			vm.shouldShowMenuAndFooter = false;			
+		}
 	}
 
 }

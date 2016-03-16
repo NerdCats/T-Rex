@@ -11,6 +11,11 @@ var app = angular.module('app', [
 app.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
+      when('/login',{
+        templateUrl: 'app/views/login.html',
+        controller: 'authController',
+        controllerAs: 'auth'
+      }).
 			when('/',{
 				templateUrl: 'app/views/dashboard.html',
 		        controller: 'dashBoardController',
@@ -46,10 +51,14 @@ app.config(function($mdThemingProvider) {
     .dark();
 });
 
-angular.module('app').constant('ngAuthSettings', {
+app.constant('ngAuthSettings', {
   apiServiceBaseUri: "http://localhost:23873/",
   clientId: 'GoFetchDevWebApp'
 });
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
 
 app.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptorService');
