@@ -56,6 +56,20 @@ app.constant('ngAuthSettings', {
   clientId: 'GoFetchDevWebApp'
 });
 
+app.constant('menus', [
+	{ Title : "Dashboard", Href: '#/'},
+	{ Title : "Orders", Href: '#/'},
+	{ Title : "Users", Href: '#/'},
+	{ Title : "Assets", Href: '#/asset'},
+	{ Title : "Agents", Href: '#/'},
+	{ Title : "Administration", Href: '#/'}
+]);
+
+app.constant('templates', {
+	sidebar: 'app/views/sidebar.html',
+	availableAsset: 'app/views/detailsJob/availableAsset.html'
+});
+
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);

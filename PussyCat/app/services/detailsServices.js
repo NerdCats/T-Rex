@@ -1,3 +1,4 @@
+
 'use strict';
 
 angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory','$http','$mdMedia','$mdDialog','templates','patchUpdate', jobDetailsFactory]);
@@ -45,7 +46,8 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			console.log("success : ");
   			console.log(response);
   			alert("success");
-  			location.reload();
+  			// location.reload();
+  			console.log(location)
   			return true;
 		};
 

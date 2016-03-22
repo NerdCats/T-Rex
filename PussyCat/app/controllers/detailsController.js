@@ -3,7 +3,7 @@
 app.controller('detailsController', detailsController);
 
 function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams, 
-							menus, templates,  markerIconUri, 
+							menus, templates, 
 							timeAgo,jobDetailsFactory) {
 	
 	var id = $routeParams.id;	

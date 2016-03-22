@@ -19,17 +19,21 @@ function authController($scope, authService, $location, $window) {
   activate();
 
   function activate() {
-
+	if ($window.location.hash == '#/login'){
+ 			vm.sidebarVisible = false;
+ 			vm.shouldShowMenuAndFooter = false;			
+ 		}
   }
 
   function login() {
-    authService.login(vm.loginData).then(function(response) {
-        console.log(response);  
-        $window.location.reload();
-      },
-      function(err) {
-        console.log(err);
-        $scope.message = err.error_description;
-      });
+	authService.login(vm.loginData).then(function(response) {
+		console.log("log in success");
+		console.log(response);
+		$window.location.reload();
+	  },
+	  function(err) {
+		console.log(err);
+		$scope.message = err.error_description;
+	  });
   }
 }
