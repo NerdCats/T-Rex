@@ -66,6 +66,7 @@
           _authentication.useRefreshTokens = loginData.useRefreshTokens;
 
           deferred.resolve(response);
+          $window.location.href = '#/'
 
         }).error(function(err, status) {
           _logOut();
