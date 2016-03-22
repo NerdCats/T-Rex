@@ -11,11 +11,11 @@ var app = angular.module('app', [
 app.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
-      when('/login',{
-        templateUrl: 'app/views/login.html',
-        controller: 'authController',
-        controllerAs: 'auth'
-      }).
+			when('/login',{
+				templateUrl: 'app/views/login.html',
+				controller: 'authController',
+				controllerAs: 'auth'
+			}).
 			when('/',{
 				templateUrl: 'app/views/dashboard.html',
 		        controller: 'dashBoardController',
@@ -39,6 +39,11 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/asset/create.html',
 				controller: 'createAssetController',
 				controllerAs: 'createAsset'
+			}).
+			when('/supportedOrder',{
+				templateUrl: 'app/views/supportedOrders.html',
+				controller: 'supportedOrderController',
+				controllerAs: 'supportedOrders'
 			})
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}
