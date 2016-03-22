@@ -33,7 +33,7 @@ function indexController($scope, $location, menus, templates, $window, authServi
 	{
 		if ($window.location.hash == '#/login'){
 			vm.sidebarVisible = false;
-			vm.shouldShowMenuAndFooter = false;			
+			vm.shouldShowMenuAndFooter = false;
 		}
 	}
 

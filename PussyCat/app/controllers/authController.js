@@ -24,7 +24,8 @@ function authController($scope, authService, $location, $window) {
 
   function login() {
     authService.login(vm.loginData).then(function(response) {
-        $window.location.href = '/';
+        console.log(response);  
+        $window.location.reload();
       },
       function(err) {
         console.log(err);

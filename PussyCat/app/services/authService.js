@@ -65,8 +65,7 @@
           _authentication.userName = loginData.userName;
           _authentication.useRefreshTokens = loginData.useRefreshTokens;
 
-          deferred.resolve(response);
-          $window.location.href = '#/'
+          deferred.resolve(response);         
 
         }).error(function(err, status) {
           _logOut();
@@ -145,8 +144,10 @@
         console.log(authData);
         if (!authData)
         {
-            $window.location.href = '#/login'
-        } 
+            $window.location.href = '#/login';
+        } else {
+            $window.location.href = '#/';
+        }
     }
     service.register = _register;
     service.login = _login;
