@@ -15,7 +15,8 @@
     "angular-messages": "^1.4.9",
     "angular-route": "^1.5.0"
   },
-  "devDependencies": {    
+  "devDependencies": {
+    "angular-material-data-table": "^0.9.14",
     "http-server": "^0.9.0",
     "jasmine": "^2.4.1",
     "karma": "^0.13.21",

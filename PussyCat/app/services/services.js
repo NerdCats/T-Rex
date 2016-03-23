@@ -3,12 +3,14 @@
 app.factory('listToString', function () {
 	return function (list) {
 		var string = "";
-		var lastItemIndex = list.length -1;
-		for (var i = 0 ; i < list.length; i++) {
-			string += list[i]			
-			if (i!=lastItemIndex) {
-				string += ", ";
-			}
+		if (list!=null) {
+			var lastItemIndex = list.length -1;
+			for (var i = 0 ; i < list.length; i++) {
+				string += list[i]			
+				if (i!=lastItemIndex) {
+					string += ", ";
+				}
+			}			
 		}
 		return string;
 	};

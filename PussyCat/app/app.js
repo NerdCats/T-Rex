@@ -5,7 +5,8 @@ var app = angular.module('app', [
   'ngMaterial',
   'ngMessages',
   'ngRoute',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'md.data.table'
 ]);
 
 app.config(['$routeProvider',
@@ -64,6 +65,7 @@ app.constant('ngAuthSettings', {
 app.constant('menus', [
 	{ Title : "Dashboard", Href: '#/'},
 	{ Title : "Orders", Href: '#/'},
+	{ Title : "Supported Orders", Href: '#/supportedOrder'},
 	{ Title : "Users", Href: '#/'},
 	{ Title : "Assets", Href: '#/asset'},
 	{ Title : "Agents", Href: '#/'},

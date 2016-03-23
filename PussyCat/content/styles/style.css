@@ -45,6 +45,12 @@ html, body{
     float: right;
     margin-bottom: 20px;
 }
+#add-more-supported-order{
+    background-color: #F5F5F5;
+    width: 20%;
+    float: right;
+    margin-bottom: 20px;
+}
 h1{
     margin: 0px;
     font-size: 40px;

@@ -1,1 +1,72 @@
-<h1>{{hello}}</h1>
+<!-- <div class="title">
+	<h1>Supported Orders</h1>
+</div>
+<article id="container">
+    <div id="new-orders" class="order-table-div">
+        
+        <div>
+            <md-button id="add-more-supported-order">
+                <a href="#/asset/create" >
+                    <p>Add New Supported Order</p>
+                </a>
+            </md-button> 
+            
+        </div>
+        <table class="rg-table zebra">
+            <thead>
+                <tr>
+                    <th class="number rg-th">S/L no</th>
+                    <th class="text rg-th">Action Name</th>
+                    <th class="text rg-th">Order Name</th>
+                    <th class="text rg-th">Image</th>
+                    <th class="text rg-th">Order Code</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="asset in Assets.Collection track by $index" ng-click="Details(asset._id)">
+                    <td class="number">{{$index + 1}}</td>
+                    <td class="text">{{asset.Username}}</td>
+                    <td class="text">{{asset.Type}}</td>
+                    <td class="text">{{asset.Phone}}</td>
+                    <td class="text">{{asset.AreaOfOperation}}</td>
+                    <td class="text">{{asset.CurrentLocation}}</td>
+                    <td class="text">{{asset.IsAvailable}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="float:right;margin-bottom: 100px;">
+            <ul layout="row">
+                <li ng-repeat="page in Assets.pages" ng-click="loadNextPage(page)">{{page+1}}</li>                                    
+            </ul>
+        </div>
+     </div>		 
+</article>				
+ -->
+<div>
+	<md-toolbar class="md-table-toolbar md-default">
+		<div class="md-toolbar-tools">
+			<span>Supported Order</span>
+		</div>
+	</md-toolbar>
+
+	<md-table-container>
+		<table md-table md-row-select ng-model="supportedOrder">
+			<thead md-head md-on-recorder="onReorder">
+				<tr md-row>
+					<th md-column><span>Order Name</span></th>
+					<th md-column><span>Order Code</span></th>
+					<th md-column>Action Name</th>
+					<!-- <th md-column>Image</th> -->
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row ng-repeat="order in supportedOrder" md-select>
+					<td md-cell>{{order.OrderName}}</td>
+					<td md-cell>{{order.OrderCode}}</td>
+					<td md-cell>{{order.ActionName}}</td>
+					<!-- <td md-cell><img src="{{order.ImageUrl}}" height="100" width="100"/></td> -->
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+</div>
