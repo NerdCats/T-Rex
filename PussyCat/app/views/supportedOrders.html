@@ -42,7 +42,7 @@
      </div>		 
 </article>				
  -->
-<div>
+<div class="partial">
 	<md-toolbar class="md-table-toolbar md-default">
 		<div class="md-toolbar-tools">
 			<span>Supported Order</span>
@@ -50,7 +50,7 @@
 	</md-toolbar>
 
 	<md-table-container>
-		<table md-table md-row-select ng-model="supportedOrder">
+		<table md-table md-row-select ng-model="supportedOrder" id="supportedorder-table">
 			<thead md-head md-on-recorder="onReorder">
 				<tr md-row>
 					<th md-column><span>Order Name</span></th>
@@ -65,13 +65,13 @@
 					<td md-cell>{{order.OrderCode}}</td>
 					<td md-cell>{{order.ActionName}}</td>
 					<td md-cell>
-						<md-button class="md-raised">Details</md-button>
+						<md-button class="md-raised td-button">Details</md-button>
 					</td>
 					<td md-cell>
-						<md-button class="md-raised">Update</md-button>
+						<md-button class="md-raised td-button">Update</md-button>
 					</td>
 					<td md-cell>
-						<md-button class="md-raised md-warn">Delete</md-button>
+						<md-button class="md-raised md-warn td-button">Delete</md-button>
 					</td>
 					<!-- <td md-cell><img src="{{order.ImageUrl}}" height="100" width="100"/></td> -->
 				</tr>

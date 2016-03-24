@@ -86,8 +86,8 @@
             </header>
         </div> -->
 
-        <div ng-controller="indexController" class="view-container" flex="100" ng-cloak>
-            <div id="header" layout="row" flex="100" ng-show="shouldShowMenuAndFooter">
+        <div ng-controller="indexController" id="wrapper" class="view-container" layout="column" layout-fill>
+            <div id="header" layout="row" ng-show="shouldShowMenuAndFooter">
                 <md-button id="menu-button" ng-click="menuShow()" flex="5">
                     <i class="material-icons material-icon-style">menu</i>
                 </md-button>
@@ -96,15 +96,20 @@
                     <i class="material-icons material-icon-style">exit_to_app</i>
                 </md-button>
             </div>
-            <div flex="100" layout="row">
-                <aside id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></aside>
-                <div flex="100">
+            <div layout="row" flex>
+                <div id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></div>
+                <div flex="90">
                     <div ng-view class="view-frame"></div>
                 </div>
             </div>
-            <footer flex="100" id="footer" ng-show="shouldShowMenuAndFooter">
+            <div id="footer" ng-show="shouldShowMenuAndFooter">
                 <h3>footer</h3>
-            </footer>
+            </div>
+        <!--     <footer>
+                <div layout="row" layout-align="center center">
+                    <h2>My Awesome Footer</h2>
+                </div>
+            </footer> -->
         </div> <!-- #main-container -->
 
 
