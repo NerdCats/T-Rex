@@ -6,7 +6,8 @@ var app = angular.module('app', [
   'ngMessages',
   'ngRoute',
   'LocalStorageModule',
-  'md.data.table'
+  'md.data.table',
+  'angularFileUpload'
 ]);
 
 app.config(['$routeProvider',
@@ -45,7 +46,18 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/supportedOrders.html',
 				controller: 'supportedOrderController',
 				controllerAs: 'supportedOrders'
-			})
+			}).
+			when('/supportedOrderCreate',{
+				templateUrl: 'app/views/supportedOrder/supportedOrderCreate.html',
+				controller: 'supportedOrderController',
+				controllerAs: 'supportedOrders'
+			}).
+			when('/supportedOrderUpdate',{
+				templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
+				controller: 'supportedOrderUpdateController',
+				controllerAs: 'supportedOrders'
+			});
+
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}
 ]);

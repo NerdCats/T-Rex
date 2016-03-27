@@ -1,47 +1,3 @@
-<!-- <div class="title">
-	<h1>Supported Orders</h1>
-</div>
-<article id="container">
-    <div id="new-orders" class="order-table-div">
-        
-        <div>
-            <md-button id="add-more-supported-order">
-                <a href="#/asset/create" >
-                    <p>Add New Supported Order</p>
-                </a>
-            </md-button> 
-            
-        </div>
-        <table class="rg-table zebra">
-            <thead>
-                <tr>
-                    <th class="number rg-th">S/L no</th>
-                    <th class="text rg-th">Action Name</th>
-                    <th class="text rg-th">Order Name</th>
-                    <th class="text rg-th">Image</th>
-                    <th class="text rg-th">Order Code</th>                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="asset in Assets.Collection track by $index" ng-click="Details(asset._id)">
-                    <td class="number">{{$index + 1}}</td>
-                    <td class="text">{{asset.Username}}</td>
-                    <td class="text">{{asset.Type}}</td>
-                    <td class="text">{{asset.Phone}}</td>
-                    <td class="text">{{asset.AreaOfOperation}}</td>
-                    <td class="text">{{asset.CurrentLocation}}</td>
-                    <td class="text">{{asset.IsAvailable}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div style="float:right;margin-bottom: 100px;">
-            <ul layout="row">
-                <li ng-repeat="page in Assets.pages" ng-click="loadNextPage(page)">{{page+1}}</li>                                    
-            </ul>
-        </div>
-     </div>		 
-</article>				
- -->
 <div class="partial">
 	<md-toolbar class="md-table-toolbar md-default">
 		<div class="md-toolbar-tools">
@@ -65,10 +21,9 @@
 					<td md-cell>{{order.OrderCode}}</td>
 					<td md-cell>{{order.ActionName}}</td>
 					<td md-cell>
-						<md-button class="md-raised td-button">Details</md-button>
-					</td>
-					<td md-cell>
-						<md-button class="md-raised td-button">Update</md-button>
+						<md-button class="md-raised td-button">
+							<a href="#/supportedOrderUpdate">Update</a>
+						</md-button>
 					</td>
 					<td md-cell>
 						<md-button class="md-raised md-warn td-button">Delete</md-button>

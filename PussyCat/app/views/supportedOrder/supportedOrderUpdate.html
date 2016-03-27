@@ -1,0 +1,65 @@
+<div class="partial">
+	<md-toolbar class="md-table-toolbar md-default">
+		<!-- <div class="md-toolbar-tools">
+			<span>Update the fields of Supported Order</span>
+		</div> -->
+	</md-toolbar>
+</div>
+<div>
+	<!--   
+	"ActionName": "Get",
+    "OrderName": "Food",
+    "ImageUrl": "http://s23.postimg.org/vjk1sdp5n/background_food_1.jpg",
+    "OrderCode": "FOOD" 
+    -->
+
+</div>
+<article class="container">		
+	<form name="supportedOrderUpdate" class="generic-form" flex="60">
+		<md-content>
+			<div class="md-toolbar-tools">
+				<span>Update the fields of Supported Order</span>
+			</div>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Action Name</label>
+				<input required name="ActionName" ng-model="supportedOrder.ActionName">
+				<div ng-messages="supportedOrderUpdate.ActionName.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Order Name</label>
+				<input required name="OrderName" ng-model="supportedOrder.OrderName">
+				<div ng-messages="supportedOrderUpdate.OrderName.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Order Code</label>
+				<input required name="OrderCode" ng-model="supportedOrder.OrderCode">
+				<div ng-messages="supportedOrderUpdate.OrderCode.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Order Code</label>
+				<input required name="OrderCode" ng-model="supportedOrder.OrderCode">
+				<div ng-messages="supportedOrderUpdate.OrderCode.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+	  	<div>
+	        <label>Update Image</label> <br>
+	        <input id="supported-order-image-upload" nv-file-select uploader="uploader" ng-model="supportedOrder.imageUrl" onselect="imageUpload()" type="file">
+      	</div>
+	</form>
+</article>

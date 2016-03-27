@@ -1,6 +1,6 @@
 'use strict';
-app.controller('supportedOrderController', ['$scope', 'supportedOrder', 'restCall', supportedOrderController]);
-function supportedOrderController($scope, supportedOrder, restCall){
+app.controller('supportedOrderController', ['$scope', 'supportedOrder', 'restCall', '$window', supportedOrderController]);
+function supportedOrderController($scope, supportedOrder, restCall, $window){
 	var vm = $scope;
 	vm.hello = supportedOrder;
 
@@ -13,4 +13,8 @@ function supportedOrderController($scope, supportedOrder, restCall){
 		console.log(error);
 	};
 	restCall('GET', url, null, successCallback, errorCallback);
+
+	vm.update = function (supportedOrder) {
+		$window.location.href = "#/"
+	}
 }
