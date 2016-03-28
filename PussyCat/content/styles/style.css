@@ -206,3 +206,8 @@ tr:hover{
 #supportedorder-table {
     width: 50%;
 }
+
+#selected-image{
+    width: 20%;
+    height: auto;
+}
