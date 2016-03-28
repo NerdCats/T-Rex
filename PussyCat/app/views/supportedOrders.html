@@ -1,0 +1,43 @@
+<div class="partial">
+	<md-toolbar class="md-table-toolbar md-default" layout="row" flex="50">
+		<div class="md-toolbar-tools" flex="30">
+			<span>Supported Order</span>
+		</div>
+		<div flex="60"></div>
+		<div flex="10">
+			<md-button class="md-raised td-button">
+				<a href="#/supportedOrderCreate">Create</a>
+			</md-button>
+		</div>
+
+	</md-toolbar>
+
+	<md-table-container>
+		<table md-table md-row-select ng-model="supportedOrder" id="supportedorder-table">
+			<thead md-head md-on-recorder="onReorder">
+				<tr md-row>
+					<th md-column><span>Order Name</span></th>
+					<th md-column><span>Order Code</span></th>
+					<th md-column>Action Name</th>
+					<!-- <th md-column>Image</th> -->
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row ng-repeat="order in supportedOrder" md-select>
+					<td md-cell>{{order.OrderName}}</td>
+					<td md-cell>{{order.OrderCode}}</td>
+					<td md-cell>{{order.ActionName}}</td>
+					<td md-cell>
+						<md-button class="md-raised td-button">
+							<a href="#/supportedOrderUpdate/{{order._id}}">Update</a>
+						</md-button>
+					</td>
+					<td md-cell>
+						<md-button class="md-raised md-warn td-button" ng-click="delete(order._id)">Delete</md-button>
+					</td>
+					<!-- <td md-cell><img src="{{order.ImageUrl}}" height="100" width="100"/></td> -->
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
+</div>

@@ -6,8 +6,6 @@ indexController.$inject = ['$scope', '$location', 'menus', 'templates', '$window
 
 function indexController($scope, $location, menus, templates, $window, authService) {
 	console.log($window.location.hash);
-	console.log(authService);
-
 	var vm = $scope;
 
 	vm.sidebarVisible = true;

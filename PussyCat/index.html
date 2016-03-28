@@ -3,16 +3,16 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="" ng-app="app">
+<html class="no-js" lang="">
 <!--<![endif]-->
     <head>
         <base href="/">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <!-- <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" /> -->
 		<title>Dashboard</title>
 
         <!-- load Icons -->
@@ -23,19 +23,23 @@
 		<link rel="stylesheet" type="text/css" href="content/styles/style.css">
         <link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
         <link rel="stylesheet" type="text/css" href="content/styles/table.css">
-        <link rel="stylesheet" href="content/styles/normalize.min.css">
+        <link rel="stylesheet" type="text/css" href="/node_modules/angular-material-data-table/dist/md-data-table.min.css"/>
+        <!-- <link rel="stylesheet" href="content/styles/normalize.min.css"> -->
 
         <!-- load Google Maps -->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6-oTRia-NQum_ZCOVdsX4p0Wmx1Y18o" ></script>
 
         <!-- load angular librarries -->
-        <script type="text/javascript" src="node_modules/angular/angular.js"></script>
-        <script type="text/javascript" src="node_modules/angular-route/angular-route.js"></script>
-        <script type="text/javascript" src="node_modules/angular-animate/angular-animate.js"></script>
-        <script type="text/javascript" src="node_modules/angular-aria/angular-aria.js"></script>
-        <script type="text/javascript" src="node_modules/angular-messages/angular-messages.js"></script>
-        <script type="text/javascript" src="node_modules/angular-material/angular-material.js"></script>
-        <script type="text/javascript" src="node_modules/angular-local-storage/src/angular-local-storage.js"></script>
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="node_modules/angular-animate/angular-animate.js"></script>
+        <script src="node_modules/angular-aria/angular-aria.js"></script>
+        <script src="node_modules/angular-messages/angular-messages.js"></script>
+        <script src="node_modules/angular-material/angular-material.js"></script>
+        <script src="node_modules/angular-material-data-table/dist/md-data-table.min.js"></script>
+        <script src="node_modules/angular-local-storage/src/angular-local-storage.js"></script>
+        <script src="node_modules/angular-file-upload/dist/angular-file-upload.js"></script>
+        <script src="node_modules/jquery/dist/jquery.js"></script>
 
 
         <script src="app/app.js"></script>
@@ -51,8 +55,8 @@
         <script src="app/services/authService.js"></script>
         <script src="app/services/orderService.js"></script>
         <script src="app/services/mapService.js"></script>
+        <script src="app/services/supportedOrderService.js"></script>
         
-
         <!-- load controllers -->
         <script src="app/controllers/indexController.js"></script>
         <script src="app/controllers/sidebarController.js"></script>
@@ -66,40 +70,40 @@
 
         <script src="app/controllers/assetController.js"></script>
         <script src="app/controllers/asset/assetCreateController.js"></script>
-        <script type="text/javascript" src="app/controllers/authController.js"></script>
+        <script src="app/controllers/authController.js"></script>
 
+        <script src="app/controllers/supportedOrderController.js"></script>
+        <script src="app/controllers/supportedOrder/supportedOrderUpdateController.js"></script>
+        <script src="app/controllers/supportedOrder/supportedOrderCreateController.js"></script>
         <script src="scripts/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-        <!-- <div class="header-container">
-            <header class="wrapper clearfix">
-                <h1 class="title">{{job.Name}}</h1>
-            </header>
-        </div> -->
-
-        <div ng-controller="indexController" class="view-container" flex="100" ng-cloak>
-            <div id="header" layout="row" flex="100" ng-show="shouldShowMenuAndFooter">
-                <md-button id="menu-button" ng-click="menuShow()" flex="5">
-                    <i class="material-icons material-icon-style">menu</i>
-                </md-button>
-                <div flex="90"></div>
-                <md-button id="menu-button" ng-click="logout()" flex="5">
-                    <i class="material-icons material-icon-style">exit_to_app</i>
-                </md-button>
-            </div>
-            <div flex="100" layout="row">
-                <aside id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></aside>
-                <div flex="100">
-                    <div ng-view class="view-frame"></div>
+        <div ng-app="app" id="wrapper" ng-controller="indexController" layout="column" layout-fill>
+            <header>
+                <div layout="row" ng-show="shouldShowMenuAndFooter">
+                    <md-button id="menu-button" ng-click="menuShow()" flex="5">
+                        <i class="material-icons material-icon-style">menu</i>
+                    </md-button>
+                    <div flex="90"></div>
+                    <md-button id="menu-button" ng-click="logout()" flex="5">
+                        <i class="material-icons material-icon-style">exit_to_app</i>
+                    </md-button>                    
                 </div>
+            </header>
+            <div id="main">
+                <div flex layout="row" >
+                    <div id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></div>
+                    <div id="ng-view" ng-view class="view-frame" flex="90"></div>
+                </div>                             
             </div>
-            <footer flex="100" id="footer" ng-show="shouldShowMenuAndFooter">
-                <h3>footer</h3>
-            </footer>
+            <!-- <footer id="mainFooter">
+                <div ng-show="shouldShowMenuAndFooter" layout="row" layout-align="center center">
+                    <h2>My Awesome Footer</h2>
+                </div>
+            </footer> -->
         </div> <!-- #main-container -->
 
 

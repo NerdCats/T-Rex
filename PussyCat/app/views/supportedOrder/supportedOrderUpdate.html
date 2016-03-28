@@ -1,0 +1,54 @@
+<article class="container" layout="row" flex>		
+	<form name="supportedOrderUpdate" class="generic-form" flex="40">
+		<md-content>
+			<div class="md-toolbar-tools">
+				<span>Update the fields of Supported Order</span>
+			</div>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Action Name</label>
+				<input required name="ActionName" ng-model="supportedOrder.ActionName">
+				<div ng-messages="supportedOrderUpdate.ActionName.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Order Name</label>
+				<input required name="OrderName" ng-model="supportedOrder.OrderName">
+				<div ng-messages="supportedOrderUpdate.OrderName.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Order Code</label>
+				<input required name="OrderCode" ng-model="supportedOrder.OrderCode">
+				<div ng-messages="supportedOrderUpdate.OrderCode.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<md-input-container flex="60">
+				<label>Image Url</label>
+				<input required name="ImageUrl" ng-model="supportedOrder.ImageUrl">
+				<div ng-messages="supportedOrderUpdate.ImageUrl.$error">
+					<div ng-message="required">This is required</div>					
+				</div>
+			</md-input-container>
+		</md-content>
+		<md-button class="md-raised" flex="20" ng-click="registerNewSupportedOrder()">UPDATE</md-button>  	
+	</form>
+	<div flex="40" class="generic-form">
+        <label>Update Image</label> <br>	      
+		<img id="selected-image" src="{{supportedOrder.ImageUrl}}" alt="image" />
+        <div>
+        	<input id="image-upload-input" type="file" nv-file-select uploader="uploader"/>
+	        <button ng-click="imageUpload($event)">Upload Image</button>
+        </div>
+  	</div>
+</article>

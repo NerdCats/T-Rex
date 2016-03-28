@@ -8,9 +8,13 @@ html, body{
 	padding: 0;
     height: 100%;
     width: 100%;
-    position: relative;        
+    /*position: relative;        */
 }
-#header{
+#wrapper {
+    /*min-height: 100%;*/
+}
+
+header{
     -webkit-box-shadow: 0px -1px 4px 1px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px -1px 4px 1px rgba(0,0,0,0.75);
     box-shadow: 0px -1px 4px 1px rgba(0,0,0,0.75);
@@ -33,15 +37,23 @@ html, body{
 #upper{
     margin-bottom: 50px;
 }
-#footer {
-   position:absolute;
-   width:100%;
-   height:60px;
-   background-color: #B5B5B5;   
+#mainFooter {
+    background-color: #ccc;
+    height:60px;
+    background-color: #B5B5B5;
+    position: absolute;
+    bottom: 0;   
+    width: 100%;
 }
 #add-more{
     background-color: #F5F5F5;
     width: 10%;
+    float: right;
+    margin-bottom: 20px;
+}
+#add-more-supported-order{
+    background-color: #F5F5F5;
+    width: 20%;
     float: right;
     margin-bottom: 20px;
 }
@@ -52,14 +64,7 @@ h1{
 body{
     display: block;
 }
-header{
-    height: 101px;
-    padding: 10px;
-    background-color: #B5B5B5;
-}
-header p{
-    margin: 5px;
-}
+
 li{
     list-style: none;
     border-radius: 0px 0px 0px 0px;
@@ -188,4 +193,21 @@ a{
 tr:hover{
     background-color: #F5F5F5;
     padding: 10px;
+}
+.partial {
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.td-button {
+    width: 20%;
+}
+
+#supportedorder-table {
+    width: 50%;
+}
+
+#selected-image{
+    width: 20%;
+    height: auto;
 }

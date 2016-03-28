@@ -5,17 +5,19 @@ var app = angular.module('app', [
   'ngMaterial',
   'ngMessages',
   'ngRoute',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'md.data.table',
+  'angularFileUpload'
 ]);
 
 app.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
-      when('/login',{
-        templateUrl: 'app/views/login.html',
-        controller: 'authController',
-        controllerAs: 'auth'
-      }).
+			when('/login',{
+				templateUrl: 'app/views/login.html',
+				controller: 'authController',
+				controllerAs: 'auth'
+			}).
 			when('/',{
 				templateUrl: 'app/views/dashboard.html',
 		        controller: 'dashBoardController',
@@ -39,7 +41,23 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/asset/create.html',
 				controller: 'createAssetController',
 				controllerAs: 'createAsset'
-			})
+			}).
+			when('/supportedOrder',{
+				templateUrl: 'app/views/supportedOrders.html',
+				controller: 'supportedOrderController',
+				controllerAs: 'supportedOrders'
+			}).
+			when('/supportedOrderCreate',{
+				templateUrl: 'app/views/supportedOrder/supportedOrderCreate.html',
+				controller: 'supportedOrderCreateController',
+				controllerAs: 'supportedOrders'
+			}).
+			when('/supportedOrderUpdate/:id',{
+				templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
+				controller: 'supportedOrderUpdateController',
+				controllerAs: 'supportedOrders'
+			});
+
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}
 ]);
@@ -54,6 +72,21 @@ app.config(function($mdThemingProvider) {
 app.constant('ngAuthSettings', {
   apiServiceBaseUri: "http://localhost:23873/",
   clientId: 'GoFetchDevWebApp'
+});
+
+app.constant('menus', [
+	{ Title : "Dashboard", Href: '#/'},
+	{ Title : "Orders", Href: '#/'},
+	{ Title : "Supported Orders", Href: '#/supportedOrder'},
+	{ Title : "Users", Href: '#/'},
+	{ Title : "Assets", Href: '#/asset'},
+	{ Title : "Agents", Href: '#/'},
+	{ Title : "Administration", Href: '#/'}
+]);
+
+app.constant('templates', {
+	sidebar: 'app/views/sidebar.html',
+	availableAsset: 'app/views/detailsJob/availableAsset.html'
 });
 
 app.run(['authService', function (authService) {

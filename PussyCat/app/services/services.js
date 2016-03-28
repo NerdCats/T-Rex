@@ -3,12 +3,14 @@
 app.factory('listToString', function () {
 	return function (list) {
 		var string = "";
-		var lastItemIndex = list.length -1;
-		for (var i = 0 ; i < list.length; i++) {
-			string += list[i]			
-			if (i!=lastItemIndex) {
-				string += ", ";
-			}
+		if (list!=null) {
+			var lastItemIndex = list.length -1;
+			for (var i = 0 ; i < list.length; i++) {
+				string += list[i]			
+				if (i!=lastItemIndex) {
+					string += ", ";
+				}
+			}			
 		}
 		return string;
 	};
@@ -58,39 +60,6 @@ app.factory('restCall', ['$http', function($http){
 }]);
 
 
-angular.module('app').factory('menus', function() {
-	//menu options
-	var menus = [
-		{ Title : "Dashboard", Href: '#/'},
-		{ Title : "Orders", Href: '#/'},
-		{ Title : "Users", Href: '#/'},
-		{ Title : "Assets", Href: '#/asset'},
-		{ Title : "Agents", Href: '#/'},
-		{ Title : "Administration", Href: '#/'}
-	];
-
-	return menus;
-});
-
-angular.module('app').factory('markerIconUri', function () {
-	var markerIconUri = {
-		blueMarker : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-		redMarker : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-		purpleMarker : "http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
-		yellowMarker : "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-		greenMarker : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"		
-	};
-	return markerIconUri;
-})
-
-angular.module('app').factory('templates', function() {
-	var templates = {
-		sidebar: 'app/views/sidebar.html',
-		availableAsset: 'app/views/detailsJob/availableAsset.html'
-	};
-
-    return templates;
-});
 //app.factory('$exceptionHandler', function() {
 //   return function(exception, cause) {
 //     exception.message += ' (caused by "' + cause + '")';

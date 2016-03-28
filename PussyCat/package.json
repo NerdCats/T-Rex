@@ -13,9 +13,12 @@
     "angular-local-storage": "^0.2.6",
     "angular-material": "^1.0.4",
     "angular-messages": "^1.4.9",
-    "angular-route": "^1.5.0"
+    "angular-route": "^1.5.0",
+    "jquery": "^2.2.2"
   },
-  "devDependencies": {    
+  "devDependencies": {
+    "angular-file-upload": "^2.2.0",
+    "angular-material-data-table": "^0.9.14",
     "http-server": "^0.9.0",
     "jasmine": "^2.4.1",
     "karma": "^0.13.21",
