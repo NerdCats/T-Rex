@@ -40,11 +40,12 @@
 					<div ng-message="required">This is required</div>					
 				</div>
 			</md-input-container>
-		</md-content>	  	
+		</md-content>
+		<md-button class="md-raised" flex="20" ng-click="registerNewSupportedOrder()">REGISTER</md-button>  	
 	</form>
 	<div flex="40" class="generic-form">
         <label>Update Image</label> <br>	      
-		<img id="selected-image" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="your image" />
+		<img id="selected-image" src="{{supportedOrder.ImageUrl}}" alt="image" />
         <div>
         	<input id="image-upload-input" type="file" nv-file-select uploader="uploader"/>
 	        <button ng-click="imageUpload($event)">Upload Image</button>

@@ -14,7 +14,18 @@ function supportedOrderController($scope, supportedOrder, restCall, $window){
 	};
 	restCall('GET', url, null, successCallback, errorCallback);
 
-	vm.update = function (supportedOrder) {
-		$window.location.href = "#/"
+	vm.update = function (order) {
+		console.log(order);
+		$window.location.href = "#/supportedOrderUpdate";
+	};
+
+	vm.delete = function (id) {		
+		console.log(url + "/" + id);
+		restCall('DELETE', url + "/" + id, null, function (response) {			
+			console.log(response);
+			$window.location.reload();
+		}, function (error) {
+			console.log(error);
+		})
 	}
 }

@@ -52,7 +52,7 @@ app.config(['$routeProvider',
 				controller: 'supportedOrderController',
 				controllerAs: 'supportedOrders'
 			}).
-			when('/supportedOrderUpdate',{
+			when('/supportedOrderUpdate/:id',{
 				templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
 				controller: 'supportedOrderUpdateController',
 				controllerAs: 'supportedOrders'

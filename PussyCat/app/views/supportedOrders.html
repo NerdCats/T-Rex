@@ -22,11 +22,11 @@
 					<td md-cell>{{order.ActionName}}</td>
 					<td md-cell>
 						<md-button class="md-raised td-button">
-							<a href="#/supportedOrderUpdate">Update</a>
+							<a href="#/supportedOrderUpdate/{{order._id}}">Update</a>
 						</md-button>
 					</td>
 					<td md-cell>
-						<md-button class="md-raised md-warn td-button">Delete</md-button>
+						<md-button class="md-raised md-warn td-button" ng-click="delete(order._id)">Delete</md-button>
 					</td>
 					<!-- <td md-cell><img src="{{order.ImageUrl}}" height="100" width="100"/></td> -->
 				</tr>
