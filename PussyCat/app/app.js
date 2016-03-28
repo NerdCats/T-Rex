@@ -49,7 +49,7 @@ app.config(['$routeProvider',
 			}).
 			when('/supportedOrderCreate',{
 				templateUrl: 'app/views/supportedOrder/supportedOrderCreate.html',
-				controller: 'supportedOrderController',
+				controller: 'supportedOrderCreateController',
 				controllerAs: 'supportedOrders'
 			}).
 			when('/supportedOrderUpdate/:id',{

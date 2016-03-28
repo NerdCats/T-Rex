@@ -1,8 +1,8 @@
 'use strict';
-app.controller('supportedOrderController', ['$scope', 'supportedOrder', 'restCall', '$window', supportedOrderController]);
-function supportedOrderController($scope, supportedOrder, restCall, $window){
+app.controller('supportedOrderController', ['$scope', 'supportedOrderFactory', 'restCall', '$window', supportedOrderController]);
+function supportedOrderController($scope, supportedOrderFactory, restCall, $window){
 	var vm = $scope;
-	vm.hello = supportedOrder;
+	vm.hello = supportedOrderFactory;
 
 	var url = "http://localhost:23873/api/Order/SupportedOrder";
 	var successCallback = function (response) {
