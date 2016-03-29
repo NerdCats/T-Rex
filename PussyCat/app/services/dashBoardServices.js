@@ -2,7 +2,7 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
 
 	var urlMaker = function (state, envelope, page, pageSize) {
 		var host = "http://localhost:23873/api/Job/odata?";
-		var odataQUery = "$filter=State eq " + "'" + state + "'";
+		var odataQUery = "$filter=State eq " + "'" + state + "'" + "&$orderby=CreateTime desc";
 		var envelope = envelope;
 		var page = page;
 

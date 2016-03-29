@@ -19,6 +19,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			user : job.User,
 			lat : job.Order.To.Point.coordinates[1],
 			lng : job.Order.To.Point.coordinates[0],
+			draggable : true,
 			title : "User's destination",
 			desc : job.Order.To.Address,
 			markerUrl : mapFactory.markerIconUri.redMarker				
@@ -28,6 +29,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			user : "Asset Nazrul",
 			lat : 23.800490,
 			lng: 90.408450,
+			draggable : true,
 			title : "Asset's Location",
 			desc : "Somewhere Asset is",
 			markerUrl : mapFactory.markerIconUri.purpleMarker				
@@ -150,10 +152,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 									locations.assetLocation.desc,
 									locations.assetLocation.markerUrl,
 									map);
-			mapFactory.markerClickEvent(map, assetLocationMarker);
-			
-			
-
+			mapFactory.markerClickEvent(map, assetLocationMarker);			
 		}
 
 		mapFactory.createMap(locations.userLocation.lat, 
