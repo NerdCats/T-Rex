@@ -170,12 +170,18 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 				mapFactory.markerClickEvent(map, assetLocationMarker);
 
 				var markerUpdateEvent = function moveMarker() {	   
+
+					// var url = "http://gobdshadowcat.cloudapp.net/api/location/123456789";
+					var url = "http://127.0.0.1:8080/json/assetLocation.json";
 				    //method, url, data, successCallback, errorCallback)
-					restCall("GET", "http://gobdshadowcat.cloudapp.net/api/location/123456789", success, error);
+					restCall("GET", url, null, success, error);
 				    
 				    function success(response) {
-				    	console.log(response.data);
-				    	var latlng = new google.maps.LatLng( lat, lon );
+				    	console.log(response.data);				    	
+				    	var lat = response.data.point.coordinates[1];
+				    	var lon = response.data.point.coordinates[0];
+				    	var latLng = new google.maps.LatLng( lat, lon );
+				    	
 				        assetLocationMarker.setPosition(latLng);
 				        map.panTo(latLng);
 				    };
@@ -184,7 +190,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 				    };
 			    	
 				};
-				$interval(markerUpdateEvent, 100)
+				$interval(markerUpdateEvent, 10000)
 			});
 		}
 
