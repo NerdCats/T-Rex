@@ -1,9 +1,9 @@
 
 'use strict';
 
-angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory','$http','$mdMedia','$mdDialog','templates','patchUpdate', jobDetailsFactory]);
+angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory','$http','$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
 	
-	function jobDetailsFactory(listToString, mapFactory, $http, $mdMedia, $mdDialog, templates, patchUpdate){
+	function jobDetailsFactory(listToString, mapFactory, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
 	
  	var populateLocation = function (job) {
 		var userLocation  = {
@@ -15,6 +15,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			desc : job.Order.From.Address,
 			markerUrl : mapFactory.markerIconUri.greenMarker				
 		};
+
 		var userDestination = {
 			user : job.User,
 			lat : job.Order.To.Point.coordinates[1],
@@ -24,21 +25,31 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			desc : job.Order.To.Address,
 			markerUrl : mapFactory.markerIconUri.redMarker				
 		};
-		var assetLocation = {
-			// since asset module is not ready, just putting dummy location
-			user : "Asset Nazrul",
-			lat : 23.800490,
-			lng: 90.408450,
-			draggable : true,
-			title : "Asset's Location",
-			desc : "Somewhere Asset is",
-			markerUrl : mapFactory.markerIconUri.purpleMarker				
-		};
+
+		var assetsLocation = [];
+		if (!$.isEmptyObject(job.Assets)) {			
+			angular.forEach(job.Assets, function (value, key) {
+				// console.log(value);
+				var assetLocation = {
+					// since asset module is not ready, just putting dummy location
+					id : value.Id,
+					user : value.Profile.FirstName,
+					lat : 23.800490,
+					lng: 90.408450,
+					draggable : false,
+					title : value.Profile.FirstName + "'s Location",
+					desc : "",
+					markerUrl : mapFactory.markerIconUri.purpleMarker				
+				};
+				assetsLocation.push(assetLocation);
+			});
+		}
+		
 
 		return {
 			userLocation : userLocation,
 			userDestination : userDestination,
-			assetLocation : assetLocation
+			assetsLocation : assetsLocation
 		}
 	};
 
@@ -61,7 +72,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 		};
 
 		var jobStates = [];
-		if (job.Order.Type == "Ride") {
+		if (job.Order.Type == "Ride" || job.Order.Type == "Delivery") {
 			var findAsset = {
 				job : "Find Asset",
 				jobTaskStates : job.Tasks[0].State,
@@ -86,8 +97,6 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 		return jobStates;
 	};
 	
-
-
 	var populateJobDetailsTable = function (job) {
 		var details = {
 			orderId : job._id,
@@ -101,7 +110,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 	};
 
 	var populateAssetInfo = function (job) {
-		var assets = [];
+		var assets = [];	
 		angular.forEach(job.Assets, function (value, key) {
 			var asset  = {
 				name : value.Profile.FirstName,
@@ -109,8 +118,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 				currentLocation : "Banani",
 				type : value.Type
 			}
-			assets.push(asset);
-			console.log(assets)
+			assets.push(asset);			
 		});
 		return assets;
 	};
@@ -145,14 +153,39 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 									map);
 			mapFactory.markerClickEvent(map, destinationMarker);
 			
-			var assetLocationMarker = mapFactory.createMarker(locations.assetLocation.lat,
-									locations.assetLocation.lng,
-									locations.assetLocation.title,
-									locations.assetLocation.draggable,
-									locations.assetLocation.desc,
-									locations.assetLocation.markerUrl,
-									map);
-			mapFactory.markerClickEvent(map, assetLocationMarker);			
+
+
+
+			angular.forEach(locations.assetsLocation, function (value, key) {
+				
+				var assetLocationMarker = mapFactory.createMarker(
+											value.lat,
+											value.lng,
+											value.title,
+											value.draggable,
+											value.desc,
+											value.markerUrl,
+											map);
+				console.log(assetLocationMarker);
+				mapFactory.markerClickEvent(map, assetLocationMarker);
+
+				var markerUpdateEvent = function moveMarker() {	   
+				    //method, url, data, successCallback, errorCallback)
+					restCall("GET", "http://gobdshadowcat.cloudapp.net/api/location/123456789", success, error);
+				    
+				    function success(response) {
+				    	console.log(response.data);
+				    	var latlng = new google.maps.LatLng( lat, lon );
+				        assetLocationMarker.setPosition(latLng);
+				        map.panTo(latLng);
+				    };
+				    function error(error) {
+				    	console.log(error);
+				    };
+			    	
+				};
+				$interval(markerUpdateEvent, 100)
+			});
 		}
 
 		mapFactory.createMap(locations.userLocation.lat, 

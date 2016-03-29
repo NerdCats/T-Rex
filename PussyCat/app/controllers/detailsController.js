@@ -37,7 +37,7 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 
 		vm.detailsTable = jobDetailsFactory.populateJobDetailsTable(vm.job);
 
-		vm.assets = jobDetailsFactory.populateAssetInfo(vm.job);
+		vm.assets = jobDetailsFactory.populateAssetInfo(vm.job);		
 
 		vm.servingby = jobDetailsFactory.populateServingBy(vm.job);
 

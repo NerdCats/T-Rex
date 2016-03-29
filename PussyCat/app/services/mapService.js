@@ -65,7 +65,19 @@ app.factory('mapFactory', [function(){
 
 		google.maps.event.addListener(marker, 'dragend', markerDrag);
 
-	}
+	};
+
+	var markerUpdateEvent = function moveMarker(map, marker, lat, lon) {	   
+	    //delayed so you can see it move
+	    setTimeout( function(){ 
+	    	
+	    	var latlng = new google.maps.LatLng( lat, lon );
+	        marker.setPosition(latLng);
+	        map.panTo(latLng);
+	        
+	    }, 1500 );
+
+	};
 
 	var getAddress = function (latLng, addressFoundCallback) {
 		var geocoder = new google.maps.Geocoder();
