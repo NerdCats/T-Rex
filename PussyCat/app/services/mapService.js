@@ -1,5 +1,6 @@
 app.factory('mapFactory', [function(){
 	
+	var mapServicePrivateMap;
 	var markerIconUri = {
 		blueMarker : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
 		redMarker : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
@@ -17,6 +18,12 @@ app.factory('mapFactory', [function(){
 			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
 		var map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
+
+		var latLng = new google.maps.LatLng(23.7968725, 90.4083922);
+		map.panTo(latLng);
+
+
+		mapServicePrivateMap = map;
 		createMarkersCallback(map);
 		return map;
 	};
@@ -33,6 +40,14 @@ app.factory('mapFactory', [function(){
 		marker.content = '<div class="infoWindowContent">' + description + '</div>';
 		return marker;
 	};
+
+	var locateMarkerOnMap = function (value) {
+			var latLng = new google.maps.LatLng(value.lat, value.lon);
+			console.log("latLng");
+			console.log(latLng);
+			console.log(value);
+			mapServicePrivateMap.panTo(latLng);
+	}
 
 	var markerClickEvent = function (map, marker) {
 		var infoWindow = new google.maps.InfoWindow();
@@ -89,6 +104,7 @@ app.factory('mapFactory', [function(){
 		createMap : createMap,
 		createMarker : createMarker,
 		markerIconUri : markerIconUri,
+		locateMarkerOnMap : locateMarkerOnMap,
 		markerClickEvent : markerClickEvent,
 		markerDragEvent : markerDragEvent,
 		getAddress : getAddress

@@ -61,20 +61,15 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 				restCall('GET', url, null, success, error);
 			});			
 		}, 10000);
-
-
-
 	});
 	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
 	vm.locateMarkerOnMap = function (value) {
-			var latLng = new google.maps.LatLng(value.lat, value.lon);
-			console.log("latLng");
-			console.log(latLng);
-			// console.log(vm.map);
+			var latLng = new google.maps.LatLng(value.lat, value.lng);			
 			vm.map.panTo(latLng);
-	}
+	};
+	
 	vm.assetAssignPopup = function (event) {
 		jobDetailsFactory.populateAssetAssignDialog(vm, event, vm.job);
 	};
