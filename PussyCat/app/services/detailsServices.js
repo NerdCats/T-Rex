@@ -5,6 +5,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 	
 	function jobDetailsFactory(listToString, mapFactory, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
 	
+
  	var populateLocation = function (job) {
 		var userLocation  = {
 			user : job.Order.From.Address,
@@ -13,7 +14,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			draggable : true,
 			title : "User's location",
 			desc : job.Order.From.Address,
-			markerUrl : mapFactory.markerIconUri.greenMarker				
+			markerUrl : mapFactory.markerIconUri.greenMarker			
 		};
 
 		var userDestination = {
@@ -23,15 +24,13 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			draggable : true,
 			title : "User's destination",
 			desc : job.Order.To.Address,
-			markerUrl : mapFactory.markerIconUri.redMarker				
+			markerUrl : mapFactory.markerIconUri.redMarker			
 		};
 
 		var assetsLocation = [];
 		if (!$.isEmptyObject(job.Assets)) {			
-			angular.forEach(job.Assets, function (value, key) {
-				// console.log(value);
-				var assetLocation = {
-					// since asset module is not ready, just putting dummy location
+			angular.forEach(job.Assets, function (value, key) {				
+				var assetLocation = {					
 					id : value.Id,
 					user : value.Profile.FirstName,
 					lat : 23.800490,
@@ -39,7 +38,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 					draggable : false,
 					title : value.Profile.FirstName + "'s Location",
 					desc : "",
-					markerUrl : mapFactory.markerIconUri.purpleMarker				
+					markerUrl : mapFactory.markerIconUri.purpleMarker					
 				};
 				assetsLocation.push(assetLocation);
 			});
@@ -127,14 +126,13 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 		var servingby = {
 			name : "Redwan"
 		};
-		return servingby;	
+		return servingby;
 	};
 
-	var populateMap = function (job, map, markers) {
-
+	var populateMap = function (job) {
 		var locations = populateLocation(job);
 		
-		var createMarkersCallback = function (map) {
+		var createMarkersCallback = function (map) {			
 			var userLocationMarker = mapFactory.createMarker(locations.userLocation.lat,
 									locations.userLocation.lng,
 									locations.userLocation.title,
@@ -151,10 +149,8 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 									locations.userDestination.desc,
 									locations.userDestination.markerUrl,
 									map);
+
 			mapFactory.markerClickEvent(map, destinationMarker);
-			
-
-
 
 			angular.forEach(locations.assetsLocation, function (value, key) {
 				
@@ -165,25 +161,26 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 											value.draggable,
 											value.desc,
 											value.markerUrl,
-											map);
-				console.log(assetLocationMarker);
+											map);				
 				mapFactory.markerClickEvent(map, assetLocationMarker);
 
-				var markerUpdateEvent = function moveMarker() {	   
+				var markerUpdateEvent = function () {	   
 
-					// var url = "http://gobdshadowcat.cloudapp.net/api/location/123456789";
-					var url = "http://127.0.0.1:8080/json/assetLocation.json";
-				    //method, url, data, successCallback, errorCallback)
+					var url = "http://gobdshadowcat.cloudapp.net/api/location/" + value.id;
+					// var url = "http://127.0.0.1:8080/json/assetLocation.json";				    
 					restCall("GET", url, null, success, error);
 				    
 				    function success(response) {
-				    	console.log(response.data);				    	
+				    	// console.log(response.data);
+				    	var date = new Date(response.data['timestamp']['$date']);
+				    	console.log(date);			    	
 				    	var lat = response.data.point.coordinates[1];
 				    	var lon = response.data.point.coordinates[0];
 				    	var latLng = new google.maps.LatLng( lat, lon );
 				    	
 				        assetLocationMarker.setPosition(latLng);
-				        map.panTo(latLng);
+				        // map.panTo(latLng);
+				        // console.log(map);
 				    };
 				    function error(error) {
 				    	console.log(error);
@@ -194,9 +191,10 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			});
 		}
 
-		mapFactory.createMap(locations.userLocation.lat, 
+		var map = mapFactory.createMap(locations.userLocation.lat, 
 							locations.userLocation.lng,
-							'map', map, 16, createMarkersCallback);	 
+							'map', 16, createMarkersCallback);
+		return map;							
 	};
 
 	var populateAssetAssignDialog = function (vm, event, job) {

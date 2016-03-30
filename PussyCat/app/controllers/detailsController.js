@@ -1,10 +1,14 @@
 'use strict';
 
-app.controller('detailsController', detailsController);
+app.controller('detailsController', [ '$scope', '$http', '$interval', '$mdDialog', '$mdMedia', '$location', '$window', '$routeParams',
+							'menus', 'templates', 
+							'timeAgo', 'jobDetailsFactory', 'restCall', detailsController]);
 
-function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams, 
+
+
+function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams,
 							menus, templates, 
-							timeAgo,jobDetailsFactory) {
+							timeAgo,jobDetailsFactory, restCall) {
 	
 	var id = $routeParams.id;	
 	var vm = $scope;
@@ -13,7 +17,6 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 	vm.job = {};
 	vm.jobStates = [];
 	vm.locations = [];
-	vm.map;
 	vm.markers	= [];
 	vm.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
 	vm.jobState = ["ENQUEUED","IN_PROGRESS","COMPLETED"];
@@ -29,6 +32,8 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 
 		vm.job = response.data;				
 
+		vm.map = jobDetailsFactory.populateMap(vm.job);		
+
 		vm.locations = jobDetailsFactory.populateLocation(vm.job);
 
 		vm.jobStates = jobDetailsFactory.populateJobTaskState(vm.job);		
@@ -41,12 +46,35 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 
 		vm.servingby = jobDetailsFactory.populateServingBy(vm.job);
 
-		jobDetailsFactory.populateMap(vm.job ,vm.map, vm.markers);
+		$interval(function () {
+			angular.forEach(vm.locations.assetsLocation, function (value, index) {
+
+				var url = "http://gobdshadowcat.cloudapp.net/api/location/" + value.id;	
+				function success(response) {
+					value.desc = "Last seen on ";
+					console.log(response)
+				};
+				function error(error) {
+					value.desc = "Couldn't retrieve Last location";
+					console.log(error)
+				}
+				restCall('GET', url, null, success, error);
+			});			
+		}, 10000);
+
+
 
 	});
 	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
+	vm.locateMarkerOnMap = function (value) {
+			var latLng = new google.maps.LatLng(value.lat, value.lon);
+			console.log("latLng");
+			console.log(latLng);
+			// console.log(vm.map);
+			vm.map.panTo(latLng);
+	}
 	vm.assetAssignPopup = function (event) {
 		jobDetailsFactory.populateAssetAssignDialog(vm, event, vm.job);
 	};

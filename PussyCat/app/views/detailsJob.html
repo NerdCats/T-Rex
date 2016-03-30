@@ -103,11 +103,40 @@
     </div>
 
     <div id="from-to" flex="21">                             
-        <md-list>
-            <md-list-item  ng-repeat="(key, value) in locations track by $index">
+       
+        <md-card flex="100">
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="locateMarkerOnMap(locations.userLocation)">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-title">{{locations.userLocation.title}}</span>
+                        </md-card-title-text>                                                  
+                    </md-card-title>
+                    <md-card-content>
+                        <p>{{locations.userLocation.desc}}</p>
+                    </md-card-content>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+        <md-card flex="100">
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-click="locateMarkerOnMap(locations.userDestination)">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-title">{{locations.userDestination.title}}</span>
+                        </md-card-title-text>                                                  
+                    </md-card-title>
+                    <md-card-content>
+                        <p>{{locations.userDestination.desc}}</p>
+                    </md-card-content>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+         <md-list>
+            <md-list-item  ng-repeat="(key, value) in locations.assetsLocation track by $index">
                 <md-card flex="100">
                     <md-card-actions layout="row" layout-align="end center">
-                        <md-button ng-click="value.bounce()">
+                        <md-button ng-click="locateMarkerOnMap(value)">
                             <md-card-title>
                                 <md-card-title-text>
                                     <span class="md-title">{{value.title}}</span>

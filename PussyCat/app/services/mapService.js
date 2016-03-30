@@ -10,14 +10,15 @@ app.factory('mapFactory', [function(){
 		start : "/content/img/ic_start1.png"	
 	};
 
-	var createMap = function (lat, lon, mapElement, map, zoom, createMarkersCallback) {
+	var createMap = function (lat, lon, mapElement, zoom, createMarkersCallback) {
 		var mapOptions = {
 			zoom: zoom,
 			center: new google.maps.LatLng(lat, lon),
 			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
-		map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
+		var map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
 		createMarkersCallback(map);
+		return map;
 	};
 
 
@@ -67,17 +68,7 @@ app.factory('mapFactory', [function(){
 
 	};
 
-	var markerUpdateEvent = function moveMarker(map, marker, lat, lon) {	   
-	    //delayed so you can see it move
-	    setTimeout( function(){ 
-	    	
-	    	var latlng = new google.maps.LatLng( lat, lon );
-	        marker.setPosition(latLng);
-	        map.panTo(latLng);
-	        
-	    }, 1500 );
-
-	};
+	
 
 	var getAddress = function (latLng, addressFoundCallback) {
 		var geocoder = new google.maps.Geocoder();
