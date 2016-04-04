@@ -4,7 +4,7 @@ app.controller('supportedOrderUpdateController', ['$scope', '$window', '$routePa
 function supportedOrderUpdateController($scope, $window, $routeParams, FileUploader, restCall, supportedOrderFactory){
 	var vm = $scope;
 	var id = $routeParams.id;
-	restCall("GET", "http://localhost:23873/api/Order/SupportedOrder/"+id, null, function (response) {
+	restCall("GET", "/api/Order/SupportedOrder/"+id, null, function (response) {
 		vm.supportedOrder = response.data;		
 	}, function (error) {
 		console.log(error);

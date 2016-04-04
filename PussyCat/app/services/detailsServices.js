@@ -1,9 +1,9 @@
 
 'use strict';
 
-angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory','$http','$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
+angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory', '$window','$http','$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
 	
-	function jobDetailsFactory(listToString, mapFactory, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
+	function jobDetailsFactory(listToString, mapFactory, $window, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
 	
 
  	var populateLocation = function (job) {
@@ -57,9 +57,8 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 		var success = function (response) {
 			console.log("success : ");
   			console.log(response);
-  			alert("success");
-  			// location.reload();
-  			console.log(location)
+  			alert("success");  			
+  			$window.location.reload();
   			return true;
 		};
 
@@ -71,16 +70,18 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 		};
 
 		var jobStates = [];
-		if (job.Order.Type == "Ride" || job.Order.Type == "Delivery") {
-			var findAsset = {
-				job : "Find Asset",
-				jobTaskStates : job.Tasks[0].State,
-				stateChanged : function (state) {					
-					console.log(this.jobTaskStates);					
-					var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[0].id, success, error);
-					if (result) this.jobTaskStates = state;
-				}
-			};
+		var findAssetTask = {
+			job : "Find Asset",
+			jobTaskStates : job.Tasks[0].State,
+			stateChanged : function (state) {					
+				console.log(this.jobTaskStates);					
+				var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[0].id, success, error);
+				if (result) this.jobTaskStates = state;
+			}
+		};
+		jobStates.push(findAssetTask);
+		if (job.Order.Type == "Ride") {
+			
 			var assetIsOnWay = {
 				job : "Asset is on way",
 				jobTaskStates : job.Tasks[1].State,
@@ -90,9 +91,29 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 					if (result) this.jobTaskStates = state;
 				}
 			};
-			jobStates.push(findAsset)
 			jobStates.push(assetIsOnWay)
-		};
+		} else if (job.Order.Type == "Delivery") {						
+			var pickUpTask = {
+				job : "Pick up",
+				jobTaskStates : job.Tasks[1].State,
+				stateChanged : function (state) {
+					console.log(this.jobTaskStates);
+					var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[1].id, success, error);
+					if (result) this.jobTaskStates = state;
+				}
+			};
+			var deliveryTask = {
+				job : "Delivery",
+				jobTaskStates : job.Tasks[2].State,
+				stateChanged : function (state) {
+					console.log(this.jobTaskStates);
+					var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[1].id, success, error);
+					if (result) this.jobTaskStates = state;
+				}
+			};
+			jobStates.push(pickUpTask);
+			jobStates.push(deliveryTask);
+		}
 		return jobStates;
 	};
 	

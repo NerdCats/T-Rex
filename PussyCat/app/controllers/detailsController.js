@@ -18,17 +18,11 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 	vm.jobStates = [];
 	vm.locations = [];
 	vm.markers	= [];
-	vm.jobTaskStates = ["PENDING","IN_PROGRESS","COMPLETED"];
-	vm.jobState = ["ENQUEUED","IN_PROGRESS","COMPLETED"];
-	vm.assignAsset = ["Assign new Asset", "Change current Asset"];
-	 
-	vm.jobStateChanged = function (state) {
-		vm.job.State = state;
-	};
-	
-	var url1 = "http://localhost:23873/api/Job?id="+id;
-	var url2 = "http://127.0.0.1:8080/json/order.json";
-	$http.get(url1).then(function(response) {
+	vm.jobTaskStates = ["IN_PROGRESS","COMPLETED"];
+	vm.assignAsset = ["Assign Asset"];
+
+	var jobPath = "/api/Job?id=" + id;	
+	function successCallback(response) {
 
 		vm.job = response.data;				
 
@@ -61,7 +55,9 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 				restCall('GET', url, null, success, error);
 			});			
 		}, 10000);
-	});
+	};
+
+	restCall('GET', jobPath, null, successCallback);
 	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 

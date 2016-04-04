@@ -4,7 +4,7 @@ function supportedOrderController($scope, supportedOrderFactory, restCall, $wind
 	var vm = $scope;
 	vm.hello = supportedOrderFactory;
 
-	var url = "http://localhost:23873/api/Order/SupportedOrder";
+	var supportedOrderPath = "/api/Order/SupportedOrder";
 	var successCallback = function (response) {
 		vm.supportedOrder = response.data;
 		console.log(response);
@@ -12,7 +12,7 @@ function supportedOrderController($scope, supportedOrderFactory, restCall, $wind
 	var errorCallback = function (error) {
 		console.log(error);
 	};
-	restCall('GET', url, null, successCallback, errorCallback);
+	restCall('GET', supportedOrderPath, null, successCallback, errorCallback);
 
 	vm.update = function (order) {
 		console.log(order);
@@ -20,8 +20,8 @@ function supportedOrderController($scope, supportedOrderFactory, restCall, $wind
 	};
 
 	vm.delete = function (id) {		
-		console.log(url + "/" + id);
-		restCall('DELETE', url + "/" + id, null, function (response) {			
+		console.log(supportedOrderPath + "/" + id);
+		restCall('DELETE', supportedOrderPath + "/" + id, null, function (response) {			
 			console.log(response);
 			$window.location.reload();
 		}, function (error) {

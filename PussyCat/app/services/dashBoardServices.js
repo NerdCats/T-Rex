@@ -1,19 +1,20 @@
-app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
+app.factory('dashboardFactory', ['$http', 'timeAgo', 'restCall', function($http, timeAgo, restCall){
 
-	var urlMaker = function (state, envelope, page, pageSize) {
-		var host = "http://localhost:23873/api/Job/odata?";
+	var jobListPathMaker = function (state, envelope, page, pageSize) {
+		var path = "/api/Job/odata?";
 		var odataQUery = "$filter=State eq " + "'" + state + "'" + "&$orderby=CreateTime desc";
+
 		var envelope = envelope;
 		var page = page;
-
-		var url = host + odataQUery + "&envelope=" + envelope + "&page=" + page;		
-		return url;
+		
+		path = path + odataQUery + "&envelope=" + envelope + "&page=" + page;		
+		return path;
 	};
 	
 	var populateOrdersTable = function(Orders, state, envelope, page, pageSize){
 
-		var url = urlMaker(state, envelope, page, pageSize);
-		$http.get(url).then(function(response){			
+		var jobListPath = jobListPathMaker(state, envelope, page, pageSize);	
+		function successCallback(response){
 			var orders = response.data;
 			angular.forEach(orders.data, function(value, key){
 				try{
@@ -49,14 +50,13 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', function($http, timeAgo){
 			for (var i = 0; i < orders.pagination.TotalPages ; i++) {
 				Orders.pages.push(i);
 			};
- 		});
+ 		};
+ 		restCall('GET', jobListPath, null, successCallback);
 	};
 
-	var loadNextPage = function(Orders, state, envelope, page, pageSize){
-		
-		var url = urlMaker(state, envelope, page, pageSize);
-		Orders.orders= [];
-		Orders.pages = [];
+	var loadNextPage = function(Orders, state, envelope, page, pageSize){		
+		// Orders.orders= [];
+		// Orders.pages = [];
 		populateOrdersTable(Orders, state, envelope, page, pageSize);
 	};
 

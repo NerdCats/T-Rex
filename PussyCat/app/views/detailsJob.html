@@ -1,20 +1,8 @@
 <div class="title">
-    <h1>Ride request for {{job.User}} </h1>
+    <h1>{{job.Name}}</h1>
     <p>Requested {{ requestedAgo }} minutes ago</p>
     <div class="horizontal">
-        <p><b>{{job.State}}</b></p>
-        <div layout="column">                                                   
-            <md-menu md-offset="0 -7">
-                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                    <span><img src="content/img/ic_settings.png"></span>
-                </md-button>
-                <md-menu-content width="2">
-                    <md-menu-item ng-repeat="item in jobState">
-                        <md-button ng-click="jobStateChanged(item)" ng-model="state.jobState"><span md-menu-align-target></span> {{item}} </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </div>           
+        <p><b>This Order is {{job.State}} now</b></p> 
     </div>
 </div>
 <article id="container" class="horizontal">
@@ -102,7 +90,7 @@
         </md-card>	                                
     </div>
 
-    <div id="from-to" flex="21">                             
+    <div id="from-to" flex="25">                             
        
         <md-card flex="100">
             <md-card-actions layout="row" layout-align="end center">

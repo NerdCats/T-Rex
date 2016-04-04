@@ -1,4 +1,4 @@
-function assetAssignDialogController($scope, $mdDialog, $http) {
+function assetAssignDialogController($scope, $mdDialog, $http, host) {
 	
 	$scope.hide = function() {
 		$mdDialog.hide();
@@ -14,12 +14,10 @@ function assetAssignDialogController($scope, $mdDialog, $http) {
 		$mdDialog.hide($scope.assignedAssets);
 	};
 
-	var url1 = "http://localhost:23873/api/Account";
-	var url2 = "http://127.0.0.1:8080/json/asset-list.json"
-	
+	var url1 = host + "/api/Account";
+		
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data;
-
 	});
 	
 	$scope.assignedAssets = [];

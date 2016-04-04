@@ -2,20 +2,17 @@
 
 app.factory('assetsFactory', function($http, $window, restCall){
 	
-	var urlMaker = function (type, envelope, page, pageSize) {
-		var host = "http://localhost:23873/api/Account?";
-		var envelope = envelope;
-		var page = page;
-
-		var url = host + "envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;
-		console.log(url);
-		return url;
+	var assetListPath = function (type, envelope, page, pageSize) {
+		var parameters = "envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
+		var path = "/api/Account?" + parameters;		
+		return path;
 	};
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
 
-		var url = urlMaker(type, envelope, page, pageSize);
-		$http.get(url).then(function (response) {
+		var assetlistPath = assetListPath(type, envelope, page, pageSize);
+
+		function successCallback (response) {
 			angular.forEach(response.data.data, function(value, key){
 				console.log(value);
 				var asset = {
@@ -28,14 +25,14 @@ app.factory('assetsFactory', function($http, $window, restCall){
 					IsAvailable : value.IsAvailable,
 					State : value.State,
 				};
-
 				assets.Collection.push(asset);
 			});
 
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
 				assets.pages.push(i);
 			};
-		});
+		}
+		restCall('GET', assetlistPath, null, successCallback);
 	};
 
 	var registerNewAsset = function (asset){
@@ -52,7 +49,7 @@ app.factory('assetsFactory', function($http, $window, restCall){
   		};
 
 		console.log(asset);
-		var url = "http://localhost:23873/api/Account/Register";
+		var url = "/api/Account/Register";
 		restCall('POST', url, asset, successCallback, errorCallback)  	
 	};
 

@@ -1,9 +1,9 @@
-app.factory('supportedOrderFactory', ['$http', 'restCall', '$window', function($http, restCall, $window){
+app.factory('supportedOrderFactory', ['$http', 'restCall', '$window', 'host', function($http, restCall, $window, host){
 
 	var imageUpload = function (ImageUrl, uploader) {	
 		ImageUrl = "http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif";		
 		uploader.alias = "image";
-		uploader.url = "http://localhost:23873/api/Storage/image";
+		uploader.url = host + "/api/Storage/image";
 		uploader.upload();		
 	};
 
@@ -16,7 +16,8 @@ app.factory('supportedOrderFactory', ['$http', 'restCall', '$window', function($
 		var errorCallaback = function (error) {
 			console.log(error);
 		};
-		restCall(method, "http://localhost:23873/api/Order/SupportedOrder", order, successCallback, errorCallaback);
+		restCall(method, "/api/Order/SupportedOrder", order, successCallback, errorCallaback);
+		console.log("restCall");
 	};
 
 	var changeImageEvent = function () {

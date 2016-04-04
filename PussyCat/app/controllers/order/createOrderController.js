@@ -33,7 +33,7 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 	};
 
 	vm.createNewOrder = orderFactory.createNewOrder;
-	orderFactory.populateMap();
+	// orderFactory.populateMap();
 	var createMarkersCallback = function (map) { // need a map parameter to reuse mapService
 
 		var markerFromCallback = function (address, latLng) {
@@ -66,5 +66,5 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 		mapFactory.markerDragEvent(toMarker, markerToCallback);
 	};
 	
-	mapFactory.createMap(23.790888, 90.391430, 'map', vm.map, 14, createMarkersCallback);
+	mapFactory.createMap(23.790888, 90.391430, 'map', 14, createMarkersCallback);
 }]);

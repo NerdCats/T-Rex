@@ -63,14 +63,14 @@ app.config(['$routeProvider',
 ]);
 
 app.config(function($mdThemingProvider) {
-  // Configure a dark theme with primary foreground yellow
-  $mdThemingProvider.theme('docs-dark', 'default')
-    .primaryPalette('grey')
-    .dark();
+	// Configure a dark theme with primary foreground yellow
+	$mdThemingProvider.theme('docs-dark', 'default')
+	.primaryPalette('grey')
+	.dark();
 });
 
 app.constant('ngAuthSettings', {
-  apiServiceBaseUri: "http://localhost:23873/",
+  apiServiceBaseUri: "/",
   clientId: 'GoFetchDevWebApp'
 });
 
@@ -83,6 +83,10 @@ app.constant('menus', [
 	{ Title : "Agents", Href: '#/'},
 	{ Title : "Administration", Href: '#/'}
 ]);
+
+// app.constant('host', "http://taskcatdev.azurewebsites.net");
+app.constant('host', "http://localhost:23873");
+
 
 app.constant('templates', {
 	sidebar: 'app/views/sidebar.html',
@@ -98,10 +102,6 @@ app.config(['$httpProvider', function($httpProvider) {
 }]);
 
 
-// app.config(function($locationProvider) {
-// 	$locationProvider.html5Mode(true);
-// });
-
-// app.config(function($locationProvider) {
-// 	$locationProvider.html5Mode(false);
-// });
+app.config(function($locationProvider) {
+	$locationProvider.html5Mode(false);
+});
