@@ -1,10 +1,11 @@
 'use strict';
-app.controller('supportedOrderUpdateController', ['$scope', '$window', '$routeParams', 'FileUploader', 'restCall', 'supportedOrderFactory', supportedOrderUpdateController]);
+app.controller('supportedOrderUpdateController', ['$scope', '$window', '$routeParams', 'FileUploader', 'restCall', 'supportedOrderFactory', 'host', supportedOrderUpdateController]);
 
-function supportedOrderUpdateController($scope, $window, $routeParams, FileUploader, restCall, supportedOrderFactory){
+function supportedOrderUpdateController($scope, $window, $routeParams, FileUploader, restCall, supportedOrderFactory, host){
 	var vm = $scope;
 	var id = $routeParams.id;
-	restCall("GET", "/api/Order/SupportedOrder/"+id, null, function (response) {
+	var supportedOrderUpdateUrl = host + "/api/Order/SupportedOrder/" + id;
+	restCall("GET", supportedOrderUpdateUrl, null, function (response) {
 		vm.supportedOrder = response.data;		
 	}, function (error) {
 		console.log(error);

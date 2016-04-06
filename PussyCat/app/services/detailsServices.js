@@ -247,7 +247,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 			job: job
 	    })
 	    .then(function(selectedAssets) {		    
-		    var result = patchUpdate(selectedAssets[0].Id, "/AssetRef", "replace", job._id, job.Tasks[0].id, success, error);			
+		    var result = patchUpdate(selectedAssets[0].Id, "replace", "/AssetRef", "api/job/", job._id, job.Tasks[0].id, success, error);			
 	    }, function() {
 			console.log("Asset Assign dialog canceled");
 	    });

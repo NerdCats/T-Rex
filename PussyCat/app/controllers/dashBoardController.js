@@ -13,8 +13,8 @@ app.controller('dashBoardController', function ($scope, $http, $location, $inter
 	vm.processingOrders = {orders: [], pages:[]};
 	vm.loadNextPage = dashboardFactory.loadNextPage;
 	
-	var URL_ENQUEUED = "/api/Job/odata?$filter=State eq 'ENQUEUED'";
-	var URL_IN_PROGRESS = "/api/Job/odata?$filter=State eq 'IN_PROGRESS'";	
+	var URL_ENQUEUED = "api/Job/odata?$filter=State eq 'ENQUEUED'";
+	var URL_IN_PROGRESS = "api/Job/odata?$filter=State eq 'IN_PROGRESS'";	
 
 	dashboardFactory.populateOrdersTable(vm.newOrders, "ENQUEUED", true, 0, 25);
 	dashboardFactory.populateOrdersTable(vm.processingOrders, "IN_PROGRESS", true, 0, 25);

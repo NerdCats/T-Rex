@@ -1,13 +1,13 @@
 'use strict';
 
 app.controller('detailsController', [ '$scope', '$http', '$interval', '$mdDialog', '$mdMedia', '$location', '$window', '$routeParams',
-							'menus', 'templates', 
+							'menus', 'templates', 'host',
 							'timeAgo', 'jobDetailsFactory', 'restCall', detailsController]);
 
 
 
 function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams,
-							menus, templates, 
+							menus, templates, host,
 							timeAgo,jobDetailsFactory, restCall) {
 	
 	var id = $routeParams.id;	
@@ -21,7 +21,7 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 	vm.jobTaskStates = ["IN_PROGRESS","COMPLETED"];
 	vm.assignAsset = ["Assign Asset"];
 
-	var jobPath = "/api/Job?id=" + id;	
+	var jobUrl = host + "api/Job?id=" + id;	
 	function successCallback(response) {
 
 		vm.job = response.data;				
@@ -57,7 +57,7 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 		}, 10000);
 	};
 
-	restCall('GET', jobPath, null, successCallback);
+	restCall('GET', jobUrl, null, successCallback);
 	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 

@@ -3,7 +3,7 @@ app.factory('supportedOrderFactory', ['$http', 'restCall', '$window', 'host', fu
 	var imageUpload = function (ImageUrl, uploader) {	
 		ImageUrl = "http://www.arabianbusiness.com/skins/ab.main/gfx/loading_spinner.gif";		
 		uploader.alias = "image";
-		uploader.url = host + "/api/Storage/image";
+		uploader.url = host + "api/Storage/image";
 		uploader.upload();		
 	};
 
@@ -16,7 +16,8 @@ app.factory('supportedOrderFactory', ['$http', 'restCall', '$window', 'host', fu
 		var errorCallaback = function (error) {
 			console.log(error);
 		};
-		restCall(method, "/api/Order/SupportedOrder", order, successCallback, errorCallaback);
+		var supportedOrderRegisterUrl = host + "api/Order/SupportedOrder";
+		restCall(method, , order, successCallback, errorCallaback);
 		console.log("restCall");
 	};
 

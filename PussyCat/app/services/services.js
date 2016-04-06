@@ -26,9 +26,10 @@ app.factory('timeAgo', function () {
 	};
 });
 
-app.factory('patchUpdate', function($http, restCall){
-	return function (value, path, op, jobId, taskId, successCallback, errorCallback) {
-		var url = '/api/Job/' + jobId + "/" + taskId;
+app.factory('patchUpdate', function($http, restCall, host){
+	return function (value, op, path, api_path, jobId, taskId, successCallback, errorCallback) {
+		var url = host + api_path + jobId + "/" + taskId;
+		console.log(url);
 		var data = [
 			    {
 			      value: value,
@@ -43,10 +44,7 @@ app.factory('patchUpdate', function($http, restCall){
 
 
 app.factory('restCall', ['$http', 'host', function($http, host){
-	return function (method, path, data, successCallback, errorCallback){
-		var url = host + path;
-		console.log(host);
-		console.log(path);
+	return function (method, url, data, successCallback, errorCallback){
 		console.log(url);
 		$http({
   			method: method,

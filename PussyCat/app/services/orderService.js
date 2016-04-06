@@ -1,4 +1,4 @@
-app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', function($http, $window, restCall, mapFactory){
+app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host', function($http, $window, restCall, mapFactory, host){
 	
 	var hello = "hello tareq!";
 
@@ -17,8 +17,8 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', funct
   			alert("error");
   		};
 
-  		var url = "api/Order/";
-		restCall('POST', url, newOrder, successCallback, errorCallback);
+  		var createNewOrderUrl = host + "api/Order/";
+		restCall('POST', createNewOrderUrl, newOrder, successCallback, errorCallback);
 		console.log(newOrder);
 	};
 

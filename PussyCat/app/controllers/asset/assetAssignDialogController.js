@@ -14,7 +14,7 @@ function assetAssignDialogController($scope, $mdDialog, $http, host) {
 		$mdDialog.hide($scope.assignedAssets);
 	};
 
-	var url1 = host + "/api/Account";
+	var url1 = host + "api/Account";
 		
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data;

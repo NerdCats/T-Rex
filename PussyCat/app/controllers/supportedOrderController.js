@@ -1,10 +1,10 @@
 'use strict';
-app.controller('supportedOrderController', ['$scope', 'supportedOrderFactory', 'restCall', '$window', supportedOrderController]);
-function supportedOrderController($scope, supportedOrderFactory, restCall, $window){
+app.controller('supportedOrderController', ['$scope', 'supportedOrderFactory', 'restCall', 'host','$window', supportedOrderController]);
+function supportedOrderController($scope, supportedOrderFactory, restCall, host, $window){
 	var vm = $scope;
 	vm.hello = supportedOrderFactory;
 
-	var supportedOrderPath = "/api/Order/SupportedOrder";
+	var supportedOrderUrl = host + "api/Order/SupportedOrder";
 	var successCallback = function (response) {
 		vm.supportedOrder = response.data;
 		console.log(response);
@@ -12,7 +12,7 @@ function supportedOrderController($scope, supportedOrderFactory, restCall, $wind
 	var errorCallback = function (error) {
 		console.log(error);
 	};
-	restCall('GET', supportedOrderPath, null, successCallback, errorCallback);
+	restCall('GET', supportedOrderUrl, null, successCallback, errorCallback);
 
 	vm.update = function (order) {
 		console.log(order);
@@ -20,8 +20,8 @@ function supportedOrderController($scope, supportedOrderFactory, restCall, $wind
 	};
 
 	vm.delete = function (id) {		
-		console.log(supportedOrderPath + "/" + id);
-		restCall('DELETE', supportedOrderPath + "/" + id, null, function (response) {			
+		console.log(supportedOrderUrl + "/" + id);
+		restCall('DELETE', supportedOrderUrl + "/" + id, null, function (response) {			
 			console.log(response);
 			$window.location.reload();
 		}, function (error) {
