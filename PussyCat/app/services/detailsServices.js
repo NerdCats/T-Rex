@@ -98,7 +98,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 				jobTaskStates : job.Tasks[1].State,
 				stateChanged : function (state) {
 					console.log(this.jobTaskStates);
-					var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[1].id, success, error);
+					var result = patchUpdate(state, "replace", "/State", "api/job/" , job._id, job.Tasks[1].id, success, error);
 					if (result) this.jobTaskStates = state;
 				}
 			};
@@ -107,7 +107,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 				jobTaskStates : job.Tasks[2].State,
 				stateChanged : function (state) {
 					console.log(this.jobTaskStates);
-					var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[1].id, success, error);
+					var result = patchUpdate(state, "replace", "/State", "api/job/" , job._id, job.Tasks[2].id, success, error);
 					if (result) this.jobTaskStates = state;
 				}
 			};

@@ -17,7 +17,7 @@ app.factory('supportedOrderFactory', ['$http', 'restCall', '$window', 'host', fu
 			console.log(error);
 		};
 		var supportedOrderRegisterUrl = host + "api/Order/SupportedOrder";
-		restCall(method, , order, successCallback, errorCallaback);
+		restCall(method, supportedOrderRegisterUrl , order, successCallback, errorCallaback);
 		console.log("restCall");
 	};
 

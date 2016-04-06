@@ -47,7 +47,10 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', 'restCall', 'host', functio
 				Orders.pages.push(i);
 			};
  		};
- 		restCall('GET', jobListUrl, null, successCallback);
+ 		function errorCallback(response) {
+ 			console.log(response);
+ 		}
+ 		restCall('GET', jobListUrl, null, successCallback, errorCallback);
 	};
 
 	var loadNextPage = function(Orders, state, envelope, page, pageSize){		
