@@ -17,7 +17,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', funct
   			alert("error");
   		};
 
-  		var url = "/api/Order/";
+  		var url = "api/Order/";
 		restCall('POST', url, newOrder, successCallback, errorCallback);
 		console.log(newOrder);
 	};

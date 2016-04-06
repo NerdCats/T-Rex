@@ -3,7 +3,7 @@
 app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',function($scope, orderFactory, mapFactory){
 	var vm = $scope;
 	vm.hello = orderFactory.hello;
-	vm.OrderType = ["Ride", "Fetch"];
+	vm.OrderType = ["Ride", "Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	vm.newOrder = {
 	    From: {
@@ -22,10 +22,10 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 	        },
 	    	Address: ""
 	    },
-	    VehiclePreference: [],
-	    //ProposedRide: null,
 	    Name: "",
 	    Type: "",
+	    PackageDescription : "",
+	    PackageWeight : 0,
 	    PayloadType: "",
 	    User: "",
 	    ETA: null,

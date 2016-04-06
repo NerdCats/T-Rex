@@ -18,11 +18,11 @@
 
 		<md-content layout-gt-sm="row" layout-padding flex="100">
             <md-input-container flex="100">
-                <label>Name</label>
-                <input required name="Name" ng-model="newOrder.Name">
-                <div ng-messages="newOrderForm.Name.$error">
+                <label>User</label>
+                <input required name="User" ng-model="newOrder.User">
+                <div ng-messages="newOrderForm.User.$error">
                     <div ng-message="required">This is required.</div>
-                    <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                    <div ng-message="md-maxlength">The User has to be less than 30 characters long.</div>
                 </div>
             </md-input-container>           
         </md-content>
@@ -43,6 +43,28 @@
                 <label>User's Destination</label>
                 <input required name="ToAddress" ng-model="newOrder.To.Address"  value="{{newOrder.To.Address}}">
                 <div ng-messages="newOrderForm.ToAddress.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                </div>
+            </md-input-container>           
+        </md-content>
+
+        <md-content layout-gt-sm="row" layout-padding flex="100">
+            <md-input-container flex="100">
+                <label>Package Destination</label>
+                <input required name="PackageDescription" ng-model="newOrder.PackageDescription"  value="{{newOrder.PackageDescription}}">
+                <div ng-messages="newOrderForm.PackageDescription.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                </div>
+            </md-input-container>           
+        </md-content>
+
+        <md-content layout-gt-sm="row" layout-padding flex="100">
+            <md-input-container flex="100">
+                <label>Package Weight</label>
+                <input required name="PackageWeight" ng-model="newOrder.PackageWeight" type="number" placeholder="ex: 1 kg or 0.5 kg" value="{{newOrder.PackageWeight}}">
+                <div ng-messages="newOrderForm.PackageWeight.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                 </div>
