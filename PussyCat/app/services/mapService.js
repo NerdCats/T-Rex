@@ -57,44 +57,32 @@ app.factory('mapFactory', [function(){
 		});
 	};
 
-	var markerDragEvent = function (marker, populateVmCallback) {
+	var markerDragEvent = function (marker, markerAddressFoundCallback) {
 		var geocoder = new google.maps.Geocoder();
-		function geocodePosition(pos, populateVmCallback) {
-			geocoder.geocode({
-				latLng: pos
-			}, function(responses) {
-				if (responses && responses.length > 0) {
-					var address = responses[0].formatted_address;
-					console.log(address);
-					populateVmCallback(address, pos);
-				} else {
-					return "no address";
-				}
-			});
-		}
 		var markerDrag = function (marker) {
 			var lat = marker.latLng.lat();
-			var lon = marker.latLng.lng();
-			console.log(lat + " " + lon);
-			geocodePosition(marker.latLng, populateVmCallback);
+			var lng = marker.latLng.lng();
+			console.log(lat + " " + lng);		
+			getAddress(lat, lng, markerAddressFoundCallback)
 		};
-
 		google.maps.event.addListener(marker, 'dragend', markerDrag);
 
 	};
 
 	
 
-	var getAddress = function (latLng, addressFoundCallback) {
+	var getAddress = function (lat, lng, addressFoundCallback) {
+		var latLng = new google.maps.LatLng(lat, lng);
+		console.log(latLng)
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({
 				latLng: latLng
 			}, function(responses) {
 				if (responses && responses.length > 0) {
 					var address = responses[0].formatted_address;
-					addressFoundCallback(latLng, address);
+					addressFoundCallback(address, latLng);
 				} else {
-					addressFoundCallback(latLng, address);
+					addressFoundCallback(address, latLng);
 				}
 			}
 		); 

@@ -92,7 +92,7 @@
 
     <div id="from-to" flex="25">                             
        
-        <md-card flex="100">
+        <!-- <md-card flex="100">
             <md-card-actions layout="row" layout-align="end center">
                 <md-button ng-click="locateMarkerOnMap(locations.userLocation)">
                     <md-card-title>
@@ -119,10 +119,10 @@
                     </md-card-content>
                 </md-button>
             </md-card-actions>
-        </md-card>
+        </md-card> -->
          <md-list>
-            <md-list-item  ng-repeat="(key, value) in locations.assetsLocation track by $index">
-                <md-card flex="100">
+            <md-list-item  ng-repeat="(key, value) in locations track by $index">
+                <md-card flex="95">
                     <md-card-actions layout="row" layout-align="end center">
                         <md-button ng-click="locateMarkerOnMap(value)">
                             <md-card-title>
