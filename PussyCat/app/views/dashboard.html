@@ -26,15 +26,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="order in newOrders.orders track by $index">
-                        <td class="number"><a href="#/details/{{order.Id}}">{{$index + 1}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.Name}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.Type}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.From}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.To}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.User}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.RequestedAgo}}</a></td>
-                        <td class="text"><a href="#/details/{{order.Id}}">{{order.State}}</a></td>
+                <tr ng-repeat="order in newOrders.orders track by $index" ng-click="order.Details(order.Id)">
+                        <td class="number">{{$index + 1}}</td>
+                        <td class="text">{{order.Name}}</td>
+                        <td class="text">{{order.Type}}</td>
+                        <td class="text">{{order.From}}</td>
+                        <td class="text">{{order.To}}</td>
+                        <td class="text">{{order.User}}</td>
+                        <td class="text">{{order.RequestedAgo}}</td>
+                        <td class="text">{{order.State}}</td>
                 </tr>
             </tbody>
         </table>
@@ -60,7 +60,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="order in processingOrders.orders track by $index">
+                <tr ng-repeat="order in processingOrders.orders track by $index" ng-click="order.Details(order.Id)">
                     <a href="/details/{{order.Id}}">
                         <td class="number">{{$index + 1}}</td>
                         <td class="text">{{order.Name}}</td>

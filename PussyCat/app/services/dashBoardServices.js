@@ -1,4 +1,4 @@
-app.factory('dashboardFactory', ['$http', 'timeAgo', 'restCall', 'host', function($http, timeAgo, restCall, host){
+app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host', function($http, $window, timeAgo, restCall, host){
 
 	var jobListUrlMaker = function (state, envelope, page, pageSize) {
 		var path = "api/Job/odata?";
@@ -24,7 +24,7 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', 'restCall', 'host', functio
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$location.path('/details/'+ value._id);							
+							$window.location.href = '#/details/'+ value._id;
 						}
 					};
 				} catch (e){
@@ -37,7 +37,7 @@ app.factory('dashboardFactory', ['$http', 'timeAgo', 'restCall', 'host', functio
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$location.path('/details/'+ value._id);							
+							$window.location.href = '#/details/'+ value._id;
 						}
 					};
 				}				
