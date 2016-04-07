@@ -70,7 +70,7 @@ app.config(function($mdThemingProvider) {
 });
 
 app.constant('ngAuthSettings', {
-  apiServiceBaseUri: "http://gofetch.cloudapp.net:8088/",
+  apiServiceBaseUri: "http://gofetch.cloudapp.net:80/",
   // apiServiceBaseUri: "http://localhost:23873",
   clientId: 'GoFetchDevWebApp'
 });
@@ -85,7 +85,7 @@ app.constant('menus', [
 	{ Title : "Administration", Href: '#/'}
 ]);
 
-app.constant('host', "http://gofetch.cloudapp.net:8088/");
+app.constant('host', "http://gofetch.cloudapp.net:80/");
 // app.constant('host', "http://localhost:23873");
 
 
