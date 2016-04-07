@@ -88,6 +88,8 @@ app.constant('menus', [
 app.constant('host', "http://gofetch.cloudapp.net:80/");
 // app.constant('host', "http://localhost:23873");
 
+app.constant('tracking_host', "http://gofetch.cloudapp.net:1337/");
+
 
 app.constant('templates', {
 	sidebar: 'app/views/sidebar.html',

@@ -1,9 +1,9 @@
 
 'use strict';
 
-angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory', '$window','$http','$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
+angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http','$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
 	
-	function jobDetailsFactory(listToString, mapFactory, $window, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
+	function jobDetailsFactory(tracking_host, listToString, mapFactory, $window, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
 	
 
  	var populateLocation = function (job) {
@@ -187,7 +187,7 @@ angular.module('app').factory('jobDetailsFactory', ['listToString','mapFactory',
 
 				var markerUpdateEvent = function () {	   
 
-					var url = "http://gobdshadowcat.cloudapp.net/api/location/" + value.id;
+					var url = tracking_host + "api/location/" + value.id;
 					// var url = "http://127.0.0.1:8080/json/assetLocation.json";				    
 					restCall("GET", url, null, success, error);
 				    

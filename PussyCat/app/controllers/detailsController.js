@@ -1,13 +1,13 @@
 'use strict';
 
 app.controller('detailsController', [ '$scope', '$http', '$interval', '$mdDialog', '$mdMedia', '$location', '$window', '$routeParams',
-							'menus', 'templates', 'host',
+							'menus', 'templates', 'host', 'tracking_host',
 							'timeAgo', 'jobDetailsFactory', 'restCall', detailsController]);
 
 
 
 function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams,
-							menus, templates, host,
+							menus, templates, host, tracking_host,
 							timeAgo,jobDetailsFactory, restCall) {
 	
 	var id = $routeParams.id;	
@@ -43,7 +43,7 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 		$interval(function () {
 			angular.forEach(vm.locations.assetsLocation, function (value, index) {
 
-				var url = "http://gobdshadowcat.cloudapp.net/api/location/" + value.id;	
+				var url = tracking_host + "api/location/" + value.id;	
 				function success(response) {
 					value.desc = "Last seen on ";
 					console.log(response)
