@@ -8,7 +8,7 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
 		$mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
 	
 
- 	var populateLocation = function (job, scope) {
+ 	var populateLocation = function (job) {
 
  		var locations = []; 		
  		angular.forEach(job.Tasks, function (value, key) {
@@ -71,48 +71,6 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  			
  		});
 
-		var assetsLocation = [];
-		console.log(scope);
-		if (!$.isEmptyObject(job.Assets)) {			
-			angular.forEach(job.Assets, function (value, key) {				
-				var url = tracking_host + "api/location/" + key;	
-				function success(response) {
-					value.desc = "Last seen on ";
-					value.lat = response.data.point.coordinates[1]; 
-					value.lng = response.data.point.coordinates[0];
-					console.log(value.lat+", "+value.lng);
-					var addressFoundCallback = function (address, latLng) {
-						// vm.locations[index].desc = address;
-						var assetLocation = {		
-							type : "Asset",			
-							asset_id : value.Id,						
-							title : value.Profile.FirstName + "'s Location",
-							lat : latLng.lat(),
-							lng: latLng.lng(),
-							draggable : false,
-							desc : address,
-							markerUrl : mapFactory.markerIconUri.purpleMarker					
-						};
-						locations.push(assetLocation);
-						var marker = mapFactory.createMarker(
-											assetLocation.lat,
-											assetLocation.lng,
-											assetLocation.title,
-											assetLocation.draggable,
-											assetLocation.desc,
-											assetLocation.markerUrl);
-						mapFactory.markerClickEvent(null, marker);
-						scope.$apply();
-					};
-					mapFactory.getAddress(value.lat, value.lng, addressFoundCallback);					
-				};
-				function error(error) {
-					value.desc = "Couldn't retrieve Last location";
-					console.log(error)
-				}
-				restCall('GET', url, null, success, error);
-			});
-		}
 		
 		return locations;
 	};

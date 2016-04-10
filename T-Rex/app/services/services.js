@@ -21,8 +21,23 @@ app.factory('timeAgo', function () {
 		creationTime = new Date(creationTime);
 		var nowTime = Date.now();
 		var diffInMin = (nowTime - creationTime)/1000/60;
-		var time =  Math.round(diffInMin);
-		return time;
+		// var time =  Math.round(diffInMin);
+		var timeString = "";
+		if (diffInMin > 60) {
+			var hour = Math.round(diffInMin/60);
+			var minute = Math.round(diffInMin - (hour * 60));
+			if (hour > 1) {
+				timeString = hour + " hour ";
+			} else {
+				timeString = hour + " hours ";
+			};
+			if (minute > 1) {
+				timeString += minute + " minutes";	
+			} else if (minute == 1) {
+				timeString += minute + " minute";
+			}
+		}
+		return timeString;
 	};
 });
 

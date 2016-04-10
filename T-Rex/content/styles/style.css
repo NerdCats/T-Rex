@@ -195,6 +195,11 @@ tr:hover{
     width: 50%;
 }
 
+.order-table {
+    /*width: 80%;*/
+    margin-left: 50px;
+}
+
 #selected-image{
     width: 20%;
     height: auto;

@@ -28,7 +28,7 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 
 		vm.map = jobDetailsFactory.populateMap(vm.job);		
 	 
-		vm.locations = jobDetailsFactory.populateLocation(vm.job, vm);
+		vm.locations = jobDetailsFactory.populateLocation(vm.job);
  
 		vm.jobStates = jobDetailsFactory.populateJobTaskState(vm.job);		
 
@@ -44,6 +44,49 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 		this is the part to get tracking data of the assigned assets,
 		would move to signlr or websocket implementation when server is ready
 		*/		
+	
+
+		if (!$.isEmptyObject(vm.job.Assets)) {			
+			angular.forEach(vm.job.Assets, function (value, key) {				
+				var url = tracking_host + "api/location/" + key;	
+				function success(response) {
+					value.desc = "Last seen on ";
+					value.lat = response.data.point.coordinates[1]; 
+					value.lng = response.data.point.coordinates[0];
+					console.log(value.lat+", "+value.lng);
+					var addressFoundCallback = function (address, latLng) {
+						// vm.locations[index].desc = address;
+						var assetLocation = {		
+							type : "Asset",			
+							asset_id : value.Id,						
+							title : value.Profile.FirstName + "'s Location",
+							lat : latLng.lat(),
+							lng: latLng.lng(),
+							draggable : false,
+							desc : address,
+							markerUrl : mapFactory.markerIconUri.purpleMarker					
+						};
+						var marker = mapFactory.createMarker(
+											assetLocation.lat,
+											assetLocation.lng,
+											assetLocation.title,
+											assetLocation.draggable,
+											assetLocation.desc,
+											assetLocation.markerUrl);
+						mapFactory.markerClickEvent(null, marker);						
+						vm.locations.push(assetLocation);
+						$scope.$apply();
+					};
+					mapFactory.getAddress(value.lat, value.lng, addressFoundCallback);					
+				};
+				function error(error) {
+					value.desc = "Couldn't retrieve Last location";
+					console.log(error)
+				}
+				restCall('GET', url, null, success, error);
+			});
+		}
+		
 	};
 
 	restCall('GET', jobUrl, null, successCallback);

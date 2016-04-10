@@ -1,40 +1,44 @@
-<div class="title">
-	<h1>Dashboard</h1>
-</div>
-<article>
-    <div id="new-orders" class="order-table-div">
-        <h1>Newly arrived orders</h1>
-        <div>
-            <md-button class="md-primary" id="add-more">
-                <a href="#/order/create" >
-                    <p>Create new Order</p>
-                </a>
-            </md-button> 
-            
+<md-table-container>
+    <div class="title">
+    	<h1>Dashboard</h1>
+    </div>
+
+    <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
+        <div class="md-toolbar-tools" flex="20">
+            <span>Newly arrived orders</span>
         </div>
-        <table class="rg-table zebra">
-            <thead>
-                <tr>
-                    <th class="number rg-th">S/L no</th>
-                    <th class="text rg-th">Order</th>
-                    <th class="text rg-th">Type</th>
-                    <th class="text rg-th">From</th>
-                    <th class="text rg-th">To</th>
-                    <th class="text rg-th">User</th>
-                    <th class="text rg-th">Requested</th>
-                    <th class="text rg-th">State</th>
+        <div flex="60"></div>
+        <div flex="10">
+            <md-button class="md-primary" flex>
+                <a href="#/order/create">Create new Order</a>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    
+        <table md-table class="order-table" ng-model="selected" flex="90">
+            <thead md-head md-on-recorder="onReorder">
+                <tr md-row>
+                    <th md-column>S/L no</th>
+                    <th md-column>Order</th>
+                    <th md-column>Type</th>
+                    <th md-column>From</th>
+                    <th md-column>To</th>
+                    <th md-column>User</th>
+                    <th md-column>Requested</th>
+                    <th md-column>State</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr ng-repeat="order in newOrders.orders track by $index" ng-click="order.Details(order.Id)">
-                        <td class="number">{{$index + 1}}</td>
-                        <td class="text">{{order.Name}}</td>
-                        <td class="text">{{order.Type}}</td>
-                        <td class="text">{{order.From}}</td>
-                        <td class="text">{{order.To}}</td>
-                        <td class="text">{{order.User}}</td>
-                        <td class="text">{{order.RequestedAgo}}</td>
-                        <td class="text">{{order.State}}</td>
+            <tbody md-body>
+                <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in newOrders.orders track by $index" ng-click="order.Details(order.Id)">
+                        <td md-cell class="number">{{$index + 1}}</td>
+                        <td md-cell class="text">{{order.Name}}</td>
+                        <td md-cell class="text">{{order.Type}}</td>
+                        <td md-cell class="text">{{order.From}}</td>
+                        <td md-cell class="text">{{order.To}}</td>
+                        <td md-cell class="text">{{order.User}}</td>
+                        <td md-cell class="text">{{order.RequestedAgo}}</td>
+                        <td md-cell class="text">{{order.State}}</td>
                 </tr>
             </tbody>
         </table>
@@ -43,41 +47,85 @@
                 <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>                                    
             </ul>
         </div>
-     </div>		 
-    <div id="processing-order" class="order-table-div">
-        <h1>Currently processing orders</h1>
-        <table class="rg-table zebra">
-            <thead>
-                <tr>
-                    <th class="number rg-th">S/L no</th>
-                    <th class="text rg-th">Order</th>
-                    <th class="text rg-th">Type</th>
-                    <th class="text rg-th">From</th>
-                    <th class="text rg-th">To</th>
-                    <th class="text rg-th">User</th>
-                    <th class="text rg-th">State</th>
-                    <th class="text rg-th">Requested</th>
+
+    <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
+        <div class="md-toolbar-tools" flex="20">
+            <span>Currently processing orders</span>
+        </div>
+    </md-toolbar>     
+        <table md-table class="order-table" ng-model="selected" flex="90">
+            <thead md-head md-on-recorder="onReorder">
+                <tr md-row>
+                    <th md-column>S/L no</th>
+                    <th md-column>Order</th>
+                    <th md-column>Type</th>
+                    <th md-column>From</th>
+                    <th md-column>To</th>
+                    <th md-column>User</th>
+                    <th md-column>State</th>
+                    <th md-column>Requested</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr ng-repeat="order in processingOrders.orders track by $index" ng-click="order.Details(order.Id)">
+            <tbody md-body>
+                <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in processingOrders.orders track by $index" ng-click="order.Details(order.Id)">
                     <a href="/details/{{order.Id}}">
-                        <td class="number">{{$index + 1}}</td>
-                        <td class="text">{{order.Name}}</td>
-                        <td class="text">{{order.Type}}</td>
-                        <td class="text">{{order.From}}</td>
-                        <td class="text">{{order.To}}</td>
-                        <td class="text">{{order.User}}</td>
-                        <td class="text">{{order.State}}</td>
-                        <td class="text">{{order.RequestedAgo}}</td>
+                        <td md-cell class="number">{{$index + 1}}</td>
+                        <td md-cell class="text">{{order.Name}}</td>
+                        <td md-cell class="text">{{order.Type}}</td>
+                        <td md-cell class="text">{{order.From}}</td>
+                        <td md-cell class="text">{{order.To}}</td>
+                        <td md-cell class="text">{{order.User}}</td>
+                        <td md-cell class="text">{{order.State}}</td>
+                        <td md-cell class="text">{{order.RequestedAgo}}</td>
                     </a>
                 </tr>
             </tbody>
         </table>
-        <div style="float:right">
-            <ul layout="row">
-                <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
-            </ul>
-        </div>
+   
+    <div style="float:right">
+        <ul layout="row">
+            <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
+        </ul>
     </div>
-</article>				
+
+
+    <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
+        <div class="md-toolbar-tools" flex="20">
+            <span>Currently processing orders</span>
+        </div>
+    </md-toolbar>     
+        <table md-table class="order-table" ng-model="selected" flex="90">
+            <thead md-head md-on-recorder="onReorder">
+                <tr md-row>
+                    <th md-column>S/L no</th>
+                    <th md-column>Order</th>
+                    <th md-column>Type</th>
+                    <th md-column>From</th>
+                    <th md-column>To</th>
+                    <th md-column>User</th>
+                    <th md-column>State</th>
+                    <th md-column>Requested</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in completedOrders.orders track by $index" ng-click="order.Details(order.Id)">
+                    <a href="/details/{{order.Id}}">
+                        <td md-cell class="number">{{$index + 1}}</td>
+                        <td md-cell class="text">{{order.Name}}</td>
+                        <td md-cell class="text">{{order.Type}}</td>
+                        <td md-cell class="text">{{order.From}}</td>
+                        <td md-cell class="text">{{order.To}}</td>
+                        <td md-cell class="text">{{order.User}}</td>
+                        <td md-cell class="text">{{order.State}}</td>
+                        <td md-cell class="text">{{order.RequestedAgo}}</td>
+                    </a>
+                </tr>
+            </tbody>
+        </table>
+   
+    <div style="float:right">
+        <ul layout="row">
+            <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
+        </ul>
+    </div>
+</md-table-container>			

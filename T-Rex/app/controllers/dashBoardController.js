@@ -7,10 +7,12 @@ app.controller('dashBoardController', function ($scope, $http, $location, $inter
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');	
 	vm.menus = menus;
 	vm.templates = templates;
+	vm.selected = [];
 	vm.newOrders = [];
 	vm.processingOrders = [];
 	vm.newOrders = {orders: [], pages:[]};
 	vm.processingOrders = {orders: [], pages:[]};
+	vm.completedOrders = {orders: [], pages:[]};
 	vm.loadNextPage = dashboardFactory.loadNextPage;
 	
 	var URL_ENQUEUED = "api/Job/odata?$filter=State eq 'ENQUEUED'";
@@ -18,4 +20,5 @@ app.controller('dashBoardController', function ($scope, $http, $location, $inter
 
 	dashboardFactory.populateOrdersTable(vm.newOrders, "ENQUEUED", true, 0, 25);
 	dashboardFactory.populateOrdersTable(vm.processingOrders, "IN_PROGRESS", true, 0, 25);
+	dashboardFactory.populateOrdersTable(vm.completedOrders, "COMPLETED", true, 0, 25);
 });
