@@ -30,6 +30,10 @@ app.factory('mapFactory', [function(){
 
 
 	var createMarker = function (lat, lng, title, draggable, description, markerUrl, map) {
+		if (map==null) {
+			map = mapServicePrivateMap;
+		};
+
 		var marker = new google.maps.Marker({
 			  	map: map,
 			  	position: new google.maps.LatLng(lat, lng),
@@ -50,6 +54,9 @@ app.factory('mapFactory', [function(){
 	}
 
 	var markerClickEvent = function (map, marker) {
+		if (map==null) {
+			map = mapServicePrivateMap;
+		};
 		var infoWindow = new google.maps.InfoWindow();
 		marker.addListener('click', function(){
 		  	infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);

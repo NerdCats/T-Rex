@@ -3,8 +3,16 @@
 app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',function($scope, orderFactory, mapFactory){
 	var vm = $scope;
 	vm.hello = orderFactory.hello;
+	
 	vm.OrderType = ["Ride", "Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
+	
+	vm.isOrderSelected = false;
+	vm.RideOrderSelected = false;
+	vm.DeliveryOrderSelected = false;
+	vm.FromLabel = "From";
+	vm.ToLabel = "To";
+
 	vm.newOrder = {
 	    From: {
 	        Point: {
@@ -32,8 +40,27 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 	    ETAMinutes: 0
 	};
 
+
 	vm.createNewOrder = orderFactory.createNewOrder;
-	// orderFactory.populateMap();
+	vm.orderTypeSelected = function (type) {
+
+		vm.isOrderSelected = true;
+		if (type == "Ride") {
+			vm.RideOrderSelected = true;
+			vm.DeliveryOrderSelected = false;
+
+			vm.FromLabel = "User's Location";
+			vm.ToLabel = "User's Destination";
+		} else if ("Delivery") {
+			vm.RideOrderSelected = false;
+			vm.DeliveryOrderSelected = true;
+
+			vm.FromLabel = "Pick Up Location";
+			vm.ToLabel = "Delivery Location";
+		}
+	};
+
+
 	var createMarkersCallback = function (map) { // need a map parameter to reuse mapService
 
 		var markerFromAddressFoundCallback = function (address, latLng) {
@@ -66,5 +93,5 @@ app.controller('createOrderController', ['$scope', 'orderFactory', 'mapFactory',
 		mapFactory.markerDragEvent(toMarker, markerToAddressFoundCallback);
 	};
 	
-	mapFactory.createMap(23.790888, 90.391430, 'map', 14, createMarkersCallback);
+	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14, createMarkersCallback);
 }]);

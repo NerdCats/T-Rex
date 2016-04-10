@@ -27,52 +27,23 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 		vm.job = response.data;				
 
 		vm.map = jobDetailsFactory.populateMap(vm.job);		
-
-		// vm.locations = jobDetailsFactory.populateLocation(vm.job);
-
-		vm.locations = jobDetailsFactory.populateLocation(vm.job);
-
-		angular.forEach(vm.locations, function (value, index) {
-			if(value.type == "Asset"){
-				var addressFoundCallback = function (address, latLng) {
-					vm.locations[index].desc = address;
-					$scope.$apply();
-				};
-				mapFactory.getAddress(value.lat, value.lng, addressFoundCallback)				
-			}
-		});
-
-
+	 
+		vm.locations = jobDetailsFactory.populateLocation(vm.job, vm);
+ 
 		vm.jobStates = jobDetailsFactory.populateJobTaskState(vm.job);		
 
 		vm.requestedAgo = timeAgo(vm.job.CreateTime);
 
-		vm.detailsTable = jobDetailsFactory.populateJobDetailsTable(vm.job);
+		vm.oderDetailsTable = jobDetailsFactory.populateOrderDetailsTable(vm.job);
 
 		vm.assets = jobDetailsFactory.populateAssetInfo(vm.job);		
 
 		vm.servingby = jobDetailsFactory.populateServingBy(vm.job);
 
-		/*
+		/* FIXME:
 		this is the part to get tracking data of the assigned assets,
 		would move to signlr or websocket implementation when server is ready
-		 */
-		angular.forEach(vm.locations.assetsLocation, function (value, index) {
-
-			var url = tracking_host + "api/location/" + value.id;	
-			function success(response) {
-				value.desc = "Last seen on ";
-				console.log(response)
-			};
-			function error(error) {
-				value.desc = "Couldn't retrieve Last location";
-				console.log(error)
-			}
-			restCall('GET', url, null, success, error);
-		});			
-		 
-
-
+		*/		
 	};
 
 	restCall('GET', jobUrl, null, successCallback);

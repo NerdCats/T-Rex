@@ -5,9 +5,9 @@
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
 </div>
-<article id="container" class="horizontal">
+<article id="container" layout="row">
      
-    <div id="order-details" flex="30">
+    <div id="order-details" flex="25">
     	<md-card>
             <md-card-title>
                 <md-card-title-text>
@@ -18,31 +18,31 @@
                 <!--
                 <div layout="row">
                     <div flex="25"><b>Order ID</b></div>
-                    <div> {{detailsTable.orderId}}</div>
+                    <div> {{oderDetailsTable.orderId}}</div>
                 </div> 
                 -->
                 <div layout="row">
                     <div flex="40"><b>User</b></div>
-                    <div flex="60"> {{detailsTable.Order.User}}</div>
+                    <div flex="60"> {{oderDetailsTable.Order.User}}</div>
                 </div>
                 <div layout="row">
                     <div flex="40"><b>Phone</b></div>
-                    <div flex="60"> {{detailsTable.phoneNumber}}</div>
+                    <div flex="60"> {{oderDetailsTable.phoneNumber}}</div>
                 </div>
                 <div layout="row">
                     <div flex="40"><b>Order</b></div>
-                    <div flex="60"> {{detailsTable.orderType}}</div>
+                    <div flex="60"> {{oderDetailsTable.orderType}}</div>
                 </div>
                 <div layout="row">
                     <div flex="40"><b>Preference  </b></div>
                     <!-- <div> -->
-                       <!--  <li ng-repeat="vehicle in detailsTable.preferences">{{vehicle}}</li> -->
+                       <!--  <li ng-repeat="vehicle in oderDetailsTable.preferences">{{vehicle}}</li> -->
                     <!-- </ul></div> -->
-                    <div flex="60"> {{detailsTable.preferences}} </div>
+                    <div flex="60"> {{oderDetailsTable.preferences}} </div>
                 </div>
                 <div layout="row">
                     <div flex="40"><b>ETA</b></div>
-                    <div flex="60"> {{detailsTable.eta}}</div>
+                    <div flex="60"> {{oderDetailsTable.eta}}</div>
                 </div>                  
             </md-card-content>
         </md-card>
@@ -90,37 +90,8 @@
         </md-card>	                                
     </div>
 
-    <div id="from-to" flex="25">                             
-       
-        <!-- <md-card flex="100">
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="locateMarkerOnMap(locations.userLocation)">
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-title">{{locations.userLocation.title}}</span>
-                        </md-card-title-text>                                                  
-                    </md-card-title>
-                    <md-card-content>
-                        <p>{{locations.userLocation.desc}}</p>
-                    </md-card-content>
-                </md-button>
-            </md-card-actions>
-        </md-card>
-        <md-card flex="100">
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="locateMarkerOnMap(locations.userDestination)">
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-title">{{locations.userDestination.title}}</span>
-                        </md-card-title-text>                                                  
-                    </md-card-title>
-                    <md-card-content>
-                        <p>{{locations.userDestination.desc}}</p>
-                    </md-card-content>
-                </md-button>
-            </md-card-actions>
-        </md-card> -->
-         <md-list>
+    <div id="from-to" flex="25">
+        <md-list>
             <md-list-item  ng-repeat="(key, value) in locations track by $index">
                 <md-card flex="95">
                     <md-card-actions layout="row" layout-align="end center">
@@ -162,5 +133,6 @@
             </md-card-content>
         </md-card>
     </div>
-    <div id="map" flex="60"></div>					 
+
+    <div id="map" flex="45"></div>					 
 </article>		

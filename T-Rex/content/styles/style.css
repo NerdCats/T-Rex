@@ -29,10 +29,8 @@ header{
     /*background-color: #B5B5B5;*/
     padding: 10px 10px;
 }
-.generic-form{
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 100px;
+.generic-form{    
+    margin: 50px;    
 }
 #upper{
     margin-bottom: 50px;
@@ -120,10 +118,6 @@ a{
     height: 100%;
     /*background-color: #F5F5F5;*/
 }
-.horizontal{
-	display: flex;
-	flex-flow: row;
-}
 .vertical{
 	display: flex;
 	flex-flow: column;
@@ -158,12 +152,6 @@ a{
     padding: 20px;
     /*height: 100%;*/
 }
-#map{
-/*	background-color: #FFFFFF;*/
-	/*width: 1024px;*/
-    /*height: 100%;*/
-}	
-
 
 #content-header-h1 {
     margin: 20px;

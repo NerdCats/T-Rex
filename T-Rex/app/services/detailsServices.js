@@ -1,12 +1,14 @@
 
 'use strict';
 
-angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http','$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
+angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http',
+	'$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
 	
-	function jobDetailsFactory(tracking_host, listToString, mapFactory, $window, $http, $mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
+	function jobDetailsFactory(tracking_host, listToString, mapFactory, $window, $http, 
+		$mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
 	
 
- 	var populateLocation = function (job) {
+ 	var populateLocation = function (job, scope) {
 
  		var locations = []; 		
  		angular.forEach(job.Tasks, function (value, key) {
@@ -38,14 +40,16 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  				}
  				locations.push(deliveryLocation);
  			} else if (value.Type == "FetchRide") {
+ 				// FIXME: basically this is an asset assign task. When we will be working
+ 				// with Ride order, then refactor it
  				var fetchRideTask = {
  					type : "Task",
 					taskType : "FetchRide",
 					taskId : value.id,
-					title : "User's location",
-					desc : job.Order.From.Address,
-					lat : job.Order.From.Point.coordinates[1],
-					lng : job.Order.From.Point.coordinates[0],
+					title : "User's Destination",
+					desc : job.Order.To.Address,
+					lat : job.Order.To.Point.coordinates[1],
+					lng : job.Order.To.Point.coordinates[0],
 					draggable : false,
 					markerUrl : mapFactory.markerIconUri.greenMarker,
  				};
@@ -55,62 +59,61 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  					type : "Task",
 					taskType : "RidePickUp",
 					taskId : value.id,
-					title : "User's destination",
-					desc : job.Order.From.Address,
-					lat : job.Order.From.Point.coordinates[1],
-					lng : job.Order.From.Point.coordinates[0],
+					title : "User's Location",
+ 					desc : value.PickupLocation.Address,
+ 					lat : value.PickupLocation.Point.coordinates[1],
+ 					lng : value.PickupLocation.Point.coordinates[0],
 					draggable : false,
-					markerUrl : mapFactory.markerIconUri.greenMarker,
+					markerUrl : mapFactory.markerIconUri.redMarker,
  				}
  				locations.push(ridePickUpTask);
  			}
  			
  		});
-		// var userLocation  = {
-		// 	user : job.Order.From.Address,
-		// 	lat : job.Order.From.Point.coordinates[1],
-		// 	lng : job.Order.From.Point.coordinates[0],
-		// 	draggable : true,
-		// 	title : "User's location",
-		// 	desc : job.Order.From.Address,
-		// 	markerUrl : mapFactory.markerIconUri.greenMarker			
-		// };
-
-		// var userDestination = {
-		// 	user : job.User,
-		// 	lat : job.Order.To.Point.coordinates[1],
-		// 	lng : job.Order.To.Point.coordinates[0],
-		// 	draggable : true,
-		// 	title : "User's destination",
-		// 	desc : job.Order.To.Address,
-		// 	markerUrl : mapFactory.markerIconUri.redMarker			
-		// };
 
 		var assetsLocation = [];
+		console.log(scope);
 		if (!$.isEmptyObject(job.Assets)) {			
 			angular.forEach(job.Assets, function (value, key) {				
-					var assetLocation = {		
-						type : "Asset",			
-						asset_id : value.Id,						
-						title : value.Profile.FirstName + "'s Location",
-						lat : 23.797057,
-						lng: 90.408351,
-						draggable : false,
-						desc : "",
-						markerUrl : mapFactory.markerIconUri.purpleMarker					
+				var url = tracking_host + "api/location/" + key;	
+				function success(response) {
+					value.desc = "Last seen on ";
+					value.lat = response.data.point.coordinates[1]; 
+					value.lng = response.data.point.coordinates[0];
+					console.log(value.lat+", "+value.lng);
+					var addressFoundCallback = function (address, latLng) {
+						// vm.locations[index].desc = address;
+						var assetLocation = {		
+							type : "Asset",			
+							asset_id : value.Id,						
+							title : value.Profile.FirstName + "'s Location",
+							lat : latLng.lat(),
+							lng: latLng.lng(),
+							draggable : false,
+							desc : address,
+							markerUrl : mapFactory.markerIconUri.purpleMarker					
+						};
+						locations.push(assetLocation);
+						var marker = mapFactory.createMarker(
+											assetLocation.lat,
+											assetLocation.lng,
+											assetLocation.title,
+											assetLocation.draggable,
+											assetLocation.desc,
+											assetLocation.markerUrl);
+						mapFactory.markerClickEvent(null, marker);
+						scope.$apply();
 					};
-				locations.push(assetLocation);				
+					mapFactory.getAddress(value.lat, value.lng, addressFoundCallback);					
+				};
+				function error(error) {
+					value.desc = "Couldn't retrieve Last location";
+					console.log(error)
+				}
+				restCall('GET', url, null, success, error);
 			});
 		}
 		
-
-		// return {
-		// 	userLocation : userLocation,
-		// 	userDestination : userDestination,
-		// 	assetsLocation : assetsLocation,
-		// 	locations : locations
-		// }
-		console.log(locations);
 		return locations;
 	};
 
@@ -179,7 +182,7 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
 		return jobStates;
 	};
 	
-	var populateJobDetailsTable = function (job) {
+	var populateOrderDetailsTable = function (job) {
 		var details = {
 			orderId : job._id,
 			user : job.OrderUser,
@@ -216,25 +219,6 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
 		var locations = populateLocation(job);
 		
 		var createMarkersCallback = function (map) {			
-			// var userLocationMarker = mapFactory.createMarker(locations.userLocation.lat,
-			// 						locations.userLocation.lng,
-			// 						locations.userLocation.title,
-			// 						locations.userLocation.draggable,
-			// 						locations.userLocation.desc,
-			// 						locations.userLocation.markerUrl,
-			// 						map);
-			// mapFactory.markerClickEvent(map, userLocationMarker);
-			
-			// var destinationMarker = mapFactory.createMarker(locations.userDestination.lat,
-			// 						locations.userDestination.lng,
-			// 						locations.userDestination.title,
-			// 						locations.userDestination.draggable,
-			// 						locations.userDestination.desc,
-			// 						locations.userDestination.markerUrl,
-			// 						map);
-
-			// mapFactory.markerClickEvent(map, destinationMarker);
-
 			angular.forEach(locations, function (value, key) {				
 				var marker = mapFactory.createMarker(
 											value.lat,
@@ -242,12 +226,8 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
 											value.title,
 											value.draggable,
 											value.desc,
-											value.markerUrl,
-											map);				
+											value.markerUrl);
 				mapFactory.markerClickEvent(map, marker);
-
-				
-
 				/*
 					this is the part to get tracking data of the assigned assets,
 					would move to signlr or websocket implementation when server is ready
@@ -331,7 +311,7 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
 	return {		 
 		populateLocation : populateLocation,
 		populateJobTaskState : populateJobTaskState,
-		populateJobDetailsTable : populateJobDetailsTable,
+		populateOrderDetailsTable : populateOrderDetailsTable,
 		populateAssetInfo : populateAssetInfo,
 		populateServingBy : populateServingBy,
 		populateMap : populateMap,
