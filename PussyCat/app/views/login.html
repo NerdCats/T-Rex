@@ -1,32 +1,36 @@
-<div layout="column" flex id="content" role="main" ng-cloak>
-  <md-content layout="vertical" flex id="content">
-    <div layout="row" layout-align="center center" layout-fill>
-      <md-whiteframe class="md-whiteframe-z1" layout="row" flex="30" layout-padding>
-        <form name="loginForm">
-          <md-content layout="column" flex="100">
-            <md-input-container flex>
-              <label>User Name</label>
-              <input name="username" required ng-model="auth.loginData.username">
-              <div ng-messages="loginForm.username.$error" role="alert">
-                <div ng-message="required">This field is required</div>
-              </div>
-            </md-input-container>
-            <md-input-container>
-              <label>Password</label>
-              <input required name="password" ng-model="auth.loginData.password" type="password">
-              <div ng-messages="loginForm.password.$error" role="alert">
-                <div ng-message="required">This field is required</div>
-              </div>
-            </md-input-container>
-
-            <md-input-container >
-              <div layout="row" layout-sm="column" layout-margin>
-                <md-button type="submit" ng-click="auth.login()" class="md-raised md-primary" flex="40" flex-sm="100">Login</md-button>
-              </div>
-            </md-input-container>
-          </md-content>
-        </form>
-      </md-whiteframe>
-    </div>
-  </md-content>
-</div>
+<md-content layout="row" layout-align="space-around"
+layout-padding="layout-padding"
+ng-cloak="ng-cloak" class="page-login">
+  <md-card flex="flex" flex-gt-sm="50" flex-gt-md="33">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><span>TaskCat Admin Login</span></h2>
+      </div>
+    </md-toolbar>
+    <md-card-content>
+      <form name="loginForm">
+        <md-input-container class="md-block">
+          <label>User Name</label>
+          <input type="username" name="email" ng-model="auth.loginData.username"
+          placeholder="username" required="" />
+          <div ng-messages="loginForm.username.$error" role="alert">
+            <div ng-message="required">This field is required</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input type="password" name="password" ng-model="auth.loginData.password"
+          placeholder="password" required="" md-maxlength="16" />
+          <div ng-messages="loginForm.password.$error" role="alert" multiple="">
+            <div ng-message="required" class="my-message">You must supply a password.</div>
+            <div ng-message="md-maxlength" class="my-message">Too long.</div>
+          </div>
+        </md-input-container>
+        <md-button ng-disabled="!loginForm.$valid"
+        type="submit"
+        ng-click="auth.login()"
+        class="md-raised md-primary">&nbsp Login &nbsp</md-button>
+      </form>
+    </md-card-content>
+  </md-card>
+</md-content>
