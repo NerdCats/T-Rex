@@ -123,9 +123,7 @@ a{
 	flex-flow: column;
 }
 
-#sidebar{
-    color: black;
-}
+
 .md-button{
     width: 100%;
     margin: 0px,
@@ -203,4 +201,18 @@ tr:hover{
 #selected-image{
     width: 20%;
     height: auto;
+}
+
+#sidebar {
+    /*background-color: red;*/
+}
+.show-sidebar {    
+    position : relative;    
+    left: 0;
+    transition : 1000ms left;
+}
+.remove-sidebar {    
+    position : relative;
+    left : -130px;;
+    transition : 1000ms left;
 }

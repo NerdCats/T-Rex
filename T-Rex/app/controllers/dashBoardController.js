@@ -1,9 +1,9 @@
 'use strict';
 
-app.controller('dashBoardController', function ($scope, $http, $location, $interval, $mdDialog, $mdMedia,$window,
+app.controller('dashBoardController', function ($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia,$window,
 												menus, templates, host, dashboardFactory) {
 
-	var vm = $scope;
+	var vm = $scope;	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');	
 	vm.menus = menus;
 	vm.templates = templates;

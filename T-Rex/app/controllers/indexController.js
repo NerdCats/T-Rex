@@ -24,7 +24,7 @@ function indexController($scope, $location, menus, templates, $window, authServi
 	activate();
 
 	vm.menuShow = function () {
-		vm.sidebarVisible = !vm.sidebarVisible;
+		vm.sidebarVisible = !vm.sidebarVisible;		
 	}
 
 	function activate()

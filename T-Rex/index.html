@@ -81,6 +81,7 @@
         <script src="app/services/mapService.js"></script>
         <script src="app/services/supportedOrderService.js"></script>
         
+
         <!-- load controllers -->
         <script src="app/controllers/indexController.js"></script>
         <script src="app/controllers/sidebarController.js"></script>
@@ -99,6 +100,10 @@
         <script src="app/controllers/supportedOrderController.js"></script>
         <script src="app/controllers/supportedOrder/supportedOrderUpdateController.js"></script>
         <script src="app/controllers/supportedOrder/supportedOrderCreateController.js"></script>
+
+
+        <!-- load directives -->
+        <script src="app/directives/sidebarDirective.js"></script>
         <script src="scripts/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
     <body>
@@ -117,11 +122,9 @@
                     </md-button>                    
                 </div>
             </header>
-            <div id="main">
-                <div flex layout="row" >
-                    <div id="sidebar" flex="10" ng-include="templates" ng-show="sidebarVisible"></div>
-                    <div id="ng-view" ng-view class="view-frame" flex="90"></div>
-                </div>                             
+            <div id="main" flex="100" layout="row"> 
+                <div id="sidebar" class="show-sidebar" flex="10" ng-include="templates" sidebar-directive="sidebarVisible"></div>
+                <div id="ng-view" ng-view class="view-frame" flex="90" sidebar-directive="sidebarVisible"></div>
             </div>
             <!-- <footer id="mainFooter">
                 <div ng-show="shouldShowMenuAndFooter" layout="row" layout-align="center center">
