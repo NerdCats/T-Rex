@@ -216,3 +216,7 @@ tr:hover{
     left : -130px;;
     transition : 1000ms left;
 }
+#ng-view {
+    display: block;
+    margin: auto;
+}

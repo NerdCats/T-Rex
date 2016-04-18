@@ -7,7 +7,8 @@ var app = angular.module('app', [
   'ngRoute',
   'LocalStorageModule',
   'md.data.table',
-  'angularFileUpload'
+  'angularFileUpload',
+  // 'material.svgAssetsCache',
 ]);
 
 app.config(['$routeProvider',

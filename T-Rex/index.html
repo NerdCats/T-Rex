@@ -23,7 +23,6 @@
 		<link rel="stylesheet" type="text/css" href="content/styles/style.css">
         <link rel="stylesheet" type="text/css" href="content/styles/table.css">
 
-
         <!-- <link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css"> -->
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.css">
 
@@ -58,7 +57,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.7/angular-local-storage.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-file-upload/2.2.0/angular-file-upload.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
-
+        
+        <script type="text/javascript" href="scripts/materialSvgAssetsCache.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.3/md-data-table.js"></script>
 
@@ -113,19 +113,22 @@
         <div ng-app="app" id="wrapper" ng-controller="indexController" layout="column" layout-fill>
             <header>
                 <div layout="row" ng-show="shouldShowMenuAndFooter">
-                    <md-button id="menu-button" ng-click="menuShow()" flex="5">
+                    <md-button id="menu-button" ng-click="toggleLeft()" flex="5">
                         <i class="material-icons material-icon-style">menu</i>
                     </md-button>
                     <div flex="90"></div>
                     <md-button id="menu-button" ng-click="logout()" flex="5">
                         <i class="material-icons material-icon-style">exit_to_app</i>
-                    </md-button>                    
+                    </md-button>
                 </div>
-            </header>
-            <div id="main" flex="100" layout="row"> 
-                <div id="sidebar" class="show-sidebar" flex="10" ng-include="templates" sidebar-directive="sidebarVisible"></div>
-                <div id="ng-view" ng-view class="view-frame" flex="90" sidebar-directive="sidebarVisible"></div>
-            </div>
+            </header>            
+            <section layout="row">
+                <md-sidenav 
+                        md-component-id="left" class="md-sidenav-left" md-disable-backdrop flex="15"
+                        md-whiteframe="4"
+                        ng-include="templates"></md-sidenav>
+                <div id="ng-view" ng-view class="view-frame" flex="90"></div>
+            </section>
             <!-- <footer id="mainFooter">
                 <div ng-show="shouldShowMenuAndFooter" layout="row" layout-align="center center">
                     <h2>My Awesome Footer</h2>
