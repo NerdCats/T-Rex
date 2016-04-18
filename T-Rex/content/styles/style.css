@@ -220,3 +220,7 @@ tr:hover{
     display: block;
     margin: auto;
 }
+
+#orderCreateMap {
+    height: 700px;
+}

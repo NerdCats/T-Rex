@@ -30,7 +30,7 @@
         <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="isOrderSelected">
             <md-input-container flex="100">
                 <label>{{FromLabel}}</label>
-                <input required name="FromAddress" ng-model="newOrder.From.Address" value="{{newOrder.From.Address}}">
+                <textarea rows="5" required name="FromAddress" ng-model="newOrder.From.Address" value="{{newOrder.From.Address}}"></textarea>
                 <div ng-messages="newOrderForm.FromAddress.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -41,7 +41,7 @@
         <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="isOrderSelected">
             <md-input-container flex="100">
                 <label>{{ToLabel}}</label>
-                <input required name="ToAddress" ng-model="newOrder.To.Address"  value="{{newOrder.To.Address}}">
+                <textarea rows="5" required name="ToAddress" ng-model="newOrder.To.Address"  value="{{newOrder.To.Address}}"></textarea>
                 <div ng-messages="newOrderForm.ToAddress.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -51,8 +51,8 @@
 
         <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="DeliveryOrderSelected">
             <md-input-container flex="100">
-                <label>Package Destination</label>
-                <input required name="PackageDescription" ng-model="newOrder.PackageDescription"  value="{{newOrder.PackageDescription}}">
+                <label>Package Description</label>
+                <textarea rows="5" required name="PackageDescription" ng-model="newOrder.PackageDescription"  value="{{newOrder.PackageDescription}}"></textarea>
                 <div ng-messages="newOrderForm.PackageDescription.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -62,7 +62,7 @@
 
         <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="DeliveryOrderSelected">
             <md-input-container flex="100">
-                <label>Package Weight</label>
+                <label>Package Weight in KG</label>
                 <input required name="PackageWeight" ng-model="newOrder.PackageWeight" type="number" placeholder="ex: 1 kg or 0.5 kg" value="{{newOrder.PackageWeight}}">
                 <div ng-messages="newOrderForm.PackageWeight.$error">
                     <div ng-message="required">This is required.</div>
@@ -74,5 +74,36 @@
         <md-button class="md-raised" flex="50" ng-click="createNewOrder(newOrder)">REGISTER</md-button>
     </form>
     
-	<div id="orderCreateMap" flex="50"></div>
+    <section flex="70">        
+        <form ng-submit="searchAddress()">
+            <md-input-container class="md-block">
+                <label>Type in area name to search on the map</label>
+                <input required id="search_text" placeholder="ex: mohakhali" ncPlacesAutocomplete="true">   
+            </md-input-container>          
+            <md-input-container class="md-block">
+                <md-autocomplete 
+                    required 
+                    nc-places-autocomplete 
+                    nc-root-vm="createOrder" 
+                    md-input-name="toAutoComplete"
+                    md-items="item in vm.placesResults" 
+                    md-selected-item="vm.SelectedTo" 
+                    md-item-text="item.description" 
+                    md-floating-label="To" 
+                    md-search-text="vm.toSearchText">
+                    <md-item-template>
+                        <span md-highlight-text="vm.toSearchText">{{item.description}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No matches found.
+                    </md-not-found>
+                    <!-- <div ng-messages="deliveryForm.toAutoComplete.$error">
+                        <div ng-message="required">This field is required</div>
+                    </div> -->
+                </md-autocomplete>
+            </md-input-container>            
+        </form>
+       <div id="orderCreateMap"></div>
+    </section>
 </article>
+

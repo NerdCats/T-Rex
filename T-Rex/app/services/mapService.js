@@ -12,12 +12,20 @@ app.factory('mapFactory', [function(){
 	};
 
 	var createMap = function (lat, lon, mapElement, zoom, createMarkersCallback) {
-		var mapOptions = {
+		// var mapOptions = {
+		// 	zoom: zoom,
+		// 	center: new google.maps.LatLng(lat, lon),
+		// 	mapTypeId: google.maps.MapTypeId.TERRAIN
+		// };
+		// var map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
+
+		var map = new GMaps({
+			el: '#'+ mapElement,
+			lat: lat,
+			lng: lon,
 			zoom: zoom,
-			center: new google.maps.LatLng(lat, lon),
 			mapTypeId: google.maps.MapTypeId.TERRAIN
-		};
-		var map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
+	    });
 
 		var latLng = new google.maps.LatLng(23.7968725, 90.4083922);
 		map.panTo(latLng);
@@ -25,6 +33,7 @@ app.factory('mapFactory', [function(){
 
 		mapServicePrivateMap = map;
 		createMarkersCallback(map);
+		google.maps.event.trigger(map, 'resize');
 		return map;
 	};
 
@@ -34,12 +43,18 @@ app.factory('mapFactory', [function(){
 			map = mapServicePrivateMap;
 		};
 
-		var marker = new google.maps.Marker({
+		// var marker = new google.maps.Marker({
+		// 	  	map: map,
+		// 	  	position: new google.maps.LatLng(lat, lng),
+		// 	  	title: title,
+		//   	    draggable: draggable
+		// 	});
+		var marker = map.addMarker({
 			  	map: map,
 			  	position: new google.maps.LatLng(lat, lng),
 			  	title: title,
 		  	    draggable: draggable
-			});
+		})
 		marker.setIcon(markerUrl);
 		marker.content = '<div class="infoWindowContent">' + description + '</div>';
 		return marker;
@@ -76,8 +91,6 @@ app.factory('mapFactory', [function(){
 
 	};
 
-	
-
 	var getAddress = function (lat, lng, addressFoundCallback) {
 		var latLng = new google.maps.LatLng(lat, lng);
 		console.log(latLng)
@@ -95,6 +108,64 @@ app.factory('mapFactory', [function(){
 		); 
 	};
 
+
+	var searchBox = function (searchBoxId) {	
+				
+		var map = mapServicePrivateMap;
+	    GMaps.geocode({
+			address: $(searchBoxId).val(),
+			callback: function(results, status) {
+				if (status == 'OK') {
+					var latlng = results[0].geometry.location;
+					map.setCenter(latlng.lat(), latlng.lng());
+					map.addMarker({
+						lat: latlng.lat(),
+						lng: latlng.lng()
+					});
+				}
+			}
+		});
+	};
+
+ 
+	var mapContextMenuForCreateOrder = function () {
+		var map = mapServicePrivateMap;
+		map.setContextMenu({
+			control: 'map',
+			options: [
+				{
+					title: 'Add Pickup Location',
+					name: 'Pickup',
+					action: function(e) {
+						mapServicePrivateMap.addMarker({
+							lat: e.latLng.lat(),
+							lng: e.latLng.lng(),
+							title: 'New marker',
+							icon : markerIconUri.start
+						});
+					}
+				}, 
+				{
+					title: 'Add Delivery Location',
+					name: 'Delivery',
+					action: function(e) {
+						mapServicePrivateMap.addMarker({
+							lat: e.latLng.lat(),
+							lng: e.latLng.lng(),
+							title: 'New marker',
+							icon : markerIconUri.destination
+						});
+					}
+				}
+			]
+		});
+	};
+
+
+	
+
+
+
 	return {
 		createMap : createMap,
 		createMarker : createMarker,
@@ -102,6 +173,8 @@ app.factory('mapFactory', [function(){
 		locateMarkerOnMap : locateMarkerOnMap,
 		markerClickEvent : markerClickEvent,
 		markerDragEvent : markerDragEvent,
-		getAddress : getAddress
+		getAddress : getAddress,
+		searchBox : searchBox,
+		mapContextMenuForCreateOrder : mapContextMenuForCreateOrder
 	};
 }]);
