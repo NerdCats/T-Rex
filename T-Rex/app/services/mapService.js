@@ -1,6 +1,8 @@
 app.factory('mapFactory', [function(){
 	
 	var mapServicePrivateMap;
+	var privatePickUpOverLay;
+	var privatePeliveryOverLay;
 	var markerIconUri = {
 		blueMarker : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
 		redMarker : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
@@ -85,7 +87,8 @@ app.factory('mapFactory', [function(){
 			var lat = marker.latLng.lat();
 			var lng = marker.latLng.lng();
 			console.log(lat + " " + lng);		
-			getAddress(lat, lng, markerAddressFoundCallback)
+			// getAddress(lat, lng, markerAddressFoundCallback)
+			markerAddressFoundCallback(lat, lng);
 		};
 		google.maps.event.addListener(marker, 'dragend', markerDrag);
 
@@ -109,26 +112,43 @@ app.factory('mapFactory', [function(){
 	};
 
 
-	var searchBox = function (placeTobeSearched) {	
+
+
+	var searchBox = function (placeTobeSearched, getCurrentMarkerLocationCallback) {	
 				
 		var map = mapServicePrivateMap;
+
+		// var fromMarker = mapFactory.createMarker(23.790888, 90.391430, "From", true, "User is here", mapFactory.markerIconUri.start, map);
+		// mapFactory.markerDragEvent(fromMarker, markerFromAddressFoundCallback);
+		// var toMarker = mapFactory.createMarker(23.790888, 90.391430, "To", true, "User's destination", mapFactory.markerIconUri.destination, map);
+		// mapFactory.markerDragEvent(toMarker, markerToAddressFoundCallback);
+
+
 	    GMaps.geocode({
 			address: placeTobeSearched,
 			callback: function(results, status) {				
 				if (status == 'OK') {
 					var latlng = results[0].geometry.location;
-					map.setCenter(latlng.lat(), latlng.lng());
-					map.addMarker({
+					var lat = latlng.lat();
+					var lng = latlng.lng()
+
+					getCurrentMarkerLocationCallback(lat, lng)
+					map.setCenter(lat, lng);
+					map.setZoom(17);
+					map.removeMarkers();
+					var currentMarker = map.addMarker({
 						lat: latlng.lat(),
-						lng: latlng.lng()
+						lng: latlng.lng(),
+						draggable : true
 					});
+					markerDragEvent(currentMarker, getCurrentMarkerLocationCallback);
 				}
 			}
 		});
 	};
 
- 
-	var mapContextMenuForCreateOrder = function () {
+ 	
+	var mapContextMenuForCreateOrder = function (setFromLocationCallback, setToLocationCallback) {
 		var map = mapServicePrivateMap;
 		map.setContextMenu({
 			control: 'map',
@@ -137,24 +157,50 @@ app.factory('mapFactory', [function(){
 					title: 'Add Pickup Location',
 					name: 'Pickup',
 					action: function(e) {
-						mapServicePrivateMap.addMarker({
+						// mapServicePrivateMap.addMarker({
+						// 	lat: e.latLng.lat(),
+						// 	lng: e.latLng.lng(),
+						// 	title: 'New marker',
+						// 	icon : markerIconUri.start
+						// });
+						var lat = e.latLng.lat();
+						var lng = e.latLng.lng();
+						mapServicePrivateMap.removeOverlay(privatePickUpOverLay);
+						setFromLocationCallback(lat, lng);
+
+						privatePickUpOverLay = map.drawOverlay({
 							lat: e.latLng.lat(),
-							lng: e.latLng.lng(),
-							title: 'New marker',
-							icon : markerIconUri.start
-						});
+							lng: e.latLng.lng(),							
+							content: '<div class="overlay">Pickup<div class="overlay_arrow above"></div></div>',
+							verticalAlign: 'top',
+					        horizontalAlign: 'center'
+						});						
+													
+						
 					}
 				}, 
 				{
 					title: 'Add Delivery Location',
 					name: 'Delivery',
 					action: function(e) {
-						mapServicePrivateMap.addMarker({
+						// mapServicePrivateMap.addMarker({
+						// 	lat: e.latLng.lat(),
+						// 	lng: e.latLng.lng(),
+						// 	title: 'New marker',
+						// 	icon : markerIconUri.destination
+						// });
+						var lat = e.latLng.lat();
+						var lng = e.latLng.lng();
+						mapServicePrivateMap.removeOverlay(privatePeliveryOverLay);
+						setToLocationCallback(lat, lng);
+
+						privatePeliveryOverLay = map.drawOverlay({
 							lat: e.latLng.lat(),
-							lng: e.latLng.lng(),
-							title: 'New marker',
-							icon : markerIconUri.destination
-						});
+							lng: e.latLng.lng(),							
+							content: '<div class="overlay">Delivery<div class="overlay_arrow above"></div></div>',
+							verticalAlign: 'top',
+					        horizontalAlign: 'center'
+						});												
 					}
 				}
 			]

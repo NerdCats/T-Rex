@@ -53,6 +53,7 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	vm.createNewOrder = function (newOrder) {
 		// TODO: This is the code for showing a Toast when you dont have coordinates
 		// Would move this to a service someday	
+		console.log(vm.newOrder);
 		var last = {
 			bottom: false,
 			top: true,
@@ -75,7 +76,7 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 			last = angular.extend({},current);
 		}
 
-		if (newOrder.From.Point.coordinates.length == 0 || newOrder.To.Point.coordinates.length == 0) {
+		if (vm.newOrder.From.Point.coordinates.length == 0 || vm.newOrder.To.Point.coordinates.length == 0) {
 			var pinTo = $scope.getToastPosition();
 			$mdToast.show(
 			  	$mdToast.simple()
@@ -85,12 +86,11 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 			);
 		} else {
 			// If you have a coordinates of both From and To, then it creates an order
-			orderFactory.createNewOrder(newOrder);			
+			orderFactory.createNewOrder(vm.newOrder);			
 		}		
 	} 
 		
-	vm.orderTypeSelected = function (type) {
-
+	vm.orderTypeSelected = function (type) {		
 		vm.isOrderSelected = true;
 		if (type == "Ride") {
 			vm.RideOrderSelected = true;
@@ -141,13 +141,42 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	};
 	
 	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14, createMarkersCallback);
+	
+	vm.currentMarkerLocation = {lat:0,lng:0};
+	vm.getCurrentMarkerLocationCallback = function (lat, lng) {
+		vm.currentMarkerLocation.lat = lat;
+		vm.currentMarkerLocation.lng = lng;
+		console.log(lat + " " + lng)
+	}
+
 	// You should initialize the search box after creating the map, right?
 	vm.searchAddress = function () {		
-		mapFactory.searchBox(vm.toSearchText);
+		mapFactory.searchBox(vm.toSearchText, vm.getCurrentMarkerLocationCallback);
 	};
 
-	// Adding context menue on map
-	var mapElement = document.getElementById('orderCreateMap');	
-	mapFactory.mapContextMenuForCreateOrder(mapElement);
+
+	vm.setFromLocationCallback = function (lat, lng) {
+		console.log(lat + " " + lng)
+		vm.currentMarkerLocation.lat = lat;
+		vm.currentMarkerLocation.lng = lng;
+		
+		vm.newOrder.From.Point.coordinates = [];
+		vm.newOrder.From.Point.coordinates.push(lng);
+		vm.newOrder.From.Point.coordinates.push(lat);
+		$scope.$apply();
+	}
+
+	vm.setToLocationCallback = function (lat, lng) {
+		console.log(lat + " " + lng)
+		vm.currentMarkerLocation.lat = lat;
+		vm.currentMarkerLocation.lng = lng;
+
+		vm.newOrder.To.Point.coordinates = [];
+		vm.newOrder.To.Point.coordinates.push(lng);
+		vm.newOrder.To.Point.coordinates.push(lat);
+		$scope.$apply();
+	}
+
+	mapFactory.mapContextMenuForCreateOrder(vm.setFromLocationCallback, vm.setToLocationCallback);
 
 };
