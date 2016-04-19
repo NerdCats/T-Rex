@@ -74,32 +74,33 @@
         <md-button class="md-raised" flex="50" ng-click="createNewOrder(newOrder)">REGISTER</md-button>
     </form>
     
-    <section flex="70">        
-        <form ng-submit="searchAddress()">
+    <section flex="70">    
+        <form ng-submit="createOrder.searchAddress()">
+<!--             <md-input-container class="md-block">
+                <input required id="search_text" placeholder="ex: mohakhali">
+            </md-input-container>  -->         
             <md-input-container class="md-block">
                 <label>Type in area name to search on the map</label>
-                <input required id="search_text" placeholder="ex: mohakhali" ncPlacesAutocomplete="true">   
-            </md-input-container>          
-            <md-input-container class="md-block">
                 <md-autocomplete 
                     required 
+                    id="search_text" placeholder="ex: mohakhali"
                     nc-places-autocomplete 
                     nc-root-vm="createOrder" 
                     md-input-name="toAutoComplete"
-                    md-items="item in vm.placesResults" 
-                    md-selected-item="vm.SelectedTo" 
+                    md-items="item in createOrder.placesResults" 
+                    md-selected-item="createOrder.SelectedTo" 
                     md-item-text="item.description" 
                     md-floating-label="To" 
-                    md-search-text="vm.toSearchText">
+                    md-search-text="createOrder.toSearchText">
                     <md-item-template>
-                        <span md-highlight-text="vm.toSearchText">{{item.description}}</span>
+                        <span md-highlight-text="createOrder.toSearchText">{{item.description}}</span>
                     </md-item-template>
                     <md-not-found>
                         No matches found.
                     </md-not-found>
-                    <!-- <div ng-messages="deliveryForm.toAutoComplete.$error">
+                    <div ng-messages="deliveryForm.toAutoComplete.$error">
                         <div ng-message="required">This field is required</div>
-                    </div> -->
+                    </div>
                 </md-autocomplete>
             </md-input-container>            
         </form>

@@ -109,12 +109,12 @@ app.factory('mapFactory', [function(){
 	};
 
 
-	var searchBox = function (searchBoxId) {	
+	var searchBox = function (placeTobeSearched) {	
 				
 		var map = mapServicePrivateMap;
 	    GMaps.geocode({
-			address: $(searchBoxId).val(),
-			callback: function(results, status) {
+			address: placeTobeSearched,
+			callback: function(results, status) {				
 				if (status == 'OK') {
 					var latlng = results[0].geometry.location;
 					map.setCenter(latlng.lat(), latlng.lng());

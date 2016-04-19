@@ -19,7 +19,7 @@
 
     /* @ngInject */
     function Controller($scope, $element, $attrs) {
-      var vm = this;
+      var vm = $scope;
       vm.rootVM = {};
 
       activate();
@@ -28,6 +28,7 @@
         if ($attrs.ncRootVm) {
           vm.rootVM = $scope.$eval($attrs.ncRootVm);
           console.log($scope.$eval($attrs.ncRootVm));
+          console.log(vm.rootVM);
         }
       }
 
@@ -53,6 +54,7 @@
           vm.rootVM.placesResults = [];
         } else {
           vm.rootVM.placesResults = predictions;
+          console.log(vm.rootVM)          
         }
       };
     }

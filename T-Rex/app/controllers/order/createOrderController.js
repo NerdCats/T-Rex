@@ -6,9 +6,7 @@ createOrderController.$inject = ['$rootScope', '$log'];
 
 function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFactory){
 
-	$rootScope.$broadcast('MENU_TITLE', 'New Delivery');
-
-	var vm = $scope;
+	var vm = this;
 	vm.hello = orderFactory.hello;
 
 	vm.OrderType = ["Ride", "Delivery"];
@@ -16,7 +14,7 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	
 	vm.placesResults = [];
 	vm.SelectedTo = "";
-	vm.toSearchText = "";
+	vm.SelectedTo = "";
 
 	vm.isOrderSelected = false;
 	vm.RideOrderSelected = false;
@@ -145,7 +143,7 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14, createMarkersCallback);
 	// You should initialize the search box after creating the map, right?
 	vm.searchAddress = function () {		
-		mapFactory.searchBox('#search_text');		
+		mapFactory.searchBox(vm.toSearchText);
 	};
 
 	// Adding context menue on map
