@@ -1,9 +1,12 @@
 app.controller('createAssetController', function ($scope,assetsFactory) {
 
-    var vm = $scope;
+    var vm = this;
 
 	vm.gender = ["MALE", "FEMALE"];
-	vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER"];
+	vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER", "ENTERPRISE"];
+
+    vm.isAsset = false;
+    vm.isEnterpriseUser = false;
 
   	vm.asset = {
   		UserName : "",
@@ -11,16 +14,33 @@ app.controller('createAssetController', function ($scope,assetsFactory) {
   		ConfirmPassword : "",
   		Email : "",
   		PhoneNumber : "",
-  		FirstName : "",
-  		LastName : "",
-  		Age : "",
-  		Gender : "",
-  		Address : "",
-  		PicUri : "",
+        PicUri : "",
   		Type : "",
+
+      
+        FirstName : "",
+        LastName : "",
+        Age : "",
+        Gender : "",
+        Address : "",
+      
   		NationalId : "",
-  		DrivingLicenceId : ""
+  		DrivingLicenceId : "",
+
+        ContactPersonName : "",
+        Website : ""
   	};
+
+    vm.UserTypeChanged = function (type) {
+        if (type == "BIKE_MESSENGER" || type == "CNG_DRIVER") {
+            vm.isAsset = true;
+            vm.isEnterpriseUser = false;
+        } else if (type == "ENTERPRISE") {
+            vm.isAsset = false;
+            vm.isEnterpriseUser = true;
+        }
+        console.log(type)
+    }
     
   	vm.RegisterNewAsset = assetsFactory.registerNewAsset;
     

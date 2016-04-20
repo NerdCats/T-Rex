@@ -50,7 +50,7 @@ app.factory('assetsFactory', function($http, $window, restCall, host){
 
 		console.log(asset);
 		var registerNewAssetUrl = host + "api/Account/Register";
-		restCall('POST', registerNewAssetUrl, asset, successCallback, errorCallback)  	
+		// restCall('POST', registerNewAssetUrl, asset, successCallback, errorCallback)  	
 	};
 
 	return {

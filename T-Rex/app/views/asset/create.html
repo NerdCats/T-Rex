@@ -3,11 +3,24 @@
 </div>
 <article class="container">
     <form name="assetRegistration" class="generic-form" flex="60">
-        <h1 class="md-headline">Please fill up the fields below to register an asset</h1>
+        <h1 class="md-headline">Please fill up the fields below to register an User</h1>
+
+
+        <md-content layout-gt-sm="row" layout-padding flex="100">
+            <md-input-container flex="40">
+                <label>Type</label>
+                <md-select ng-model="createAsset.Asset.Type" ng-change="createAsset.UserTypeChanged(createAsset.Asset.Type)">
+                    <md-option ng-repeat="t in createAsset.type" value="{{t}}">
+                        {{t}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </md-content>
+
         <md-content layout-gt-sm="row" layout-padding flex="100">                            
             <md-input-container flex="30">
                 <label>User Name</label>
-                <input required name="UserName" ng-model="asset.UserName">
+                <input required name="UserName" ng-model="createAsset.asset.UserName">
                 <div ng-messages="assetRegistration.UserName.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -15,73 +28,92 @@
             </md-input-container>
             <md-input-container flex="25">
                 <label>Email</label>
-                <input ng-model="asset.Email" type="email">
+                <input ng-model="createAsset.asset.Email" type="email">
             </md-input-container>
             <md-input-container flex="25">
                 <label>Phone</label>
-                <input ng-model="asset.PhoneNumber" type="phonenumber">
+                <input ng-model="createAsset.asset.PhoneNumber" type="phonenumber">
             </md-input-container>
         </md-content>
+
         <md-content layout-gt-sm="row" layout-padding flex="100">                            
             <md-input-container flex="30">
                 <label>Password</label>
-                <input ng-model="asset.Password" type="password">
+                <input ng-model="createAsset.asset.Password" type="password">
             </md-input-container>
             <md-input-container flex="25">
                 <label>Confirm Password</label>
-                <input ng-model="asset.ConfirmPassword" type="password">
+                <input ng-model="createAsset.asset.ConfirmPassword" type="password">
             </md-input-container>
         </md-content>
+
+
         <md-content layout-gt-sm="row" layout-padding flex="100">                            
             <md-input-container flex="55">
                 <label>Address</label>
-                <input ng-model="asset.Address">
+                <input ng-model="createAsset.asset.Address">
             </md-input-container>                                
         </md-content>
-        <h1 class="md-headline">Profile Information</h1>
-        <md-content layout-gt-sm="row" layout-padding flex="100">                            
-            <md-input-container flex="30">
-                <label>First Name</label>
-                <input ng-model="asset.FirstName">
-            </md-input-container>
-            <md-input-container flex="25">
-                <label>Last Name</label>
-                <input ng-model="asset.LastName">
-            </md-input-container>
+
+
+        <md-content ng-show="!createAsset.isEnterpriseUser">
+            <h1 class="md-headline">Profile Information</h1>
+            <md-content layout-gt-sm="row" layout-padding flex="100">                            
+                <md-input-container flex="30">
+                    <label>First Name</label>
+                    <input ng-model="createAsset.asset.FirstName">
+                </md-input-container>
+                <md-input-container flex="25">
+                    <label>Last Name</label>
+                    <input ng-model="createAsset.asset.LastName">
+                </md-input-container>
+            </md-content>
+
+            <md-content layout-gt-sm="row" layout-padding flex="100">                            
+                <md-input-container flex="30">
+                    <label>Age</label>
+                    <input ng-model="createAsset.asset.Age" type="number">
+                </md-input-container>
+                <md-input-container flex="25">
+                    <label>Gender</label>
+                    <md-select ng-model="createAsset.asset.Gender">
+                        <md-option ng-repeat="g in createAsset.gender" value="{{g}}">
+                            {{g}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>                
+            </md-content>
         </md-content>
-        <md-content layout-gt-sm="row" layout-padding flex="100">                            
-            <md-input-container flex="30">
-                <label>Age</label>
-                <input ng-model="asset.Age" type="number">
-            </md-input-container>
-            <md-input-container flex="25">
-                <label>Gender</label>
-                <md-select ng-model="asset.Gender">
-                    <md-option ng-repeat="g in gender" value="{{g}}">
-                        {{g}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container flex="25">
-                <label>Type</label>
-                <md-select ng-model="asset.Type">
-                    <md-option ng-repeat="t in type" value="{{t}}">
-                        {{t}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
+
+
+        <md-content ng-show="createAsset.isAsset">
+            <h1 class="md-headline">Asset Info</h1>
+            <md-content layout-gt-sm="row" layout-padding flex="100">
+                <md-input-container flex="30">
+                    <label>NationalId</label>
+                    <input ng-model="createAsset.asset.NationalId">
+                </md-input-container>
+                <md-input-container flex="25">
+                    <label>DrivingLicenceId</label>
+                    <input ng-model="createAsset.asset.DrivingLicenceId">
+                </md-input-container>                           
+            </md-content>
         </md-content>
-        <md-content layout-gt-sm="row" layout-padding flex="100">                            
-            <md-input-container flex="30">
-                <label>NationalId</label>
-                <input ng-model="asset.NationalId">
-            </md-input-container>
-            <md-input-container flex="25">
-                <label>DrivingLicenceId</label>
-                <input ng-model="asset.DrivingLicenceId">
-            </md-input-container>                           
+
+        <md-content ng-show="createAsset.isEnterpriseUser">
+            <h1 class="md-headline">Enterprise user Info</h1>
+            <md-content layout-gt-sm="row" layout-padding flex="100">
+                <md-input-container flex="30">
+                    <label>ContactPersonName</label>
+                    <input ng-model="createAsset.asset.ContactPersonName">
+                </md-input-container>
+                <md-input-container flex="25">
+                    <label>Website</label>
+                    <input ng-model="createAsset.asset.Website">
+                </md-input-container>                           
+            </md-content>
         </md-content>
-        <md-button class="md-raised" flex="20" ng-click="RegisterNewAsset(asset)">REGISTER</md-button>
+        <md-button class="md-raised" flex="20" ng-click="createAsset.RegisterNewAsset(createAsset.asset)">REGISTER</md-button>
     </form>
     
 </article>
