@@ -107,40 +107,7 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 		}
 	};
 
-
-	var createMarkersCallback = function (map) { // need a map parameter to reuse mapService
-
-		var markerFromAddressFoundCallback = function (address, latLng) {
-			var lat = latLng.lat();
-			var lng = latLng.lng();
-
-			vm.newOrder.From.Point.coordinates = [];
-
-			vm.newOrder.From.Point.coordinates.push(lng);
-			vm.newOrder.From.Point.coordinates.push(lat);
-			// vm.newOrder.From.Address = address;
-			$scope.$apply();
-		};
-
-		var markerToAddressFoundCallback = function (address, latLng) {
-			var lat = latLng.lat();
-			var lng = latLng.lng();
-
-			vm.newOrder.To.Point.coordinates = [];
-
-			vm.newOrder.To.Point.coordinates.push(lng);
-			vm.newOrder.To.Point.coordinates.push(lat);
-			// vm.newOrder.To.Address = address;
-			$scope.$apply();
-		};
-
-		// var fromMarker = mapFactory.createMarker(23.790888, 90.391430, "From", true, "User is here", mapFactory.markerIconUri.start, map);
-		// mapFactory.markerDragEvent(fromMarker, markerFromAddressFoundCallback);
-		// var toMarker = mapFactory.createMarker(23.790888, 90.391430, "To", true, "User's destination", mapFactory.markerIconUri.destination, map);
-		// mapFactory.markerDragEvent(toMarker, markerToAddressFoundCallback);
-	};
-	
-	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14, createMarkersCallback);
+	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
 	
 	vm.currentMarkerLocation = {lat:0,lng:0};
 	vm.getCurrentMarkerLocationCallback = function (lat, lng) {

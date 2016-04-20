@@ -46,6 +46,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 			for (var i = 0; i < orders.pagination.TotalPages ; i++) {
 				Orders.pages.push(i);
 			};
+			Orders.total = orders.pagination.Total;
  		};
  		function errorCallback(response) {
  			console.log(response);

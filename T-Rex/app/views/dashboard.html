@@ -4,14 +4,12 @@
     </div>
 
     <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
-        <div class="md-toolbar-tools" flex="20">
-            <span>Newly arrived orders</span>
+        <div class="md-toolbar-tools" flex="40">
+            <p>Total Newly arrived orders : {{newOrders.total}}</p><br>
         </div>
-        <div flex="60"></div>
-        <div flex="10">
-            <md-button class="md-primary" flex>
-                <a href="#/order/create">Create new Order</a>
-            </md-button>
+        <div flex="40"></div>
+        <div flex="20">
+            <md-button class="md-raised" ng-click="createNewOrder()">Create new Order</md-button>
         </div>
     </md-toolbar>
 
@@ -49,8 +47,8 @@
         </div>
 
     <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
-        <div class="md-toolbar-tools" flex="20">
-            <span>Currently processing orders</span>
+        <div class="md-toolbar-tools" flex="40">
+            <p>Total currently processing orders : {{processingOrders.total}}</p><br>
         </div>
     </md-toolbar>     
         <table md-table class="order-table" ng-model="selected" flex="90">
@@ -90,8 +88,8 @@
 
 
     <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
-        <div class="md-toolbar-tools" flex="20">
-            <span>Currently processing orders</span>
+        <div class="md-toolbar-tools" flex="40">
+            <span>Total completed orders : {{completedOrders.total}}</span>
         </div>
     </md-toolbar>     
         <table md-table class="order-table" ng-model="selected" flex="90">

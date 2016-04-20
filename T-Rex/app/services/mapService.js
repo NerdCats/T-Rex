@@ -13,7 +13,7 @@ app.factory('mapFactory', [function(){
 		start : "/content/img/ic_start1.png"	
 	};
 
-	var createMap = function (lat, lon, mapElement, zoom, createMarkersCallback) {
+	var createMap = function (lat, lon, mapElement, zoom) {
 		// var mapOptions = {
 		// 	zoom: zoom,
 		// 	center: new google.maps.LatLng(lat, lon),
@@ -33,8 +33,7 @@ app.factory('mapFactory', [function(){
 		map.panTo(latLng);
 
 
-		mapServicePrivateMap = map;
-		createMarkersCallback(map);
+		mapServicePrivateMap = map;		
 		google.maps.event.trigger(map, 'resize');
 		return map;
 	};
@@ -62,12 +61,21 @@ app.factory('mapFactory', [function(){
 		return marker;
 	};
 
+	var createOverlay = function (lat, lng, content, verticalAlign, horizontalAlign) {
+ 		var overLay = mapServicePrivateMap.drawOverlay({
+										lat: lat,
+										lng: lng,							
+										content: '<div class="overlay">'+ content + '<div class="overlay_arrow above"></div></div>',
+										verticalAlign: 'top',
+								        horizontalAlign: 'center'
+									});
+ 		return overLay;
+ 	};
+
 	var locateMarkerOnMap = function (value) {
-			var latLng = new google.maps.LatLng(value.lat, value.lon);
-			console.log("latLng");
-			console.log(latLng);
-			console.log(value);
+			var latLng = new google.maps.LatLng(value.lat, value.lng);			
 			mapServicePrivateMap.panTo(latLng);
+			mapServicePrivateMap.setZoom(16);
 	}
 
 	var markerClickEvent = function (map, marker) {
@@ -79,7 +87,7 @@ app.factory('mapFactory', [function(){
 		  	infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
 		  	infoWindow.open(map, marker);
 		});
-	};
+	};	
 
 	var markerDragEvent = function (marker, markerAddressFoundCallback) {
 		var geocoder = new google.maps.Geocoder();
@@ -112,18 +120,9 @@ app.factory('mapFactory', [function(){
 	};
 
 
-
-
 	var searchBox = function (placeTobeSearched, getCurrentMarkerLocationCallback) {	
 				
 		var map = mapServicePrivateMap;
-
-		// var fromMarker = mapFactory.createMarker(23.790888, 90.391430, "From", true, "User is here", mapFactory.markerIconUri.start, map);
-		// mapFactory.markerDragEvent(fromMarker, markerFromAddressFoundCallback);
-		// var toMarker = mapFactory.createMarker(23.790888, 90.391430, "To", true, "User's destination", mapFactory.markerIconUri.destination, map);
-		// mapFactory.markerDragEvent(toMarker, markerToAddressFoundCallback);
-
-
 	    GMaps.geocode({
 			address: placeTobeSearched,
 			callback: function(results, status) {				
@@ -148,6 +147,7 @@ app.factory('mapFactory', [function(){
 	};
 
  	
+
 	var mapContextMenuForCreateOrder = function (setFromLocationCallback, setToLocationCallback) {
 		var map = mapServicePrivateMap;
 		map.setContextMenu({
@@ -157,50 +157,24 @@ app.factory('mapFactory', [function(){
 					title: 'Add Pickup Location',
 					name: 'Pickup',
 					action: function(e) {
-						// mapServicePrivateMap.addMarker({
-						// 	lat: e.latLng.lat(),
-						// 	lng: e.latLng.lng(),
-						// 	title: 'New marker',
-						// 	icon : markerIconUri.start
-						// });
 						var lat = e.latLng.lat();
 						var lng = e.latLng.lng();
+						var content = 'Pickup';
 						mapServicePrivateMap.removeOverlay(privatePickUpOverLay);
 						setFromLocationCallback(lat, lng);
-
-						privatePickUpOverLay = map.drawOverlay({
-							lat: e.latLng.lat(),
-							lng: e.latLng.lng(),							
-							content: '<div class="overlay">Pickup<div class="overlay_arrow above"></div></div>',
-							verticalAlign: 'top',
-					        horizontalAlign: 'center'
-						});						
-													
-						
+						privatePickUpOverLay = createOverlay(lat, lng, content);
 					}
 				}, 
 				{
 					title: 'Add Delivery Location',
 					name: 'Delivery',
 					action: function(e) {
-						// mapServicePrivateMap.addMarker({
-						// 	lat: e.latLng.lat(),
-						// 	lng: e.latLng.lng(),
-						// 	title: 'New marker',
-						// 	icon : markerIconUri.destination
-						// });
 						var lat = e.latLng.lat();
 						var lng = e.latLng.lng();
+						var content = 'Delivery';
 						mapServicePrivateMap.removeOverlay(privatePeliveryOverLay);
 						setToLocationCallback(lat, lng);
-
-						privatePeliveryOverLay = map.drawOverlay({
-							lat: e.latLng.lat(),
-							lng: e.latLng.lng(),							
-							content: '<div class="overlay">Delivery<div class="overlay_arrow above"></div></div>',
-							verticalAlign: 'top',
-					        horizontalAlign: 'center'
-						});												
+						privatePeliveryOverLay = createOverlay(lat, lng, content);						
 					}
 				}
 			]
@@ -215,6 +189,7 @@ app.factory('mapFactory', [function(){
 	return {
 		createMap : createMap,
 		createMarker : createMarker,
+		createOverlay : createOverlay,
 		markerIconUri : markerIconUri,
 		locateMarkerOnMap : locateMarkerOnMap,
 		markerClickEvent : markerClickEvent,

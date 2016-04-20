@@ -1,4 +1,3 @@
-
 'use strict';
 
 angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http',
@@ -17,7 +16,7 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  					type : "Task",
  					taskType : "PackagePickUp",
  					taskId : value.id,
- 					title : "Pickup location",
+ 					title : "Pickup",
  					desc : value.PickupLocation.Address,
  					lat : value.PickupLocation.Point.coordinates[1],
  					lng : value.PickupLocation.Point.coordinates[0],
@@ -31,7 +30,7 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  					type : "Task",
  					taskType : "Delivery",
  					taskId : value.id,
- 					title : "Delivery location",
+ 					title : "Delivery",
  					desc : value.To.Address,
  					lat : value.To.Point.coordinates[1],
  					lng : value.To.Point.coordinates[0],
@@ -59,7 +58,7 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  					type : "Task",
 					taskType : "RidePickUp",
 					taskId : value.id,
-					title : "User's Location",
+					title : "User's",
  					desc : value.PickupLocation.Address,
  					lat : value.PickupLocation.Point.coordinates[1],
  					lng : value.PickupLocation.Point.coordinates[0],
@@ -70,8 +69,6 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
  			}
  			
  		});
-
-		
 		return locations;
 	};
 
@@ -176,27 +173,20 @@ angular.module('app').factory('jobDetailsFactory', ['tracking_host', 'listToStri
 	var populateMap = function (job) {
 		var locations = populateLocation(job);
 		
-		var createMarkersCallback = function (map) {			
-			angular.forEach(locations, function (value, key) {				
-				var marker = mapFactory.createMarker(
-											value.lat,
-											value.lng,
-											value.title,
-											value.draggable,
-											value.desc,
-											value.markerUrl);
-				mapFactory.markerClickEvent(map, marker);
-				/*
-					this is the part to get tracking data of the assigned assets,
-					would move to signlr or websocket implementation when server is ready
-				 */
-				// markerUpdateEvent();
-			});
-		}
+		var lat = 23.816577;
+		var lng = 90.405150;
+		var map = mapFactory.createMap(lat, lng, 'map', 11);
+	 		
+		angular.forEach(locations, function (value, key) {				
+			var overlay = mapFactory.createOverlay(value.lat, value.lng, value.title);			
+			/*
+				this is the part to get tracking data of the assigned assets,
+				would move to signlr or websocket implementation when server is ready
+			 */
+			// markerUpdateEvent();
+		});
+ 
 
-		var map = mapFactory.createMap(locations[0].lat, 
-							locations[0].lng,
-							'map', 16, createMarkersCallback);
 		return map;							
 	};
 

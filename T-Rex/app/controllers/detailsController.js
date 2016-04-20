@@ -26,9 +26,9 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 
 		vm.job = response.data;				
 
-		vm.map = jobDetailsFactory.populateMap(vm.job);		
-	 
 		vm.locations = jobDetailsFactory.populateLocation(vm.job);
+	 
+		vm.map = jobDetailsFactory.populateMap(vm.job);		
  
 		vm.jobStates = jobDetailsFactory.populateJobTaskState(vm.job);		
 
@@ -44,8 +44,6 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 		this is the part to get tracking data of the assigned assets,
 		would move to signlr or websocket implementation when server is ready
 		*/		
-	
-
 		if (!$.isEmptyObject(vm.job.Assets)) {			
 			angular.forEach(vm.job.Assets, function (value, key) {				
 				var url = tracking_host + "api/location/" + key;	
@@ -66,14 +64,11 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 							desc : address,
 							markerUrl : mapFactory.markerIconUri.purpleMarker					
 						};
-						var marker = mapFactory.createMarker(
+						var overlay = mapFactory.createOverlay(
 											assetLocation.lat,
 											assetLocation.lng,
-											assetLocation.title,
-											assetLocation.draggable,
-											assetLocation.desc,
-											assetLocation.markerUrl);
-						mapFactory.markerClickEvent(null, marker);						
+											assetLocation.title);
+						// mapFactory.markerClickEvent(null, overlay);						
 						vm.locations.push(assetLocation);
 						$scope.$apply();
 					};
@@ -95,8 +90,7 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 
 
 	vm.locateMarkerOnMap = function (value) {
-			var latLng = new google.maps.LatLng(value.lat, value.lng);			
-			vm.map.panTo(latLng);
+			mapFactory.locateMarkerOnMap(value);			
 	};
 	
 	vm.assetAssignPopup = function (event) {

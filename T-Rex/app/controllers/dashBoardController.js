@@ -7,13 +7,15 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');	
 	vm.menus = menus;
 	vm.templates = templates;
-	vm.selected = [];
-	vm.newOrders = [];
+	vm.selected = [];	
 	vm.processingOrders = [];
-	vm.newOrders = {orders: [], pages:[]};
-	vm.processingOrders = {orders: [], pages:[]};
-	vm.completedOrders = {orders: [], pages:[]};
+	vm.newOrders = {orders: [], pages:[], total: 0};
+	vm.processingOrders = {orders: [], pages:[], total: 0};
+	vm.completedOrders = {orders: [], pages:[], total: 0};
 	vm.loadNextPage = dashboardFactory.loadNextPage;
+	vm.createNewOrder = function () {
+		$window.location.href = "#/order/create";
+	}
 	
 	var URL_ENQUEUED = "api/Job/odata?$filter=State eq 'ENQUEUED'";
 	var URL_IN_PROGRESS = "api/Job/odata?$filter=State eq 'IN_PROGRESS'";	
