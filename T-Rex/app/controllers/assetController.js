@@ -1,10 +1,10 @@
 'use strict';
 
-app.controller('assetController', assetController);
+app.controller('assetController', ['$scope', '$http', '$window', 'menus', 'templates', 'assetsFactory', assetController]);
 
 function assetController($scope, $http, $window, menus, templates, assetsFactory) {
 
-	var vm = $scope;
+	var vm = this;
 	vm.menus = menus;
 	vm.templates = templates;
 	vm.Assets = {Collection : [], pages: []};

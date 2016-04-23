@@ -15,7 +15,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 			angular.forEach(orders.data, function(value, key){
 				try{
 					var newOrder = {
-						Id : value._id,
+						Id : value.HRID,
 						Name : value.Name,
 						Type : value.Order.Type,
 						From : value.Order.From.Address,
@@ -24,12 +24,12 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$window.location.href = '#/details/'+ value._id;
+							$window.location.href = '#/details/'+ value.HRID;
 						}
 					};
 				} catch (e){
 					var newOrder = {
-						Id : value._id,
+						Id : value.HRID,
 						Name : value.Name,
 						Type : value.Order.Type,
 						// this ridiculus things has been done to protect the app from 'From' 'To' null value, need to have a better mechanism
@@ -37,7 +37,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$window.location.href = '#/details/'+ value._id;
+							$window.location.href = '#/details/'+ value.HRID;
 						}
 					};
 				}				

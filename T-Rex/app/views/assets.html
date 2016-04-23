@@ -2,16 +2,14 @@
 	<h1>Asset</h1>
 </div>
 <article id="container">
-    <div id="new-orders" class="order-table-div">
-        
-        <div>
-            <md-button class="md-primary" id="add-more">
-                <a href="#/asset/create" >
-                    <p>Register new asset</p>
-                </a>
-            </md-button> 
-            
-        </div>
+    <div id="new-orders" >   
+        <md-container flex layout="row">
+            <div flex="80"></div>
+            <div flex="20">
+                <md-button class="md-raised" ng-click="assets.Register">Register new asset</md-button> 
+            </div>
+
+        </md-container>
         <table class="rg-table zebra">
             <thead>
                 <tr>
@@ -25,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="asset in Assets.Collection track by $index" ng-click="Details(asset._id)">
+                <tr ng-repeat="asset in assets.Assets.Collection track by $index" ng-click="Details(asset._id)">
                     <td class="number">{{$index + 1}}</td>
                     <td class="text">{{asset.Username}}</td>
                     <td class="text">{{asset.Type}}</td>
@@ -38,7 +36,7 @@
         </table>
         <div style="float:right;margin-bottom: 100px;">
             <ul layout="row">
-                <li ng-repeat="page in Assets.pages" ng-click="loadNextPage(page)">{{page+1}}</li>                                    
+                <li ng-repeat="page in assets.Assets.pages" ng-click="assets.loadNextPage(page)">{{page+1}}</li>                                    
             </ul>
         </div>
      </div>		 
