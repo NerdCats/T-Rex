@@ -9,16 +9,16 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	var vm = this;
 	vm.hello = orderFactory.hello;
 
-	vm.OrderType = ["Ride", "Delivery"];
+	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	
 	vm.placesResults = [];
 	vm.SelectedTo = "";
 	vm.SelectedTo = "";
 
-	vm.isOrderSelected = false;
+	vm.isOrderSelected = true;
 	vm.RideOrderSelected = false;
-	vm.DeliveryOrderSelected = false;
+	vm.DeliveryOrderSelected = true;
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
 
@@ -29,7 +29,16 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	            coordinates: [
 	            ]
 	        },
-	        Address: ""
+	        Address: "",
+	        PostalCode: null,
+			Floor: null,
+			HouseNumber: null,
+			AddressLine1: null,
+			AddressLine2: null,
+			Country: null,
+			City: null,
+			State: null,
+			Provider: "Default"
 	    },
 	    To: {
 	        Point: {
@@ -37,16 +46,28 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	            coordinates: [
 	            ]
 	        },
-	    	Address: ""
+	    	Address: "",
+	    	PostalCode: null,
+			Floor: null,
+			HouseNumber: null,
+			AddressLine1: null,
+			AddressLine2: null,
+			Country: null,
+			City: null,
+			State: null,
+			Provider: "Default"
 	    },
 	    Name: "",
 	    Type: "",
 	    PackageDescription : "",
 	    PackageWeight : 0,
 	    PayloadType: "",
-	    User: "",
+	    NoteToDeliveryMan: null,
+	    UserId: "",
+	    OrderLocation: null,
 	    ETA: null,
-	    ETAMinutes: 0
+	    ETAMinutes: 0,
+	    PaymentMethod: null
 	};
 
 
@@ -80,7 +101,7 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 			var pinTo = $scope.getToastPosition();
 			$mdToast.show(
 			  	$mdToast.simple()
-					.textContent('Simple Toast!')
+					.textContent('Please mark locations on the map')
 					.position(pinTo )
 					.hideDelay(3000)
 			);

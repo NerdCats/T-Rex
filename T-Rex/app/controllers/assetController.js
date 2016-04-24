@@ -11,11 +11,11 @@ function assetController($scope, $http, $window, menus, templates, assetsFactory
 	  
 	assetsFactory.populateAssets(vm.Assets, "", true, 0, 25)
 	
-	vm.Register = function (ev) {
-		$window.location.href = 'asset/create.html';
+	vm.Register = function () {
+		$window.location.href = '#/asset/create';
 	};
 
 	vm.Details = function(_id){
-		$window.location.href = '/index.html?id='+ _id;
+		$window.location.href = '#/index.html?id='+ _id;
 	};
 }

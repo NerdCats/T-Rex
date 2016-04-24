@@ -1,5 +1,5 @@
 <article id="container" layout="row">
-    <section flex="30">
+    <section flex="60">
         <form name="newOrderForm" class="generic-form" >
             <h1 class="md-headline">Create an Order</h1>
 
@@ -12,9 +12,7 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
-            </md-content>
 
-            <md-content layout-gt-sm="row" layout-padding flex="100">
                 <md-input-container flex="100">
                     <label>User</label>
                     <input required name="User" ng-model="createOrder.newOrder.User">
@@ -22,7 +20,7 @@
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The User has to be less than 30 characters long.</div>
                     </div>
-                </md-input-container>           
+                </md-input-container>      
             </md-content>
 
             <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.isOrderSelected">
@@ -33,14 +31,22 @@
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
-                </md-input-container>           
-            </md-content>
-
-            <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.isOrderSelected">
+                </md-input-container>  
                 <md-input-container flex="100">
                     <label>{{createOrder.ToLabel}}</label>
                     <textarea rows="5" required name="ToAddress" ng-model="createOrder.newOrder.To.Address"  value="{{createOrder.newOrder.To.Address}}"></textarea>
                     <div ng-messages="newOrderForm.ToAddress.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                    </div>
+                </md-input-container>               
+            </md-content>
+
+            <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
+                <md-input-container flex="100">
+                    <label>Package Description</label>
+                    <textarea rows="5" required name="PackageDescription" ng-model="createOrder.newOrder.PackageDescription"  value="{{createOrder.newOrder.PackageDescription}}"></textarea>
+                    <div ng-messages="newOrderForm.PackageDescription.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
@@ -49,9 +55,9 @@
 
             <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
                 <md-input-container flex="100">
-                    <label>Package Description</label>
-                    <textarea rows="5" required name="PackageDescription" ng-model="createOrder.newOrder.PackageDescription"  value="{{createOrder.newOrder.PackageDescription}}"></textarea>
-                    <div ng-messages="newOrderForm.PackageDescription.$error">
+                    <label>Note To DeliveryMan</label>
+                    <textarea rows="5" name="NoteToDeliveryMan" ng-model="createOrder.newOrder.NoteToDeliveryMan"  value="{{createOrder.newOrder.NoteToDeliveryMan}}"></textarea>
+                    <div ng-messages="newOrderForm.NoteToDeliveryMan.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
@@ -73,7 +79,7 @@
         </form>
     </section>
     
-    <section flex="70">    
+    <section flex="40">    
         <form class="generic-form" ng-submit="createOrder.searchAddress()" layout="row">
             <md-input-container flex="80">                
                 <md-autocomplete                      

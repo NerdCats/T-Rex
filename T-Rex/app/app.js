@@ -84,32 +84,4 @@ app.config(function($locationProvider) {
 	$locationProvider.html5Mode(false);
 });
 
-app.constant('ngAuthSettings', {
-  apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
-  // apiServiceBaseUri: "http://gofetch.cloudapp.net:80/",
-  // apiServiceBaseUri: "http://localhost:23873",
-  clientId: 'GoFetchDevWebApp'
-});
-
-app.constant('menus', [
-	{ Title : "Dashboard", Href: '#/'},
-	{ Title : "Orders", Href: '#/'},
-	{ Title : "Supported Orders", Href: '#/supportedOrder'},
-	{ Title : "Users", Href: '#/'},
-	{ Title : "Assets", Href: '#/asset'},
-	{ Title : "Agents", Href: '#/'},
-	{ Title : "Administration", Href: '#/'}
-]);
-
-app.constant('host', "http://taskcatdev.azurewebsites.net/")
-// app.constant('host', "http://gofetch.cloudapp.net:80/");
-// app.constant('host', "http://localhost:23873");
-
-app.constant('tracking_host', "http://gofetch.cloudapp.net:1337/");
-
-
-app.constant('templates', {
-	sidebar: 'app/views/sidebar.html',
-	availableAsset: 'app/views/detailsJob/availableAsset.html'
-});
 
