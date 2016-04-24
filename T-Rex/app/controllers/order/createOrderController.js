@@ -1,10 +1,10 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope','host', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$window', 'host', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
 
 createOrderController.$inject = ['$rootScope', '$log'];
 
-function createOrderController($scope, host, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
+function createOrderController($scope, $window, host, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
 
 	var vm = this;
 	vm.hello = orderFactory.hello;
@@ -62,6 +62,19 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 			State: null,
 			Provider: "Default"
 	    },
+	    PackageList : [
+	    	{
+	    		"Item": "Item 1",
+				"Quantity": 1,
+				"Price": 20,
+				"VAT": 15,
+				"CreatedTime": "2016-04-21T10:05:02.161Z",
+				"Total": 20,
+				"VATAmount": 3,
+				"TotalPlusVAT": 23,
+				"Weight": 0.45
+	    	}
+	    ],
 	    Name: "",
 	    Type: "",
 	    PackageDescription : "",
@@ -75,24 +88,43 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 	    PaymentMethod: null
 	};
 
-	vm.CreateNewUser = function () {
-		
+	vm.CreateNewUser = CreateNewUser;
+	vm.searchTextChange = searchTextChange;
+	vm.selectedItemChange = selectedItemChange;
+	vm.querySearch = querySearch;
+	vm.createNewOrder = createNewOrder;
+
+	vm.orderTypeSelected = orderTypeSelected;
+
+	vm.currentMarkerLocation = {lat:0,lng:0};
+	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
+	vm.searchAddress = searchAddress;
+	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
+
+	loadUserNames();
+
+
+
+
+	function CreateNewUser() {
+		$window.location.href = '#/asset/create';
 	}
-	vm.searchTextChange = function (text) {
+
+	function searchTextChange(text) {
 		console.log("Text changed to " + text);
 	}
 
-
-	vm.selectedItemChange = function (item) {
+	function selectedItemChange(item) {
 		console.log("Item changed to " + item.UserName);
 		vm.newOrder.UserId = item.Id
 	}
-	vm.querySearch = function (query) {
+
+	function querySearch(query) {
 		var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
 		console.log(results)
 		return results;
 	} 
-
+	
 	function loadUserNames(){
 		function successCallback(response) {
 			vm.autocompleteUserNames = response.data;	
@@ -104,18 +136,16 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 		restCall('GET', host + "api/account", null, successCallback, errorCallback)
 		console.log("loadUserNames")
 	};
-	loadUserNames();
 
 	function createFilterFor(query) {
 		var lowercaseQuery = angular.lowercase(query);
 
-		return function filterFn(state) {
-			console.log(state)
+		return function filterFn(state) {			
 			return(state.UserName.indexOf(lowercaseQuery) === 0)			
 		};
 	}
 
-	vm.createNewOrder = function (newOrder) {
+	function createNewOrder(newOrder) {
 		// TODO: This is the code for showing a Toast when you dont have coordinates
 		// Would move this to a service someday	
 		console.log(vm.newOrder);
@@ -155,7 +185,7 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 		}		
 	} 
 		
-	vm.orderTypeSelected = function (type) {		
+	function orderTypeSelected(type) {		
 		vm.isOrderSelected = true;
 		if (type == "Ride") {
 			vm.RideOrderSelected = true;
@@ -172,22 +202,19 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 		}
 	};
 
-	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
-	
-	vm.currentMarkerLocation = {lat:0,lng:0};
-	vm.getCurrentMarkerLocationCallback = function (lat, lng) {
+	function getCurrentMarkerLocationCallback(lat, lng) {
 		vm.currentMarkerLocation.lat = lat;
 		vm.currentMarkerLocation.lng = lng;
 		console.log(lat + " " + lng)
 	}
 
 	// You should initialize the search box after creating the map, right?
-	vm.searchAddress = function () {		
-		mapFactory.searchBox(vm.toSearchText, vm.getCurrentMarkerLocationCallback);
+	function searchAddress() {
+		mapFactory.searchBox(vm.toSearchText, getCurrentMarkerLocationCallback);
 	};
 
 
-	vm.setFromLocationCallback = function (lat, lng) {
+	function setFromLocationCallback(lat, lng) {
 		console.log(lat + " " + lng)
 		vm.currentMarkerLocation.lat = lat;
 		vm.currentMarkerLocation.lng = lng;
@@ -198,7 +225,7 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 		$scope.$apply();
 	}
 
-	vm.setToLocationCallback = function (lat, lng) {
+	function setToLocationCallback(lat, lng) {
 		console.log(lat + " " + lng)
 		vm.currentMarkerLocation.lat = lat;
 		vm.currentMarkerLocation.lng = lng;
@@ -208,7 +235,4 @@ function createOrderController($scope, host, restCall, $rootScope, $mdToast, ord
 		vm.newOrder.To.Point.coordinates.push(lat);
 		$scope.$apply();
 	}
-
-	mapFactory.mapContextMenuForCreateOrder(vm.setFromLocationCallback, vm.setToLocationCallback);
-
 };
