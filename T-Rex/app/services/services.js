@@ -58,15 +58,17 @@ app.factory('patchUpdate', function($http, restCall, host){
 });
 
 
-app.factory('restCall', ['$http', 'host', function($http, host){
+app.factory('restCall', ['$http', 'host', 'localStorageService', function($http, host, localStorageService){
 	return function (method, url, data, successCallback, errorCallback){
 		console.log(url);
+		var token = localStorageService.get('authorizationData');
 		$http({
   			method: method,
   			url : url,
   			data: data,
   			header: {
-  				'Content-Type' : 'application/json'
+  				'Content-Type' : 'application/json',
+  				'Authorization' : 'Bearer ' + token.token
   			} 
   		}).then(function success(response) {
   			successCallback(response);  			
@@ -76,6 +78,24 @@ app.factory('restCall', ['$http', 'host', function($http, host){
 	};
 }]);
 
+app.factory('restCallPromise', ['$http', 'host', 'localStorageService', function($http, host, localStorageService){
+	return function (method, url, data){
+		console.log(url);
+		var token = localStorageService.get('authorizationData');
+		return $http({
+	  			method: method,
+	  			url : url,
+	  			data: data,
+	  			header: {
+	  				'Content-Type' : 'application/json'
+	  			} 
+	  		}).then(function success(response) {
+	  			successCallback(response);  			
+	  		}, function error(response) {
+	  			errorCallback(response);  		
+	  		});
+	};
+}]);
 
 //app.factory('$exceptionHandler', function() {
 //   return function(exception, cause) {

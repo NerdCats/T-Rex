@@ -1,10 +1,10 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope','host', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
 
 createOrderController.$inject = ['$rootScope', '$log'];
 
-function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFactory){
+function createOrderController($scope, host, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
 
 	var vm = this;
 	vm.hello = orderFactory.hello;
@@ -21,6 +21,11 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	vm.DeliveryOrderSelected = true;
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
+
+	// vm.noCache = 
+	// vm.selectedItem = 
+	vm.autocompleteUserNames = [];	
+	vm.searchText = "";
 
 	vm.newOrder = {
 	    From: {
@@ -70,6 +75,45 @@ function createOrderController($scope, $rootScope, $mdToast, orderFactory, mapFa
 	    PaymentMethod: null
 	};
 
+	vm.CreateNewUser = function () {
+		
+	}
+	vm.searchTextChange = function (text) {
+		console.log("Text changed to " + text);
+	}
+
+
+	vm.selectedItemChange = function (item) {
+		console.log("Item changed to " + item.UserName);
+		vm.newOrder.UserId = item.Id
+	}
+	vm.querySearch = function (query) {
+		var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
+		console.log(results)
+		return results;
+	} 
+
+	function loadUserNames(){
+		function successCallback(response) {
+			vm.autocompleteUserNames = response.data;	
+			console.log(vm.autocompleteUserNames)
+		}
+		function errorCallback(error) {
+			console.log(error);
+		}
+		restCall('GET', host + "api/account", null, successCallback, errorCallback)
+		console.log("loadUserNames")
+	};
+	loadUserNames();
+
+	function createFilterFor(query) {
+		var lowercaseQuery = angular.lowercase(query);
+
+		return function filterFn(state) {
+			console.log(state)
+			return(state.UserName.indexOf(lowercaseQuery) === 0)			
+		};
+	}
 
 	vm.createNewOrder = function (newOrder) {
 		// TODO: This is the code for showing a Toast when you dont have coordinates
