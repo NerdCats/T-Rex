@@ -6,7 +6,7 @@
         <md-content layout-gt-sm="row" layout-padding flex="100">
             <md-input-container flex="40">
                 <label>Type</label>
-                <md-select ng-model="createAsset.Asset.Type" ng-change="createAsset.UserTypeChanged(createAsset.Asset.Type)">
+                <md-select ng-model="createAsset.asset.Type" ng-change="createAsset.UserTypeChanged(createAsset.asset.Type)">
                     <md-option ng-repeat="t in createAsset.type" value="{{t}}">
                         {{t}}
                     </md-option>

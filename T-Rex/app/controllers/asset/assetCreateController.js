@@ -14,21 +14,17 @@ app.controller('createAssetController', function ($scope,assetsFactory) {
   		ConfirmPassword : "",
   		Email : "",
   		PhoneNumber : "",
-        PicUri : "",
+      PicUri : "",
   		Type : "",
-
-      
-        FirstName : "",
-        LastName : "",
-        Age : "",
-        Gender : "",
-        Address : "",
-      
+      FirstName : "",
+      LastName : "",
+      Age : "",
+      Gender : "",
+      Address : "",      
   		NationalId : "",
   		DrivingLicenceId : "",
-
-        ContactPersonName : "",
-        Website : ""
+      ContactPersonName : "",
+      Website : ""
   	};
 
     vm.UserTypeChanged = function (type) {

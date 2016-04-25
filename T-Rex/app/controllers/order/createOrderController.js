@@ -35,14 +35,14 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	            ]
 	        },
 	        Address: "",
-	        PostalCode: null,
-			Floor: null,
-			HouseNumber: null,
-			AddressLine1: null,
-			AddressLine2: null,
-			Country: null,
-			City: null,
-			State: null,
+	        PostalCode: "",
+			Floor: "1",
+			HouseNumber: "",
+			AddressLine1: "",
+			AddressLine2: "",
+			Country: "",
+			City: "Dhaka",
+			State: "",
 			Provider: "Default"
 	    },
 	    To: {
@@ -52,35 +52,41 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	            ]
 	        },
 	    	Address: "",
-	    	PostalCode: null,
-			Floor: null,
-			HouseNumber: null,
-			AddressLine1: null,
-			AddressLine2: null,
-			Country: null,
-			City: null,
-			State: null,
+	    	PostalCode: "",
+			Floor: "1",
+			HouseNumber: "",
+			AddressLine1: "",
+			AddressLine2: "",
+			Country: "",
+			City: "Dhaka",
+			State: "",
+			LocalArea : "",
 			Provider: "Default"
 	    },
-	    PackageList : [
-	    	{
-	    		"Item": "Item 1",
-				"Quantity": 1,
-				"Price": 20,
-				"VAT": 15,
-				"CreatedTime": "2016-04-21T10:05:02.161Z",
-				"Total": 20,
-				"VATAmount": 3,
-				"TotalPlusVAT": 23,
-				"Weight": 0.45
-	    	}
-	    ],
+	  	OrderCart:{
+	  		PackageList : [
+		    	{
+		    		"Item": "",
+					"Quantity": 0,
+					"Price": 0,
+					"VAT": 0,				
+					"Total": 0,
+					"VATAmount": 0,
+					"TotalPlusVAT": 0,
+					"Weight": 0
+		    	}
+		    ],
+		    TotalVATAmount: 0,
+		    SubTotal: 0,
+		    ServiceCharge: 0,
+		    TotalWeight: 0,
+		    TotalToPay: 0
+	  	},
 	    Name: "",
 	    Type: "",
-	    PackageDescription : "",
-	    PackageWeight : 0,
+	    PackageDescription : "",	    
+	    NoteToDeliveryMan: "",
 	    PayloadType: "",
-	    NoteToDeliveryMan: null,
 	    UserId: "",
 	    OrderLocation: null,
 	    ETA: null,
@@ -103,8 +109,31 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 
 	loadUserNames();
 
+	vm.AddItem = AddItem;
+	vm.RemoveItem = RemoveItem;
 
 
+	function AddItem() {
+		var newItem = {
+    		"Item": "",
+			"Quantity": 0,
+			"Price": 0,
+			"VAT": 0,			
+			"Total": 0,
+			"VATAmount": 0,
+			"TotalPlusVAT": 0,
+			"Weight": 0
+    	};
+
+		vm.newOrder.OrderCart.PackageList.push(newItem);
+		$scope.$apply();
+	}
+
+	function RemoveItem(itemIndex) {
+		console.log(itemIndex);
+		vm.newOrder.OrderCart.PackageList.splice(itemIndex, 1);
+		$scope.$apply();
+	}
 
 	function CreateNewUser() {
 		$window.location.href = '#/asset/create';

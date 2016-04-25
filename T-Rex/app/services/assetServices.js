@@ -17,7 +17,7 @@ app.factory('assetsFactory', function($http, $window, restCall, host){
 				console.log(value);
 				var asset = {
 					_id : value._id,
-					Username : value.Profile.FirstName,
+					UserName : value.UserName,
 					Type : value.Type,
 					Phone : value.PhoneNumber,
 					CurrentLocation : value.CurrentLocation,
@@ -50,7 +50,7 @@ app.factory('assetsFactory', function($http, $window, restCall, host){
 
 		console.log(asset);
 		var registerNewAssetUrl = host + "api/Account/Register";
-		// restCall('POST', registerNewAssetUrl, asset, successCallback, errorCallback)  	
+		restCall('POST', registerNewAssetUrl, asset, successCallback, errorCallback)  	
 	};
 
 	return {
