@@ -112,6 +112,7 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	vm.AddItem = AddItem;
 	vm.RemoveItem = RemoveItem;
 
+	vm.itemChange = itemChange;
 
 	function AddItem() {
 		var newItem = {
@@ -129,8 +130,18 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 		$scope.$apply();
 	}
 
+
+	function itemChange(index) {
+		var item = vm.newOrder.OrderCart.PackageList[index];
+		item.Total = item.Quantity * item.Price;
+		item.VATAmount = item.Quantity*item.Price*(1 + item.VAT / 100) - item.Quantity*item.Price;
+		item.TotalPlusVAT = item.Quantity*item.Price*(1 + item.VAT / 100);
+		console.log(item);
+		$scope.$apply();
+	}
+
 	function RemoveItem(itemIndex) {
-		console.log(itemIndex);
+		console.log(itemIndex);		
 		vm.newOrder.OrderCart.PackageList.splice(itemIndex, 1);
 		$scope.$apply();
 	}
