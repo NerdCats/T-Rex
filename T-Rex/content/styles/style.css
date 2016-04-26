@@ -29,7 +29,9 @@ header{
     /*background-color: #B5B5B5;*/
     padding: 10px 10px;
 }
-
+.help-block {
+    color: red;
+}
 .generic-form{  
     margin: 50px auto;
     padding: 0px 100px;

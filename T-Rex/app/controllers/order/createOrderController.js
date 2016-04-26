@@ -185,7 +185,7 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 		};
 	}
 
-	function createNewOrder(newOrder) {
+	function createNewOrder() {
 		// TODO: This is the code for showing a Toast when you dont have coordinates
 		// Would move this to a service someday	
 		console.log(vm.newOrder);

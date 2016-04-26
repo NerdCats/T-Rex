@@ -38,6 +38,8 @@ app.controller('createAssetController', function ($scope,assetsFactory) {
         console.log(type)
     }
     
-  	vm.RegisterNewAsset = assetsFactory.registerNewAsset;
+  	vm.RegisterNewAsset = function () {
+     assetsFactory.registerNewAsset(vm.asset);
+    } 
     
 });

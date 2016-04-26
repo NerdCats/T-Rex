@@ -30,7 +30,7 @@
         <div id="orderCreateMap"></div>
     </section>
     <section flex="100">
-        <form name="newOrderForm" class="generic-form" >
+        <form name="newOrderForm" class="generic-form" ng-submit="createOrder.createNewOrder()">
             <h1 class="md-headline">Create an Order</h1>
 
             <md-content layout-gt-sm="row" layout-padding flex="100">
@@ -371,6 +371,6 @@
                 </md-input-container>           
             </md-content>
             
-            <md-button class="md-raised" flex="50" ng-click="createOrder.createNewOrder(newOrder)">REGISTER</md-button>
+            <md-button class="md-raised" type="submit" ng-disabled="newOrderForm.$invalid" flex="50" ng-click="">REGISTER</md-button>
         </form>
 </article>
