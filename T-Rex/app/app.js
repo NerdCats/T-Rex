@@ -44,6 +44,11 @@ app.config(['$routeProvider',
 				controller: 'createAssetController',
 				controllerAs: 'createAsset'
 			}).
+			when('/asset/assets-tracking-map',{
+				templateUrl: 'app/views/asset/assetsTrackingMap.html',
+				controller: 'assetsTrackingMapController',
+				controllerAs: 'assetsTrackingMap'
+			}).
 			when('/supportedOrder',{
 				templateUrl: 'app/views/supportedOrders.html',
 				controller: 'supportedOrderController',

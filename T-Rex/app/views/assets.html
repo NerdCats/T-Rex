@@ -1,10 +1,13 @@
 <div class="title">
 	<h1>Asset</h1>
 </div>
-<article id="container">
+<article class="container">
     <div id="new-orders" >   
         <md-container flex layout="row">
-            <div flex="80"></div>
+            <div flex="60"></div>
+            <div flex="20">
+                <md-button class="md-raised" ng-click="assets.GoToAssetsTrackerMap()">Go To Assets Tracking Map</md-button> 
+            </div>
             <div flex="20">
                 <md-button class="md-raised" ng-click="assets.Register()">Register new asset</md-button> 
             </div>

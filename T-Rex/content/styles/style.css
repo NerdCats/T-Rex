@@ -123,6 +123,7 @@ a{
     height: 100%;
     display: block;
     margin: auto;
+    padding-top: 20px;
     /*background-color: #F5F5F5;*/
 }
 .vertical{
@@ -232,7 +233,24 @@ tr:hover{
     height: 700px;
     margin-bottom: 60px;
 }
+#tracking-map {
+    height: 700px;
+    margin-bottom: 60px;
+    padding: 100px;
+}
 
+#assets-track-list {
+    overflow-y: scroll;
+    height: 700px;    
+}
+
+.online {
+    background-color: #7CB342;    
+}
+
+.offline {
+    background-color: #E53935;    
+}
 
 .overlay {
     display: block;

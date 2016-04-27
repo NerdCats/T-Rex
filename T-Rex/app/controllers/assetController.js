@@ -11,6 +11,10 @@ function assetController($scope, $http, $window, menus, templates, assetsFactory
 	  
 	assetsFactory.populateAssets(vm.Assets, "", true, 0, 25)
 	
+	vm.GoToAssetsTrackerMap = function () {
+		$window.location.href = '#/asset/assets-tracking-map';
+	}
+
 	vm.Register = function () {
 		$window.location.href = '#/asset/create';
 	};

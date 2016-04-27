@@ -73,9 +73,11 @@ app.factory('mapFactory', [function(){
  	};
 
 	var locateMarkerOnMap = function (value) {
+		if (value.lat != undefined || value.lng != undefined ) {
 			var latLng = new google.maps.LatLng(value.lat, value.lng);			
 			mapServicePrivateMap.panTo(latLng);
 			mapServicePrivateMap.setZoom(16);
+		}
 	}
 
 	var markerClickEvent = function (map, marker) {

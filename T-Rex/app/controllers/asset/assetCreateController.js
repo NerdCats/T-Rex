@@ -1,6 +1,6 @@
 app.controller('createAssetController', function ($scope,assetsFactory) {
 
-    var vm = this;
+  var vm = this;
 
 	vm.gender = ["MALE", "FEMALE"];
 	vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER", "ENTERPRISE"];
