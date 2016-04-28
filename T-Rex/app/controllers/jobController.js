@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('detailsController', [ '$scope', '$http', '$interval', '$mdDialog', '$mdMedia', '$location', '$window', '$routeParams',
+app.controller('jobController', [ '$scope', '$http', '$interval', '$window', '$mdDialog', '$mdMedia', '$location', '$routeParams',
 							'menus', 'templates', 'host', 'tracking_host',
-							'timeAgo', 'jobDetailsFactory', 'mapFactory', 'restCall', detailsController]);
+							'timeAgo', 'jobFactory', 'mapFactory', 'restCall', jobController]);
 
 
 
-function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $location, $window, $routeParams,
+function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $location, $routeParams,
 							menus, templates, host, tracking_host,
 							timeAgo,jobDetailsFactory, mapFactory, restCall) {
 	
@@ -82,6 +82,10 @@ function detailsController($scope, $http, $interval, $mdDialog, $mdMedia, $locat
 			});
 		}
 		
+	};
+
+	function errorCallback(error) {
+		$window.location.reload();	
 	};
 
 	restCall('GET', jobUrl, null, successCallback);
