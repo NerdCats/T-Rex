@@ -92,7 +92,7 @@
 
     <div id="from-to" flex="25">
         <md-list>
-            <md-list-item  ng-repeat="(key, value) in locations track by $index">
+            <!-- <md-list-item  ng-repeat="(key, value) in locations track by $index">
                 <md-card flex="95">
                     <md-card-actions layout="row" layout-align="end center">
                         <md-button ng-click="locateMarkerOnMap(value)">
@@ -105,6 +105,38 @@
                                 <p>{{value.desc}}</p>
                             </md-card-content>
                         </md-button>
+                    </md-card-actions>
+                </md-card>
+            </md-list-item> -->
+            <md-list-item  ng-repeat="(key, task) in jobTasks track by $index">
+                <md-card flex="95">
+                    <md-card-actions layout-align="end center">
+                        <md-card-title>
+                            <md-card-title-text layout="row" flex="100">
+                                <span class="md-title" flex="70">{{task.title}}</span>                                
+                                <div layout="column" flex="30">                            
+                                    <md-menu md-offset="0 -7">
+                                        <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)">
+                                            <span>{{task.state}}</span>
+                                        </md-button>
+                                        <md-menu-content width="2">
+                                            <md-menu-item ng-repeat="item in jobTaskStates">
+                                                <md-button ng-click="task.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu>
+                                </div>
+                            </md-card-title-text>                                                  
+                        </md-card-title>
+                        <md-card-content>
+                            <b>Start Time</b>
+                            <p>{{task.startTime}}</p>
+                            <b>Completion Time</b>
+                            <p>{{task.completionTime}}</p>
+                            <p><b>Address</b></p>
+                            <p>{{task.address}}</p>
+                        </md-card-content>
+                        <md-button ng-click="locateMarkerOnMap(task)">Locat on Map</md-button>
                     </md-card-actions>
                 </md-card>
             </md-list-item>

@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http',
-	'$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', jobDetailsFactory]);
+	'$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', 'COLOR', jobFactory]);
 	
-	function jobDetailsFactory(tracking_host, listToString, mapFactory, $window, $http, 
-		$mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall){
+	function jobFactory(tracking_host, listToString, mapFactory, $window, $http, 
+		$mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall, COLOR){
 	
 
  	var populateLocation = function (job) {
@@ -256,6 +256,125 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 	};
 
 
+	var populateJobTasks = function (job) {
+
+		var jobTasks = [];
+		var stateUpdateSuccess = function (response) {
+			console.log("stateUpdateSuccess : ");
+  			console.log(response);
+  			alert("success");  			
+  			$window.location.reload();
+  			return true;
+		};
+
+		var stateUpdateError = function (response) {
+			console.log("stateUpdateError : ");
+  			console.log(response);
+  			alert("failed");
+  			return false;
+		};
+
+		function StateColor(state) {
+			if (state = "PENDING")
+				return COLOR.red;
+			else if (state = "IN_PROGRESS")
+				return COLOR.yellow;
+			else if (state = "COMPLETED")
+				return COLOR.green;
+		}
+		angular.forEach(job.Tasks, function (task, key) {
+			
+			if (task.Type == "FetchDeliveryMan") {
+ 				var FetchDeliveryMan = {
+ 					taskType : "FetchDeliveryMan",
+ 					taskId : task.id,
+ 					title : "Find Asset",
+					state : task.State,
+ 					markerColor : StateColor(task.State),
+					startTime : new Date(task.ModifiedTime),
+					completionTime : new Date(task.CompletionTime),
+					stateChanged : function (state) {
+						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+					}
+ 				};
+
+ 				jobTasks.push(FetchDeliveryMan);
+ 			} else if (task.Type == "PackagePickUp") {
+ 				var packagePickUp = {
+ 					taskType : "PackagePickUp",
+ 					taskId : task.id,
+ 					title : "Pickup",
+ 					address : task.PickupLocation.Address,
+ 					lat : task.PickupLocation.Point.coordinates[1],
+ 					lng : task.PickupLocation.Point.coordinates[0], 					
+ 					state : task.State,
+ 					markerColor : StateColor(task.State),
+					startTime : new Date(task.ModifiedTime),
+					completionTime : new Date(task.CompletionTime),
+					stateChanged : function (state) {
+						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+					}
+ 				}
+ 				jobTasks.push(packagePickUp);
+ 			} else if (task.Type == "Delivery") {
+ 				var delivery = { 					
+ 					taskType : "Delivery",
+ 					taskId : task.id,
+ 					title : "Delivery",
+ 					address : task.To.Address,
+ 					lat : task.To.Point.coordinates[1],
+ 					lng : task.To.Point.coordinates[0], 					
+ 					state : task.State,
+ 					markerColor : StateColor(task.State),
+					startTime : new Date(task.ModifiedTime),
+					completionTime : new Date(task.CompletionTime),
+					stateChanged : function (state) {
+						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+					}
+ 				}
+ 				jobTasks.push(delivery);
+ 			} else if (task.Type == "FetchRide") {
+ 				// FIXME: basically this is an asset assign task. When we will be working
+ 				// with Ride order, then refactor it
+ 				var fetchRide = { 					
+					taskType : "FetchRide",
+					taskId : task.id,
+					title : "User's Destination",
+					address : job.Order.To.Address,
+					lat : job.Order.To.Point.coordinates[1],
+					lng : job.Order.To.Point.coordinates[0],
+					state : task.State,
+ 					markerColor : StateColor(task.State),
+					startTime : new Date(task.ModifiedTime),
+					completionTime : new Date(task.CompletionTime),
+					stateChanged : function (state) {
+						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+					}
+ 				};
+				jobTasks.push(fetchRide);
+ 			} else if (task.Type == "RidePickUp") {
+ 				var ridePickUp = { 					
+					taskType : "RidePickUp",
+					taskId : task.id,
+					title : "User's",
+ 					address : task.PickupLocation.Address,
+ 					lat : task.PickupLocation.Point.coordinates[1],
+ 					lng : task.PickupLocation.Point.coordinates[0],
+					state : task.State,
+ 					markerColor : StateColor(task.State),
+					startTime : new Date(task.ModifiedTime),
+					completionTime : new Date(task.CompletionTime),
+					stateChanged : function (state) {
+						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+					}
+ 				}
+ 				jobTasks.push(ridePickUp);
+ 			}
+ 		});
+		console.log(jobTasks)
+ 		return jobTasks;
+	}
+
 	return {		 
 		populateLocation : populateLocation,
 		populateJobTaskState : populateJobTaskState,
@@ -264,6 +383,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 		populateServingBy : populateServingBy,
 		populateMap : populateMap,
 		populateAssetAssignDialog : populateAssetAssignDialog,
-		getAssetAddress : getAssetAddress
+		getAssetAddress : getAssetAddress,
+		populateJobTasks : populateJobTasks
 	}
 };

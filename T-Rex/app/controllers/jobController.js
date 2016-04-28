@@ -8,7 +8,7 @@ app.controller('jobController', [ '$scope', '$http', '$interval', '$window', '$m
 
 function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $location, $routeParams,
 							menus, templates, host, tracking_host,
-							timeAgo,jobDetailsFactory, mapFactory, restCall) {
+							timeAgo,jobFactory, mapFactory, restCall) {
 	
 	var id = $routeParams.id;	
 	var vm = $scope;
@@ -24,21 +24,23 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	var jobUrl = host + "api/Job?id=" + id;	
 	function successCallback(response) {
 
-		vm.job = response.data;				
+		vm.job = response.data;			
 
-		vm.locations = jobDetailsFactory.populateLocation(vm.job);
+		vm.jobTasks = jobFactory.populateJobTasks(vm.job);	
+
+		vm.locations = jobFactory.populateLocation(vm.job);
 	 
-		vm.map = jobDetailsFactory.populateMap(vm.job);		
+		vm.map = jobFactory.populateMap(vm.job);		
  
-		vm.jobStates = jobDetailsFactory.populateJobTaskState(vm.job);		
+		vm.jobStates = jobFactory.populateJobTaskState(vm.job);		
 
 		vm.requestedAgo = timeAgo(vm.job.CreateTime);
 
-		vm.oderDetailsTable = jobDetailsFactory.populateOrderDetailsTable(vm.job);
+		vm.oderDetailsTable = jobFactory.populateOrderDetailsTable(vm.job);
 
-		vm.assets = jobDetailsFactory.populateAssetInfo(vm.job);		
+		vm.assets = jobFactory.populateAssetInfo(vm.job);		
 
-		vm.servingby = jobDetailsFactory.populateServingBy(vm.job);
+		vm.servingby = jobFactory.populateServingBy(vm.job);
 
 		/* FIXME:
 		this is the part to get tracking data of the assigned assets,
@@ -98,7 +100,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	};
 	
 	vm.assetAssignPopup = function (event) {
-		jobDetailsFactory.populateAssetAssignDialog(vm, event, vm.job);
+		jobFactory.populateAssetAssignDialog(vm, event, vm.job);
 	};
 };
 
