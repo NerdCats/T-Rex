@@ -1,38 +1,7 @@
-<article id="container" layout="column">
-    <section flex="100">    
-        <form class="generic-form" ng-submit="createOrder.searchAddress()" layout="row">
-            <md-input-container flex="60">                
-                <md-autocomplete                      
-                    id="search_text" placeholder="ex: mohakhali"
-                    nc-places-autocomplete 
-                    nc-root-vm="createOrder" 
-                    md-input-name="toAutoComplete"
-                    md-items="item in createOrder.placesResults" 
-                    md-selected-item="createOrder.SelectedTo" 
-                    md-item-text="item.description" 
-                    md-floating-label="Type in area name to search on the map" 
-                    md-search-text="createOrder.toSearchText">
-                    <md-item-template>
-                        <span md-highlight-text="createOrder.toSearchText">{{item.description}}</span>
-                    </md-item-template>
-                    <md-not-found>
-                        No matches found.
-                    </md-not-found>
-                    <div ng-messages="deliveryForm.toAutoComplete.$error">
-                        <div ng-message="required">This field is required</div>
-                    </div>
-                </md-autocomplete>                
-            </md-input-container>
-            <md-input-container flex="40">
-                <md-button class="md-raised" ng-click="createOrder.searchAddress()">Search Location</md-button>
-            </md-input-container>
-        </form>        
-        <div id="orderCreateMap"></div>
-    </section>
+<article id="container" layout="column">    
     <section flex="100">
         <form name="newOrderForm" class="generic-form" ng-submit="createOrder.createNewOrder()">
             <h1 class="md-headline">Create an Order</h1>
-
             <md-content layout-gt-sm="row" layout-padding flex="100">
                 <md-input-container flex="100">
                     <label>Order Type</label>
@@ -46,12 +15,13 @@
             <md-content layout-gt-sm="row" layout-padding flex="100">
                 <md-input-container flex="100">
                     <!-- <input required name="User" ng-model="createOrder.newOrder.User"> -->
-                    <md-autocomplete
+                    <md-autocomplete                        
                         md-no-cache="createOrder.noCache"                    
                         md-selected-item="createOrder.selectedItem"
-                        md-search-text-change="createOrder.searchTextChange(createOrder.searchText)"
+                        md-search-text-change="createOrder.searchTextChange(item)" 
+                        md-selected-item-change = "createOrder.selectedItemChange(createOrder.selectedItem)"
                         md-search-text="createOrder.searchText"
-                        md-selected-item-change="createOrder.selectedItemChange(item)"
+                        md-selected
                         md-items="item in createOrder.querySearch(createOrder.searchText)"
                         md-item-text="item.UserName"
                         md-floating-label="Type in User's Name" 
@@ -71,6 +41,39 @@
                     </div>
                 </md-input-container>      
             </md-content>
+
+            <h1 class="md-headline">Right click on the map, select <b>{{createOrder.FromLabel}}</b> and <b>{{createOrder.ToLabel}}</b> </h1>
+            <md-content layout-gt-sm="row" layout-padding flex="100">
+                <md-input-container flex="100">                
+                    <md-autocomplete                      
+                        id="search_text" placeholder="ex: mohakhali"
+                        nc-places-autocomplete 
+                        nc-root-vm="createOrder" 
+                        md-input-name="toAutoComplete"
+                        md-items="item in createOrder.placesResults" 
+                        md-selected-item="createOrder.SelectedTo" 
+                        md-item-text="item.description" 
+                        md-floating-label="Type in area name to search on the map" 
+                        md-search-text="createOrder.toSearchText"
+                        ng-click="createOrder.searchAddress()">
+                        <md-item-template>
+                            <span md-highlight-text="createOrder.toSearchText">{{item.description}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            No matches found.
+                        </md-not-found>
+                        <div ng-messages="deliveryForm.toAutoComplete.$error">
+                            <div ng-message="required">This field is required</div>
+                        </div>
+                    </md-autocomplete>                
+                </md-input-container>
+                <md-input-container flex="40">
+                    <md-button class="md-raised" ng-click="createOrder.searchAddress()">Search Location</md-button>
+                </md-input-container>
+            </md-content>
+            <div id="orderCreateMap"></div>
+
+
 
             <h1 class="md-headline">{{createOrder.FromLabel}}</h1>
             <md-content layout="column" layout-md layout-padding flex="100" ng-show="createOrder.isOrderSelected">
@@ -212,7 +215,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Quantity</label>
-                    <input name="Quantity" ng-model="item.Quantity" type="number" placeholder="Type in 1, 2 etc" value="{{item.Quantity}}" ng-change="createOrder.itemChange($index)">
+                    <input required name="Quantity" minlength="1" maxlength="100000" ng-model="item.Quantity" type="number" placeholder="Type in 1, 2 etc" value="{{item.Quantity}}">
                     <div ng-messages="newOrderForm.Quantity.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -220,7 +223,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Weight</label>
-                    <input name="Weight" ng-model="item.Weight" type="number" placeholder="ex: 1 or 0.5" value="{{item.Weight}}" ng-change="createOrder.itemChange($index)">
+                    <input name="Weight" ng-model="item.Weight" type="number" placeholder="ex: 1 or 0.5" value="{{item.Weight}}">
                     <div ng-messages="newOrderForm.Weight.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -228,7 +231,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Price</label>
-                    <input name="Price" ng-model="item.Price" type="number" placeholder="ex: 100 or 750" value="{{item.Price}}" ng-change="createOrder.itemChange($index)">
+                    <input required name="Price" minlength="1" maxlength="999999999" ng-model="item.Price" type="number" placeholder="ex: 100 or 750" value="{{item.Price}}">
                     <div ng-messages="newOrderForm.Price.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -339,18 +342,15 @@
 
 
             <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
-                <md-input-container flex="100">
+                <md-input-container flex="50">
                     <label>Package Description</label>
-                    <textarea rows="5" required name="PackageDescription" ng-model="createOrder.newOrder.PackageDescription"  value="{{createOrder.newOrder.PackageDescription}}"></textarea>
+                    <textarea rows="5" name="PackageDescription" ng-model="createOrder.newOrder.PackageDescription"  value="{{createOrder.newOrder.PackageDescription}}"></textarea>
                     <div ng-messages="newOrderForm.PackageDescription.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
-                </md-input-container>           
-            </md-content>
-
-            <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
-                <md-input-container flex="100">
+                </md-input-container>
+                <md-input-container flex="50">
                     <label>Note To DeliveryMan</label>
                     <textarea rows="5" name="NoteToDeliveryMan" ng-model="createOrder.newOrder.NoteToDeliveryMan"  value="{{createOrder.newOrder.NoteToDeliveryMan}}"></textarea>
                     <div ng-messages="newOrderForm.NoteToDeliveryMan.$error">
@@ -362,9 +362,26 @@
 
             <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
                 <md-input-container flex="100">
-                    <label>Package Weight in KG</label>
-                    <input required name="PackageWeight" ng-model="createOrder.newOrder.PackageWeight" type="number" placeholder="ex: 1 kg or 0.5 kg" value="{{createOrder.newOrder.PackageWeight}}">
-                    <div ng-messages="newOrderForm.PackageWeight.$error">
+                    <label>Payment Method</label>                    
+                    <md-select required ng-model="createOrder.newOrder.PaymentMethod">
+                        <md-option ng-repeat="paymentMethod in createOrder.PaymentMethod" value="{{paymentMethod}}" >
+                            {{paymentMethod}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>   
+                <div flex="100" layout="row">
+                    <label>ETA</label>
+                    <mdp-time-picker ng-model="createOrder.newOrder.ETA"></mdp-time-picker>
+                    <!-- <input name="ETA" ng-model="createOrder.newOrder.ETA" type="number" placeholder="ex: 1 kg or 0.5 kg" value="{{createOrder.newOrder.ETA}}"> -->
+                  <!--   <div ng-messages="newOrderForm.ETA.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                    </div> -->
+                </div>   
+                <md-input-container flex="100">
+                    <label>ETA in Minutes</label>
+                    <input name="ETAMinutes" ng-model="createOrder.newOrder.ETAMinutes" type="number" placeholder="ex: 1 kg or 0.5 kg" value="{{createOrder.newOrder.ETAMinutes}}">
+                    <div ng-messages="newOrderForm.ETAMinutes.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>

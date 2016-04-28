@@ -1,10 +1,10 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$window', 'host', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$window', '$mdpDatePicker', 'host', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
 
 createOrderController.$inject = ['$rootScope', '$log'];
 
-function createOrderController($scope, $window, host, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
+function createOrderController($scope, $window, $mdpDatePicker, host, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
 
 	var vm = this;
 	vm.hello = orderFactory.hello;
@@ -12,7 +12,9 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	
+	vm.PaymentMethod = [];
 	vm.placesResults = [];
+
 	vm.SelectedTo = "";
 	vm.SelectedTo = "";
 
@@ -23,7 +25,7 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	vm.ToLabel = "To";
 
 	// vm.noCache = 
-	// vm.selectedItem = 
+	vm.selectedItem = {};
 	vm.autocompleteUserNames = [];	
 	vm.searchText = "";
 
@@ -38,7 +40,7 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	        PostalCode: "",
 			Floor: "1",
 			HouseNumber: "",
-			AddressLine1: "",
+			AdressLine1: "",
 			AddressLine2: "",
 			Country: "",
 			City: "Dhaka",
@@ -86,13 +88,22 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	    Type: "",
 	    PackageDescription : "",	    
 	    NoteToDeliveryMan: "",
-	    PayloadType: "",
+	    PayloadType: "default",
 	    UserId: "",
 	    OrderLocation: null,
 	    ETA: null,
 	    ETAMinutes: 0,
 	    PaymentMethod: null
 	};
+
+
+	vm.modon = function(ev) {
+    	$mdpTimePicker($scope.currentTime, {
+        targetEvent: ev
+      }).then(function(selectedDate) {
+        vm.newOrder.ETA = selectedDate;
+      });;
+    } 
 
 	vm.CreateNewUser = CreateNewUser;
 	vm.searchTextChange = searchTextChange;
@@ -108,11 +119,13 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
 	loadUserNames();
+	loadPaymentMethods();
 
 	vm.AddItem = AddItem;
 	vm.RemoveItem = RemoveItem;
 
 	vm.itemChange = itemChange;
+
 
 	function AddItem() {
 		var newItem = {
@@ -150,18 +163,23 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 		$window.location.href = '#/asset/create';
 	}
 
-	function searchTextChange(text) {
-		console.log("Text changed to " + text);
+	function searchTextChange(item) {
+		// vm.newOrder.UserId = item.Id;
+		console.log(vm.selectedItem);
+		console.log(item);
 	}
 
 	function selectedItemChange(item) {
-		console.log("Item changed to " + item.UserName);
-		vm.newOrder.UserId = item.Id
+		// console.log("Item changed to " + item.UserName);
+		// console.log("selectedItem : ")
+		console.log(vm.selectedItem)
+		console.log(item);
+		vm.newOrder.UserId = item.Id;
+		console.log(vm.newOrder.UserId);
 	}
 
 	function querySearch(query) {
 		var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
-		console.log(results)
 		return results;
 	} 
 	
@@ -176,6 +194,23 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 		restCall('GET', host + "api/account", null, successCallback, errorCallback)
 		console.log("loadUserNames")
 	};
+
+	function loadPaymentMethods() {
+		function successCallback(response) {
+			var paymentMethod = response.data;
+			angular.forEach(paymentMethod, function (value, key) {
+				 vm.PaymentMethod.push(value.Key);
+			})
+
+			console.log(vm.PaymentMethod)
+		}
+		function errorCallback(error) {
+			console.log(error);
+		}
+		restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)
+		console.log("loadUserNames")
+	};
+	
 
 	function createFilterFor(query) {
 		var lowercaseQuery = angular.lowercase(query);
@@ -262,6 +297,11 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 		vm.newOrder.From.Point.coordinates = [];
 		vm.newOrder.From.Point.coordinates.push(lng);
 		vm.newOrder.From.Point.coordinates.push(lat);
+
+		mapFactory.getAddress(lat, lng, function (address, latLng) {
+			vm.newOrder.From.AddressLine1 = address;
+		});
+
 		$scope.$apply();
 	}
 
@@ -273,6 +313,10 @@ function createOrderController($scope, $window, host, restCall, $rootScope, $mdT
 		vm.newOrder.To.Point.coordinates = [];
 		vm.newOrder.To.Point.coordinates.push(lng);
 		vm.newOrder.To.Point.coordinates.push(lat);
+
+		mapFactory.getAddress(lat, lng, function (address, latLng) {
+			vm.newOrder.To.AddressLine1 = address;
+		});
 		$scope.$apply();
 	}
 };

@@ -2,12 +2,15 @@
 
 
 var app = angular.module('app', [
-  'ngMaterial',
-  'ngMessages',
-  'ngRoute',
-  'LocalStorageModule',
-  'md.data.table',
-  'angularFileUpload',
+	'ngMaterial',
+	'ngMessages',
+	'ngRoute',
+	"ngAnimate",
+	'ngAria',
+	'LocalStorageModule',
+	'md.data.table',
+	'angularFileUpload',
+	'mdPickers'
   // 'material.svgAssetsCache',
 ]);
 
