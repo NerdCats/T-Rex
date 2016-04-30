@@ -16,7 +16,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	vm.menus = menus; 
 	vm.job = {};
 	vm.jobStates = [];
-	vm.locations = [];
+	vm.Assets = [];
 	vm.markers	= [];
 	vm.jobTaskStates = ["IN_PROGRESS","COMPLETED"];
 	vm.assignAsset = ["Assign Asset"];
@@ -26,9 +26,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 
 		vm.job = response.data;			
 
-		vm.jobTasks = jobFactory.populateJobTasks(vm.job);	
-
-		vm.locations = jobFactory.populateLocation(vm.job);
+		vm.jobTasks = jobFactory.populateJobTasks(vm.job);		
 	 
 		vm.map = jobFactory.populateMap(vm.job);		
  
@@ -36,7 +34,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 
 		vm.requestedAgo = timeAgo(vm.job.CreateTime);
 
-		vm.oderDetailsTable = jobFactory.populateOrderDetailsTable(vm.job);
+		vm.OrderDetails = jobFactory.OrderDetails(vm.job);
 
 		vm.assets = jobFactory.populateAssetInfo(vm.job);		
 
@@ -47,43 +45,35 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 		would move to signlr or websocket implementation when server is ready
 		*/		
 		if (!$.isEmptyObject(vm.job.Assets)) {			
-			angular.forEach(vm.job.Assets, function (value, key) {				
+			
+			angular.forEach(vm.job.Assets, function (value, key) {
+
+				var asset = {
+					type : "Asset",			
+					asset_id : value.Id,						
+					title : value.UserName,
+					phoneNumber : value.PhoneNumber,
+					photo : "",
+					rating : 5
+				};
+				console.log(asset);
+				vm.Assets.push(asset);
 				var url = tracking_host + "api/location/" + key;	
+				restCall('GET', url, null, success, error);
 				function success(response) {
-					value.desc = "Last seen on ";
-					value.lat = response.data.point.coordinates[1]; 
-					value.lng = response.data.point.coordinates[0];
-					console.log(value.lat+", "+value.lng);
-					var addressFoundCallback = function (address, latLng) {
-						// vm.locations[index].desc = address;
-						var assetLocation = {		
-							type : "Asset",			
-							asset_id : value.Id,						
-							title : value.Profile.FirstName + "'s Location",
-							lat : latLng.lat(),
-							lng: latLng.lng(),
-							draggable : false,
-							desc : address,
-							markerUrl : mapFactory.markerIconUri.purpleMarker					
-						};
-						var overlay = mapFactory.createOverlay(
-											assetLocation.lat,
-											assetLocation.lng,
-											assetLocation.title);
-						// mapFactory.markerClickEvent(null, overlay);						
-						vm.locations.push(assetLocation);
-						$scope.$apply();
-					};
-					mapFactory.getAddress(value.lat, value.lng, addressFoundCallback);
+					asset.desc = "Last seen on ";
+					asset.lat = response.data.point.coordinates[1]; 
+					asset.lng = response.data.point.coordinates[0];
+					mapFactory.createOverlay(asset.lat, asset.lng, asset.title);
+					$scope.$apply();
 				};
 				function error(error) {
 					value.desc = "Couldn't retrieve Last location";
 					console.log(error)
 				}
-				restCall('GET', url, null, success, error);
 			});
+
 		}
-		
 	};
 
 	function errorCallback(error) {

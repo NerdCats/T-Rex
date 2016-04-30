@@ -137,14 +137,13 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 		return jobStates;
 	};
 	
-	var populateOrderDetailsTable = function (job) {
+	var OrderDetails = function (job) {
 		var details = {
-			orderId : job.HRID,
-			user : job.OrderUser,
-			phoneNumber : "01911725897",
-			orderType : job.Order.Type,
-			preferences : listToString(job.Order.VehiclePreference),
-			eta : ""
+			OrderId : job.HRID,
+			UserName : job.User.UserName,
+			PhoneNumber : "01911725897",
+			OrderType : job.Order.Type,			
+			ETA : ""
 		}
 		return details;	
 	};
@@ -219,7 +218,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 			job: job
 	    })
 	    .then(function(selectedAssets) {		    
-		    var result = patchUpdate(selectedAssets[0].Id, "replace", "/AssetRef", "api/job/", job.HRID, job.Tasks[0].id, success, error);			
+		    var result = patchUpdate(selectedAssets[0].Id, "replace", "/AssetRef", "api/job/", job.Id, job.Tasks[0].id, success, error);			
 	    }, function() {
 			console.log("Asset Assign dialog canceled");
 	    });
@@ -289,6 +288,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					taskType : "FetchDeliveryMan",
  					taskId : task.id,
  					title : "Find Asset",
+ 					haveLocation : false,
 					state : task.State,
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
@@ -296,7 +296,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				};
  				console.log(FetchDeliveryMan.startTime);
@@ -309,6 +309,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					address : task.PickupLocation.Address,
  					lat : task.PickupLocation.Point.coordinates[1],
  					lng : task.PickupLocation.Point.coordinates[0], 					
+ 					haveLocation : true,
  					state : task.State,
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
@@ -316,7 +317,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				}
  				jobTasks.push(packagePickUp);
@@ -328,6 +329,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					address : task.To.Address,
  					lat : task.To.Point.coordinates[1],
  					lng : task.To.Point.coordinates[0], 					
+ 					haveLocation : true,
  					state : task.State,
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
@@ -335,7 +337,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				}
  				jobTasks.push(delivery);
@@ -349,6 +351,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					address : job.Order.To.Address,
 					lat : job.Order.To.Point.coordinates[1],
 					lng : job.Order.To.Point.coordinates[0],
+					haveLocation : true,
 					state : task.State,
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
@@ -356,7 +359,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				};
 				jobTasks.push(fetchRide);
@@ -368,6 +371,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					address : task.PickupLocation.Address,
  					lat : task.PickupLocation.Point.coordinates[1],
  					lng : task.PickupLocation.Point.coordinates[0],
+ 					haveLocation : true,
 					state : task.State,
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
@@ -375,7 +379,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				}
  				jobTasks.push(ridePickUp);
@@ -388,7 +392,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 	return {		 
 		populateLocation : populateLocation,
 		populateJobTaskState : populateJobTaskState,
-		populateOrderDetailsTable : populateOrderDetailsTable,
+		OrderDetails : OrderDetails,
 		populateAssetInfo : populateAssetInfo,
 		populateServingBy : populateServingBy,
 		populateMap : populateMap,

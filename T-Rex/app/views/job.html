@@ -1,6 +1,6 @@
 <div class="title">
     <h1>{{job.Name}}</h1>
-    <p>Requested {{ requestedAgo }} minutes ago</p>
+    <p>Requested {{ requestedAgo }} ago</p>
     <div class="horizontal">
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
@@ -15,34 +15,27 @@
                 </md-card-title-text>
             </md-card-title>
             <md-card-content>                                                             
-                <!--
+                
                 <div layout="row">
                     <div flex="25"><b>Order ID</b></div>
-                    <div> {{oderDetailsTable.orderId}}</div>
+                    <div> {{OrderDetails.OrderId}}</div>
                 </div> 
-                -->
+                
                 <div layout="row">
-                    <div flex="40"><b>User</b></div>
-                    <div flex="60"> {{oderDetailsTable.Order.User}}</div>
+                    <div flex="25"><b>User</b></div>
+                    <div> {{OrderDetails.UserName}}</div>
                 </div>
                 <div layout="row">
-                    <div flex="40"><b>Phone</b></div>
-                    <div flex="60"> {{oderDetailsTable.phoneNumber}}</div>
+                    <div flex="25"><b>Phone</b></div>
+                    <div> {{OrderDetails.PhoneNumber}}</div>
                 </div>
                 <div layout="row">
-                    <div flex="40"><b>Order</b></div>
-                    <div flex="60"> {{oderDetailsTable.orderType}}</div>
+                    <div flex="25"><b>Order</b></div>
+                    <div> {{OrderDetails.OrderType}}</div>
                 </div>
                 <div layout="row">
-                    <div flex="40"><b>Preference  </b></div>
-                    <!-- <div> -->
-                       <!--  <li ng-repeat="vehicle in oderDetailsTable.preferences">{{vehicle}}</li> -->
-                    <!-- </ul></div> -->
-                    <div flex="60"> {{oderDetailsTable.preferences}} </div>
-                </div>
-                <div layout="row">
-                    <div flex="40"><b>ETA</b></div>
-                    <div flex="60"> {{oderDetailsTable.eta}}</div>
+                    <div flex="25"><b>ETA</b></div>
+                    <div> {{OrderDetails.eta}}</div>
                 </div>                  
             </md-card-content>
         </md-card>
@@ -59,7 +52,9 @@
                         </md-button>
                         <md-menu-content width="2">
                             <md-menu-item ng-repeat="item in assignAsset">
-                                <md-button ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto"><span md-menu-align-target></span> {{item}} </md-button>
+                                <md-button ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto">
+                                    <span md-menu-align-target></span> {{item}} 
+                                </md-button>
                                 <div hide-gt-sm layout="row" layout-align="center center" flex="100">
 							        <md-checkbox ng-model="customFullscreen" aria-label="Fullscreen Custom Dialog">Custom Dialog Fullscreen</md-checkbox>
 								</div>
@@ -69,12 +64,13 @@
                 </div>   
             </md-card-title>
             <md-card-content>
-                <ul>
-                    <li ng-repeat="asset in assets">
-                        <p>{{asset.name}}</p>
-                        <p>{{asset.phoneNumber}}</p>                        
-                    </li>
-                </ul>
+                <md-list>                    
+                    <md-list-item ng-repeat="asset in Assets" ng-click="locateMarkerOnMap(asset)">
+                        <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />
+                        <p>{{ asset.title }}</p>
+                        <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="locate asset on map" class="md-secondary md-hue-3"></md-icon>
+                    </md-list-item>
+                </md-list>
             </md-card-content>
         </md-card>
         
@@ -112,15 +108,21 @@
                                 </div>
                             </md-card-title-text>                                                  
                         </md-card-title>
-                        <md-card-content>                        
-                            <p><b>Start Time : </b></p>
-                            <p>{{task.startDate}}, {{task.startTime}}</p>
-                            <p><b>Completion Time : </b></p>
-                            <p>{{task.completionDate}}, {{task.completionTime}}</p>                            
-                            <p><b>Address</b></p>
-                            <p>{{task.address}}</p>
+                        <md-card-content>
+                            <div layout="row">
+                                <div flex="35"><b>Start Time</b></div>
+                                <div>{{task.startDate}}, {{task.startTime}}</div>
+                            </div>
+                            <div layout="row">
+                                <div flex="35"><b>Completion Time</b></div>
+                                <div>{{task.completionDate}}, {{task.completionTime}}</div>
+                            </div>
+                            <div layout="row" ng-show="task.haveLocation">
+                                <div flex="35"><b>Address</b></div>
+                                <div>{{task.address}}</div>
+                            </div>                       
                         </md-card-content>
-                        <md-button ng-click="locateMarkerOnMap(task)">Locate on Map</md-button>
+                        <md-button ng-click="locateMarkerOnMap(task)" ng-show="task.haveLocation">Locate on Map</md-button>
                     </md-card-actions>
                 </md-card>
             </md-list-item>
