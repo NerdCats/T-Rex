@@ -5,9 +5,9 @@
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
 </div>
-<article id="container" layout="row">
+<article id="container" layout="row" layout-xs="column" layout-sm="column">
      
-    <div id="order-details" flex="25">
+    <div id="order-details"  flex>
     	<md-card>
             <md-card-title>
                 <md-card-title-text>
@@ -90,24 +90,8 @@
         </md-card>	                                
     </div>
 
-    <div id="from-to" flex="25">
+    <div id="from-to"  flex>
         <md-list>
-            <!-- <md-list-item  ng-repeat="(key, value) in locations track by $index">
-                <md-card flex="95">
-                    <md-card-actions layout="row" layout-align="end center">
-                        <md-button ng-click="locateMarkerOnMap(value)">
-                            <md-card-title>
-                                <md-card-title-text>
-                                    <span class="md-title">{{value.title}}</span>
-                                </md-card-title-text>                                                  
-                            </md-card-title>
-                            <md-card-content>
-                                <p>{{value.desc}}</p>
-                            </md-card-content>
-                        </md-button>
-                    </md-card-actions>
-                </md-card>
-            </md-list-item> -->
             <md-list-item  ng-repeat="(key, task) in jobTasks track by $index">
                 <md-card flex="95">
                     <md-card-actions layout-align="end center">
@@ -128,43 +112,20 @@
                                 </div>
                             </md-card-title-text>                                                  
                         </md-card-title>
-                        <md-card-content>
-                            <b>Start Time</b>
-                            <p>{{task.startTime}}</p>
-                            <b>Completion Time</b>
-                            <p>{{task.completionTime}}</p>
+                        <md-card-content>                        
+                            <p><b>Start Time : </b></p>
+                            <p>{{task.startDate}}, {{task.startTime}}</p>
+                            <p><b>Completion Time : </b></p>
+                            <p>{{task.completionDate}}, {{task.completionTime}}</p>                            
                             <p><b>Address</b></p>
                             <p>{{task.address}}</p>
                         </md-card-content>
-                        <md-button ng-click="locateMarkerOnMap(task)">Locat on Map</md-button>
+                        <md-button ng-click="locateMarkerOnMap(task)">Locate on Map</md-button>
                     </md-card-actions>
                 </md-card>
             </md-list-item>
-        </md-list>
-
-        <md-card>
-            <md-card-content>
-                <md-list>
-                    <md-list-item ng-repeat="state in jobStates track by $index">
-                        <p><b>{{state.job}}</b></p>
-                        <span ng-model="state.jobTaskStates">{{state.jobTaskStates}}</span>
-                        <div layout="column">                                                   
-                            <md-menu md-offset="0 -7">
-                                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                                    <span><img src="content/img/ic_settings.png"></span>
-                                </md-button>
-                                <md-menu-content width="2">
-                                    <md-menu-item ng-repeat="item in jobTaskStates">
-                                        <md-button ng-click="state.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
-                                    </md-menu-item>
-                                </md-menu-content>
-                            </md-menu>
-                        </div>                                                
-                    </md-list-item>
-                </md-list>                
-            </md-card-content>
-        </md-card>
+        </md-list>         
     </div>
 
-    <div id="map" flex="50"></div>					 
+    <div id="job-map" style="height: 600px;" flex></div>					 
 </article>		

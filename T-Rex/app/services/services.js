@@ -41,6 +41,14 @@ app.factory('timeAgo', function () {
 	};
 });
 
+
+app.factory('timeFormat', [function(){
+	return function (utcTimeString){
+		var date = new Moment(utcTimeString);
+		return date;
+	};
+}]);
+
 app.factory('patchUpdate', function($http, restCall, host){
 	return function (value, op, path, api_path, jobId, taskId, successCallback, errorCallback) {
 		var url = host + api_path + jobId + "/" + taskId;

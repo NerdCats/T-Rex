@@ -74,7 +74,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 						vm.locations.push(assetLocation);
 						$scope.$apply();
 					};
-					mapFactory.getAddress(value.lat, value.lng, addressFoundCallback);					
+					mapFactory.getAddress(value.lat, value.lng, addressFoundCallback);
 				};
 				function error(error) {
 					value.desc = "Couldn't retrieve Last location";

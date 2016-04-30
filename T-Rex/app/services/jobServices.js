@@ -95,7 +95,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 			jobTaskStates : job.Tasks[0].State,
 			stateChanged : function (state) {					
 				console.log(this.jobTaskStates);					
-				var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[0].id, success, error);
+				var result = patchUpdate(state, "/State", "replace", job.HRID, job.Tasks[0].id, success, error);
 				if (result) this.jobTaskStates = state;
 			}
 		};
@@ -107,7 +107,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 				jobTaskStates : job.Tasks[1].State,
 				stateChanged : function (state) {
 					console.log(this.jobTaskStates);
-					var result = patchUpdate(state, "/State", "replace", job._id, job.Tasks[1].id, success, error);
+					var result = patchUpdate(state, "/State", "replace", job.HRID, job.Tasks[1].id, success, error);
 					if (result) this.jobTaskStates = state;
 				}
 			};
@@ -118,7 +118,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 				jobTaskStates : job.Tasks[1].State,
 				stateChanged : function (state) {
 					console.log(this.jobTaskStates);
-					var result = patchUpdate(state, "replace", "/State", "api/job/" , job._id, job.Tasks[1].id, success, error);
+					var result = patchUpdate(state, "replace", "/State", "api/job/" , job.HRID, job.Tasks[1].id, success, error);
 					if (result) this.jobTaskStates = state;
 				}
 			};
@@ -127,7 +127,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 				jobTaskStates : job.Tasks[2].State,
 				stateChanged : function (state) {
 					console.log(this.jobTaskStates);
-					var result = patchUpdate(state, "replace", "/State", "api/job/" , job._id, job.Tasks[2].id, success, error);
+					var result = patchUpdate(state, "replace", "/State", "api/job/" , job.HRID, job.Tasks[2].id, success, error);
 					if (result) this.jobTaskStates = state;
 				}
 			};
@@ -139,7 +139,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 	
 	var populateOrderDetailsTable = function (job) {
 		var details = {
-			orderId : job._id,
+			orderId : job.HRID,
 			user : job.OrderUser,
 			phoneNumber : "01911725897",
 			orderType : job.Order.Type,
@@ -175,7 +175,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 		
 		var lat = 23.816577;
 		var lng = 90.405150;
-		var map = mapFactory.createMap(lat, lng, 'map', 11);
+		var map = mapFactory.createMap(lat, lng, 'job-map', 11);
 	 		
 		angular.forEach(locations, function (value, key) {				
 			var overlay = mapFactory.createOverlay(value.lat, value.lng, value.title);			
@@ -219,7 +219,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 			job: job
 	    })
 	    .then(function(selectedAssets) {		    
-		    var result = patchUpdate(selectedAssets[0].Id, "replace", "/AssetRef", "api/job/", job._id, job.Tasks[0].id, success, error);			
+		    var result = patchUpdate(selectedAssets[0].Id, "replace", "/AssetRef", "api/job/", job.HRID, job.Tasks[0].id, success, error);			
 	    }, function() {
 			console.log("Asset Assign dialog canceled");
 	    });
@@ -291,13 +291,15 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					title : "Find Asset",
 					state : task.State,
  					markerColor : StateColor(task.State),
-					startTime : new Date(task.ModifiedTime),
-					completionTime : new Date(task.CompletionTime),
+					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				};
-
+ 				console.log(FetchDeliveryMan.startTime);
  				jobTasks.push(FetchDeliveryMan);
  			} else if (task.Type == "PackagePickUp") {
  				var packagePickUp = {
@@ -309,10 +311,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					lng : task.PickupLocation.Point.coordinates[0], 					
  					state : task.State,
  					markerColor : StateColor(task.State),
-					startTime : new Date(task.ModifiedTime),
-					completionTime : new Date(task.CompletionTime),
+					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				}
  				jobTasks.push(packagePickUp);
@@ -326,10 +330,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					lng : task.To.Point.coordinates[0], 					
  					state : task.State,
  					markerColor : StateColor(task.State),
-					startTime : new Date(task.ModifiedTime),
-					completionTime : new Date(task.CompletionTime),
+					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				}
  				jobTasks.push(delivery);
@@ -345,10 +351,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					lng : job.Order.To.Point.coordinates[0],
 					state : task.State,
  					markerColor : StateColor(task.State),
-					startTime : new Date(task.ModifiedTime),
-					completionTime : new Date(task.CompletionTime),
+					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				};
 				jobTasks.push(fetchRide);
@@ -362,10 +370,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					lng : task.PickupLocation.Point.coordinates[0],
 					state : task.State,
  					markerColor : StateColor(task.State),
-					startTime : new Date(task.ModifiedTime),
-					completionTime : new Date(task.CompletionTime),
+					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
-						patchUpdate(state, "replace", "/State", "api/job/", job._id, task.id, stateUpdateSuccess, stateUpdateError);
+						patchUpdate(state, "replace", "/State", "api/job/", job.HRID, task.id, stateUpdateSuccess, stateUpdateError);
 					}
  				}
  				jobTasks.push(ridePickUp);
