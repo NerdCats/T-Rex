@@ -5,17 +5,14 @@
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
 </div>
-<article id="container" layout="row" layout-xs="column" layout-sm="column">
-     
-    <div id="order-details"  flex>
-    	<md-card>
+<div>
+    <md-card>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">Details</span>
                 </md-card-title-text>
             </md-card-title>
-            <md-card-content>                                                             
-                
+            <md-card-content>                
                 <div layout="row">
                     <div flex="25"><b>Order ID</b></div>
                     <div> {{OrderDetails.OrderId}}</div>
@@ -36,10 +33,43 @@
                 <div layout="row">
                     <div flex="25"><b>ETA</b></div>
                     <div> {{OrderDetails.eta}}</div>
-                </div>                  
-            </md-card-content>
-        </md-card>
+                </div>
 
+                
+                <div flex="25"><b>Package List</b></div>
+                
+                <table md-table>
+                    <thead md-head md-on-recorder="onReorder">
+                        <tr md-row>
+                            <th md-column>S/L no</th>
+                            <th md-column>Item</th>
+                            <th md-column>Quantity</th>
+                            <th md-column>Price</th>
+                            <th md-column>Total</th>
+<!--                                     <th md-column>VATAmount</th>
+                            <th md-column>TotalPlusVAT</th> -->
+                            <th md-column>Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="package in OrderDetails.orderCart.PackageList track by $index">
+                                <td md-cell class="number">{{$index + 1}}</td>
+                                <td md-cell class="text">{{package.Item}}</td>
+                                <td md-cell class="text">{{package.Quantity}}</td>
+                                <td md-cell class="text">{{package.Price}}</td>
+                                <td md-cell class="text">{{package.Total}}</td>
+<!--                                         <td md-cell class="text">{{package.VATAmount}}</td>
+                                <td md-cell class="text">{{package.TotalPlusVAT}}</td> -->
+                                <td md-cell class="text">{{package.Weight}}</td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </md-card-content>
+    </md-card>
+</div>
+<article id="container" layout="row" layout-xs="column" layout-sm="column">
+     
+    <div id="order-details" flex>
         <md-card>
             <md-card-title>
                 <md-card-title-text>
@@ -66,9 +96,9 @@
             <md-card-content>
                 <md-list>                    
                     <md-list-item ng-repeat="asset in Assets" ng-click="locateMarkerOnMap(asset)">
-                        <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />
+                        <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />                            
                         <p>{{ asset.title }}</p>
-                        <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="locate asset on map" class="md-secondary md-hue-3"></md-icon>
+                        <p>*****</p>    
                     </md-list-item>
                 </md-list>
             </md-card-content>
@@ -110,11 +140,11 @@
                         </md-card-title>
                         <md-card-content>
                             <div layout="row">
-                                <div flex="35"><b>Start Time</b></div>
+                                <div flex="35"><b>Started</b></div>
                                 <div>{{task.startDate}}, {{task.startTime}}</div>
                             </div>
                             <div layout="row">
-                                <div flex="35"><b>Completion Time</b></div>
+                                <div flex="35"><b>Completed</b></div>
                                 <div>{{task.completionDate}}, {{task.completionTime}}</div>
                             </div>
                             <div layout="row" ng-show="task.haveLocation">

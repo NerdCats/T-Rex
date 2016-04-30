@@ -28,15 +28,11 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 
 		vm.jobTasks = jobFactory.populateJobTasks(vm.job);		
 	 
-		vm.map = jobFactory.populateMap(vm.job);		
- 
-		vm.jobStates = jobFactory.populateJobTaskState(vm.job);		
+		vm.map = jobFactory.populateMap(vm.jobTasks);				
 
 		vm.requestedAgo = timeAgo(vm.job.CreateTime);
 
 		vm.OrderDetails = jobFactory.OrderDetails(vm.job);
-
-		vm.assets = jobFactory.populateAssetInfo(vm.job);		
 
 		vm.servingby = jobFactory.populateServingBy(vm.job);
 
