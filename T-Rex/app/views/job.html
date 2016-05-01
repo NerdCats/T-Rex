@@ -5,7 +5,7 @@
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
 </div>
-<div>
+<div id="order-details">
     <md-card>
             <md-card-title>
                 <md-card-title-text>
@@ -38,7 +38,7 @@
                 
                 <div flex="25"><b>Package List</b></div>
                 
-                <table md-table>
+                <table md-table flex>
                     <thead md-head md-on-recorder="onReorder">
                         <tr md-row>
                             <th md-column>S/L no</th>
@@ -46,7 +46,7 @@
                             <th md-column>Quantity</th>
                             <th md-column>Price</th>
                             <th md-column>Total</th>
-<!--                                     <th md-column>VATAmount</th>
+                            <!--<th md-column>VATAmount</th>
                             <th md-column>TotalPlusVAT</th> -->
                             <th md-column>Weight</th>
                         </tr>
@@ -58,7 +58,7 @@
                                 <td md-cell class="text">{{package.Quantity}}</td>
                                 <td md-cell class="text">{{package.Price}}</td>
                                 <td md-cell class="text">{{package.Total}}</td>
-<!--                                         <td md-cell class="text">{{package.VATAmount}}</td>
+                                <!--<td md-cell class="text">{{package.VATAmount}}</td>
                                 <td md-cell class="text">{{package.TotalPlusVAT}}</td> -->
                                 <td md-cell class="text">{{package.Weight}}</td>
                         </tr>
@@ -67,30 +67,18 @@
             </md-card-content>
     </md-card>
 </div>
-<article id="container" layout="row" layout-xs="column" layout-sm="column">
-     
-    <div id="order-details" flex>
+
+<article id="container" layout="row" layout-xs="column" layout-sm="column">     
+    <div id="asset-admin" flex>
         <md-card>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">Asset</span>                                                
                 </md-card-title-text>
-                <div layout="column">                                                   
-                    <md-menu md-offset="0 -7">
-                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                            <span><img src="content/img/ic_settings.png"></span>
-                        </md-button>
-                        <md-menu-content width="2">
-                            <md-menu-item ng-repeat="item in assignAsset">
-                                <md-button ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto">
-                                    <span md-menu-align-target></span> {{item}} 
-                                </md-button>
-                                <div hide-gt-sm layout="row" layout-align="center center" flex="100">
-							        <md-checkbox ng-model="customFullscreen" aria-label="Fullscreen Custom Dialog">Custom Dialog Fullscreen</md-checkbox>
-								</div>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
+                <div layout="column">
+                    <md-button class="md-raised" ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto">
+                        <span md-menu-align-target>Assign</span> 
+                    </md-button>
                 </div>   
             </md-card-title>
             <md-card-content>
@@ -116,7 +104,7 @@
         </md-card>	                                
     </div>
 
-    <div id="from-to"  flex>
+    <div id="tasks" flex>
         <md-list>
             <md-list-item  ng-repeat="(key, task) in jobTasks track by $index">
                 <md-card flex="95">
@@ -159,5 +147,5 @@
         </md-list>         
     </div>
 
-    <div id="job-map" style="height: 600px;" flex></div>					 
+    <div id="job-map" flex></div>					 
 </article>		

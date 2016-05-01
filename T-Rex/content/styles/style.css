@@ -150,13 +150,21 @@ a{
     height: 90%;
 }
 #order-details{
-	background-color: #E0E0E0;
-    padding: 28px 28px 28px 28px;
-}
-#from-to{
 	background-color: #F5F5F5;
-    padding: 20px;
-    /*height: 100%;*/
+    padding: 28px;
+}
+#asset-admin {
+    background-color: #EEEEEE;
+    padding: 28px;
+}
+#tasks{
+	background-color: #E0E0E0;
+    padding: 20px;    
+}
+#job-map-wrapper {
+    background-color: #BDBDBD;
+    padding: 28px;
+    height: 600px;
 }
 
 #content-header-h1 {
