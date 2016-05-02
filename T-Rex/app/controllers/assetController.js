@@ -9,7 +9,7 @@ function assetController($scope, $http, $window, menus, templates, assetsFactory
 	vm.templates = templates;
 	vm.Assets = {Collection : [], pages: []};
 	  
-	assetsFactory.populateAssets(vm.Assets, "", true, 0, 25)
+	assetsFactory.populateAssets(vm.Assets, "BIKE_MESSENGER", true, 0, 25)
 	
 	vm.GoToAssetsTrackerMap = function () {
 		$window.location.href = '#/asset/assets-tracking-map';

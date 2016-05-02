@@ -105,6 +105,17 @@ app.factory('restCallPromise', ['$http', 'host', 'localStorageService', function
 	};
 }]);
 
+app.factory('UrlPath', [function(host){
+	var assets = function (type, envelope, page, pageSize){
+		var parameters =  "$filter=Type eq '"+type+"'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
+		var assetListUrlpath = "/api/Account/odata?" + parameters;
+		return assetListUrlpath;
+	};
+	return {
+		assets : assets,
+	}
+}])
+
 //app.factory('$exceptionHandler', function() {
 //   return function(exception, cause) {
 //     exception.message += ' (caused by "' + cause + '")';

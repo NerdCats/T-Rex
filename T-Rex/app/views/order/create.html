@@ -205,7 +205,8 @@
 
             <h1 class="md-headline" ng-show="createOrder.DeliveryOrderSelected">Package Details</h1>
             <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected" ng-repeat="item in createOrder.newOrder.OrderCart.PackageList track by $index">
-                <md-input-container>
+                
+                <md-input-container flex="30">
                     <label>Item name</label>
                     <input required name="Item" ng-model="item.Item" type="text" placeholder="Type in the Item name" value="{{item.Item}}">
                     <div ng-messages="newOrderForm.Item.$error">
@@ -215,7 +216,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Quantity</label>
-                    <input required name="Quantity" minlength="1" maxlength="100000" ng-model="item.Quantity" type="number" placeholder="Type in 1, 2 etc" value="{{item.Quantity}}">
+                    <input required name="Quantity" minlength="1" maxlength="100000" ng-change="createOrder.itemChange($index)" ng-model="item.Quantity" type="number" placeholder="Type in 1, 2 etc" value="{{item.Quantity}}">
                     <div ng-messages="newOrderForm.Quantity.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -231,60 +232,34 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Price</label>
-                    <input required name="Price" minlength="1" maxlength="999999999" ng-model="item.Price" type="number" placeholder="ex: 100 or 750" value="{{item.Price}}">
+                    <input required name="Price" minlength="1" maxlength="999999999" ng-change="createOrder.itemChange($index)" ng-model="item.Price" type="number" placeholder="ex: 100 or 750" value="{{item.Price}}">
                     <div ng-messages="newOrderForm.Price.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
                 </md-input-container>
-                <md-input-container>
-                    <label>Vat</label>
-                    <input name="Vat" ng-model="item.VAT" type="number" placeholder="ex: 15 or 20" value="{{item.VAT}}">
-                    <div ng-messages="newOrderForm.Vat.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container> 
-
-
 
                 <md-input-container>
-                    <label>Total</label>                
-                    <input name="Total" ng-model="item.Total" type="number" placeholder="" value="{{item.Total}}">
-                    <div ng-messages="newOrderForm.Total.$error">
+                    <label>VAT</label>
+                    <input required name="VAT" minlength="1" maxlength="999999999" ng-change="createOrder.itemChange($index)" ng-model="item.VAT" type="number" placeholder="ex: 100 or 750" value="{{item.VAT}}">
+                    <div ng-messages="newOrderForm.VAT.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
                 </md-input-container>
 
 
-
-                <md-input-container>
-                    <label>Total + VAT</label>
-                    <input name="TotalPlusVAT" ng-model="item.TotalPlusVAT" type="number" placeholder="" value="{{item.TotalPlusVAT}}">
-                    <div ng-messages="newOrderForm.TotalPlusVAT.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container>
- 
-
-
-                <md-input-container>
-                    <label>VAT Amount</label>
-                    <input name="VATAmount" ng-model="item.VATAmount" type="number" placeholder="" value="item.VATAmount">
-                    <div ng-messages="newOrderForm.VATAmount.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container>
-
-
-
-
+                <md-content layout="column" flex="20">                                        
+                    <span name="Total" class="md-body-2" ng-model="item.Total" type="number" placeholder="">Total : {{item.Total}}</span>
+                    <span name="TotalPlusVAT" class="md-body-2" ng-model="item.TotalPlusVAT" type="number" placeholder="">Total + VAT : {{item.TotalPlusVAT}}</span>
+                    <span name="VATAmount" class="md-body-2" ng-model="item.VATAmount" type="number" placeholder="">VAT Amount : {{item.VATAmount}}</span>
+                </md-content>
+              
                 <md-input-container>
                     <md-button class="md-raised md-warn" ng-click="createOrder.RemoveItem($index)">Remove</md-button>
-                </md-input-container>                
+                </md-input-container>      
+
+
             </md-content>
             <md-input-container>
                 <md-button flex="20" class="md-raised" ng-click="createOrder.AddItem()">Add</md-button>
@@ -297,45 +272,19 @@
             <!-- Total summary on packges start -->
             <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
                 <md-input-container>
-                    <label>TotalVATAmount</label>
-                    <input name="TotalVATAmount" ng-model="createOrder.OrderCart.TotalVATAmount" type="number" placeholder="ex: 100 or 750" value="{{createOrder.OrderCart.TotalVATAmount}}">
-                    <div ng-messages="newOrderForm.TotalVATAmount.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>SubTotal</label>
-                    <input name="SubTotal" ng-model="createOrder.OrderCart.SubTotal" type="number" placeholder="ex: 100 or 750" value="{{createOrder.OrderCart.SubTotal}}">
-                    <div ng-messages="newOrderForm.SubTotal.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container>
-                <md-input-container>
                     <label>ServiceCharge</label>
-                    <input name="ServiceCharge" ng-model="createOrder.OrderCart.ServiceCharge" type="number" placeholder="ex: 100 or 750" value="{{createOrder.OrderCart.ServiceCharge}}">
+                    <input name="ServiceCharge" ng-model="createOrder.OrderCart.ServiceCharge" type="number" value="{{createOrder.OrderCart.ServiceCharge}}">
                     <div ng-messages="newOrderForm.ServiceCharge.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                     </div>
                 </md-input-container>
-                <md-input-container>
-                    <label>TotalWeight</label>
-                    <input name="TotalWeight" ng-model="createOrder.OrderCart.TotalWeight" type="number" placeholder="ex: 100 or 750" value="{{createOrder.OrderCart.TotalWeight}}">
-                    <div ng-messages="newOrderForm.TotalWeight.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>TotalToPay</label>
-                    <input name="TotalToPay" ng-model="createOrder.OrderCart.TotalToPay" type="number" placeholder="ex: 100 or 750" value="{{createOrder.OrderCart.TotalToPay}}">
-                    <div ng-messages="newOrderForm.TotalToPay.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                    </div>
-                </md-input-container>
+                <md-content layout="column">
+                    <span>SubTotal : {{createOrder.newOrder.OrderCart.SubTotal}}</span>
+                    <span>TotalVATAmount : {{createOrder.newOrder.OrderCart.TotalVATAmount}}</span>
+                    <span>TotalWeight : {{createOrder.newOrder.OrderCart.TotalWeight}}</span>
+                    <span>TotalToPay : {{createOrder.newOrder.OrderCart.TotalToPay}}</span>                    
+                </md-content>
             </md-content>
             <!-- Total summary on packges end -->
 

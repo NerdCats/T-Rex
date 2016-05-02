@@ -46,13 +46,15 @@
                 <p ng-show="assetRegistration.Password.$invalid && !assetRegistration.Password.$pristine" class="help-block">Password must be minimum 6 charecter</p>
             </md-input-container>
             <md-input-container flex="25">
-                <label>Confirm Password</label>
-                <input required name="ConfirmPassword" ng-model="createAsset.asset.ConfirmPassword" ng-minlength="6" type="password" valid-password-c>
-                <p 
-                ng-show="assetRegistration.ConfirmPassword.$invalid && !assetRegistration.ConfirmPassword.$pristine && assetRegistration.ConfirmPassword.$error.noMatch" 
-
-
-                class="help-block">Confirm Password doesn't match with the Password</p>
+                <label>Confirm Password</label>                
+                <!-- <input required name="ConfirmPassword" ng-model="createAsset.asset.ConfirmPassword" ng-minlength="6" type="password" valid-password-c>
+                <p ng-show="assetRegistration.ConfirmPassword.$dirty && assetRegistration.ConfirmPassword.$error.noMatch" class="help-block">Confirm Password doesn't match with the Password</p> -->
+                <input required name="ConfirmPassword" ng-model="createAsset.asset.ConfirmPassword" ng-minlength="6" type="password">                
+                    
+                <div ng-messages="assetRegistration.ConfirmPassword.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                </div>
             </md-input-container>
         </md-content>
 

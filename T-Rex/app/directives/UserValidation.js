@@ -7,7 +7,9 @@ app.directive('validPasswordC', function () {
         link: function (scope, elm, attrs, ctrl) {
             ctrl.$parsers.unshift(function (viewValue, $scope) {
                 var noMatch = viewValue != scope.assetRegistration.Password.$viewValue
-                ctrl.$setValidity('noMatch', !noMatch)
+                console.log(noMatch + "  " + viewValue);
+                console.log(elm)
+                ctrl.$setValidity('noMatch', !noMatch)                
             })
         }
     }

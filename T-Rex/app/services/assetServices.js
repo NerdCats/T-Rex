@@ -1,16 +1,10 @@
 'use strict';
 
-app.factory('assetsFactory', function($http, $window, restCall, host){
-	
-	var assetListUrlMaker = function (type, envelope, page, pageSize) {
-		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
-		var assetListUrl = host + "/api/Account/odata?" + parameters;		
-		return assetListUrl;
-	};
+app.factory('assetsFactory', function($http, $window, restCall, host, UrlPath){
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
 
-		var assetlistUrl = assetListUrlMaker(type, envelope, page, pageSize);
+		var assetlistUrl = host + UrlPath.assets(type, envelope, page, pageSize);
 
 		function successCallback (response) {
 			angular.forEach(response.data.data, function(value, key){

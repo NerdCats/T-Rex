@@ -1,10 +1,10 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$window', '$mdpDatePicker', 'host', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$window', '$mdpDatePicker', 'host', 'UrlPath', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
 
 createOrderController.$inject = ['$rootScope', '$log'];
 
-function createOrderController($scope, $window, $mdpDatePicker, host, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
+function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
 
 	var vm = this;
 	vm.hello = orderFactory.hello;
@@ -23,8 +23,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, restCall, 
 	vm.DeliveryOrderSelected = true;
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
-
-	// vm.noCache = 
+	
 	vm.selectedItem = {};
 	vm.autocompleteUserNames = [];	
 	vm.searchText = "";
@@ -146,11 +145,24 @@ function createOrderController($scope, $window, $mdpDatePicker, host, restCall, 
 
 	function itemChange(index) {
 		var item = vm.newOrder.OrderCart.PackageList[index];
-		item.Total = item.Quantity * item.Price;
-		item.VATAmount = item.Quantity*item.Price*(1 + item.VAT / 100) - item.Quantity*item.Price;
-		item.TotalPlusVAT = item.Quantity*item.Price*(1 + item.VAT / 100);
-		console.log(item);
-		$scope.$apply();
+		item.Total = Math.round(item.Quantity * item.Price);
+		item.VATAmount = Math.round(item.Quantity*item.Price*(1 + item.VAT / 100) - item.Quantity*item.Price);
+		item.TotalPlusVAT = Math.round(item.Quantity*item.Price*(1 + item.VAT / 100));
+
+		vm.newOrder.OrderCart.SubTotal = 0;
+		vm.newOrder.OrderCart.TotalVATAmount = 0;
+		vm.newOrder.OrderCart.TotalWeight = 0;
+		vm.newOrder.OrderCart.TotalToPay = 0;
+
+		angular.forEach(vm.newOrder.OrderCart.PackageList, function (value, key) {
+			vm.newOrder.OrderCart.SubTotal += value.Total;		
+			vm.newOrder.OrderCart.TotalVATAmount += value.VATAmount;		
+			vm.newOrder.OrderCart.TotalWeight += value.Weight;		
+			vm.newOrder.OrderCart.TotalToPay += value.TotalPlusVAT;
+		});
+
+		vm.newOrder.OrderCart.TotalToPay += vm.newOrder.OrderCart.ServiceCharge;
+		
 	}
 
 	function RemoveItem(itemIndex) {
@@ -185,13 +197,16 @@ function createOrderController($scope, $window, $mdpDatePicker, host, restCall, 
 	
 	function loadUserNames(){
 		function successCallback(response) {
-			vm.autocompleteUserNames = response.data;	
+			vm.autocompleteUserNames = response.data.data;	
 			console.log(vm.autocompleteUserNames)
 		}
 		function errorCallback(error) {
 			console.log(error);
 		}
-		restCall('GET', host + "api/account", null, successCallback, errorCallback)
+
+		var getUsersUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
+		console.log(getUsersUrl)
+		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
 		console.log("loadUserNames")
 	};
 

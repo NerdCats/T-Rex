@@ -5,6 +5,7 @@
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
     <div flex="50">
+        <!-- need to make ngclipboard working -->
         <p class="md-body-2">Public Order Track Link</p>
         <p  class="md-body-1" id="foo">{{publicTrackingLink}}</p>        
         <!-- <button ngclipboard data-clipboard-target="#foo">Copy Link</button> -->
@@ -91,22 +92,22 @@
             </table>
             <div class="order-summary">
                 <div layout="row">
-                    <span class="md-body-2">Sub Total</span>
+                    <span flex="10" class="md-body-2">Sub Total</span>
                     <span flex="5"></span>
                     <span class="md-body-1">{{OrderDetails.orderCart.SubTotal}} BDT</span>
                 </div>
                 <div layout="row">
-                    <span class="md-body-2">Service Charge</span>
+                    <span flex="10" class="md-body-2">Service Charge</span>
                     <span flex="5"></span>
                     <span class="md-body-1">{{OrderDetails.orderCart.ServiceCharge}} BDT</span>
                 </div>
                 <div layout="row">
-                    <span class="md-body-2">Total Weight</span>
+                    <span flex="10" class="md-body-2">Total Weight</span>
                     <span flex="5"></span>
                     <span class="md-body-1">{{OrderDetails.orderCart.TotalWeight}} KG</span>
                 </div>
                 <div layout="row">
-                    <span class="md-body-2">Total To Pay</span>
+                    <span flex="10" class="md-body-2">Total To Pay</span>
                     <span flex="5"></span>
                     <span class="md-body-1">{{OrderDetails.orderCart.TotalToPay}} BDT</span>
                 </div>
