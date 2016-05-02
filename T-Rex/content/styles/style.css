@@ -4,8 +4,8 @@
 }
 
 html, body{
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
     height: 100%;
     width: 100%;
     /*position: relative;        */
@@ -27,10 +27,19 @@ header{
 }
 .title{
     /*background-color: #B5B5B5;*/
-    padding: 10px 10px;
+    padding: 20px;
 }
 .help-block {
     color: red;
+}
+
+.responsive-td {
+    padding: 0px 10px 0px 0px !important;
+}
+
+.asset-rating-icon {
+    font-size: 15px !important;
+    width: 15px;
 }
 .generic-form{  
     margin: 50px auto;
@@ -127,8 +136,8 @@ a{
     /*background-color: #F5F5F5;*/
 }
 .vertical{
-	display: flex;
-	flex-flow: column;
+    display: flex;
+    flex-flow: column;
 }
 
 
@@ -143,14 +152,14 @@ a{
 }
 
 #content-header{
-	background-color: #C5E1A5;
+    background-color: #C5E1A5;
     height: 10%;
 }
 #content-body {
     height: 90%;
 }
 #order-details{
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
     padding: 28px;
 }
 #asset-admin {
@@ -158,13 +167,17 @@ a{
     padding: 28px;
 }
 #tasks{
-	background-color: #E0E0E0;
+    background-color: #E0E0E0;
     padding: 20px;    
+}
+#job-map {
+    background-color: #BDBDBD;
+    padding: 28px;
+    height: 700px;
 }
 #job-map-wrapper {
     background-color: #BDBDBD;
-    padding: 28px;
-    height: 600px;
+    padding: 37px;
 }
 
 #content-header-h1 {

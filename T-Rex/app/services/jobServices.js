@@ -108,7 +108,15 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 				return COLOR.yellow;
 			else if (state = "COMPLETED")
 				return COLOR.green;
+		};
+
+		function updateStateButtonDisabled(State) {
+			if (State=="PENDING" || State=="COMPLETED") {
+				return true;
+			}
+			return false;
 		}
+
 		angular.forEach(job.Tasks, function (task, key) {
 			
 			if (task.Type == "FetchDeliveryMan") {
@@ -125,7 +133,8 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
-					}
+					},
+					updateStateDisable : updateStateButtonDisabled(task.State)
  				};
  				console.log(FetchDeliveryMan.startTime);
  				jobTasks.push(FetchDeliveryMan);
@@ -146,7 +155,8 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
-					}
+					},
+					updateStateDisable : updateStateButtonDisabled(task.State)
  				}
  				jobTasks.push(packagePickUp);
  			} else if (task.Type == "Delivery") {
@@ -166,7 +176,8 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
-					}
+					},
+					updateStateDisable : updateStateButtonDisabled(task.State)
  				}
  				jobTasks.push(delivery);
  			} else if (task.Type == "FetchRide") {
@@ -188,7 +199,8 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
-					}
+					},
+					updateStateDisable : updateStateButtonDisabled(task.State)
  				};
 				jobTasks.push(fetchRide);
  			} else if (task.Type == "RidePickUp") {
@@ -208,20 +220,23 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
-					}
+					},
+					updateStateDisable : updateStateButtonDisabled(task.State)
  				}
  				jobTasks.push(ridePickUp);
  			}
  		});
 		console.log(jobTasks)
  		return jobTasks;
-	}
+	};
+
+	
 
 	return {		 		
 		OrderDetails : OrderDetails,
 		populateServingBy : populateServingBy,
 		populateMap : populateMap,
 		populateAssetAssignDialog : populateAssetAssignDialog,		
-		populateJobTasks : populateJobTasks
+		populateJobTasks : populateJobTasks		
 	}
 };

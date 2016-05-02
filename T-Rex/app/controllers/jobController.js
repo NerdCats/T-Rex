@@ -18,8 +18,11 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	vm.jobStates = [];
 	vm.Assets = [];
 	vm.markers	= [];
-	vm.jobTaskStates = ["IN_PROGRESS","COMPLETED"];
+	vm.jobTaskStates = ["COMPLETED"];
 	vm.assignAsset = ["Assign Asset"];
+	vm.invoiceLink = function (HRID) {		
+		return host + "api/job/"+ HRID +"/invoice";
+	}
 
 	var jobUrl = host + "api/Job?id=" + id;	
 	function successCallback(response) {
@@ -35,6 +38,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 		vm.OrderDetails = jobFactory.OrderDetails(vm.job);
 
 		vm.servingby = jobFactory.populateServingBy(vm.job);
+		
 
 		/* FIXME:
 		this is the part to get tracking data of the assigned assets,
@@ -87,7 +91,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	
 	vm.assetAssignPopup = function (event) {
 		jobFactory.populateAssetAssignDialog(vm, event, vm.job);
-	};
+	};	 
 };
 
 

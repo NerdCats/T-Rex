@@ -1,5 +1,11 @@
 function assetAssignDialogController($scope, $mdDialog, $http, host) {
 	
+
+	var assetListUrlMaker = function (type, envelope, page, pageSize) {
+		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
+		var assetListUrl = host + "/api/Account/odata?" + parameters;		
+		return assetListUrl;
+	};
 	$scope.hide = function() {
 		$mdDialog.hide();
 	};
@@ -14,10 +20,10 @@ function assetAssignDialogController($scope, $mdDialog, $http, host) {
 		$mdDialog.hide($scope.assignedAssets);
 	};
 
-	var url1 = host + "api/Account";
+	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 10);
 		
 	$http.get(url1).then(function(response) {
-		$scope.assets = response.data;
+		$scope.assets = response.data.data;
 	});
 	
 	$scope.assignedAssets = [];

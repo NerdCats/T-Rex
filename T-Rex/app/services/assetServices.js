@@ -3,8 +3,8 @@
 app.factory('assetsFactory', function($http, $window, restCall, host){
 	
 	var assetListUrlMaker = function (type, envelope, page, pageSize) {
-		var parameters = "envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
-		var assetListUrl = host + "/api/Account?" + parameters;		
+		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
+		var assetListUrl = host + "/api/Account/odata?" + parameters;		
 		return assetListUrl;
 	};
 

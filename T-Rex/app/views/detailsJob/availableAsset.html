@@ -12,27 +12,27 @@
 		</md-toolbar>
 		<md-dialog-content>
 			<div class="md-dialog-content">
-				<table>
-					<thead>
-						<tr>
-							<th flex="5" class=".md-headline"></th>
-							<th class=".md-headline">Name</th>
-							<th class=".md-headline">Phone Number</th>
-							<th class=".md-headline">IsAvailable</th>
-							<th class=".md-headline">Role</th>
-							<th class=".md-headline">Current Addres</th>
-							<th class=".md-headline">Assigned JobId</th>
+				<table md-table>
+					<thead md-head md-on-recorder="onReorder">
+						<tr md-row>
+							<th flex="5" class="md-headline"></th>
+							<th class="md-headline">Name</th>
+							<th class="md-headline">Phone Number</th>
+							<!-- <th class=".md-headline">IsAvailable</th> -->
+							<th class="md-headline">Role</th>
+							<!-- <th class=".md-headline">Current Addres</th> -->
+							<!-- <th class=".md-headline">Assigned JobId</th> -->
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="asset in assets">
-							<td><input type="checkbox" ng-click="assinged(asset)"/></td>				
-							<td>{{asset.Profile.FirstName}}</td>
-							<td>{{asset.PhoneNumber}}</td>
-							<td>{{asset.IsAvailable}}</td>
-							<td>{{asset.Type}}</td>
-							<td>{{Profile.Address}}</td>
-							<td>{{asset.AssignedJobId}}</td>
+						<tr md-row ng-repeat="asset in assets">
+							<td ><md-checkbox class="md-secondary" ng-click="assinged(asset)"></md-checkbox></td>
+							<td >{{asset.UserName}}</td>
+							<td >{{asset.PhoneNumber}}</td>
+							<!-- <td >{{asset.IsAvailable}}</td> -->
+							<td >{{asset.Type}}</td>
+							<!-- <td >{{Profile.Address}}</td> -->
+							<!-- <td >{{asset.AssignedJobId}}</td> -->
 						</tr>						
 					</tbody>
 				</table>
