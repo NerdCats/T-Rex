@@ -10,8 +10,8 @@ var app = angular.module('app', [
 	'LocalStorageModule',
 	'md.data.table',
 	'angularFileUpload',
-	'mdPickers'
-  // 'material.svgAssetsCache',
+	'mdPickers',
+	'ngclipboard'
 ]);
 
 app.config(['$routeProvider',

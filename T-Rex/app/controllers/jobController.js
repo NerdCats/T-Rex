@@ -1,13 +1,13 @@
 'use strict';
 
 app.controller('jobController', [ '$scope', '$http', '$interval', '$window', '$mdDialog', '$mdMedia', '$location', '$routeParams',
-							'menus', 'templates', 'host', 'tracking_host',
+							'menus', 'templates', 'host', 'tracking_host', 'tracking_link',
 							'timeAgo', 'jobFactory', 'mapFactory', 'restCall', jobController]);
 
 
 
 function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $location, $routeParams,
-							menus, templates, host, tracking_host,
+							menus, templates, host, tracking_host, tracking_link,
 							timeAgo,jobFactory, mapFactory, restCall) {
 	
 	var id = $routeParams.id;	
@@ -27,7 +27,9 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	var jobUrl = host + "api/Job?id=" + id;	
 	function successCallback(response) {
 
-		vm.job = response.data;			
+		vm.job = response.data;
+
+		vm.publicTrackingLink = tracking_link + vm.job.HRID;
 
 		vm.jobTasks = jobFactory.populateJobTasks(vm.job);		
 	 

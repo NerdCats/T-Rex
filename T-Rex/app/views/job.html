@@ -4,6 +4,11 @@
     <div class="horizontal">
         <p><b>This Order is {{job.State}} now</b></p> 
     </div>
+    <div flex="50">
+        <p class="md-body-2">Public Order Track Link</p>
+        <p  class="md-body-1" id="foo">{{publicTrackingLink}}</p>        
+        <!-- <button ngclipboard data-clipboard-target="#foo">Copy Link</button> -->
+    </div>
 </div>
 <div id="order-details">
     <md-card>

@@ -17,7 +17,8 @@
     "gmaps": "^0.4.24",
     "jquery": "^2.2.2",
     "mdPickers": "^0.7.2",
-    "moment": "^2.13.0"
+    "moment": "^2.13.0",
+    "ngclipboard": "^1.1.1"
   },
   "devDependencies": {
     "angular-file-upload": "^2.2.0",
