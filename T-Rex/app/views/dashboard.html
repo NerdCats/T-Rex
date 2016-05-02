@@ -107,7 +107,7 @@
             </thead>
             <tbody md-body>
                 <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in completedOrders.orders track by $index" ng-click="order.Details(order.Id)">
-                    <a href="/details/{{order.Id}}">
+                    <a href="/job/{{order.Id}}">
                         <td md-cell class="number">{{$index + 1}}</td>
                         <td md-cell class="text">{{order.Name}}</td>
                         <td md-cell class="text">{{order.Type}}</td>

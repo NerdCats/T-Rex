@@ -24,7 +24,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$window.location.href = '#/details/'+ value.HRID;
+							$window.location.href = '#/job/'+ value.HRID;
 						}
 					};
 				} catch (e){
@@ -37,7 +37,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : value.State,
 						Details : function(){
-							$window.location.href = '#/details/'+ value.HRID;
+							$window.location.href = '#/job/'+ value.HRID;
 						}
 					};
 				}				

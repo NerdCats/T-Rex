@@ -32,10 +32,10 @@ app.config(['$routeProvider',
 				controller: 'createOrderController',
 				controllerAs: 'createOrder'
 			}).
-			when('/details/:id',{
-				templateUrl: 'app/views/detailsJob.html',
-				controller: 'detailsController',
-				controllerAs: 'details'
+			when('/job/:id',{
+				templateUrl: 'app/views/job.html',
+				controller: 'jobController',
+				controllerAs: 'job'
 			}).
 			when('/asset', {
 				templateUrl: 'app/views/assets.html',
