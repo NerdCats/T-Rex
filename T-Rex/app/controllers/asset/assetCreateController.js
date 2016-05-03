@@ -39,7 +39,7 @@ app.controller('createAssetController', function ($scope,userService) {
     }
     
   	vm.RegisterNewAsset = function () {
-      userService.registerNewAsset(vm.asset);
+      userService.registerNewUser(vm.asset);
     } 
     
 });

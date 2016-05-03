@@ -4,13 +4,24 @@ app.controller('userDetailsController', ['$scope', '$routeParams', 'userService'
 	vm.User = {};
 	
 	var userUrl = host + "api/account/profile/" + id;
-	function successCallback(response) {
+	function userFound(response) {
 		vm.User = response.data;
 		console.log(vm.User);
 	}
-	function errorCallback(error) {
+	function userNotFound(error) {
 		console.log(error)
 	}
-	restCall('GET', userUrl, null, successCallback, errorCallback);
+	restCall('GET', userUrl, null, userFound, userNotFound);
 
+
+	var asignedJobUrl = host + "api/account/"+id+"/jobs";
+	function jobsFound(response) {
+		vm.UsersJobs = response.data;
+		console.log(vm.UsersJobs);
+	}
+	function jobsNotFound(error) {
+		console.log(error)
+	}
+	restCall('GET', asignedJobUrl, null, jobsFound, jobsNotFound);
+	
 }]);
