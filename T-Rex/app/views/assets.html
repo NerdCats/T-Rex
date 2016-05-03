@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-auto-select ng-repeat="asset in assets.Assets.Collection track by $index" ng-click="Details(asset._id)">
+                <tr md-row md-auto-select ng-repeat="asset in assets.Assets.Collection track by $index" ng-click="assets.Details(asset.Id)">
                     <td md-cell class="text">{{$index + 1}}</td>
                     <td md-cell class="text">{{asset.UserName}}</td>
                     <td md-cell class="text">{{asset.Type}}</td>

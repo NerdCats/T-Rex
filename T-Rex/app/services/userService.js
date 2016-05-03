@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('userService', function($http, $window, restCall, host, UrlPath){
+app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", function($http, $window, restCall, host, UrlPath){
 
 	var populateUsers = function (users, pageSize) {
 		var userListUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
@@ -25,14 +25,30 @@ app.factory('userService', function($http, $window, restCall, host, UrlPath){
 				assets.pages.push(i);
 			};
 		}
-		restCall('GET', assetlistUrl, null, successCallback);
+		function errorCallback(error) {
+			console.log(error);
+		}
+		restCall('GET', assetlistUrl, null, successCallback, errorCallback);
 	};
 
-	var registerNewAsset = function (asset){
+
+	var populateUserDetails = function (user, userId) {
+		var userUrl = host + "api/account/profile/" + userId;
+		function successCallback(response) {
+			user = response.data;
+			console.log(user);			
+		}
+		function errorCallback(error) {
+			console.log(error)
+		}
+		restCall('GET', userUrl, null, successCallback, errorCallback);
+	}
+
+	var registerNewUser = function (asset){
 		var successCallback = function (response) {
   			console.log("success : ");
   			console.log(response);
-  			alert("")
+  			alert("Success")
   			$window.location.href = '#/asset';
   		};
   		
@@ -40,15 +56,16 @@ app.factory('userService', function($http, $window, restCall, host, UrlPath){
   			console.log("error : ");
   			console.log(response);
   		};
-  		
+
 		console.log(asset);
-		var registerNewAssetUrl = host + "api/Account/Register";
-		restCall('POST', registerNewAssetUrl, asset, successCallback, errorCallback)  	
+		var registerNewUserUrl = host + "api/Account/Register";
+		restCall('POST', registerNewUserUrl, asset, successCallback, errorCallback)  	
 	};
 
 	return {
 		populateAssets : populateAssets,
-		registerNewAsset : registerNewAsset,
-		populateUsers : populateUsers
+		registerNewUser : registerNewUser,
+		populateUsers : populateUsers,
+		populateUserDetails : populateUserDetails
 	}
-});
+}]);

@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-auto-select ng-repeat="user in users.Users.Collection track by $index" ng-click="Details(user._id)">
+                <tr md-row md-auto-select ng-repeat="user in users.Users.Collection track by $index" ng-click="users.Details(user.Id)">
                     <td md-cell class="text">{{$index + 1}}</td>
                     <td md-cell class="text">{{user.UserName}}</td>
                     <td md-cell class="text">{{user.Type}}</td>

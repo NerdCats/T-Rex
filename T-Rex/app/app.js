@@ -43,7 +43,7 @@ app.config(['$routeProvider',
 				controllerAs: 'users'
 			}).
 			when('/user/create',{
-				templateUrl: 'app/views/asset/create.html',
+				templateUrl: 'app/views/user/create.html',
 				controller: 'createAssetController',
 				controllerAs: 'createAsset'
 			}).
@@ -51,14 +51,24 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/assets.html',
 				controller: 'assetController',
 				controllerAs: 'assets'
+			}).			
+			when('/asset/details/:id',{
+				templateUrl: 'app/views/user/details.html',
+				controller: 'userDetailsController',
+				controllerAs: 'user'
+			}).
+			when('/user/details/:id',{
+				templateUrl: 'app/views/user/details.html',
+				controller: 'userDetailsController',
+				controllerAs: 'user'
 			}).
 			when('/asset/create',{
-				templateUrl: 'app/views/asset/create.html',
+				templateUrl: 'app/views/user/create.html',
 				controller: 'createAssetController',
 				controllerAs: 'createAsset'
 			}).
 			when('/asset/assets-tracking-map',{
-				templateUrl: 'app/views/asset/assetsTrackingMap.html',
+				templateUrl: 'app/views/user/assetsTrackingMap.html',
 				controller: 'assetsTrackingMapController',
 				controllerAs: 'assetsTrackingMap'
 			}).

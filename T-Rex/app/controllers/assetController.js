@@ -19,7 +19,7 @@ function assetController($scope, $http, $window, menus, templates, userService) 
 		$window.location.href = '#/asset/create';
 	};
 
-	vm.Details = function(_id){
-		$window.location.href = '#/index.html?id='+ _id;
+	vm.Details = function(Id){
+		$window.location.href = '#/asset/details/' + Id;
 	};
 }
