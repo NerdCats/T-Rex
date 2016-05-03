@@ -1,27 +1,26 @@
 'use strict';
 
-app.factory('assetsFactory', function($http, $window, restCall, host, UrlPath){
+app.factory('userService', function($http, $window, restCall, host, UrlPath){
+
+	var populateUsers = function (users, pageSize) {
+		var userListUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+		function successCallback(response) {
+			users.Collection = response.data.data;			
+			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
+				users.pages.push(i);
+			};
+		}
+		function errorCallback(error) {
+			console.log(error);
+		}
+		restCall('GET', userListUrl, null, successCallback, errorCallback);
+	}
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
-
 		var assetlistUrl = host + UrlPath.assets(type, envelope, page, pageSize);
 
 		function successCallback (response) {
-			angular.forEach(response.data.data, function(value, key){
-				console.log(value);
-				var asset = {
-					_id : value._id,
-					UserName : value.UserName,
-					Type : value.Type,
-					Phone : value.PhoneNumber,
-					CurrentLocation : value.CurrentLocation,
-					AreaOfOperation : value.AreaOfOperation,
-					IsAvailable : value.IsAvailable,
-					State : value.State,
-				};
-				assets.Collection.push(asset);
-			});
-
+			assets.Collection = response.data.data;
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
 				assets.pages.push(i);
 			};
@@ -41,7 +40,7 @@ app.factory('assetsFactory', function($http, $window, restCall, host, UrlPath){
   			console.log("error : ");
   			console.log(response);
   		};
-
+  		
 		console.log(asset);
 		var registerNewAssetUrl = host + "api/Account/Register";
 		restCall('POST', registerNewAssetUrl, asset, successCallback, errorCallback)  	
@@ -49,6 +48,7 @@ app.factory('assetsFactory', function($http, $window, restCall, host, UrlPath){
 
 	return {
 		populateAssets : populateAssets,
-		registerNewAsset : registerNewAsset
+		registerNewAsset : registerNewAsset,
+		populateUsers : populateUsers
 	}
 });

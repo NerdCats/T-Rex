@@ -37,6 +37,16 @@ app.config(['$routeProvider',
 				controller: 'jobController',
 				controllerAs: 'job'
 			}).
+			when('/users', {
+				templateUrl: 'app/views/users.html',
+				controller: 'userController',
+				controllerAs: 'users'
+			}).
+			when('/user/create',{
+				templateUrl: 'app/views/asset/create.html',
+				controller: 'createAssetController',
+				controllerAs: 'createAsset'
+			}).
 			when('/asset', {
 				templateUrl: 'app/views/assets.html',
 				controller: 'assetController',

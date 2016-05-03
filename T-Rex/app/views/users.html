@@ -1,0 +1,39 @@
+<div class="title">
+	<h1>Asset</h1>
+</div>
+<article class="container">
+    <div id="new-orders" >   
+        <md-container flex layout="row">
+            <div flex="80"></div>            
+            <div flex="20">
+                <md-button class="md-raised" ng-click="users.Register()">Register new user</md-button> 
+            </div>
+
+        </md-container>
+        <table md-table class="order-table" ng-model="selected" flex="90">
+            <thead md-head md-on-recorder="onReorder">
+                <tr md-row>
+                    <th md-column>S/L no</th>
+                    <th md-column>Username</th>
+                    <th md-column>Type</th>
+                    <th md-column>Phone</th>
+                    <th md-column>Address</th>                    
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-auto-select ng-repeat="user in users.Users.Collection track by $index" ng-click="Details(user._id)">
+                    <td md-cell class="text">{{$index + 1}}</td>
+                    <td md-cell class="text">{{user.UserName}}</td>
+                    <td md-cell class="text">{{user.Type}}</td>
+                    <td md-cell class="text">{{user.PhoneNumber}}</td>
+                    <td md-cell class="text">{{user.Profile.Address}}</td>                    
+                </tr>
+            </tbody>
+        </table>
+        <div style="float:right;margin-bottom: 100px;">
+            <ul layout="row">
+                <li ng-repeat="page in users.Assets.pages" ng-click="users.loadNextPage(page)">{{page+1}}</li>                                    
+            </ul>
+        </div>
+     </div>		 
+</article>				

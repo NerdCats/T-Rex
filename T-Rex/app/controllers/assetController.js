@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('assetController', ['$scope', '$http', '$window', 'menus', 'templates', 'assetsFactory', assetController]);
+app.controller('assetController', ['$scope', '$http', '$window', 'menus', 'templates', 'userService', assetController]);
 
-function assetController($scope, $http, $window, menus, templates, assetsFactory) {
+function assetController($scope, $http, $window, menus, templates, userService) {
 
 	var vm = this;
 	vm.menus = menus;
 	vm.templates = templates;
 	vm.Assets = {Collection : [], pages: []};
-	  
-	assetsFactory.populateAssets(vm.Assets, "BIKE_MESSENGER", true, 0, 25)
+	 
+	userService.populateAssets(vm.Assets, "BIKE_MESSENGER", true, 0, 25)
 	
 	vm.GoToAssetsTrackerMap = function () {
 		$window.location.href = '#/asset/assets-tracking-map';

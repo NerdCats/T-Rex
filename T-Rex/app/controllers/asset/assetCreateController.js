@@ -1,4 +1,4 @@
-app.controller('createAssetController', function ($scope,assetsFactory) {
+app.controller('createAssetController', function ($scope,userService) {
 
   var vm = this;
 
@@ -14,17 +14,17 @@ app.controller('createAssetController', function ($scope,assetsFactory) {
   		ConfirmPassword : "",
   		Email : "",
   		PhoneNumber : "",
-      PicUri : "",
-  		Type : "",
-      FirstName : "",
-      LastName : "",
-      Age : "",
-      Gender : "",
-      Address : "",      
-  		NationalId : "",
-  		DrivingLicenceId : "",
-      ContactPersonName : "",
-      Website : ""
+        PicUri : "",
+  	 	Type : "",
+        FirstName : "",
+        LastName : "",
+        Age : "",
+        Gender : "",
+        Address : "",      
+  	 	NationalId : "",
+  	 	DrivingLicenceId : "",
+        ContactPersonName : "",
+        Website : ""
   	};
 
     vm.UserTypeChanged = function (type) {
@@ -39,7 +39,7 @@ app.controller('createAssetController', function ($scope,assetsFactory) {
     }
     
   	vm.RegisterNewAsset = function () {
-     assetsFactory.registerNewAsset(vm.asset);
+      userService.registerNewAsset(vm.asset);
     } 
     
 });
