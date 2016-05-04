@@ -1,1 +1,73 @@
-<p>{{user.User.UserName}}</p>
+<section layout="row" layout-align="center center">
+	<md-content class="md-padding" layout-xs="column" layout="row" flex="100">
+		<div flex-xs flex-gt-xs="100" layout="column">
+			<md-card layout="column">
+				<md-card-title>
+					<md-card-title-text>
+						<h1 class="md-headline">{{user.User.UserName}}</h1>	
+						<span flex="20" class="md-body-1">{{user.User.Type}}</span>
+						<span flex="20" ng-show="user.isAsset">{{user.AverageRating}}</span>
+					</md-card-title-text>
+					<md-card-title-media>
+		            	<img class="md-media-lg card-media"  src="https://scontent-lax3-1.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/12003229_965463670234508_7108199628865838544_n.jpg?oh=1e15dc02990258708a73d3d0f0879d78&oe=57ADFF63">            	
+		          	</md-card-title-media>
+				</md-card-title>
+				<md-card-actions layout="row" layout-align="end center">
+			        <md-button>Update</md-button>
+			        <md-button>Delete</md-button>
+		        </md-card-actions>
+				<md-card-content>
+					<h1 class="md-headline">Contact Info</h1>					
+					<div layout="row" flex>
+						<span flex="20" class="md-body-2">Email</span>
+						<span flex="20" class="md-body-1">{{user.User.Email}}</span>
+					</div>
+					<div layout="row" flex>
+						<span flex="20" class="md-body-2">Phone</span>
+						<span flex="20" class="md-body-1">{{user.User.PhoneNumber}}</span>
+					</div>					
+				</md-card-content>
+				<md-card-content>
+					<h1 class="md-headline">Profile Info</h1>					
+					<div layout="row" flex ng-show="user.isAsset||user.isUser">
+						<span flex="20" class="md-body-2">First Name</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.FirstName}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isAsset||user.isUser">
+						<span flex="20" class="md-body-2">Last Name</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.LastName}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isAsset||user.isUser">
+						<span flex="20" class="md-body-2">Age</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.Age}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isAsset||user.isUser">
+						<span flex="20" class="md-body-2">Gender</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.Gender}}</span>
+					</div>
+					<div layout="row" flex>
+						<span flex="20" class="md-body-2">Address</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.Address}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isAsset">
+						<span flex="20" class="md-body-2">NationalId</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.NationalId}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isAsset">
+						<span flex="20" class="md-body-2">DriversLicenseId</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.DriversLicenseId}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isEnterprise">
+						<span flex="20" class="md-body-2">CompanyName</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.CompanyName}}</span>
+					</div>
+					<div layout="row" flex ng-show="user.isEnterprise">
+						<span flex="20" class="md-body-2">Website</span>
+						<span flex="20" class="md-body-1">{{user.User.Profile.Website}}</span>
+					</div>
+
+				</md-card-content>
+			</md-card>			
+		</div>
+	</md-content>
+</section>

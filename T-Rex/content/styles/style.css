@@ -209,10 +209,6 @@ tr:hover{
     background-color: #F5F5F5;
     padding: 10px;
 }
-.partial {
-    margin-top: 30px;
-    margin-left: 20px;
-}
 
 .td-button {
     width: 20%;
@@ -248,6 +244,7 @@ tr:hover{
 #ng-view {
     display: block;
     margin: auto;
+    padding: 28px;
 }
 
 #orderCreateMap {
