@@ -103,17 +103,9 @@
                         </div>
                     </md-input-container>
                     <md-input-container layout-padding flex="100">
-                        <label>LocalArea</label>
-                        <textarea rows="5"  name="LocalArea" ng-model="createOrder.newOrder.From.LocalArea"  value="{{createOrder.newOrder.From.LocalArea}}"></textarea>
-                        <div ng-messages="newOrderForm.LocalArea.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container layout-padding flex="100">
                         <label>City</label>
-                        <textarea rows="5"  name="LocalArea" ng-model="createOrder.newOrder.To.City"  value="{{createOrder.newOrder.To.LocalArea}}"></textarea>
-                        <div ng-messages="newOrderForm.LocalArea.$error">
+                        <textarea rows="5"  name="City" ng-model="createOrder.newOrder.From.City"  value="{{createOrder.newOrder.From.City}}"></textarea>
+                        <div ng-messages="newOrderForm.City.$error">
                             <div ng-message="required">This is required.</div>
                             <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                         </div>
