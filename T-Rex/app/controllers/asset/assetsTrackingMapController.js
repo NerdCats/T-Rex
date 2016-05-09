@@ -13,8 +13,8 @@ function assetsTrackingMapController($scope, $http, $window, mapFactory, host, t
 	console.log(getAllAssetUrl)
 	$http.get(getAllAssetUrl).then(
 		function assetListFound(response) {			
-			vm.assetsList = response.data.data;
-			angular.forEach(vm.assetsList, function (asset, key) {
+			var _assetsList = response.data.data;
+			angular.forEach(_assetsList, function (asset, key) {
 				var getAssetLocationUrl = tracking_host + "/api/location/" + asset.Id;
 				console.log(asset)
 				$http.get(getAssetLocationUrl).then(
@@ -33,6 +33,7 @@ function assetsTrackingMapController($scope, $http, $window, mapFactory, host, t
 						asset.online = "offline"
 					});
 			});
+			vm.assetsList = _assetsList;
 		}, function assetListNotFound(error) {
 			$window.location.reload();
 		});
