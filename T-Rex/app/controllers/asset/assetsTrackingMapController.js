@@ -9,10 +9,11 @@ function assetsTrackingMapController($scope, $http, $window, mapFactory, host, t
 	vm.assetsList = [];
 	vm.locateMarkerOnMap = mapFactory.locateMarkerOnMap;
 
-	var getAllAssetUrl = host + "/api/account";
+	var getAllAssetUrl = host + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=25"; // this is an ugly piece of code!
+	console.log(getAllAssetUrl)
 	$http.get(getAllAssetUrl).then(
 		function assetListFound(response) {			
-			vm.assetsList = response.data;
+			vm.assetsList = response.data.data;
 			angular.forEach(vm.assetsList, function (asset, key) {
 				var getAssetLocationUrl = tracking_host + "/api/location/" + asset.Id;
 				console.log(asset)

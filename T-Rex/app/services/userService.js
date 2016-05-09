@@ -18,7 +18,7 @@ app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", f
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
 		var assetlistUrl = host + UrlPath.assets(type, envelope, page, pageSize);
-
+		console.log(assetlistUrl);
 		function successCallback (response) {
 			assets.Collection = response.data.data;
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {

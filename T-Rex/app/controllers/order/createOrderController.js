@@ -11,7 +11,9 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 
 	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
-	
+	vm.LocalAreas = ["Banani", "Gulshan 1", "Gulshan 2", "Baridhara"]
+
+
 	vm.PaymentMethod = [];
 	vm.placesResults = [];
 
@@ -39,6 +41,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	        PostalCode: "",
 			Floor: "1",
 			HouseNumber: "",
+			LocalArea : "",
 			AdressLine1: "",
 			AddressLine2: "",
 			Country: "",
@@ -56,6 +59,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	    	PostalCode: "",
 			Floor: "1",
 			HouseNumber: "",
+			LocalArea : "",
 			AddressLine1: "",
 			AddressLine2: "",
 			Country: "",
