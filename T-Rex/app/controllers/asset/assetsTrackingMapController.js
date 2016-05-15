@@ -1,9 +1,9 @@
 'use strict';
 
 
-app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'mapFactory', 'host', 'tracking_host', assetsTrackingMapController]); 
+app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'mapFactory', 'host', 'tracking_host', 'signlr_link', assetsTrackingMapController]); 
 
-function assetsTrackingMapController($scope, $http, $window, mapFactory, host, tracking_host) {
+function assetsTrackingMapController($scope, $http, $window, mapFactory, host, tracking_host, signlr_link) {
 	var vm = this;
 	vm.map = mapFactory.createMap(23.7968725, 90.4083922, "tracking-map", 15);
 	vm.assetsList = [];
@@ -37,4 +37,17 @@ function assetsTrackingMapController($scope, $http, $window, mapFactory, host, t
 		}, function assetListNotFound(error) {
 			$window.location.reload();
 		});
+
+	var connection = $.hubConnection(signlr_link);
+	var proxy = connection.createHubProxy('[ShadowHub]');
+	 
+	// receives broadcast messages from a hub function, called "broadcastMessage"
+	proxy.on('SendLocation', function(asset) {
+	    console.log(asset);
+	});
+	 
+	// atempt connection, and handle errors
+	connection.start()
+	.done(function(){ console.log('Now connected, connection ID=' + connection.id); })
+	.fail(function(){ console.log('Could not connect'); });
 }
