@@ -11,7 +11,8 @@ var app = angular.module('app', [
 	'md.data.table',
 	'angularFileUpload',
 	'mdPickers',
-	'ngclipboard'
+	'ngclipboard',
+	'SignalR'
 ]);
 
 app.config(['$routeProvider',

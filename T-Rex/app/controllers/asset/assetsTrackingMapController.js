@@ -39,15 +39,24 @@ function assetsTrackingMapController($scope, $http, $window, mapFactory, host, t
 		});
 
 	var connection = $.hubConnection(signlr_link);
-	var proxy = connection.createHubProxy('[ShadowHub]');
+	var proxy = connection.createHubProxy('ShadowHub');
 	 
 	// receives broadcast messages from a hub function, called "broadcastMessage"
-	proxy.on('SendLocation', function(asset) {
+	proxy.on('getLocation', function(asset) {
+	    console.log(asset);
+	});
+
+	proxy.on('sendLocation', function(asset) {
 	    console.log(asset);
 	});
 	 
 	// atempt connection, and handle errors
 	connection.start()
-	.done(function(){ console.log('Now connected, connection ID=' + connection.id); })
-	.fail(function(){ console.log('Could not connect'); });
+	.done(function(){ 
+		console.log('Now connected, connection ID=' + connection.id);
+		console.log(connection);
+		console.log(proxy);
+	})
+	.fail(function(){ 
+		console.log('Could not connect'); });
 }
