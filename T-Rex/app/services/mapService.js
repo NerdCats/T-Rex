@@ -77,7 +77,7 @@ app.factory('mapFactory', [function(){
  	};
 
 	var locateMarkerOnMap = function (value) {
-		if (value.lat != undefined || value.lng != undefined ) {
+		if (!isNaN(value.lat) || !isNaN(value.lng)) {
 			var latLng = new google.maps.LatLng(value.lat, value.lng);			
 			mapServicePrivateMap.panTo(latLng);
 			mapServicePrivateMap.setZoom(16);
