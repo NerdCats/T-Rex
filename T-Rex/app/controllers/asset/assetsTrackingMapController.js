@@ -48,7 +48,7 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 					console.log(_signalRAssetList);
 
 				vm.assetsList = _signalRAssetList;
-				// $scope.$apply();
+				$scope.$apply();
 				}, function assetLocationCacheNotFound(error) {
 					console.log(error);
 				}
@@ -109,6 +109,7 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 	    });
 
 	    vm.assetsList = _signalRAssetList;
+	    $scope.$apply();
 	});
 
 	proxy.on('sendLocation', function(asset) {
