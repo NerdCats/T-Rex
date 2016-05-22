@@ -43,7 +43,7 @@
             //FIXME: I do can keep these routes noted somewhere
             $http.post(serviceBase + 'token', data, {
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded'                        
                     }
                 })
                 .success(function(response) {

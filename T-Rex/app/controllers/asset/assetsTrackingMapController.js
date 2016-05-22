@@ -1,39 +1,92 @@
 'use strict';
 
 
-app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'mapFactory', 'host', 'tracking_host', 'signlr_link', assetsTrackingMapController]); 
+app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'host', 'tracking_host', 'signlr_link', assetsTrackingMapController]); 
 
-function assetsTrackingMapController($scope, $http, $window, mapFactory, host, tracking_host, signlr_link) {
+function assetsTrackingMapController($scope, $http, $window, restCall, mapFactory, host, tracking_host, signlr_link) {
 	var vm = this;
 	vm.map = mapFactory.createMap(23.7968725, 90.4083922, "tracking-map", 15);
 	vm.assetsList = [];
 	vm.locateMarkerOnMap = mapFactory.locateMarkerOnMap;
 
 	var getAllAssetUrl = host + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=25"; // this is an ugly piece of code!
-	console.log(getAllAssetUrl)
+
+	var _signalRAssetList = {};
 	$http.get(getAllAssetUrl).then(
 		function assetListFound(response) {			
 			var _assetsList = response.data.data;
-			angular.forEach(_assetsList, function (asset, key) {
-				var getAssetLocationUrl = tracking_host + "/api/location/" + asset.Id;
-				console.log(asset)
-				$http.get(getAssetLocationUrl).then(
-					function locationFound(response) {
-						var assetLocation = response.data;
-						var lat = assetLocation.point.coordinates[1];
-						var lng = assetLocation.point.coordinates[0];
-						var content = asset.UserName;
-						var assetOverLay = mapFactory.createOverlay(lat, lng, content);
 
-						asset.online = "online";
-						asset.lat =  assetLocation.point.coordinates[1];
-						asset.lng =  assetLocation.point.coordinates[0];
-						asset.lastSeen = new Date( assetLocation.timestamp).toLocaleString();
-					}, function locationNotFound(error) {
-						asset.online = "offline"
-					});
+			// adapter pattern, creating objects as we need in our application
+			angular.forEach(_assetsList, function (asset, key) {
+				var _assetId = asset.Id.toString();
+				var _asset = {
+					lat : NaN,
+					lng : NaN,
+					content : asset.UserName,
+					online : "offline",					
+				};
+
+				_signalRAssetList[_assetId] = _asset;
 			});
-			vm.assetsList = _assetsList;
+
+			var getAssetLocationCache = tracking_host + "/api/ping";
+			$http.get(getAssetLocationCache).then(
+				function assetLocationCacheFound(response) {
+					
+					angular.forEach(response.data, function (asset, key) {
+						console.log(asset);
+						console.log("assetLocationCacheFound");
+						_signalRAssetList[asset.asset_id].lat = asset.point.coordinates[1];
+						_signalRAssetList[asset.asset_id].lng = asset.point.coordinates[0];
+						_signalRAssetList[asset.asset_id].online = "online";
+						_signalRAssetList[asset.asset_id].assetOverLay = mapFactory.createOverlay(asset.point.coordinates[1], 
+																									asset.point.coordinates[0],
+																									_signalRAssetList[asset.asset_id].content);
+						_signalRAssetList[asset.asset_id].lastSeen = new Date( asset.timestamp).toLocaleString();						
+					});
+
+					console.log(_signalRAssetList);
+
+				vm.assetsList = _signalRAssetList;
+				// $scope.$apply();
+				}, function assetLocationCacheNotFound(error) {
+					console.log(error);
+				}
+			);			
+			// angular.forEach(_assetsList, function (asset, key) {
+			// 	var getAssetLocationUrl = tracking_host + "/api/ping/";
+			// 	var Id = asset.Id.toString();
+			// 	console.log(Id);
+
+			// 	var _asset = {					
+			// 		lat : NaN,
+			// 		lng : NaN,
+			// 		content : asset.UserName,
+			// 		// assetOverLay : mapFactory.createOverlay(lat, lng, content)
+			// 	}
+
+			// 	console.log("*******************************");
+			// 	_signalRAssetList[Id] = _asset;
+			// 	// console.log(asset);
+				
+			// 	$http.get(getAssetLocationUrl).then(
+			// 		function locationFound(response) {
+			// 			var assetLocation = response.data;
+			// 			var lat = assetLocation.point.coordinates[1];
+			// 			var lng = assetLocation.point.coordinates[0];
+			// 			var content = asset.UserName;
+			// 			var assetOverLay = mapFactory.createOverlay(lat, lng, content);
+
+			// 			asset.online = "online";
+			// 			asset.lat =  assetLocation.point.coordinates[1];
+			// 			asset.lng =  assetLocation.point.coordinates[0];
+			// 			asset.lastSeen = new Date( assetLocation.timestamp).toLocaleString();
+			// 		}, function locationNotFound(error) {
+			// 			asset.online = "offline"
+			// 		});
+			// });
+			console.log(_signalRAssetList);
+			// vm.assetsList = _assetsList;
 		}, function assetListNotFound(error) {
 			$window.location.reload();
 		});
@@ -42,8 +95,20 @@ function assetsTrackingMapController($scope, $http, $window, mapFactory, host, t
 	var proxy = connection.createHubProxy('ShadowHub');
 	 
 	// receives broadcast messages from a hub function, called "broadcastMessage"
-	proxy.on('getLocation', function(asset) {
-	    console.log(asset);
+	proxy.on('getLocation', function(asset) {   
+	    mapFactory.removeOverlays();
+	    _signalRAssetList[asset.AssetId].lat = asset.Point.coordinates[1];
+	    _signalRAssetList[asset.AssetId].lng = asset.Point.coordinates[0];
+	    _signalRAssetList[asset.AssetId].online = "online";
+
+	    angular.forEach(_signalRAssetList, function (value, key) {
+	    	if (!isNaN(value.lat) || !isNaN(value.lng)) {
+	    		console.log(value.content + " " + value.lat + " " + value.lng);
+			    mapFactory.createOverlay(value.lat, value.lng, value.content);
+	    	}
+	    });
+
+	    vm.assetsList = _signalRAssetList;
 	});
 
 	proxy.on('sendLocation', function(asset) {

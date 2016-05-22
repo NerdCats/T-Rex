@@ -68,8 +68,12 @@ app.factory('mapFactory', [function(){
 										content: '<div class="overlay">'+ content + '<div class="overlay_arrow above"></div></div>',
 										verticalAlign: 'top',
 								        horizontalAlign: 'center'
-									});
+									});		
  		return overLay;
+ 	};
+
+ 	var removeOverlays = function () {
+ 		mapServicePrivateMap.removeOverlays();
  	};
 
 	var locateMarkerOnMap = function (value) {
@@ -184,14 +188,11 @@ app.factory('mapFactory', [function(){
 	};
 
 
-	
-
-
-
 	return {
 		createMap : createMap,
 		createMarker : createMarker,
 		createOverlay : createOverlay,
+		removeOverlays : removeOverlays,
 		markerIconUri : markerIconUri,
 		locateMarkerOnMap : locateMarkerOnMap,
 		markerClickEvent : markerClickEvent,
