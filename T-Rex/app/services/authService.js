@@ -144,7 +144,7 @@
             console.log(authData);
             if (authData==null) {
                 $window.location.href = '#/login';
-            } else {            	
+            } else {                
                 if ($window.location.hash == '#/login') {
                     $window.location.href = '#/';
                 }

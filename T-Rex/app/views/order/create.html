@@ -325,6 +325,9 @@
                 </md-input-container>           
             </md-content>
             
-            <md-button class="md-raised" type="submit" ng-disabled="newOrderForm.$invalid" flex="50" ng-click="">REGISTER</md-button>
+            <md-button class="md-raised" type="submit" ng-disabled="newOrderForm.$invalid" flex="50" ng-click="">
+                <md-progress-circular ng-show="submittingOrder" md-mode="indeterminate"></md-progress-circular>
+                <span ng-show="!auth.logginOnProcess">SUBMIT</span>
+            </md-button>
         </form>
 </article>

@@ -96,6 +96,8 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 	 
 	// receives broadcast messages from a hub function, called "broadcastMessage"
 	proxy.on('getLocation', function(asset) {   
+		console.log(asset);
+		_signalRAssetList[asset.AssetId];
 	    mapFactory.removeOverlays();
 	    _signalRAssetList[asset.AssetId].lat = asset.Point.coordinates[1];
 	    _signalRAssetList[asset.AssetId].lng = asset.Point.coordinates[0];

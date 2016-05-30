@@ -1,4 +1,6 @@
-app.controller('userDetailsController', ['$scope', '$routeParams', 'userService', 'host', 'restCall', function($scope, $routeParams, userService, host, restCall){
+app.controller('userDetailsController', ['$scope', '$routeParams', 'userService', 'host', 'restCall', userDetailsController]);
+
+function userDetailsController($scope, $routeParams, userService, host, restCall){
 	
 	var vm = this;
 	var id = $routeParams.id;
@@ -28,7 +30,7 @@ app.controller('userDetailsController', ['$scope', '$routeParams', 'userService'
 	restCall('GET', userUrl, null, userFound, userNotFound);
 
 
-	var asignedJobUrl = host + "api/account/"+id+"/jobs";
+	var asignedJobUrl = host + "api/account/" + id + "/jobs";
 	function jobsFound(response) {
 		vm.UsersJobs = response.data;
 		console.log(vm.UsersJobs);
@@ -37,5 +39,4 @@ app.controller('userDetailsController', ['$scope', '$routeParams', 'userService'
 		console.log(error)
 	}
 	restCall('GET', asignedJobUrl, null, jobsFound, jobsNotFound);
-	
-}]);
+}

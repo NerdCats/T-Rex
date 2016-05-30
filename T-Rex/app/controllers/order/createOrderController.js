@@ -165,7 +165,8 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 			vm.newOrder.OrderCart.TotalToPay += value.TotalPlusVAT;
 		});
 
-		vm.newOrder.OrderCart.TotalToPay += vm.newOrder.OrderCart.ServiceCharge;
+		// vm.newOrder.OrderCart.TotalToPay += vm.newOrder.OrderCart.ServiceCharge;
+		vm.newOrder.OrderCart.TotalToPay = 0;
 		
 	}
 
