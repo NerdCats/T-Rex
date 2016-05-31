@@ -89,7 +89,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	  	},
 	    Name: "",
 	    Type: "",
-	    PackageDescription : "",	    
+	    Description : "",	    
 	    NoteToDeliveryMan: "",
 	    PayloadType: "default",
 	    UserId: "",

@@ -34,8 +34,10 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 				function assetLocationCacheFound(response) {
 					
 					angular.forEach(response.data, function (asset, key) {
-						console.log(asset);
 						console.log("assetLocationCacheFound");
+						console.log(asset);
+						console.log(_signalRAssetList);
+
 						_signalRAssetList[asset.asset_id].lat = asset.point.coordinates[1];
 						_signalRAssetList[asset.asset_id].lng = asset.point.coordinates[0];
 						_signalRAssetList[asset.asset_id].online = "online";
@@ -97,7 +99,7 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 	// receives broadcast messages from a hub function, called "broadcastMessage"
 	proxy.on('getLocation', function(asset) {   
 		console.log(asset);
-		_signalRAssetList[asset.AssetId];
+		console.log(_signalRAssetList);
 	    mapFactory.removeOverlays();
 	    _signalRAssetList[asset.AssetId].lat = asset.Point.coordinates[1];
 	    _signalRAssetList[asset.AssetId].lng = asset.Point.coordinates[0];
