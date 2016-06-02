@@ -1,4 +1,4 @@
-'use strict';
+	'use strict';
 
 
 app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'host', 'tracking_host', 'signlr_link', assetsTrackingMapController]); 
@@ -34,17 +34,21 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 				function assetLocationCacheFound(response) {
 					
 					angular.forEach(response.data, function (asset, key) {
-						console.log("assetLocationCacheFound");
-						console.log(asset);
-						console.log(_signalRAssetList);
+						try{
+							console.log("assetLocationCacheFound");
+							console.log(asset);
+							console.log(_signalRAssetList);
 
-						_signalRAssetList[asset.asset_id].lat = asset.point.coordinates[1];
-						_signalRAssetList[asset.asset_id].lng = asset.point.coordinates[0];
-						_signalRAssetList[asset.asset_id].online = "online";
-						_signalRAssetList[asset.asset_id].assetOverLay = mapFactory.createOverlay(asset.point.coordinates[1], 
-																									asset.point.coordinates[0],
-																									_signalRAssetList[asset.asset_id].content);
-						_signalRAssetList[asset.asset_id].lastSeen = new Date( asset.timestamp).toLocaleString();						
+							_signalRAssetList[asset.asset_id].lat = asset.point.coordinates[1];
+							_signalRAssetList[asset.asset_id].lng = asset.point.coordinates[0];
+							_signalRAssetList[asset.asset_id].online = "online";
+							_signalRAssetList[asset.asset_id].assetOverLay = mapFactory.createOverlay(asset.point.coordinates[1], 
+																										asset.point.coordinates[0],
+																										_signalRAssetList[asset.asset_id].content);
+							_signalRAssetList[asset.asset_id].lastSeen = new Date( asset.timestamp).toLocaleString();
+						} catch(error) {
+							console.log(error);
+						}					
 					});
 
 					console.log(_signalRAssetList);
