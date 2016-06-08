@@ -55,8 +55,8 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 	};
 
 	var loadNextPage = function(Orders, state, envelope, page, pageSize){		
-		// Orders.orders= [];
-		// Orders.pages = [];
+		Orders.orders= [];
+		Orders.pages = [];
 		populateOrdersTable(Orders, state, envelope, page, pageSize);
 	};
 
