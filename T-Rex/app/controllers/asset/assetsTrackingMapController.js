@@ -1,5 +1,4 @@
-	'use strict';
-
+'use strict';
 
 app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'host', 'tracking_host', 'signlr_link', assetsTrackingMapController]); 
 
@@ -53,46 +52,12 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 
 					console.log(_signalRAssetList);
 
-				vm.assetsList = _signalRAssetList;
-				$scope.$apply();
+				vm.assetsList = _signalRAssetList;				
 				}, function assetLocationCacheNotFound(error) {
 					console.log(error);
 				}
-			);			
-			// angular.forEach(_assetsList, function (asset, key) {
-			// 	var getAssetLocationUrl = tracking_host + "/api/ping/";
-			// 	var Id = asset.Id.toString();
-			// 	console.log(Id);
-
-			// 	var _asset = {					
-			// 		lat : NaN,
-			// 		lng : NaN,
-			// 		content : asset.UserName,
-			// 		// assetOverLay : mapFactory.createOverlay(lat, lng, content)
-			// 	}
-
-			// 	console.log("*******************************");
-			// 	_signalRAssetList[Id] = _asset;
-			// 	// console.log(asset);
-				
-			// 	$http.get(getAssetLocationUrl).then(
-			// 		function locationFound(response) {
-			// 			var assetLocation = response.data;
-			// 			var lat = assetLocation.point.coordinates[1];
-			// 			var lng = assetLocation.point.coordinates[0];
-			// 			var content = asset.UserName;
-			// 			var assetOverLay = mapFactory.createOverlay(lat, lng, content);
-
-			// 			asset.online = "online";
-			// 			asset.lat =  assetLocation.point.coordinates[1];
-			// 			asset.lng =  assetLocation.point.coordinates[0];
-			// 			asset.lastSeen = new Date( assetLocation.timestamp).toLocaleString();
-			// 		}, function locationNotFound(error) {
-			// 			asset.online = "offline"
-			// 		});
-			// });
+			);						 
 			console.log(_signalRAssetList);
-			// vm.assetsList = _assetsList;
 		}, function assetListNotFound(error) {
 			$window.location.reload();
 		});
@@ -116,8 +81,7 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 	    	}
 	    });
 
-	    vm.assetsList = _signalRAssetList;
-	    $scope.$apply();
+	    vm.assetsList = _signalRAssetList;	    
 	});
 
 	proxy.on('sendLocation', function(asset) {

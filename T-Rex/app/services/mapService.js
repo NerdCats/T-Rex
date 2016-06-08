@@ -1,4 +1,4 @@
-app.factory('mapFactory', [function(){
+app.service('mapFactory', [function(){
 	
 	var mapServicePrivateMap;
 	var privatePickUpOverLay;
@@ -14,14 +14,7 @@ app.factory('mapFactory', [function(){
 	};
 
 	var createMap = function (lat, lon, mapElement, zoom) {
-		// var mapOptions = {
-		// 	zoom: zoom,
-		// 	center: new google.maps.LatLng(lat, lon),
-		// 	mapTypeId: google.maps.MapTypeId.TERRAIN
-		// };
-		// var map = new google.maps.Map(document.getElementById(mapElement), mapOptions);
-
-		var map = new GMaps({
+		mapServicePrivateMap = new GMaps({
 			el: '#'+ mapElement,
 			lat: lat,
 			lng: lon,
@@ -30,12 +23,9 @@ app.factory('mapFactory', [function(){
 	    });
 
 		var latLng = new google.maps.LatLng(23.7968725, 90.4083922);
-		map.panTo(latLng);
-
-
-		mapServicePrivateMap = map;		
-		google.maps.event.trigger(map, 'resize');
-		return map;
+		mapServicePrivateMap.panTo(latLng);		
+		google.maps.event.trigger(mapServicePrivateMap, 'resize');
+		return mapServicePrivateMap;
 	};
 
 
@@ -44,12 +34,6 @@ app.factory('mapFactory', [function(){
 			map = mapServicePrivateMap;
 		};
 
-		// var marker = new google.maps.Marker({
-		// 	  	map: map,
-		// 	  	position: new google.maps.LatLng(lat, lng),
-		// 	  	title: title,
-		//   	    draggable: draggable
-		// 	});
 		var marker = map.addMarker({
 			  	map: map,
 			  	position: new google.maps.LatLng(lat, lng),
@@ -100,8 +84,7 @@ app.factory('mapFactory', [function(){
 		var markerDrag = function (marker) {
 			var lat = marker.latLng.lat();
 			var lng = marker.latLng.lng();
-			console.log(lat + " " + lng);		
-			// getAddress(lat, lng, markerAddressFoundCallback)
+			console.log(lat + " " + lng);					
 			markerAddressFoundCallback(lat, lng);
 		};
 		google.maps.event.addListener(marker, 'dragend', markerDrag);
@@ -187,18 +170,16 @@ app.factory('mapFactory', [function(){
 		});
 	};
 
-
-	return {
-		createMap : createMap,
-		createMarker : createMarker,
-		createOverlay : createOverlay,
-		removeOverlays : removeOverlays,
-		markerIconUri : markerIconUri,
-		locateMarkerOnMap : locateMarkerOnMap,
-		markerClickEvent : markerClickEvent,
-		markerDragEvent : markerDragEvent,
-		getAddress : getAddress,
-		searchBox : searchBox,
-		mapContextMenuForCreateOrder : mapContextMenuForCreateOrder
-	};
-}]);
+	this.createMap = createMap;
+	this.createMarker = createMarker;
+	this.createOverlay = createOverlay;
+	this.removeOverlays = removeOverlays;
+	this.markerIconUri = markerIconUri;
+	this.locateMarkerOnMap = locateMarkerOnMap;
+	this.markerClickEvent = markerClickEvent;
+	this.markerDragEvent = markerDragEvent;
+	this.getAddress = getAddress;
+	this.searchBox = searchBox;
+	this.mapContextMenuForCreateOrder = mapContextMenuForCreateOrder;
+	
+}]);	

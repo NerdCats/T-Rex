@@ -100,7 +100,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	};
 
 
-	vm.modon = function(ev) {
+	vm.ETATimePicker = function(ev) {
     	$mdpTimePicker($scope.currentTime, {
         targetEvent: ev
       }).then(function(selectedDate) {

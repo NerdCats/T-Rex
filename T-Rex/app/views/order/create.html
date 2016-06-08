@@ -220,7 +220,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>Price</label>
-                    <input required name="Price" min="1" max="999999999" ng-change="createOrder.itemChange($index)" ng-model="item.Price" type="number" placeholder="ex: 100 or 750" value="{{item.Price}}">
+                    <input name="Price" min="1" max="999999999" ng-change="createOrder.itemChange($index)" ng-model="item.Price" type="number" placeholder="ex: 100 or 750" value="{{item.Price}}">
                     <div ng-messages="newOrderForm.Price.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
