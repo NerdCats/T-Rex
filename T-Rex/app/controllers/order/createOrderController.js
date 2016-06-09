@@ -11,7 +11,61 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 
 	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
-	vm.LocalAreas = ["Banani", "Gulshan 1", "Gulshan 2", "Baridhara"]
+	vm.LocalAreas = ['Bailey Road',
+		            'Banani',
+		            'Banani DOHS',
+		            'Baridhara',
+		            'Baridhara DOHS',
+		            'Basabo',
+		            'Bashundhara',
+		            'Cantonment',
+		            'Chowdhurypara',
+		            'Dhanmondi',
+		            'Elephant Road',
+		            'Eskaton',
+		            'Goran',
+		            'Green road',
+		            'Gulshan 1',
+		            'Gulshan 2',
+		            'Hatirpul Residential Area',
+		            'Indira Road',
+		            'Kakrail',
+		            'Katabon',
+		            'Khilgaon',
+		            'Khilgaon-taltola',
+		            'Lalmatia',
+		            'Malibagh',
+		            'Mirpur',
+		            'Mirpur-1',
+		            'Mirpur-10',
+		            'Mirpur-11',
+		            'Mirpur-12',
+		            'Mirpur-13',
+		            'Mirpur-14',
+		            'Mirpur-2',
+		            'Mirpur-6',
+		            'Mirpur-7',
+		            'Mirpur-Pallabi',
+		            'Mohakhali',
+		            'Mohakhali DOHS',
+		            'Mohammadpur',
+		            'Motijheel',
+		            'Narinda',
+		            'Niketan',
+		            'Nikunjo - 2',
+		            'Paltan',
+		            'Panthapath',
+		            'Paribagh',
+		            'Segunbagicha',
+		            'Shantinagar',
+		            'Shipahibag bazar',
+		            'Shyamoli',
+		            'Siddeshwari',
+		            'Sonargaon Road',
+		            'Tikatuli',
+		            'Tnt colony',
+		            'Uttara',
+		            'Wari'];
 
 
 	vm.PaymentMethod = [];
@@ -41,7 +95,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	        PostalCode: "",
 			Floor: "1",
 			HouseNumber: "",
-			LocalArea : "",
+			Locality : "",
 			AdressLine1: "",
 			AddressLine2: "",
 			Country: "",
@@ -59,13 +113,12 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	    	PostalCode: "",
 			Floor: "1",
 			HouseNumber: "",
-			LocalArea : "",
+			Locality : "",
 			AddressLine1: "",
 			AddressLine2: "",
 			Country: "",
 			City: "Dhaka",
-			State: "",
-			LocalArea : "",
+			State: "",			
 			Provider: "Default"
 	    },
 	  	OrderCart:{
@@ -100,7 +153,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	};
 
 
-	vm.modon = function(ev) {
+	vm.ETATimePicker = function(ev) {
     	$mdpTimePicker($scope.currentTime, {
         targetEvent: ev
       }).then(function(selectedDate) {
