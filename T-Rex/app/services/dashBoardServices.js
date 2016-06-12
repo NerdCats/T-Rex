@@ -7,9 +7,8 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 		return jobListOdataUrl;
 	};
 	
-	var populateOrdersTable = function(Orders, state, envelope, page, pageSize){
-
-		var jobListUrl = jobListUrlMaker(state, envelope, page, pageSize);	
+	var populateOrdersTable = function(Orders, jobListUrl){
+		
 		function successCallback(response){
 			var orders = response.data;
 			angular.forEach(orders.data, function(value, key){
@@ -57,11 +56,13 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 	var loadNextPage = function(Orders, state, envelope, page, pageSize){		
 		Orders.orders= [];
 		Orders.pages = [];
-		populateOrdersTable(Orders, state, envelope, page, pageSize);
+		var jobListUrl = jobListUrlMaker(state, envelope, page, pageSize);	
+		populateOrdersTable(Orders, jobListUrl);
 	};
 
 	return {
 		populateOrdersTable : populateOrdersTable,
-		loadNextPage : loadNextPage
+		loadNextPage : loadNextPage,
+		jobListUrlMaker : jobListUrlMaker
 	};
 }]);
