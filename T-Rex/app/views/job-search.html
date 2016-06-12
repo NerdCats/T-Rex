@@ -1,0 +1,109 @@
+<div layout="column" class="generic-form">
+	<form name="jobSearchForm">
+		<md-content layout-gt-sm="row" layout-padding flex="100">
+			<div flex="20">		
+				<h4>Start Date</h4>
+				<md-datepicker ng-model="jobSearch.startDate" md-placeholder="Enter date"></md-datepicker>
+			</div>
+			<div flex="20">		
+				<h4>End Date</h4>
+				<md-datepicker ng-model="jobSearch.endDate" md-placeholder="Enter date"></md-datepicker>			
+			</div>		 
+			<div flex="20">
+                <h4>Job State</h4>
+                <md-select ng-model="jobSearch.jobState">
+                    <md-option ng-repeat="state in jobSearch.jobStates" value="{{state}}">
+                        {{state}}
+                    </md-option>
+                </md-select>                       
+            </div>	    	
+        </md-content>
+        <md-content layout-gt-sm="row" layout-padding flex="100">
+        	<md-input-container flex="100">
+                <h4>User Name</h4>
+                <md-autocomplete                        
+                    md-no-cache="jobSearch.noCache"                    
+                    md-selected-item="jobSearch.selectedItem"
+                    md-search-text-change="jobSearch.searchTextChange(item)" 
+                    md-selected-item-change = "jobSearch.selectedItemChange(jobSearch.selectedItem)"
+                    md-search-text="jobSearch.searchText"
+                    md-selected
+                    ng-model-options="{debounce:500}"
+                    md-items="item in jobSearch.querySearch(jobSearch.searchText)"
+                    md-item-text="item.UserName"
+                    md-floating-label="Type in User's Name" 
+                    md-min-length="0">
+                    <md-item-template>
+                        <span md-highlight-text="item.UserName">{{item.UserName}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No states matching "{{ctrl.searchText}}" were found.
+                    </md-not-found>
+                </md-autocomplete>
+
+                <div ng-messages="newOrderForm.User.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">The User has to be less than 30 characters long.</div>
+                </div>
+            </md-input-container>      
+        </md-content>
+		<div flex="20">
+			<md-button class="md-raised" ng-click="jobSearch.Search()">SEARCH JOBS</md-button>
+		</div>
+	</form>
+
+	<md-content>
+		<md-table-container>
+		    <div class="title" layout="row">    	
+		        <div flex="80">
+		            <h1>Search Result</h1>
+		        </div>
+		    </div>
+	        <md-card>
+		        <md-card-title>
+		            <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
+		                <div class="md-toolbar-tools" flex="40">
+		                    <span>Total Found Jobs : {{jobSearch.SearchResultJobs.total}}</span>
+		                </div>
+		            </md-toolbar>
+		        </md-card-title>
+		        <md-card-content>
+		            <table md-table class="order-table" ng-model="selected" flex="90">
+		                <thead md-head md-on-recorder="onReorder">
+		                    <tr md-row>
+		                        <th md-column>S/L no</th>
+		                        <th md-column>Order</th>
+		                        <th md-column>Type</th>
+		                        <th md-column>From</th>
+		                        <th md-column>To</th>
+		                        <th md-column>User</th>
+		                        <th md-column>State</th>
+		                        <th md-column>Requested</th>
+		                    </tr>
+		                </thead>
+		                <tbody md-body>
+		                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in jobSearch.SearchResultJobs.orders track by $index" ng-click="order.Details(order.Id)">
+		                        <a href="/job/{{order.Id}}">
+		                            <td md-cell class="number">{{$index + 1}}</td>
+		                            <td md-cell class="text">{{order.Name}}</td>
+		                            <td md-cell class="text">{{order.Type}}</td>
+		                            <td md-cell class="text">{{order.From}}</td>
+		                            <td md-cell class="text">{{order.To}}</td>
+		                            <td md-cell class="text">{{order.User}}</td>
+		                            <td md-cell class="text">{{order.State}}</td>
+		                            <td md-cell class="text">{{order.RequestedAgo}}</td>
+		                        </a>
+		                    </tr>
+		                </tbody>
+		            </table>
+		       
+		            <div style="float:right">
+		                <ul layout="row">
+		                    <li ng-repeat="page in jobSearch.SearchResultJobs.pages" ng-click="loadNextPage(jobSearch.searchResult, page)">{{page+1}}</li>
+		                </ul>
+		            </div>            
+		        </md-card-content>
+		    </md-card>
+		</md-table-container>
+	</md-content>	
+</div>

@@ -7,8 +7,7 @@ createOrderController.$inject = ['$rootScope', '$log'];
 function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
 
 	var vm = this;
-	vm.hello = orderFactory.hello;
-
+	
 	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	vm.LocalAreas = ['Bailey Road',
@@ -165,8 +164,8 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	vm.searchTextChange = searchTextChange;
 	vm.selectedItemChange = selectedItemChange;
 	vm.querySearch = querySearch;
-	vm.createNewOrder = createNewOrder;
 
+	vm.createNewOrder = createNewOrder;
 	vm.orderTypeSelected = orderTypeSelected;
 
 	vm.currentMarkerLocation = {lat:0,lng:0};
@@ -174,7 +173,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	vm.searchAddress = searchAddress;
 	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
-	loadUserNames();
+	
 	loadPaymentMethods();
 
 	vm.AddItem = AddItem;
@@ -249,11 +248,12 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	}
 
 	function querySearch(query) {
+		loadUserNames(query);
 		var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
 		return results;
 	} 
 	
-	function loadUserNames(){
+	function loadUserNames(query){
 		function successCallback(response) {
 			vm.autocompleteUserNames = response.data.data;	
 			console.log(vm.autocompleteUserNames)
@@ -262,7 +262,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 			console.log(error);
 		}
 
-		var getUsersUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
+		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
 		console.log(getUsersUrl)
 		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
 		console.log("loadUserNames")
@@ -280,8 +280,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		function errorCallback(error) {
 			console.log(error);
 		}
-		restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)
-		console.log("loadUserNames")
+		restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)		
 	};
 	
 

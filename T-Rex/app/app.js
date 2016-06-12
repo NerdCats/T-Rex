@@ -87,6 +87,11 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
 				controller: 'supportedOrderUpdateController',
 				controllerAs: 'supportedOrders'
+			}).
+			when('/job-search', {
+				templateUrl: 'app/views/job-search.html',
+				controller: 'jobSearchController',
+				controllerAs: 'jobSearch'
 			});
 
 			$routeProvider.otherwise({ redirectTo: "/"});
