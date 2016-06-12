@@ -1,7 +1,5 @@
 app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host', function($http, $window, restCall, mapFactory, host){
-	
-	var hello = "hello tareq!";
-
+		
 	var createNewOrder = function (newOrder) {
 		
 		var successCallback = function (response) {
@@ -21,8 +19,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host
 		restCall('POST', createNewOrderUrl, newOrder, successCallback, errorCallback);
 	};
 
-	return {
-		hello : hello,
+	return {		
 		createNewOrder : createNewOrder,		
 	}
 }]);

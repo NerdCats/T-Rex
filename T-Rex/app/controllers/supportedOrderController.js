@@ -1,8 +1,7 @@
 'use strict';
 app.controller('supportedOrderController', ['$scope', 'supportedOrderFactory', 'restCall', 'host','$window', supportedOrderController]);
 function supportedOrderController($scope, supportedOrderFactory, restCall, host, $window){
-	var vm = $scope;
-	vm.hello = supportedOrderFactory;
+	var vm = $scope;	
 
 	var supportedOrderUrl = host + "api/Order/SupportedOrder";
 	var successCallback = function (response) {
