@@ -44,7 +44,7 @@
             </table>
             <div style="float:right">
                 <ul layout="row">
-                    <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
+                    <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', page)">{{page+1}}</li>
                 </ul>
             </div>            
         </md-card-content>
@@ -90,7 +90,7 @@
            
             <div style="float:right">
                 <ul layout="row">
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
+                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', page)">{{page+1}}</li>
                 </ul>
             </div>
         </md-card-content>
@@ -138,7 +138,7 @@
        
             <div style="float:right">
                 <ul layout="row">
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', true, page, 25)">{{page+1}}</li>
+                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(completedOrders, 'ENQUEUED', page)">{{page+1}}</li>
                 </ul>
             </div>            
         </md-card-content>
