@@ -10,6 +10,8 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 	var populateOrdersTable = function(Orders, jobListUrl){
 		
 		function successCallback(response){
+			Orders.orders = [];
+			Orders.pages = [];
 			var orders = response.data;
 			angular.forEach(orders.data, function(value, key){
 				try{

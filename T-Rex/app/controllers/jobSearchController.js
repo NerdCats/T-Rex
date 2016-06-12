@@ -5,7 +5,7 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 	vm.startDate = undefined;
 	vm.endDate = undefined;
 	vm.UserName = undefined;
-	vm.jobStates = ["PENDING", "IN_PROGRESS", "COMPLETED"]
+	vm.jobStates = ["ENQUEUED", "IN_PROGRESS", "COMPLETED"]
 	vm.jobState = "";
 	vm.SearchResultJobs = {orders: [], pages:[], total: 0};
 	vm.selectedItem = undefined;
@@ -15,22 +15,14 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 	vm.querySearch = querySearch;
 	vm.searchUrl = "";
 
-	vm.loadNextPage = function (SearchResults, page) {
-		SearchResults.orders = [];
-		SearchResults.pages = [];
-
+	vm.loadNextPage = function (page) {
 		var jobSearchUrlWithPage = searchUrl + "&page=" + page;
-		dashboardFactory.populateOrdersTable(SearchResults, jobSearchUrlWithPage);
+		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, jobSearchUrlWithPage);
 	}
 
 	vm.Search = function () {
-		console.log(vm.startDate);
-		console.log(vm.endDate);
-		console.log(vm.selectedItem);
-
 		searchUrl = host + "api/Job/odata?$filter=";
 		var allreadyAParamIsThere = false;
-		
 		
 		if (vm.startDate != undefined) {
 			var startDateParam = "CreateTime gt datetime'"+ vm.startDate.toISOString() +"'";
