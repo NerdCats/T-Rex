@@ -16,8 +16,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host
 		};
 
 		var createNewOrderUrl = host + "api/Order/";
-		// restCall('POST', createNewOrderUrl, newOrder, successCallback, errorCallback);
-		console.log(newOrder)
+		restCall('POST', createNewOrderUrl, newOrder, successCallback, errorCallback);
 	};
 
 	return {		
