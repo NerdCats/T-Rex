@@ -76,6 +76,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	vm.isOrderSelected = true;
 	vm.RideOrderSelected = false;
 	vm.DeliveryOrderSelected = true;
+	vm.ordersIsBeingCreated = false;
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
 	
@@ -286,10 +287,9 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	
 
 	function createFilterFor(query) {
-		var lowercaseQuery = angular.lowercase(query);
-
+		// var lowercaseQuery = angular.lowercase(query);
 		return function filterFn(state) {			
-			return(state.UserName.indexOf(lowercaseQuery) === 0)			
+			return(state.UserName.indexOf(query) === 0)			
 		};
 	}
 
@@ -329,7 +329,54 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 			);
 		} else {
 			// If you have a coordinates of both From and To, then it creates an order
-			orderFactory.createNewOrder(vm.newOrder);			
+			vm.ordersIsBeingCreated = true;
+			// orderFactory.createNewOrder(vm.newOrder, vm.ordersIsBeingCreated);	
+			var successCallback = function (response) {
+				console.log("success : ");
+				console.log(response);
+				alert("success");
+				$window.location.href = '#/';
+			};
+			
+			var errorCallback = function error(error) {
+				console.log("error : ");
+				console.log(error);				
+				vm.ordersIsBeingCreated = false;
+
+				var errorMsg = error.data.Message || "Server error";
+				var i = 0;
+		        if (error.data.ModelState) {
+		            errorMsg += "\n";
+		            if (error.data.ModelState["model.From.AddressLine1"]) {
+		                var err = error.data.ModelState["model.From.AddressLine1"][0];
+		                errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
+		            }
+		            if (error.data.ModelState["model.To.AddressLine1"]) {
+		                var err = error.data.ModelState["model.To.AddressLine1"][0];
+		                errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
+		            }
+		            if (error.data.ModelState["model.OrderCart.PackageList[0].Item"]) {
+		                var err = error.data.ModelState["model.OrderCart.PackageList[0].Item"][0];
+		                errorMsg += ++i + ". " + err + "\n";
+		            }
+		            if (error.data.ModelState["model.OrderCart.PackageList[0].Quantity"]) {
+		                var err = error.data.ModelState["model.OrderCart.PackageList[0].Quantity"][0];
+		                errorMsg += ++i + ". " + err + "\n";
+		            }
+		            if (error.data.ModelState["model.OrderCart.PackageList[0].Weight"]) {
+		                var err = error.data.ModelState["model.OrderCart.PackageList[0].Weight"][0];
+		                errorMsg += ++i + ". " + err + "\n";
+		            }
+		            if (error.data.ModelState["model.PaymentMethod"]) {
+		                var err = error.data.ModelState["model.PaymentMethod"][0];
+		                errorMsg += ++i + ". " + err + "\n";
+		            }		            
+		        }
+		        alert(errorMsg);
+			};
+
+			var createNewOrderUrl = host + "api/Order/";
+			restCall('POST', createNewOrderUrl, vm.newOrder, successCallback, errorCallback);		
 		}		
 	} 
 		

@@ -212,7 +212,7 @@
             </md-input-container>
             <md-input-container>
                 <label>Weight</label>
-                <input name="Weight" ng-model="item.Weight" type="number" placeholder="ex: 1 or 0.5" value="{{item.Weight}}">
+                <input name="Weight" ng-model="item.Weight" type="number" min="1" max="100" placeholder="ex: 1 or 0.5" value="{{item.Weight}}">
                 <div ng-messages="newOrderForm.Weight.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -326,8 +326,10 @@
         </md-content>
         
         <md-button class="md-raised" type="submit" ng-disabled="newOrderForm.$invalid" flex="50" ng-click="">
-            <md-progress-circular ng-show="submittingOrder" md-mode="indeterminate"></md-progress-circular>
-            <span ng-show="!auth.logginOnProcess">SUBMIT</span>
+            <span ng-show="createOrder.ordersIsBeingCreated">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </span>
+            <span ng-show="!createOrder.ordersIsBeingCreated">SUBMIT</span>
         </md-button>
     </form>
 </div>

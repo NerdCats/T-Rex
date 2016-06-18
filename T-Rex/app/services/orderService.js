@@ -1,7 +1,7 @@
 app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host', function($http, $window, restCall, mapFactory, host){
 		
-	var createNewOrder = function (newOrder) {
-		
+	var createNewOrder = function (newOrder, ordersIsBeingCreated) {
+		ordersIsBeingCreated = true;
 		var successCallback = function (response) {
 			console.log("success : ");
 			console.log(response);
@@ -13,6 +13,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host
 			console.log("error : ");
 			console.log(response);
 			alert("error");
+			ordersIsBeingCreated = false;
 		};
 
 		var createNewOrderUrl = host + "api/Order/";
