@@ -269,18 +269,19 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	};
 
 	function loadPaymentMethods() {
-		function successCallback(response) {
-			var paymentMethod = response.data;
-			angular.forEach(paymentMethod, function (value, key) {
-				 vm.PaymentMethod.push(value.Key);
-			})
+		// function successCallback(response) {
+		// 	var paymentMethod = response.data;
+		// 	angular.forEach(paymentMethod, function (value, key) {
+		// 		 vm.PaymentMethod.push(value.Key);
+		// 	})
 
-			console.log(vm.PaymentMethod)
-		}
-		function errorCallback(error) {
-			console.log(error);
-		}
-		restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)		
+		// 	console.log(vm.PaymentMethod)
+		// }
+		// function errorCallback(error) {
+		// 	console.log(error);
+		// }
+		// restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)		
+		vm.PaymentMethod.push("CashOnDelivery");
 	};
 	
 
