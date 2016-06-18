@@ -300,6 +300,10 @@ tr:hover{
     position: absolute;
 }
 
+.word_wrap_500{
+    word-wrap: break-word;
+    max-width: 500px;
+}
 #search_text {
     /*height: 0px !important;*/
 }
