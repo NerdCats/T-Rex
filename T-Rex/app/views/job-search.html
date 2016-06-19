@@ -48,7 +48,12 @@
             </md-input-container>      
         </md-content>
 		<div flex="20">
-			<md-button class="md-raised" ng-click="jobSearch.Search()">SEARCH JOBS</md-button>
+			<md-button class="md-raised" ng-click="jobSearch.Search()">
+			<span>
+				<md-progress-circular ng-show="jobSearch.searching" md-mode="indeterminate"></md-progress-circular>
+			</span>
+			<span ng-show="!jobSearch.searching">SEARCH JOBS</span>
+			</md-button>
 		</div>
 	</form>
 

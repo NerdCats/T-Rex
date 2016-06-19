@@ -14,6 +14,7 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 	vm.searchText = "";
 	vm.querySearch = querySearch;
 	vm.searchUrl = "";
+	vm.searching = false;
 
 	vm.loadNextPage = function (page) {
 		var jobSearchUrlWithPage = searchUrl + "&page=" + page;
@@ -21,8 +22,14 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 	}
 
 	vm.Search = function () {
-		searchUrl = host + "api/Job/odata?$filter=";
+		searchUrl = host + "api/Job/";
 		var allreadyAParamIsThere = false;
+
+		if (vm.startDate != undefined || vm.endDate != undefined || vm.UserName != undefined || vm.jobState != "") {
+			searchUrl += "odata?$filter=";
+		} else {
+			searchUrl += "?page=0&envelope=true";
+		}
 		
 		if (vm.startDate != undefined) {
 			var startDateParam = "CreateTime gt datetime'"+ vm.startDate.toISOString() +"'";
@@ -52,8 +59,9 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 				searchUrl += " and " + userNameParam;
 			}
 		}
-		if (vm.jobState != undefined) {
+		if (vm.jobState != "") {
 			var jobStateParam = "State eq '"+ vm.jobState +"'";
+			console.log(vm.jobState)
 			if (!allreadyAParamIsThere) {
 				searchUrl +=  jobStateParam;
 				allreadyAParamIsThere = true;
@@ -97,10 +105,10 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 		console.log("loadUserNames")
 	};
 	function createFilterFor(query) {
-		var lowercaseQuery = angular.lowercase(query);
+		// var lowercaseQuery = angular.lowercase(query);
 
 		return function filterFn(state) {			
-			return(state.UserName.indexOf(lowercaseQuery) === 0)			
+			return(state.UserName.indexOf(query) === 0)			
 		};
 	}
 }
