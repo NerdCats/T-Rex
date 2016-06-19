@@ -79,7 +79,8 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	};
 
 	function errorCallback(error) {
-		$window.location.reload();	
+		// $window.location.reload();	
+		console.log(error);
 	};
 
 	restCall('GET', jobUrl, null, successCallback, errorCallback);

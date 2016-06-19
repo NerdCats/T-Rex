@@ -7,13 +7,16 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 	vm.map = mapFactory.createMap(23.7968725, 90.4083922, "tracking-map", 15);
 	vm.assetsList = [];
 	vm.locateMarkerOnMap = mapFactory.locateMarkerOnMap;
-
+	vm.totalAsset = 0;
+	vm.totalOnlineAsset = 0;
 	var getAllAssetUrl = host + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=25"; // this is an ugly piece of code!
 
 	var _signalRAssetList = {};
 	$http.get(getAllAssetUrl).then(
 		function assetListFound(response) {			
 			var _assetsList = response.data.data;
+			vm.totalAsset = _assetsList.length;
+			console.log("total Asset " + vm.totalAsset);
 
 			// adapter pattern, creating objects as we need in our application
 			angular.forEach(_assetsList, function (asset, key) {
@@ -41,6 +44,7 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 							_signalRAssetList[asset.asset_id].lat = asset.point.coordinates[1];
 							_signalRAssetList[asset.asset_id].lng = asset.point.coordinates[0];
 							_signalRAssetList[asset.asset_id].online = "online";
+							vm.totalOnlineAsset += 1;
 							_signalRAssetList[asset.asset_id].assetOverLay = mapFactory.createOverlay(asset.point.coordinates[1], 
 																										asset.point.coordinates[0],
 																										_signalRAssetList[asset.asset_id].content);
@@ -51,6 +55,7 @@ function assetsTrackingMapController($scope, $http, $window, restCall, mapFactor
 					});
 
 					console.log(_signalRAssetList);
+					console.log("total Online " + vm.totalOnlineAsset)
 
 				vm.assetsList = _signalRAssetList;				
 				}, function assetLocationCacheNotFound(error) {
