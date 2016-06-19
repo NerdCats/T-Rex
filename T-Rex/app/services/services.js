@@ -37,7 +37,10 @@ app.factory('timeAgo', function () {
 				timeString += minute + " minute";
 			}
 		}
-		return timeString;
+		if (timeString=="") {
+			return "";
+		}
+		return timeString + " ago";
 	};
 });
 

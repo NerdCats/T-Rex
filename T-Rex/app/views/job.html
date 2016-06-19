@@ -1,8 +1,8 @@
 <div class="title">
     <h1>{{job.Name}}</h1>
-    <p>Requested {{ requestedAgo }} ago</p>
+    <p>Created: {{ requestedAgo }}</p>
     <div class="horizontal">
-        <p><b>This Order is {{job.State}} now</b></p> 
+        <p><b>This Order is {{OrderDetails.State()}} now</b></p> 
     </div>
     <div flex="50">
         <!-- need to make ngclipboard working -->
@@ -180,7 +180,7 @@
                                 <div layout="column" flex="30">                            
                                     <md-menu md-offset="0 -7">
                                         <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)" ng-disabled="task.updateStateDisable">
-                                            <span>{{task.state}}</span>
+                                            <span>{{task.State()}}</span>
                                         </md-button>
                                         <md-menu-content width="2">
                                             <md-menu-item ng-repeat="item in jobTaskStates">

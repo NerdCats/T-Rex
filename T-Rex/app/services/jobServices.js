@@ -19,6 +19,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 			orderCart : job.Order.OrderCart,
 			description : job.Order.Description,	
 			note: job.Order.NoteToDeliveryMan,
+			State: function() {
+				if (job.State=="IN_PROGRESS") {
+					return "IN PROGRESS";
+				}
+				return job.State;
+			}
 		};
 		return details;	
 	};
@@ -127,7 +133,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					taskId : task.id,
  					title : "Find Asset",
  					haveLocation : false,
-					state : task.State,
+					State: function() {
+						if (job.State=="IN_PROGRESS") {
+							return "IN PROGRESS";
+						}
+						return job.State;
+					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
@@ -149,7 +160,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					lat : task.PickupLocation.Point.coordinates[1],
  					lng : task.PickupLocation.Point.coordinates[0], 					
  					haveLocation : true,
- 					state : task.State,
+ 					State: function() {
+						if (job.State=="IN_PROGRESS") {
+							return "IN PROGRESS";
+						}
+						return job.State;
+					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
@@ -170,7 +186,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					lat : task.To.Point.coordinates[1],
  					lng : task.To.Point.coordinates[0], 					
  					haveLocation : true,
- 					state : task.State,
+ 					State: function() {
+						if (job.State=="IN_PROGRESS") {
+							return "IN PROGRESS";
+						}
+						return job.State;
+					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
@@ -193,7 +214,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					lat : job.Order.To.Point.coordinates[1],
 					lng : job.Order.To.Point.coordinates[0],
 					haveLocation : true,
-					state : task.State,
+					State: function() {
+						if (job.State=="IN_PROGRESS") {
+							return "IN PROGRESS";
+						}
+						return job.State;
+					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
@@ -214,7 +240,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					lat : task.PickupLocation.Point.coordinates[1],
  					lng : task.PickupLocation.Point.coordinates[0],
  					haveLocation : true,
-					state : task.State,
+					State: function() {
+						if (job.State=="IN_PROGRESS") {
+							return "IN PROGRESS";
+						}
+						return job.State;
+					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),

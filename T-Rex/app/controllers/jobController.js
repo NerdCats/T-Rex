@@ -82,7 +82,7 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 		$window.location.reload();	
 	};
 
-	restCall('GET', jobUrl, null, successCallback);
+	restCall('GET', jobUrl, null, successCallback, errorCallback);
 	
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 

@@ -21,9 +21,14 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						Type : value.Order.Type,
 						From : value.Order.From.Address,
 						To : value.Order.To.Address,
-						User : value.Order.User,
+						User : value.User.UserName,
 						RequestedAgo : timeAgo(value.CreateTime),
-						State : value.State,
+						State : function () {
+							if (value.State == "IN_PROGRESS") {
+								return "IN PROGRESS";
+							}
+							return value.State;
+						},
 						Details : function(){
 							$window.location.href = '#/job/'+ value.HRID;
 						}
@@ -34,9 +39,14 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						Name : value.Name,
 						Type : value.Order.Type,
 						// this ridiculus things has been done to protect the app from 'From' 'To' null value, need to have a better mechanism
-						User : value.Order.User,
+						User : value.User.UserName,
 						RequestedAgo : timeAgo(value.CreateTime),
-						State : value.State,
+						State : function () {
+							if (value.State == "IN_PROGRESS") {
+								return "IN PROGRESS";
+							}
+							return value.State;
+						},
 						Details : function(){
 							$window.location.href = '#/job/'+ value.HRID;
 						}
