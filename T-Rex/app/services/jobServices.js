@@ -17,7 +17,9 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 			ETAMinutes : job.Order.ETAMinutes,
 			PaymentMethod : job.Order.PaymentMethod,
 			orderCart : job.Order.OrderCart,
-		};		
+			description : job.Order.Description,	
+			note: job.Order.NoteToDeliveryMan,
+		};
 		return details;	
 	};
 

@@ -7,7 +7,9 @@
     <div flex="50">
         <!-- need to make ngclipboard working -->
         <p class="md-body-2">Public Order Track Link</p>
-        <p  class="md-body-1" id="foo">{{publicTrackingLink}}</p>        
+        <p class="md-body-1" id="foo">
+            <a href="{{publicTrackingLink}}" target="_blank">{{publicTrackingLink}}</a>
+        </p>
         <!-- <button ngclipboard data-clipboard-target="#foo">Copy Link</button> -->
     </div>
 </div>
@@ -92,6 +94,16 @@
             </table>
             <div class="order-summary">
                 <div layout="row">
+                    <span flex="10" class="md-body-2">Package Details</span>
+                    <span flex="5"></span>
+                    <span class="md-body-1 word_wrap_500">{{OrderDetails.description}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="10" class="md-body-2">Note To Delivery Man</span>
+                    <span flex="5"></span>
+                    <span class="md-body-1 word_wrap_500">{{OrderDetails.note}}</span>
+                </div>
+                <div layout="row">
                     <span flex="10" class="md-body-2">Sub Total</span>
                     <span flex="5"></span>
                     <span class="md-body-1">{{OrderDetails.orderCart.SubTotal}} BDT</span>
@@ -137,15 +149,15 @@
             <md-card-content>
                 <md-list>                    
                     <md-list-item ng-repeat="asset in Assets" ng-click="locateMarkerOnMap(asset)">
-                        <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />                            
-                        <p>{{ asset.title }}</p>
-                        <p>*****</p>    
+                        <!-- <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />                             -->
+                        <p><a href="#/asset/details/{{asset.asset_id}}" target="_blank">{{ asset.title }}</a></p>
+                        <!-- <p>*****</p>     -->
                     </md-list-item>
                 </md-list>
             </md-card-content>
         </md-card>
         
-        <md-card>
+        <!-- <md-card>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">This Order is Currently Serving by</span>
@@ -154,7 +166,7 @@
             <md-card-content>
                 <p>{{servingby.name}}</p>
             </md-card-content>
-        </md-card>	                                
+        </md-card>	      -->                           
     </div>
 
     <div id="tasks" flex>

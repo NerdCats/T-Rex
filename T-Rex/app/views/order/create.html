@@ -212,7 +212,7 @@
             </md-input-container>
             <md-input-container>
                 <label>Weight</label>
-                <input name="Weight" ng-model="item.Weight" type="number" placeholder="ex: 1 or 0.5" value="{{item.Weight}}">
+                <input name="Weight" ng-model="item.Weight" type="number" min="1" max="100" placeholder="ex: 1 or 0.5" value="{{item.Weight}}">
                 <div ng-messages="newOrderForm.Weight.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
@@ -260,19 +260,19 @@
         <!-- Total summary on packges start -->
         <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
             <md-input-container>
-                <label>ServiceCharge</label>
-                <input required name="ServiceCharge" ng-model="createOrder.OrderCart.ServiceCharge" type="number" value="{{createOrder.OrderCart.ServiceCharge}}">
+                <label>Delivery Charge</label>
+                <input required name="ServiceCharge" ng-model="createOrder.newOrder.OrderCart.ServiceCharge" type="number" value="{{createOrder.newOrder.OrderCart.ServiceCharge}}">
                 <div ng-messages="newOrderForm.ServiceCharge.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                 </div>
             </md-input-container>
-            <md-content layout="column">
+            <!-- <md-content layout="column">
                 <span>SubTotal : {{createOrder.newOrder.OrderCart.SubTotal}}</span>
                 <span>TotalVATAmount : {{createOrder.newOrder.OrderCart.TotalVATAmount}}</span>
                 <span>TotalWeight : {{createOrder.newOrder.OrderCart.TotalWeight}}</span>
                 <span>TotalToPay : {{createOrder.newOrder.OrderCart.TotalToPay}}</span>                    
-            </md-content>
+            </md-content> -->
         </md-content>
         <!-- Total summary on packges end -->
 
@@ -281,8 +281,8 @@
         <md-content layout-gt-sm="row" layout-padding flex="100" ng-show="createOrder.DeliveryOrderSelected">
             <md-input-container flex="50">
                 <label>Package Description</label>
-                <textarea rows="5" name="PackageDescription" ng-model="createOrder.newOrder.PackageDescription"  value="{{createOrder.newOrder.PackageDescription}}"></textarea>
-                <div ng-messages="newOrderForm.PackageDescription.$error">
+                <textarea rows="5" name="Description" ng-model="createOrder.newOrder.Description"  value="{{createOrder.newOrder.Description}}"></textarea>
+                <div ng-messages="newOrderForm.Description.$error">
                     <div ng-message="required">This is required.</div>
                     <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
                 </div>
@@ -326,8 +326,10 @@
         </md-content>
         
         <md-button class="md-raised" type="submit" ng-disabled="newOrderForm.$invalid" flex="50" ng-click="">
-            <md-progress-circular ng-show="submittingOrder" md-mode="indeterminate"></md-progress-circular>
-            <span ng-show="!auth.logginOnProcess">SUBMIT</span>
+            <span ng-show="createOrder.ordersIsBeingCreated">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </span>
+            <span ng-show="!createOrder.ordersIsBeingCreated">SUBMIT</span>
         </md-button>
     </form>
 </div>
