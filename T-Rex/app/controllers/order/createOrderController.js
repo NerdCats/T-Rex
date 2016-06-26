@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$window', '$mdpDatePicker', 'host', 'UrlPath', 'restCall', '$rootScope', '$mdToast', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$window', '$mdpDatePicker', 'host', 'UrlPath', 'restCall', '$rootScope', '$mdToast', '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
 
 createOrderController.$inject = ['$rootScope', '$log'];
 
-function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, restCall, $rootScope, $mdToast, orderFactory, mapFactory){
+function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, restCall, $rootScope, $mdToast, $routeParams, orderFactory, mapFactory){
 
 	var vm = this;
-	
+
 	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	vm.LocalAreas = ['Bailey Road',
@@ -79,78 +79,103 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	vm.ordersIsBeingCreated = false;
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
-	
+
 	vm.selectedItem = {};
-	vm.autocompleteUserNames = [];	
+	vm.autocompleteUserNames = [];
 	vm.searchText = "";
 
-	vm.newOrder = {
-	    From: {
-	        Point: {
-	            type: "Point",
-	            coordinates: [
-	            ]
-	        },
-	        Address: "",
-	        PostalCode: "",
-			Floor: "",
-			HouseNumber: "",
-			Locality : "",
-			AdressLine1: "",
-			AddressLine2: "",
-			Country: "",
-			City: "Dhaka",
-			State: "",
-			Provider: "Default"
-	    },
-	    To: {
-	        Point: {
-	            type: "Point",
-	            coordinates: [
-	            ]
-	        },
-	    	Address: "",
-	    	PostalCode: "",
-			Floor: "",
-			HouseNumber: "",
-			Locality : "",
-			AddressLine1: "",
-			AddressLine2: "",
-			Country: "",
-			City: "Dhaka",
-			State: "",			
-			Provider: "Default"
-	    },
-	  	OrderCart:{
-	  		PackageList : [
-		    	{
-		    		"Item": "",
-					"Quantity": 0,
-					"Price": 0,
-					"VAT": 0,				
-					"Total": 0,
-					"VATAmount": 0,
-					"TotalPlusVAT": 0,
-					"Weight": 0
-		    	}
-		    ],
-		    TotalVATAmount: 0,
-		    SubTotal: 0,
-		    ServiceCharge: 0,
-		    TotalWeight: 0,
-		    TotalToPay: 0
-	  	},
-	    Name: "",
-	    Type: "",
-	    Description : "",	    
-	    NoteToDeliveryMan: "",
-	    PayloadType: "default",
-	    UserId: "",
-	    OrderLocation: null,
-	    ETA: null,
-	    ETAMinutes: 0,
-	    PaymentMethod: null
-	};
+	vm.id = $routeParams.id;
+		
+	vm.isPutOrder = false;
+	vm.jobId = "";
+	vm.HRID = "";
+
+	if(vm.id == "new"){
+		vm.newOrder = {
+			From: {
+				Point: {
+					type: "Point",
+					coordinates: [
+					]
+				},
+				Address: "asdasdasdasd",
+				PostalCode: "",
+				Floor: "",
+				HouseNumber: "",
+				Locality : "",
+				AdressLine1: "",
+				AddressLine2: "",
+				Country: "",
+				City: "Dhaka",
+				State: "",
+				Provider: "Default"
+			},
+			To: {
+				Point: {
+					type: "Point",
+					coordinates: [
+					]
+				},
+				Address: "",
+				PostalCode: "",
+				Floor: "",
+				HouseNumber: "",
+				Locality : "",
+				AddressLine1: "",
+				AddressLine2: "",
+				Country: "",
+				City: "Dhaka",
+				State: "",
+				Provider: "Default"
+			},
+			OrderCart:{
+				PackageList : [
+					{
+						"Item": "",
+						"Quantity": 0,
+						"Price": 0,
+						"VAT": 0,
+						"Total": 0,
+						"VATAmount": 0,
+						"TotalPlusVAT": 0,
+						"Weight": 0
+					}
+				],
+				TotalVATAmount: 0,
+				SubTotal: 0,
+				ServiceCharge: 0,
+				TotalWeight: 0,
+				TotalToPay: 0
+			},
+			Name: "",
+			Type: "",
+			Description : "",
+			NoteToDeliveryMan: "",
+			PayloadType: "default",
+			UserId: "",
+			OrderLocation: null,
+			ETA: null,
+			ETAMinutes: 0,
+			PaymentMethod: null
+		};
+	} else {		
+		var jobUrl = host + "/api/job/" + vm.id;
+		var successCallback = function(response){
+
+			vm.newOrder = response.data.Order;
+			vm.jobId = response.data.Id;
+			vm.HRID = response.data.HRID;
+			vm.isPutOrder = true;			
+			console.log(vm.newOrder);
+			// $scope.$apply();
+		}
+		var errorCallback = function(responese){
+			console.log(responese);
+			alert("No Job Found!!!");
+		}
+		restCall("GET", jobUrl, null, successCallback, errorCallback);
+	}
+
 
 
 	vm.ETATimePicker = function(ev) {
@@ -159,7 +184,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
       }).then(function(selectedDate) {
         vm.newOrder.ETA = selectedDate;
       });;
-    } 
+    }
 
 	vm.CreateNewUser = CreateNewUser;
 	vm.searchTextChange = searchTextChange;
@@ -174,7 +199,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 	vm.searchAddress = searchAddress;
 	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
-	
+
 	loadPaymentMethods();
 
 	vm.AddItem = AddItem;
@@ -188,7 +213,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
     		"Item": "",
 			"Quantity": 0,
 			"Price": 0,
-			"VAT": 0,			
+			"VAT": 0,
 			"Total": 0,
 			"VATAmount": 0,
 			"TotalPlusVAT": 0,
@@ -212,19 +237,19 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		vm.newOrder.OrderCart.TotalToPay = 0;
 
 		angular.forEach(vm.newOrder.OrderCart.PackageList, function (value, key) {
-			vm.newOrder.OrderCart.SubTotal += value.Total;		
-			vm.newOrder.OrderCart.TotalVATAmount += value.VATAmount;		
-			vm.newOrder.OrderCart.TotalWeight += value.Weight;		
+			vm.newOrder.OrderCart.SubTotal += value.Total;
+			vm.newOrder.OrderCart.TotalVATAmount += value.VATAmount;
+			vm.newOrder.OrderCart.TotalWeight += value.Weight;
 			vm.newOrder.OrderCart.TotalToPay += value.TotalPlusVAT;
 		});
 
 		// vm.newOrder.OrderCart.TotalToPay += vm.newOrder.OrderCart.ServiceCharge;
 		vm.newOrder.OrderCart.TotalToPay = 0;
-		
+
 	}
 
 	function RemoveItem(itemIndex) {
-		console.log(itemIndex);		
+		console.log(itemIndex);
 		vm.newOrder.OrderCart.PackageList.splice(itemIndex, 1);
 		$scope.$apply();
 	}
@@ -252,18 +277,18 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		loadUserNames(query);
 		var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
 		return results;
-	} 
-	
+	}
+
 	function loadUserNames(query){
 		function successCallback(response) {
-			vm.autocompleteUserNames = response.data.data;	
+			vm.autocompleteUserNames = response.data.data;
 			console.log(vm.autocompleteUserNames)
 		}
 		function errorCallback(error) {
 			console.log(error);
 		}
 
-		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
+		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
 		console.log(getUsersUrl)
 		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
 		console.log("loadUserNames")
@@ -281,21 +306,21 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		// function errorCallback(error) {
 		// 	console.log(error);
 		// }
-		// restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)		
+		// restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)
 		vm.PaymentMethod.push("CashOnDelivery");
 	};
-	
+
 
 	function createFilterFor(query) {
 		// var lowercaseQuery = angular.lowercase(query);
-		return function filterFn(state) {			
-			return(state.UserName.indexOf(query) === 0)			
+		return function filterFn(state) {
+			return(state.UserName.indexOf(query) === 0)
 		};
 	}
 
 	function createNewOrder() {
 		// TODO: This is the code for showing a Toast when you dont have coordinates
-		// Would move this to a service someday	
+		// Would move this to a service someday
 		console.log(vm.newOrder);
 		var last = {
 			bottom: false,
@@ -330,17 +355,23 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		} else {
 			// If you have a coordinates of both From and To, then it creates an order
 			vm.ordersIsBeingCreated = true;
-			// orderFactory.createNewOrder(vm.newOrder, vm.ordersIsBeingCreated);	
+			// orderFactory.createNewOrder(vm.newOrder, vm.ordersIsBeingCreated);
 			var successCallback = function (response) {
 				console.log("success : ");
-				console.log(response);
-				alert("success");
-				$window.location.href = '#/';
+				vm.ordersIsBeingCreated = false;
+				if (vm.isPutOrder) {
+					alert("order successfully updated!");
+					$window.location.href = '#/job/' + vm.HRID;
+				} else {
+					alert("order successfully created!");
+					$window.location.href = '#/job/' + response.data.HRID;
+				}
+				
 			};
-			
+
 			var errorCallback = function error(error) {
 				console.log("error : ");
-				console.log(error);				
+				console.log(error);
 				vm.ordersIsBeingCreated = false;
 
 				var errorMsg = error.data.Message || "Server error";
@@ -370,17 +401,29 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		            if (error.data.ModelState["model.PaymentMethod"]) {
 		                var err = error.data.ModelState["model.PaymentMethod"][0];
 		                errorMsg += ++i + ". " + err + "\n";
-		            }		            
+		            }
 		        }
 		        alert(errorMsg);
 			};
 
-			var createNewOrderUrl = host + "api/Order/";
-			restCall('POST', createNewOrderUrl, vm.newOrder, successCallback, errorCallback);		
-		}		
-	} 
-		
-	function orderTypeSelected(type) {		
+			if (vm.isPutOrder) {
+				var requestMethod = "PUT";
+				var orderUrl = host + "api/job/"+ vm.jobId +"/order";
+				console.log(vm.jobId);
+				console.log(vm.newOrder);
+				restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
+			} else {
+				var requestMethod = "POST";
+				var orderUrl = host + "api/Order/";
+				restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
+			}
+			
+
+			
+		}
+	}
+
+	function orderTypeSelected(type) {
 		vm.isOrderSelected = true;
 		if (type == "Ride") {
 			vm.RideOrderSelected = true;
@@ -413,7 +456,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		console.log(lat + " " + lng)
 		vm.currentMarkerLocation.lat = lat;
 		vm.currentMarkerLocation.lng = lng;
-		
+
 		vm.newOrder.From.Point.coordinates = [];
 		vm.newOrder.From.Point.coordinates.push(lng);
 		vm.newOrder.From.Point.coordinates.push(lat);

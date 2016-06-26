@@ -28,7 +28,7 @@ app.config(['$routeProvider',
 		        controller: 'dashBoardController',
 		        controllerAs: 'dashboard'
 			}).
-			when('/order/create',{
+			when('/order/create/:id',{
 				templateUrl: 'app/views/order/create.html',
 				controller: 'createOrderController',
 				controllerAs: 'createOrder'
@@ -52,7 +52,7 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/assets.html',
 				controller: 'assetController',
 				controllerAs: 'assets'
-			}).			
+			}).
 			when('/asset/details/:id',{
 				templateUrl: 'app/views/user/details.html',
 				controller: 'userDetailsController',

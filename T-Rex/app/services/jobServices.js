@@ -148,8 +148,7 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
 					updateStateDisable : updateStateButtonDisabled(task.State)
- 				};
- 				console.log(FetchDeliveryMan.startTime);
+ 				}; 				
  				jobTasks.push(FetchDeliveryMan);
  			} else if (task.Type == "PackagePickUp") {
  				var packagePickUp = {
@@ -157,8 +156,8 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					taskId : task.id,
  					title : "Pickup",
  					address : task.PickupLocation.Address,
- 					lat : task.PickupLocation.Point.coordinates[1],
- 					lng : task.PickupLocation.Point.coordinates[0], 					
+ 					lat : NaN,
+ 					lng : NaN, 					
  					haveLocation : true,
  					State: function() {
 						if (job.State=="IN_PROGRESS") {
@@ -176,6 +175,12 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 					},
 					updateStateDisable : updateStateButtonDisabled(task.State)
  				}
+ 				try{
+ 					packagePickUp.lat = job.Order.From.Point.coordinates[1];
+					packagePickUp.lng = job.Order.From.Point.coordinates[0];
+ 				} catch(e){
+ 					console.log(e);
+ 				}
  				jobTasks.push(packagePickUp);
  			} else if (task.Type == "Delivery") {
  				var delivery = { 					
@@ -183,8 +188,8 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  					taskId : task.id,
  					title : "Delivery",
  					address : task.To.Address,
- 					lat : task.To.Point.coordinates[1],
- 					lng : task.To.Point.coordinates[0], 					
+ 					lat : NaN,
+ 					lng : NaN, 					
  					haveLocation : true,
  					State: function() {
 						if (job.State=="IN_PROGRESS") {
@@ -201,6 +206,13 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
 					updateStateDisable : updateStateButtonDisabled(task.State)
+ 				}
+ 				try{
+ 					delivery.lat = job.Order.To.Point.coordinates[1];
+					delivery.lng = job.Order.To.Point.coordinates[0];
+					console.log(delivery);
+ 				} catch(e){ 					
+ 					console.log(e);
  				}
  				jobTasks.push(delivery);
  			} else if (task.Type == "FetchRide") {
