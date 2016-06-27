@@ -363,7 +363,7 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 					alert("order successfully updated!");
 					$window.location.href = '#/job/' + vm.HRID;
 				} else {
-					alert("order successfully created!");
+					alert("order successfully updated!");
 					$window.location.href = '#/job/' + response.data.HRID;
 				}
 				

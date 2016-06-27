@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('dashBoardController', function ($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia,$window,
+app.controller('dashBoardController', function ($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia, $window,
 												menus, templates, host, dashboardFactory) {
 
 	var vm = $scope;
@@ -35,4 +35,8 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 
 	var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 25)
 	dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
+
+	$interval(function () {
+		$window.location.reload();
+	}, 60000);
 });
