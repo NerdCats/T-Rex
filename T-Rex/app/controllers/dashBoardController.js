@@ -26,8 +26,15 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	var URL_IN_PROGRESS = "api/Job/odata?$filter=State eq 'IN_PROGRESS'";
 	var URL_COMPLETED = "api/Job/odata?$filter=State eq 'COMPLETED'";
 
+
 	var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 25)
 	dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
+	
+	$interval(function () {
+		var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 25)
+		dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
+	}, 60000);
+	
 
 	var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 25)
 	dashboardFactory.populateOrdersTable(vm.processingOrders, processingOrdersUrl);
@@ -36,7 +43,5 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 25)
 	dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
 
-	$interval(function () {
-		$window.location.reload();
-	}, 60000);
+	
 });
