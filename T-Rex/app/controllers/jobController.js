@@ -94,7 +94,20 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	
 	vm.assetAssignPopup = function (event) {
 		jobFactory.populateAssetAssignDialog(vm, event, vm.job);
-	};	 
+	};
+
+	vm.paymentStatusUpdate = function () {
+		var url = host + "api/payment/process/" + vm.job.Id;
+		function successCallback(response) {
+			$window.location.reload();
+		}
+		function errorCallback(error) {
+			alert("Couldn't update the payment status!")
+		}
+		restCall("POST", url, null, successCallback, errorCallback);
+
+	}
+
 };
 
 

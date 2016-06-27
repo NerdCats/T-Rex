@@ -14,14 +14,14 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 			Orders.pages = [];
 			var orders = response.data;
 			angular.forEach(orders.data, function(value, key){
-				try{
-					var newOrder = {
+ 					var newOrder = {
 						Id : value.HRID,
 						Name : value.Name,
 						Type : value.Order.Type,
 						From : value.Order.From.Address,
 						To : value.Order.To.Address,
 						User : value.User.UserName,
+						PaymentStatus : value.PaymentStatus,
 						RequestedAgo : timeAgo(value.CreateTime),
 						State : function () {
 							if (value.State == "IN_PROGRESS") {
@@ -33,25 +33,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 							$window.location.href = '#/job/'+ value.HRID;
 						}
 					};
-				} catch (e){
-					var newOrder = {
-						Id : value.HRID,
-						Name : value.Name,
-						Type : value.Order.Type,
-						// this ridiculus things has been done to protect the app from 'From' 'To' null value, need to have a better mechanism
-						User : value.User.UserName,
-						RequestedAgo : timeAgo(value.CreateTime),
-						State : function () {
-							if (value.State == "IN_PROGRESS") {
-								return "IN PROGRESS";
-							}
-							return value.State;
-						},
-						Details : function(){
-							$window.location.href = '#/job/'+ value.HRID;
-						}
-					};
-				}				
+			 			
 				Orders.orders.push(newOrder);
 			});						
 			for (var i = 0; i < orders.pagination.TotalPages ; i++) {

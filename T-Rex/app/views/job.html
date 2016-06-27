@@ -61,7 +61,15 @@
                         <span flex="5"></span>
                         <span class="md-body-1">{{OrderDetails.eta}}</span>
                     </div>
-                </div>            
+                </div>     
+                <div layout="row">
+                    <div layout="row" flex>
+                        <span flex="20" class="md-body-2">Payment Status</span>                        
+                        <span flex="5"></span>
+                        <span class="md-body-1">{{job.PaymentStatus}}</span>
+                        <md-button flex="10" ng-hide="job.PaymentStatus != 'PENDING'" ng-click="paymentStatusUpdate()">Update</md-button>
+                    </div>
+                </div>          
             </md-card-content>
     </md-card>
     <md-card>

@@ -275,7 +275,6 @@ angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','ma
  		return jobTasks;
 	};
 
-	
 
 	return {		 		
 		OrderDetails : OrderDetails,
