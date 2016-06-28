@@ -132,7 +132,12 @@
                     <md-button id="menu-button" ng-click="toggleLeft()" flex="5">
                         <i class="material-icons material-icon-style">menu</i>
                     </md-button>
-                    <div flex="90"></div>
+                    <div flex="80"></div>
+                    <div flex="10">
+                        <h2>
+                            <a href="#/user/details/{{authData.userId}}">Logged in as {{authData.userName}}</a>
+                        </h2>
+                    </div>
                     <md-button id="menu-button" ng-click="logout()" flex="5">
                         <i class="material-icons material-icon-style">exit_to_app</i>
                     </md-button>

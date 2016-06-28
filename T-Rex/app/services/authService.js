@@ -15,7 +15,8 @@
         var _authentication = {
             isAuth: false,
             userName: "",
-            useRefreshTokens: false
+            useRefreshTokens: false,
+            userId: ""
         };
 
         var _register = function(registration) {
@@ -49,9 +50,10 @@
                 .success(function(response) {
                     var authorizationData = {};
                     authorizationData.token = response.access_token;
-                    authorizationData.userName = loginData.userName;
+                    authorizationData.userName = response.userName;
+                    authorizationData.userId = response.userId;
 
-                    if (loginData.useRefreshTokens) {
+                    if (!authorizationData.useRefreshTokens) {
                         authorizationData.refreshToken = response.refresh_token;
                         authorizationData.useRefreshTokens = true;
                     } else {
@@ -60,11 +62,6 @@
                     }
 
                     localStorageService.set('authorizationData', authorizationData);
-
-                    _authentication.isAuth = true;
-                    _authentication.userName = loginData.userName;
-                    _authentication.useRefreshTokens = loginData.useRefreshTokens;
-
                     deferred.resolve(response);
 
                 }).error(function(err, status) {
@@ -91,7 +88,9 @@
                 _authentication.isAuth = true;
                 _authentication.userName = authData.userName;
                 _authentication.useRefreshTokens = authData.useRefreshTokens;
+                _authentication.userId = authData.userId;
             }
+            return _authentication;
         };
 
         var _refreshToken = function() {
@@ -140,8 +139,7 @@
 
         var _fillAuthData = function() {
 
-            var authData = localStorageService.get('authorizationData');
-            console.log(authData);
+            var authData = localStorageService.get('authorizationData');            
             if (authData==null) {
                 $window.location.href = '#/login';
             } else {                

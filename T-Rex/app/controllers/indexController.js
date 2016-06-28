@@ -15,6 +15,9 @@ function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, t
 	vm.templates = templates.sidebar;
 
 	vm.toggleLeft = buildDelayedToggler('left');
+
+  vm.authData = {};
+
 	$scope.close = function () {
       // Component lookup should always be available since we are not using `ng-if`
       $mdSidenav('left').close()
@@ -41,7 +44,9 @@ function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, t
 		if ($window.location.hash == '#/login'){
 			vm.sidebarVisible = false;
 			vm.shouldShowMenuAndFooter = false;
-		}
+		}   
+    vm.authData = authService.populateAuthData();
+    console.log(vm.authData) 
 	}
 
 	 /**
