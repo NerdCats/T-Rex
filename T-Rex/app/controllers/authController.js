@@ -11,6 +11,7 @@ function authController($scope, authService, $location, $window) {
     vm.loginData.password = "";
     vm.loginData.email = "";
     vm.logginOnProcess = false;
+    vm.message = "";
 
     vm.loginData.useRefreshTokens = false;
     vm.login = login;
@@ -26,6 +27,7 @@ function authController($scope, authService, $location, $window) {
 
     function login() {
         vm.logginOnProcess = true;
+        vm.message = "";
         authService.login(vm.loginData).then(function(response) {
             console.log("log in success");
             console.log(response);
@@ -34,7 +36,7 @@ function authController($scope, authService, $location, $window) {
         function(err) {
             console.log(err);
             vm.logginOnProcess = false;
-            $scope.message = err.error_description;
+            vm.message = err.error_description;
         });
     }
 }

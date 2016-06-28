@@ -78,6 +78,7 @@
             _authentication.isAuth = false;
             _authentication.userName = "";
             _authentication.useRefreshTokens = false;
+            _authentication.userId = "";
             console.log(_authentication);
         };
 

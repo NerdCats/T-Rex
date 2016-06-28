@@ -6,6 +6,11 @@
 		  	</div>
 		</md-toolbar>
 		<md-card-content>
+			<md-card-title ng-show="!auth.logginOnProcess">
+				<md-card-text>
+					{{auth.message}}
+				</md-card-text>
+			</md-card-title>
 			<form name="loginForm">
 				<md-input-container class="md-block">
 				  	<label>User Name</label>
