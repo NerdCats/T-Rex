@@ -9,9 +9,12 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	vm.templates = templates;
 	vm.selected = [];
 	vm.processingOrders = [];
-	vm.newOrders = {orders: [], pages:[], total: 0, isCompleted : false };
-	vm.processingOrders = {orders: [], pages:[], total: 0, isCompleted : false };
-	vm.completedOrders = {orders: [], pages:[], total: 0, isCompleted : false };
+
+	// the isCompleted value of the orders has 3 states IN_PROGRESS, SUCCESSFULL, FAILED
+	// these states indicates the http request's state and content of the page
+	vm.newOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
+	vm.processingOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
+	vm.completedOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
 
 	vm.createNewOrder = function () {
 		$window.location.href = "#/order/create/new";
@@ -27,28 +30,31 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	var URL_COMPLETED = "api/Job/odata?$filter=State eq 'COMPLETED'";
 
 
-	function loadEnqueuedOrders(){
+	vm.loadEnqueuedOrders = function (){
+		vm.newOrders.isCompleted = 'IN_PROGRESS';
 		var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 25)
 		dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
 	}
 
-	function loadInProgressOrders(){
+	vm.loadInProgressOrders = function (){
+		vm.processingOrders.isCompleted = 'IN_PROGRESS';
 		var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 25)
 		dashboardFactory.populateOrdersTable(vm.processingOrders, processingOrdersUrl);
 	}
 	
-	function loadCompletedOrders() {
+	vm.loadCompletedOrders = function () {
+		vm.completedOrders.isCompleted = 'IN_PROGRESS';
 		var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 25)
 		dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
 	}
 
-	loadEnqueuedOrders();
-	loadInProgressOrders();
-	loadCompletedOrders();
+	vm.loadEnqueuedOrders();
+	vm.loadInProgressOrders();
+	vm.loadCompletedOrders();
 
 	$interval(function () {
-		vm.newOrders.isCompleted = false;
-		loadEnqueuedOrders();	
+		vm.newOrders.isCompleted = 'IN_PROGRESS';
+		vm.loadEnqueuedOrders();	
 	}, 60000);
 
 	

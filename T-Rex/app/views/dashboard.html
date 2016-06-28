@@ -16,7 +16,7 @@
             </md-toolbar>
         </md-card-title>
         <md-card-content>            
-            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="newOrders.isCompleted">
+            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="newOrders.isCompleted == 'SUCCESSFULL'">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
                         <th md-column>Job no</th>
@@ -46,8 +46,11 @@
                     </tr>
                 </tbody>
             </table>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="!newOrders.isCompleted" >
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'IN_PROGRESS'" >
                 <md-progress-circular md-diameter="96"></md-progress-circular>
+            </div>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'FAILED'" >
+                <p>Server error! click <md-button flex="5" ng-click="loadEnqueuedOrders()" >here</md-button> to refresh</p>
             </div>
             
             <div style="float:right">
@@ -67,7 +70,7 @@
             </md-toolbar>
         </md-card-title>
         <md-card-content>
-            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="processingOrders.isCompleted">
+            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="processingOrders.isCompleted == 'SUCCESSFULL'">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
                         <th md-column>Job no</th>
@@ -97,10 +100,12 @@
                     </tr>
                 </tbody>
             </table>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="!processingOrders.isCompleted" >
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'IN_PROGRESS'" >
                 <md-progress-circular md-diameter="96"></md-progress-circular>
             </div>
-           
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'FAILED'" >
+                <p>Server error! click <md-button flex="5" ng-click="loadInProgressOrders()" >here</md-button> to refresh</p>
+            </div>
             <div style="float:right">
                 <ul layout="row">
                     <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', page)">{{page+1}}</li>
@@ -120,7 +125,7 @@
             </md-toolbar>
         </md-card-title>
         <md-card-content>
-            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="completedOrders.isCompleted">
+            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="completedOrders.isCompleted == 'SUCCESSFULL'">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
                         <th md-column>Job no</th>
@@ -150,10 +155,12 @@
                     </tr>
                 </tbody>
             </table>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="!completedOrders.isCompleted" >
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'IN_PROGRESS'" >
                 <md-progress-circular md-diameter="96"></md-progress-circular>
             </div>
-       
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'FAILED'" >
+                <p>Server error! click <md-button flex="5" ng-click="loadCompletedOrders()" >here</md-button> to refresh</p>
+            </div>
             <div style="float:right">
                 <ul layout="row">
                     <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(completedOrders, 'ENQUEUED', page)">{{page+1}}</li>

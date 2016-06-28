@@ -8,12 +8,12 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 	};
 	
 	var populateOrdersTable = function(Orders, jobListUrl){
-		
+		console.log(Orders);
 		function successCallback(response){
 			Orders.orders = [];
 			Orders.pages = [];
-			Orders.isCompleted = true;
-			var orders = response.data;
+			Orders.isCompleted = 'SUCCESSFULL';
+			var orders = response.data;			
 			angular.forEach(orders.data, function(value, key){
  					var newOrder = {
 						Id : value.HRID,
@@ -33,8 +33,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 						Details : function(){
 							$window.location.href = '#/job/'+ value.HRID;
 						}
-					};
-			 			
+					};			 	
 				Orders.orders.push(newOrder);
 			});						
 			for (var i = 0; i < orders.pagination.TotalPages ; i++) {
@@ -43,7 +42,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 			Orders.total = orders.pagination.Total;
  		};
  		function errorCallback(response) {
- 			console.log(response);
+ 			 Orders.isCompleted = 'FAILED';
  		}
  		restCall('GET', jobListUrl, null, successCallback, errorCallback);
 	};
