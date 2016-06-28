@@ -9,9 +9,9 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	vm.templates = templates;
 	vm.selected = [];
 	vm.processingOrders = [];
-	vm.newOrders = {orders: [], pages:[], total: 0};
-	vm.processingOrders = {orders: [], pages:[], total: 0};
-	vm.completedOrders = {orders: [], pages:[], total: 0};
+	vm.newOrders = {orders: [], pages:[], total: 0, isCompleted : false };
+	vm.processingOrders = {orders: [], pages:[], total: 0, isCompleted : false };
+	vm.completedOrders = {orders: [], pages:[], total: 0, isCompleted : false };
 
 	vm.createNewOrder = function () {
 		$window.location.href = "#/order/create/new";
@@ -27,21 +27,29 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	var URL_COMPLETED = "api/Job/odata?$filter=State eq 'COMPLETED'";
 
 
-	var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 25)
-	dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
-	
-	$interval(function () {
+	function loadEnqueuedOrders(){
 		var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 25)
 		dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
-	}, 60000);
+	}
+
+	function loadInProgressOrders(){
+		var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 25)
+		dashboardFactory.populateOrdersTable(vm.processingOrders, processingOrdersUrl);
+	}
 	
+	function loadCompletedOrders() {
+		var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 25)
+		dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
+	}
 
-	var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 25)
-	dashboardFactory.populateOrdersTable(vm.processingOrders, processingOrdersUrl);
+	loadEnqueuedOrders();
+	loadInProgressOrders();
+	loadCompletedOrders();
 
-
-	var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 25)
-	dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
+	$interval(function () {
+		vm.newOrders.isCompleted = false;
+		loadEnqueuedOrders();	
+	}, 60000);
 
 	
 });

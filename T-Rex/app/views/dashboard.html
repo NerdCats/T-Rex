@@ -16,7 +16,7 @@
             </md-toolbar>
         </md-card-title>
         <md-card-content>            
-            <table md-table class="order-table" ng-model="selected" flex="90">
+            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="newOrders.isCompleted">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
                         <th md-column>Job no</th>
@@ -46,6 +46,10 @@
                     </tr>
                 </tbody>
             </table>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="!newOrders.isCompleted" >
+                <md-progress-circular md-diameter="96"></md-progress-circular>
+            </div>
+            
             <div style="float:right">
                 <ul layout="row">
                     <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', page)">{{page+1}}</li>
@@ -63,7 +67,7 @@
             </md-toolbar>
         </md-card-title>
         <md-card-content>
-            <table md-table class="order-table" ng-model="selected" flex="90">
+            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="processingOrders.isCompleted">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
                         <th md-column>Job no</th>
@@ -93,6 +97,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="!processingOrders.isCompleted" >
+                <md-progress-circular md-diameter="96"></md-progress-circular>
+            </div>
            
             <div style="float:right">
                 <ul layout="row">
@@ -113,7 +120,7 @@
             </md-toolbar>
         </md-card-title>
         <md-card-content>
-            <table md-table class="order-table" ng-model="selected" flex="90">
+            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="completedOrders.isCompleted">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
                         <th md-column>Job no</th>
@@ -143,6 +150,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="!completedOrders.isCompleted" >
+                <md-progress-circular md-diameter="96"></md-progress-circular>
+            </div>
        
             <div style="float:right">
                 <ul layout="row">

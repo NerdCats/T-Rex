@@ -12,6 +12,7 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 		function successCallback(response){
 			Orders.orders = [];
 			Orders.pages = [];
+			Orders.isCompleted = true;
 			var orders = response.data;
 			angular.forEach(orders.data, function(value, key){
  					var newOrder = {
