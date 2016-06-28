@@ -14,6 +14,9 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 			Orders.pages = [];
 			Orders.isCompleted = 'SUCCESSFULL';
 			var orders = response.data;			
+			if (orders.data.length == 0) {
+				Orders.isCompleted = 'EMPTY';
+			}	
 			angular.forEach(orders.data, function(value, key){
  					var newOrder = {
 						Id : value.HRID,

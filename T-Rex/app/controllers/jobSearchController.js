@@ -1,3 +1,4 @@
+'use strict';
 app.controller('jobSearchController', ['$scope', 'host', 'restCall', 'dashboardFactory', jobSearchController]);
 
 function jobSearchController($scope, host, restCall, dashboardFactory){

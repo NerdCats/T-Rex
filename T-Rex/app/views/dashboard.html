@@ -52,6 +52,9 @@
             <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'FAILED'" >
                 <p>Server error! click <md-button flex="5" ng-click="loadEnqueuedOrders()" >here</md-button> to refresh</p>
             </div>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'EMPTY'" >
+                <p>There is no order here! click <md-button flex="5" ng-click="loadEnqueuedOrders()" >here</md-button> to check</p>
+            </div>
             
             <div style="float:right">
                 <ul layout="row">
@@ -105,6 +108,9 @@
             </div>
             <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'FAILED'" >
                 <p>Server error! click <md-button flex="5" ng-click="loadInProgressOrders()" >here</md-button> to refresh</p>
+            </div>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'EMPTY'" >
+                <p>There is no order here! click <md-button flex="5" ng-click="loadInProgressOrders()" >here</md-button> to check</p>
             </div>
             <div style="float:right">
                 <ul layout="row">
@@ -160,6 +166,9 @@
             </div>
             <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'FAILED'" >
                 <p>Server error! click <md-button flex="5" ng-click="loadCompletedOrders()" >here</md-button> to refresh</p>
+            </div>
+            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'EMPTY'" >
+                <p>There is no order here! click <md-button flex="5" ng-click="loadCompletedOrders()" >here</md-button> to check</p>
             </div>
             <div style="float:right">
                 <ul layout="row">

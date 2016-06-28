@@ -1,7 +1,10 @@
 'use strict';
 
-angular.module('app').factory('jobFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http',
+angular
+	.module('app')
+	.factory('jobFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http',
 	'$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', 'COLOR', jobFactory]);
+	
 	
 	function jobFactory(tracking_host, listToString, mapFactory, $window, $http, 
 		$mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall, COLOR){

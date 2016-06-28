@@ -24,7 +24,6 @@ function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, t
         .then(function () {
           $log.debug("close LEFT is done");
         });
-
     };
 	vm.logout = function () {
 		console.log("logout");

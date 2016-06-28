@@ -1,7 +1,8 @@
 'use strict';
 
-app.controller('dashBoardController', function ($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia, $window,
-												menus, templates, host, dashboardFactory) {
+app.controller('dashBoardController', ['$rootScope', '$scope', '$http', '$location', '$interval', '$mdDialog', '$mdMedia', '$window', 'menus', 'templates', 'host', 'dashboardFactory', dashBoardController]);
+
+function dashBoardController($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia, $window, menus, templates, host, dashboardFactory) {
 
 	var vm = $scope;
 	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
@@ -10,7 +11,7 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	vm.selected = [];
 	vm.processingOrders = [];
 
-	// the isCompleted value of the orders has 3 states IN_PROGRESS, SUCCESSFULL, FAILED
+	// the isCompleted value of the orders has 4 states IN_PROGRESS, SUCCESSFULL, EMPTY, FAILED
 	// these states indicates the http request's state and content of the page
 	vm.newOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
 	vm.processingOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
@@ -55,7 +56,5 @@ app.controller('dashBoardController', function ($rootScope, $scope, $http, $loca
 	$interval(function () {
 		vm.newOrders.isCompleted = 'IN_PROGRESS';
 		vm.loadEnqueuedOrders();	
-	}, 60000);
-
-	
-});
+	}, 60000); 
+}

@@ -1,3 +1,4 @@
+'use strict';
 function assetAssignDialogController($scope, $mdDialog, $http, host) {
 	
 

@@ -1,3 +1,4 @@
+'use strict';
 app.controller('userDetailsController', ['$scope', '$routeParams', 'userService', 'host', 'restCall', userDetailsController]);
 
 function userDetailsController($scope, $routeParams, userService, host, restCall){

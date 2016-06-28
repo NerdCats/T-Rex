@@ -1,31 +1,34 @@
-app.controller('createAssetController', function ($scope,userService) {
+'use strict';
+app.controller('createAssetController', ['$scope', 'userService', createAssetController]);
+
+function createAssetController($scope,userService) {
 
   var vm = this;
 
-	vm.gender = ["MALE", "FEMALE"];
-	vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER", "ENTERPRISE"];
+  vm.gender = ["MALE", "FEMALE"];
+  vm.type = ["USER", "CNG_DRIVER", "BIKE_MESSENGER", "ENTERPRISE"];
 
     vm.isAsset = false;
     vm.isEnterpriseUser = false;
 
-  	vm.asset = {
-  		UserName : "",
-  		Password : "",
-  		ConfirmPassword : "",
-  		Email : "",
-  		PhoneNumber : "",
+    vm.asset = {
+      UserName : "",
+      Password : "",
+      ConfirmPassword : "",
+      Email : "",
+      PhoneNumber : "",
         PicUri : "",
-  	 	Type : "",
+      Type : "",
         FirstName : "",
         LastName : "",
         Age : "",
         Gender : "",
         Address : "",      
-  	 	NationalId : "",
-  	 	DrivingLicenceId : "",
+      NationalId : "",
+      DrivingLicenceId : "",
         ContactPersonName : "",
         Website : ""
-  	};
+    };
 
     vm.UserTypeChanged = function (type) {
         if (type == "BIKE_MESSENGER" || type == "CNG_DRIVER") {
@@ -38,8 +41,8 @@ app.controller('createAssetController', function ($scope,userService) {
         console.log(type)
     }
     
-  	vm.RegisterNewAsset = function () {
+    vm.RegisterNewAsset = function () {
       userService.registerNewUser(vm.asset);
     } 
     
-});
+}
