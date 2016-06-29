@@ -145,8 +145,8 @@ angular
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
-					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
+					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -171,8 +171,8 @@ angular
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
-					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
+					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -203,8 +203,8 @@ angular
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
-					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
+					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -238,8 +238,8 @@ angular
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
-					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
+					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -264,8 +264,8 @@ angular
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
 					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
-					completionDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					completionTime : new moment.utc(task.CompletionTime).format("h:mm:ss a"),
+					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
