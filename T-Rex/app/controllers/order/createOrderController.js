@@ -322,104 +322,69 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 		// TODO: This is the code for showing a Toast when you dont have coordinates
 		// Would move this to a service someday
 		console.log(vm.newOrder);
-		var last = {
-			bottom: false,
-			top: true,
-			left: false,
-			right: true
-	    };
-		$scope.toastPosition = angular.extend({},last);
-			$scope.getToastPosition = function() {
-			sanitizePosition();
-			return Object.keys($scope.toastPosition)
-			  .filter(function(pos) { return $scope.toastPosition[pos]; })
-			  .join(' ');
-		};
-		function sanitizePosition() {
-			var current = $scope.toastPosition;
-			if ( current.bottom && last.top ) current.top = false;
-			if ( current.top && last.bottom ) current.bottom = false;
-			if ( current.right && last.left ) current.left = false;
-			if ( current.left && last.right ) current.right = false;
-			last = angular.extend({},current);
-		}
-
-		if (vm.newOrder.From.Point.coordinates.length == 0 || vm.newOrder.To.Point.coordinates.length == 0) {
-			var pinTo = $scope.getToastPosition();
-			$mdToast.show(
-			  	$mdToast.simple()
-					.textContent('Please mark locations on the map')
-					.position(pinTo )
-					.hideDelay(3000)
-			);
-		} else {
-			// If you have a coordinates of both From and To, then it creates an order
-			vm.ordersIsBeingCreated = true;
-			// orderFactory.createNewOrder(vm.newOrder, vm.ordersIsBeingCreated);
-			var successCallback = function (response) {
-				console.log("success : ");
-				vm.ordersIsBeingCreated = false;
-				if (vm.isPutOrder) {
-					alert("order successfully updated!");
-					$window.location.href = '#/job/' + vm.HRID;
-				} else {
-					alert("order successfully updated!");
-					$window.location.href = '#/job/' + response.data.HRID;
-				}
-				
-			};
-
-			var errorCallback = function error(error) {
-				console.log("error : ");
-				console.log(error);
-				vm.ordersIsBeingCreated = false;
-
-				var errorMsg = error.data.Message || "Server error";
-				var i = 0;
-		        if (error.data.ModelState) {
-		            errorMsg += "\n";
-		            if (error.data.ModelState["model.From.AddressLine1"]) {
-		                var err = error.data.ModelState["model.From.AddressLine1"][0];
-		                errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
-		            }
-		            if (error.data.ModelState["model.To.AddressLine1"]) {
-		                var err = error.data.ModelState["model.To.AddressLine1"][0];
-		                errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
-		            }
-		            if (error.data.ModelState["model.OrderCart.PackageList[0].Item"]) {
-		                var err = error.data.ModelState["model.OrderCart.PackageList[0].Item"][0];
-		                errorMsg += ++i + ". " + err + "\n";
-		            }
-		            if (error.data.ModelState["model.OrderCart.PackageList[0].Quantity"]) {
-		                var err = error.data.ModelState["model.OrderCart.PackageList[0].Quantity"][0];
-		                errorMsg += ++i + ". " + err + "\n";
-		            }
-		            if (error.data.ModelState["model.OrderCart.PackageList[0].Weight"]) {
-		                var err = error.data.ModelState["model.OrderCart.PackageList[0].Weight"][0];
-		                errorMsg += ++i + ". " + err + "\n";
-		            }
-		            if (error.data.ModelState["model.PaymentMethod"]) {
-		                var err = error.data.ModelState["model.PaymentMethod"][0];
-		                errorMsg += ++i + ". " + err + "\n";
-		            }
-		        }
-		        alert(errorMsg);
-			};
-
+		// If you have a coordinates of both From and To, then it creates an order
+		vm.ordersIsBeingCreated = true;
+		// orderFactory.createNewOrder(vm.newOrder, vm.ordersIsBeingCreated);
+		var successCallback = function (response) {
+			console.log("success : ");
+			vm.ordersIsBeingCreated = false;
 			if (vm.isPutOrder) {
-				var requestMethod = "PUT";
-				var orderUrl = host + "api/job/"+ vm.jobId +"/order";
-				console.log(vm.jobId);
-				console.log(vm.newOrder);
-				restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
+				alert("order successfully updated!");
+				$window.location.href = '#/job/' + vm.HRID;
 			} else {
-				var requestMethod = "POST";
-				var orderUrl = host + "api/Order/";
-				restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
+				alert("order successfully updated!");
+				$window.location.href = '#/job/' + response.data.HRID;
 			}
 			
+		};
 
-			
+		var errorCallback = function error(error) {
+			console.log("error : ");
+			console.log(error);
+			vm.ordersIsBeingCreated = false;
+
+			var errorMsg = error.data.Message || "Server error";
+			var i = 0;
+	        if (error.data.ModelState) {
+	            errorMsg += "\n";
+	            if (error.data.ModelState["model.From.AddressLine1"]) {
+	                var err = error.data.ModelState["model.From.AddressLine1"][0];
+	                errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
+	            }
+	            if (error.data.ModelState["model.To.AddressLine1"]) {
+	                var err = error.data.ModelState["model.To.AddressLine1"][0];
+	                errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Item"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Item"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Quantity"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Quantity"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Weight"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Weight"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.PaymentMethod"]) {
+	                var err = error.data.ModelState["model.PaymentMethod"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	        }
+	        alert(errorMsg);
+		};
+
+		if (vm.isPutOrder) {
+			var requestMethod = "PUT";
+			var orderUrl = host + "api/job/"+ vm.jobId +"/order";
+			console.log(vm.jobId);
+			console.log(vm.newOrder);
+			restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
+		} else {
+			var requestMethod = "POST";
+			var orderUrl = host + "api/Order/";
+			restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
 		}
 	}
 
