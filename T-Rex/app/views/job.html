@@ -12,9 +12,15 @@
         </p>
         <!-- <button ngclipboard data-clipboard-target="#foo">Copy Link</button> -->
     </div>
-    <div>
+    <div layout="row">
         <md-button class="md-raised" flex="20">
             <a href="#/order/create/{{job.HRID}}">EDIT THIS JOB</a>
+        </md-button>
+        <md-button ng-show="!job.State=='CANCELLED'" class="md-raised" flex="20">
+            <a href="`#">CANCEL THIS JOB</a> <!-- api/Job/cancel/{jobId} -->
+        </md-button>
+        <md-button ng-show="job.State=='CANCELLED'" class="md-raised" flex="20">
+            <a href="#/order/create/{{job.HRID}}">EDIT THE CANCEL REASON</a>
         </md-button>
     </div>
 </div>
