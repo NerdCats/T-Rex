@@ -13,6 +13,12 @@
         </md-content>
         <md-content layout-gt-sm="row" layout-padding flex="100">
             <md-input-container flex="100">
+                <label>Order Name</label>
+                <input name="OrderName" ng-model="createOrder.newOrder.Name" type="text" value="{{createOrder.newOrder.Name}}">
+            </md-input-container>
+        </md-content>
+        <md-content layout-gt-sm="row" layout-padding flex="100">
+            <md-input-container flex="100">
                 <!-- <input required name="User" ng-model="createOrder.newOrder.User"> -->
                 <md-autocomplete                        
                     md-no-cache="createOrder.noCache"                    
