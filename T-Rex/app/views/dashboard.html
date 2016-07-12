@@ -34,7 +34,7 @@
                 </thead>
                 <tbody md-body>
                     <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in newOrders.orders track by $index">
-                            <td md-cell class="number">{{$index + 1}}</td>
+                            <td md-cell class="number">{{$index + newOrders.pagination.Start}}</td>
                             <td md-cell class="number">{{order.Id}}</td>
                             <td md-cell class="text">{{order.Name}}</td>
                             <td md-cell class="text">{{order.Type}}</td>
@@ -46,7 +46,7 @@
                             <td md-cell class="text">{{order.RequestedAgo}}</td>
                             <td md-cell class="text">
                                 <a href="#/job/{{order.Id}}">
-                                    <md-button class="md-raised">OPEN</md-button>
+                                    <md-button class="md-raised">DETAILS</md-button>
                                 </a>
                             </td>
                             
@@ -63,10 +63,18 @@
                 <p>There is no order here! click <md-button flex="5" ng-click="loadEnqueuedOrders()" >here</md-button> to check</p>
             </div>
             
-            <div style="float:right">
-                <ul layout="row">
-                    <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders)">{{page+1}}</li>
-                </ul>
+            <div class="pagination-div">
+                <ul class="pagination">
+                    <li>
+                        <a ng-click="loadPrevPage(newOrders)" ng-hide="newOrders.pagination.PrevPage === undefined" href=""> << </a>
+                    </li>
+                    <li ng-repeat="page in newOrders.pages" ng-click="loadPage(newOrders, page.pageNo)">
+                        <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="loadNextPage(newOrders)" ng-hide="newOrders.pagination.NextPage === undefined" href=""> >> </a>
+                    </li>
+                </ul>                
             </div>            
         </md-card-content>
     </md-card>
@@ -98,7 +106,7 @@
                 <tbody md-body>
                     <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in processingOrders.orders track by $index">
                         <a href="/details/{{order.Id}}">
-                            <td md-cell class="number">{{$index + 1}}</td>
+                            <td md-cell class="number">{{$index + newOrders.pagination.Start}}</td>
                             <td md-cell class="number">{{order.Id}}</td>
                             <td md-cell class="text">{{order.Name}}</td>
                             <td md-cell class="text">{{order.Type}}</td>
@@ -110,7 +118,7 @@
                             <td md-cell class="text">{{order.RequestedAgo}}</td>
                              <td md-cell class="text">
                                 <a href="#/job/{{order.Id}}">
-                                    <md-button class="md-raised">OPEN</md-button>
+                                    <md-button class="md-raised">DETAILS</md-button>
                                 </a>
                             </td>
                         </a>
@@ -126,10 +134,18 @@
             <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'EMPTY'" >
                 <p>There is no order here! click <md-button flex="5" ng-click="loadInProgressOrders()" >here</md-button> to check</p>
             </div>
-            <div style="float:right">
-                <ul layout="row">
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders)">{{page+1}}</li>
-                </ul>
+            <div class="pagination-div">
+                 <ul class="pagination">
+                    <li>
+                        <a ng-click="loadPrevPage(processingOrders)" ng-hide="processingOrders.pagination.PrevPage === undefined" href=""> << </a>
+                    </li>
+                    <li ng-repeat="page in processingOrders.pages" ng-click="loadPage(processingOrders, page.pageNo)">
+                        <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="loadNextPage(processingOrders)" ng-hide="processingOrders.pagination.NextPage === undefined" href=""> >> </a>
+                    </li>
+                </ul>                
             </div>
         </md-card-content>
     </md-card>
@@ -163,7 +179,7 @@
                 <tbody md-body>
                     <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in completedOrders.orders track by $index">
                         <a href="/job/{{order.Id}}">                            
-                            <td md-cell class="number">{{$index + 1}}</td>
+                            <td md-cell class="number">{{$index + newOrders.pagination.Start}}</td>
                             <td md-cell class="text">{{order.Id}}</td>
                             <td md-cell class="text">{{order.Name}}</td>
                             <td md-cell class="text">{{order.Type}}</td>
@@ -175,7 +191,7 @@
                             <td md-cell class="text">{{order.RequestedAgo}}</td>
                              <td md-cell class="text">
                                 <a href="#/job/{{order.Id}}">
-                                    <md-button class="md-raised">OPEN</md-button>
+                                    <md-button class="md-raised">DETAILS</md-button>
                                 </a>
                             </td>
                         </a>
@@ -191,13 +207,19 @@
             <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'EMPTY'" >
                 <p>There is no order here! click <md-button flex="5" ng-click="loadCompletedOrders()" >here</md-button> to check</p>
             </div>
-            <div style="float:right">
-                <ul layout="row">
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(completedOrders)">{{page+1}}</li>
-                </ul>
+            <div class="pagination-div">
+                 <ul class="pagination">
+                    <li>
+                        <a ng-click="loadPrevPage(completedOrders)" ng-hide="completedOrders.pagination.PrevPage === undefined" href=""> << </a>
+                    </li>
+                    <li ng-repeat="page in completedOrders.pages" ng-click="loadPage(completedOrders, page.pageNo)">
+                        <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="loadNextPage(completedOrders)" ng-hide="completedOrders.pagination.NextPage === undefined" href=""> >> </a>
+                    </li>
+                </ul>                  
             </div>            
         </md-card-content>
     </md-card>
-
-
 </md-table-container>			

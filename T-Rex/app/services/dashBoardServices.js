@@ -44,20 +44,28 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 				Orders.orders.push(newOrder);
 			});				
 			for (var i = 0; i < orders.pagination.TotalPages ; i++) {
-				Orders.pages.push(i);
+				var page = {
+					pageNo : i,
+					isCurrentPage : ""
+				}
+				if (orders.pagination.Page == i) {
+					page.isCurrentPage = "active" // current page css class set on pagination list item
+				}
+				Orders.pages.push(page);
 			};
 			Orders.total = orders.pagination.Total;
  		};
  		function errorCallback(response) {
  			 Orders.isCompleted = 'FAILED';
  		}
+
+ 		Orders.orders= [];
+		Orders.pages = [];
+		Orders.isCompleted = 'IN_PROGRESS';
  		restCall('GET', jobListUrl, null, successCallback, errorCallback);
 	};
 
 	var loadNextPage = function(Orders, nextPageUrl){		
-		Orders.orders= [];
-		Orders.pages = [];
-		Orders.isCompleted = 'IN_PROGRESS';
 		populateOrdersTable(Orders, nextPageUrl);
 	};
 
