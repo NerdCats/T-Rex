@@ -18,60 +18,60 @@ function jobSearchController($scope, host, restCall, dashboardFactory){
 	vm.searching = false;
 
 	vm.loadNextPage = function (page) {
-		var jobSearchUrlWithPage = searchUrl + "&page=" + page;
+		var jobSearchUrlWithPage = vm.searchUrl + "&page=" + page;
 		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, jobSearchUrlWithPage);
 	}
 
 	vm.Search = function () {
-		searchUrl = host + "api/Job/";
+		vm.searchUrl = host + "api/Job/";
 		var allreadyAParamIsThere = false;
 
 		if (vm.startDate != undefined || vm.endDate != undefined || vm.UserName != undefined || vm.jobState != "") {
-			searchUrl += "odata?$filter=";
+			vm.searchUrl += "odata?$filter=";
 		} else {
-			searchUrl += "?page=0&envelope=true";
+			vm.searchUrl += "?page=0&envelope=true";
 		}
 		
 		if (vm.startDate != undefined) {
 			var startDateParam = "CreateTime gt datetime'"+ vm.startDate.toISOString() +"'";
 			if (!allreadyAParamIsThere) {
 				console.log("found")
-				searchUrl +=  startDateParam;
+				vm.searchUrl +=  startDateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + startDateParam;
+				vm.searchUrl += " and " + startDateParam;
 			}
 		}
 		if (vm.endDate != undefined) {
 			var endDateParam = "CreateTime lt datetime'"+ vm.endDate.toISOString() +"'";
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  endDateParam;
+				vm.searchUrl +=  endDateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + endDateParam;
+				vm.searchUrl += " and " + endDateParam;
 			}
 		}
 		if (vm.UserName != undefined) {
 			var userNameParam = "User/UserName eq '"+ vm.UserName +"'";
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  userNameParam;
+				vm.searchUrl +=  userNameParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + userNameParam;
+				vm.searchUrl += " and " + userNameParam;
 			}
 		}
 		if (vm.jobState != "") {
 			var jobStateParam = "State eq '"+ vm.jobState +"'";
 			console.log(vm.jobState)
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  jobStateParam;
+				vm.searchUrl +=  jobStateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + jobStateParam;
+				vm.searchUrl += " and " + jobStateParam;
 			}
 		}
-		console.log(searchUrl);
-		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, searchUrl);
+		console.log(vm.searchUrl);
+		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, vm.searchUrl);
 	}
 
 	function searchTextChange(item) {

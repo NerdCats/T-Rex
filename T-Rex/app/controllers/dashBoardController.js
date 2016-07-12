@@ -13,16 +13,17 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $m
 
 	// the isCompleted value of the orders has 4 states IN_PROGRESS, SUCCESSFULL, EMPTY, FAILED
 	// these states indicates the http request's state and content of the page
-	vm.newOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
-	vm.processingOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
-	vm.completedOrders = {orders: [], pages:[], total: 0, isCompleted : '' };
+	vm.newOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '' };
+	vm.processingOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '' };
+	vm.completedOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '' };
 
 	vm.createNewOrder = function () {
 		$window.location.href = "#/order/create/new";
 	}
 
-	vm.loadNextPage = function (orders ,state, page) {
-		var nextPageUrl = dashboardFactory.jobListUrlMaker(state, true, page, 25);
+	vm.loadNextPage = function (orders) {
+		console.log(orders);
+		var nextPageUrl = orders.pagination.NextPage;
 		dashboardFactory.loadNextPage(orders, nextPageUrl);
 	}
 
@@ -55,6 +56,8 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $m
 
 	$interval(function () {
 		vm.newOrders.isCompleted = 'IN_PROGRESS';
+		Orders.orders= [];
+		Orders.pages = [];
 		vm.loadEnqueuedOrders();	
 	}, 60000); 
 }

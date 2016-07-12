@@ -19,6 +19,7 @@
             <table md-table class="order-table" ng-model="selected" flex="90" ng-show="newOrders.isCompleted == 'SUCCESSFULL'">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
+                        <th md-column>S\L</th>
                         <th md-column>Job no</th>
                         <th md-column>Order</th>
                         <th md-column>Type</th>
@@ -32,7 +33,8 @@
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in newOrders.orders track by $index" ng-click="order.Details(order.Id)">
+                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in newOrders.orders track by $index">
+                            <td md-cell class="number">{{$index + 1}}</td>
                             <td md-cell class="number">{{order.Id}}</td>
                             <td md-cell class="text">{{order.Name}}</td>
                             <td md-cell class="text">{{order.Type}}</td>
@@ -42,6 +44,11 @@
                             <td md-cell class="text">{{order.State()}}</td>
                             <td md-cell class="text">{{order.PaymentStatus}}</td>
                             <td md-cell class="text">{{order.RequestedAgo}}</td>
+                            <td md-cell class="text">
+                                <a href="#/job/{{order.Id}}">
+                                    <md-button class="md-raised">OPEN</md-button>
+                                </a>
+                            </td>
                             
                     </tr>
                 </tbody>
@@ -58,7 +65,7 @@
             
             <div style="float:right">
                 <ul layout="row">
-                    <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders, 'ENQUEUED', page)">{{page+1}}</li>
+                    <li ng-repeat="page in newOrders.pages" ng-click="loadNextPage(newOrders)">{{page+1}}</li>
                 </ul>
             </div>            
         </md-card-content>
@@ -76,6 +83,7 @@
             <table md-table class="order-table" ng-model="selected" flex="90" ng-show="processingOrders.isCompleted == 'SUCCESSFULL'">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
+                        <th md-column>S\L</th>
                         <th md-column>Job no</th>
                         <th md-column>Order</th>
                         <th md-column>Type</th>
@@ -88,8 +96,9 @@
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in processingOrders.orders track by $index" ng-click="order.Details(order.Id)">
+                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in processingOrders.orders track by $index">
                         <a href="/details/{{order.Id}}">
+                            <td md-cell class="number">{{$index + 1}}</td>
                             <td md-cell class="number">{{order.Id}}</td>
                             <td md-cell class="text">{{order.Name}}</td>
                             <td md-cell class="text">{{order.Type}}</td>
@@ -99,6 +108,11 @@
                             <td md-cell class="text">{{order.State()}}</td>
                             <td md-cell class="text">{{order.PaymentStatus}}</td>
                             <td md-cell class="text">{{order.RequestedAgo}}</td>
+                             <td md-cell class="text">
+                                <a href="#/job/{{order.Id}}">
+                                    <md-button class="md-raised">OPEN</md-button>
+                                </a>
+                            </td>
                         </a>
                     </tr>
                 </tbody>
@@ -114,7 +128,7 @@
             </div>
             <div style="float:right">
                 <ul layout="row">
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders, 'ENQUEUED', page)">{{page+1}}</li>
+                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(processingOrders)">{{page+1}}</li>
                 </ul>
             </div>
         </md-card-content>
@@ -134,6 +148,7 @@
             <table md-table class="order-table" ng-model="selected" flex="90" ng-show="completedOrders.isCompleted == 'SUCCESSFULL'">
                 <thead md-head md-on-recorder="onReorder">
                     <tr md-row>
+                        <th md-column>S\L</th>
                         <th md-column>Job no</th>
                         <th md-column>Order</th>
                         <th md-column>Type</th>
@@ -146,9 +161,10 @@
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in completedOrders.orders track by $index" ng-click="order.Details(order.Id)">
-                        <a href="/job/{{order.Id}}">
-                            <td md-cell class="number">{{order.Id}}</td>
+                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in completedOrders.orders track by $index">
+                        <a href="/job/{{order.Id}}">                            
+                            <td md-cell class="number">{{$index + 1}}</td>
+                            <td md-cell class="text">{{order.Id}}</td>
                             <td md-cell class="text">{{order.Name}}</td>
                             <td md-cell class="text">{{order.Type}}</td>
                             <td md-cell class="text">{{order.From}}</td>
@@ -157,6 +173,11 @@
                             <td md-cell class="text">{{order.State()}}</td>
                             <td md-cell class="text">{{order.PaymentStatus}}</td>
                             <td md-cell class="text">{{order.RequestedAgo}}</td>
+                             <td md-cell class="text">
+                                <a href="#/job/{{order.Id}}">
+                                    <md-button class="md-raised">OPEN</md-button>
+                                </a>
+                            </td>
                         </a>
                     </tr>
                 </tbody>
@@ -172,7 +193,7 @@
             </div>
             <div style="float:right">
                 <ul layout="row">
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(completedOrders, 'ENQUEUED', page)">{{page+1}}</li>
+                    <li ng-repeat="page in processingOrders.pages" ng-click="loadNextPage(completedOrders)">{{page+1}}</li>
                 </ul>
             </div>            
         </md-card-content>
