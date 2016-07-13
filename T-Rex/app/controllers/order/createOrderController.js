@@ -379,6 +379,9 @@ function createOrderController($scope, $window, $mdpDatePicker, host, UrlPath, r
 			var requestMethod = "PUT";
 			var orderUrl = host + "api/job/"+ vm.jobId +"/order";
 			console.log(vm.jobId);
+			vm.newOrder.OrderCart.TotalVATAmount = 0,
+			vm.newOrder.OrderCart.SubTotal = 0,
+			vm.newOrder.OrderCart.TotalToPay = 0
 			console.log(vm.newOrder);
 			restCall(requestMethod, orderUrl, vm.newOrder, successCallback, errorCallback);
 		} else {
