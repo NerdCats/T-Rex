@@ -89,7 +89,7 @@ app.factory('restCall', ['$http', 'host', 'localStorageService', function($http,
 	};
 }]);
 
-app.factory('restCallPromise', ['$http', 'host', 'localStorageService', function($http, host, localStorageService){
+app.factory('restCallPromise', ['$http', 'authService', 'host', 'localStorageService', function($http, authService, host, localStorageService){
 	return function (method, url, data){
 		console.log(url);
 		var token = localStorageService.get('authorizationData');
@@ -100,10 +100,21 @@ app.factory('restCallPromise', ['$http', 'host', 'localStorageService', function
 	  			header: {
 	  				'Content-Type' : 'application/json'
 	  			} 
-	  		}).then(function success(response) {
+	  		}).then(function success(response) {	  			
 	  			successCallback(response);  			
-	  		}, function error(response) {
-	  			errorCallback(response);  		
+	  		}, function error(response) {	  	
+	  			if (response.status == 401) {
+	  				// logging out an user if his auth token 
+	  				// doesn't work anymore!
+	  				authService.logOut();	  				
+		  			// reload the current page so that the app will check 
+		  			// whether the user is logged in or not
+		  			// and based on that the user will be taken to login page	  				
+	  				$window.location.reload();
+	  			} else {
+		  			errorCallback(response);
+	  			}
+
 	  		});
 	};
 }]);

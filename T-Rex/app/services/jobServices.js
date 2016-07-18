@@ -137,16 +137,16 @@ angular
  					title : "Find Asset",
  					haveLocation : false,
 					State: function() {
-						if (job.State=="IN_PROGRESS") {
+						if (task.State=="IN_PROGRESS") {
 							return "IN PROGRESS";
 						}
-						return job.State;
+						return task.State;
 					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					startTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -163,16 +163,16 @@ angular
  					lng : NaN, 					
  					haveLocation : true,
  					State: function() {
-						if (job.State=="IN_PROGRESS") {
+						if (task.State=="IN_PROGRESS") {
 							return "IN PROGRESS";
 						}
-						return job.State;
+						return task.State;
 					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					startTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -195,16 +195,16 @@ angular
  					lng : NaN, 					
  					haveLocation : true,
  					State: function() {
-						if (job.State=="IN_PROGRESS") {
+						if (task.State=="IN_PROGRESS") {
 							return "IN PROGRESS";
 						}
-						return job.State;
+						return task.State;
 					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					startTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -230,16 +230,16 @@ angular
 					lng : job.Order.To.Point.coordinates[0],
 					haveLocation : true,
 					State: function() {
-						if (job.State=="IN_PROGRESS") {
+						if (task.State=="IN_PROGRESS") {
 							return "IN PROGRESS";
 						}
-						return job.State;
+						return task.State;
 					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					startTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},
@@ -256,16 +256,16 @@ angular
  					lng : task.PickupLocation.Point.coordinates[0],
  					haveLocation : true,
 					State: function() {
-						if (job.State=="IN_PROGRESS") {
+						if (task.State=="IN_PROGRESS") {
 							return "IN PROGRESS";
 						}
-						return job.State;
+						return task.State;
 					},
  					markerColor : StateColor(task.State),
 					startDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					startTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					startTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					lastModifyDate : new moment.utc(task.ModifiedTime).format("MMMM Do"),
-					lastModifyTime : new moment.utc(task.ModifiedTime).format("h:mm:ss a"),
+					lastModifyTime : new moment.utc(task.ModifiedTime).local().format("h:mm:ss a"),
 					stateChanged : function (state) {
 						patchUpdate(state, "replace", "/State", "api/job/", job.Id, task.id, stateUpdateSuccess, stateUpdateError);
 					},

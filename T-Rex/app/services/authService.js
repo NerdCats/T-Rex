@@ -140,7 +140,7 @@
 
         var _fillAuthData = function() {
 
-            var authData = localStorageService.get('authorizationData');            
+            var authData = localStorageService.get('authorizationData');
             if (authData==null) {
                 $window.location.href = '#/login';
             } else {                
