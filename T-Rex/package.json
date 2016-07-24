@@ -17,6 +17,8 @@
     "angular-messages": "^1.4.9",
     "angular-route": "^1.5.0",
     "angular-signalr-hub": "^1.6.2",
+    "angular-touch": "^1.5.8",
+    "bootstrap": "^3.3.6",
     "gmaps": "^0.4.24",
     "jquery": "^2.2.2",
     "mdPickers": "^0.7.2",

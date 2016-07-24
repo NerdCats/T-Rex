@@ -8,6 +8,7 @@ var app = angular.module('app', [
 	"ngAnimate",
 	'ngAria',
 	'LocalStorageModule',
+	'ui.bootstrap',
 	// 'md.data.table',
 	'angularFileUpload',
 	// 'mdPickers',
