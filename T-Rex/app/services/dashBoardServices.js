@@ -32,8 +32,23 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 					PaymentStatus : value.PaymentStatus,
 					RequestedAgo : timeAgo(value.CreateTime),
 					State : function () {
-						if (value.State == "IN_PROGRESS") {
-							return "IN PROGRESS";
+						if (value.State == "ENQUEUED") {
+							return {
+								value: "PENDING",
+								class: "pending"
+							};
+						}
+						else if (value.State == "IN_PROGRESS") {
+							return {
+								value: "IN PROGRESS",
+								class: "in-progress"
+							}
+						}
+						else if (value.State == "COMPLETED") {
+							return {
+								value: "COMPLETED",
+								class: "completed"
+							}
 						}
 						return value.State;
 					},

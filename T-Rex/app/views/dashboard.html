@@ -36,7 +36,7 @@
                             <td class="col-md-2">{{order.From}}</td>
                             <td class="col-md-2">{{order.To}}</td>
                             <td class="col-md-1">{{order.User}}</td>
-                            <td class="col-md-1">{{order.State()}}</td>
+                            <td class="col-md-1"><span class="label {{order.State().class}}">{{order.State().value}}</span></td>
                             <td class="col-md-1">{{order.PaymentStatus}}</td>
                             <td class="col-md-1">{{order.RequestedAgo}}</td>
                         <td class="col-md-1">
@@ -48,9 +48,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div ng-show="newOrders.isCompleted == 'IN_PROGRESS'" >
-                <md-progress-circular md-diameter="96"></md-progress-circular>
-            </div>
+            <div ng-show="newOrders.isCompleted == 'IN_PROGRESS'" ng-include="'../content/component/loading-snake.html'"></div>
             <div ng-show="newOrders.isCompleted == 'FAILED'" >
                 <p>Server error! click <button flex="5" ng-click="loadEnqueuedOrders()" >here</button> to refresh</p>
             </div>
@@ -103,7 +101,7 @@
                             <td class="col-md-2">{{order.From}}</td>
                             <td class="col-md-2">{{order.To}}</td>
                             <td class="col-md-1">{{order.User}}</td>
-                            <td class="col-md-1">{{order.State()}}</td>
+                            <td class="col-md-1"><span class="label {{order.State().class}}">{{order.State().value}}</span></td>
                             <td class="col-md-1">{{order.PaymentStatus}}</td>
                             <td class="col-md-1">{{order.RequestedAgo}}</td>
                             <td class="col-md-1">
@@ -115,9 +113,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div ng-show="processingOrders.isCompleted == 'IN_PROGRESS'" >
-                <md-progress-circular md-diameter="96"></md-progress-circular>
-            </div>
+            <div ng-show="processingOrders.isCompleted == 'IN_PROGRESS'" ng-include="'../content/component/loading-snake.html'"></div>
             <div ng-show="processingOrders.isCompleted == 'FAILED'" >
                 <p>Server error! click <button flex="5" ng-click="loadInProgressOrders()" >here</button> to refresh</p>
             </div>
@@ -169,7 +165,7 @@
                             <td class="col-md-2">{{order.From}}</td>
                             <td class="col-md-2">{{order.To}}</td>
                             <td class="col-md-1">{{order.User}}</td>
-                            <td class="col-md-1">{{order.State()}}</td>
+                            <td class="col-md-1"><span class="label {{order.State().class}}">{{order.State().value}}</span></td>
                             <td class="col-md-1">{{order.PaymentStatus}}</td>
                             <td class="col-md-1">{{order.RequestedAgo}}</td>
                             <td class="col-md-1">
@@ -181,9 +177,8 @@
                     </tr>
                 </tbody>
             </table>
-            <div ng-show="completedOrders.isCompleted == 'IN_PROGRESS'" >
-                <md-progress-circular md-diameter="96"></md-progress-circular>
-            </div>
+            <div ng-show="completedOrders.isCompleted == 'IN_PROGRESS'" ng-include="'../content/component/loading-snake.html'"></div>
+
             <div ng-show="completedOrders.isCompleted == 'FAILED'" >
                 <p>Server error! click <button flex="5" ng-click="loadCompletedOrders()" >here</button> to refresh</p>
             </div>

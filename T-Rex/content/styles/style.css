@@ -1,3 +1,13 @@
 .pdl-15 {
   padding-left: 15px;
 }
+
+.pending {
+  background-color: #FF5722;
+}
+.in-progress {
+  background-color: #3F51B5;
+}
+.completed {
+  background-color: #4CAF50
+}
