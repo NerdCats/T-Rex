@@ -10,9 +10,9 @@
 }
 
 #sidebar-wrapper {
-    margin-left: -180px;
+    margin-left: -200px;
     left: 70px;
-    width: 180px;
+    width: 200px;
     background: #222;
     position: fixed;
     height: 100%;
@@ -23,7 +23,7 @@
 .sidebar-nav {
     display: block;
     float: left;
-    width: 180px;
+    width: 200px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -35,10 +35,10 @@
     height: auto;
 }
 #wrapper.active {
-    padding-left: 180px;
+    padding-left: 200px;
 }
 #wrapper.active #sidebar-wrapper {
-    left: 180px;
+    left: 200px;
 }
 
 #page-content-wrapper {
@@ -50,7 +50,7 @@
     display: block;
     float: left;
     text-decoration: none;
-    width: 180px;
+    width: 200px;
     background: #252525;
     border-top: 1px solid #373737;
     border-bottom: 1px solid #1A1A1A;
@@ -138,11 +138,11 @@
     left: 70px;
 }
 #wrapper.active {
-    padding-left: 180px;
+    padding-left: 200px;
 }
 #wrapper.active #sidebar-wrapper {
-    left: 180px;
-    width: 180px;
+    left: 200px;
+    width: 200px;
     transition: all .4s ease 0s;
 }
 }

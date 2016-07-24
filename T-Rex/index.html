@@ -22,9 +22,10 @@
 
         <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap-theme.css">
         <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.css">
         <link rel="stylesheet" type="text/css" href="content/styles/style.css">
         <link rel="stylesheet" type="text/css" href="content/styles/sidebar.css">
-        <link rel="stylesheet" type="text/css" href="content/styles/loading-snake.css">
+        <link rel="stylesheet" type="text/css" href="content/component/loading-snake.css">
 
         <script src="node_modules/jquery/dist/jquery.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
@@ -111,8 +112,12 @@
                 </ul>
                 
                 <ul class="sidebar-nav" id="sidebar">     
-                  <li><a>Link1<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
-                  <li><a>link2<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+                    <li ng-repeat="menu in menus">
+                        <a href="{{menu.link}}">
+                            {{menu.title}}
+                            <span class="sub_icon glyphicon glyphicon-link"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div id="page-content-wrapper">

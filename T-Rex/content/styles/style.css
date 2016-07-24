@@ -1,13 +1,33 @@
 .pdl-15 {
-  padding-left: 15px;
+    padding-left: 15px;
 }
-
 .pending {
-  background-color: #FF5722;
+    background-color: #FF5722;
 }
 .in-progress {
-  background-color: #3F51B5;
+    background-color: #3F51B5;
 }
 .completed {
-  background-color: #4CAF50
+    background-color: #4CAF50;
+}
+.canceled {
+    background-color: #b71c1c;
+}
+.summary-icon-div {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+.summary-icon-div i {
+    color: white;
+    line-height: 100px;    
+}
+.job-state {
+    width: 100px;
+}
+.selected-page {
+    background: #337ab7 !important;
+    color: white !important;
 }

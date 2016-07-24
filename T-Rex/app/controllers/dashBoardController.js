@@ -39,7 +39,7 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $w
 	}
 
 	vm.loadPage = function (orders, pageNo) {
-		var pageUrl = dashboardFactory.jobListUrlMaker(orders.state, true, pageNo, 50)
+		var pageUrl = dashboardFactory.jobListUrlMaker(orders.state, true, pageNo, 10)
 		console.log(pageNo);
 		console.log(pageUrl);
 		console.log(orders);
@@ -53,19 +53,19 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $w
 
 	vm.loadEnqueuedOrders = function (){
 		vm.newOrders.isCompleted = 'IN_PROGRESS';
-		var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 50)
+		var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 10)
 		dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
 	}
 
 	vm.loadInProgressOrders = function (){
 		vm.processingOrders.isCompleted = 'IN_PROGRESS';
-		var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 50)
+		var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 10)
 		dashboardFactory.populateOrdersTable(vm.processingOrders, processingOrdersUrl);
 	}
 	
 	vm.loadCompletedOrders = function () {
 		vm.completedOrders.isCompleted = 'IN_PROGRESS';
-		var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 50)
+		var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 10)
 		dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
 	}
 
