@@ -1,11 +1,10 @@
 'use strict';
 
-app.controller('dashBoardController', ['$rootScope', '$scope', '$http', '$location', '$interval', '$mdDialog', '$mdMedia', '$window', 'menus', 'templates', 'host', 'dashboardFactory', dashBoardController]);
+app.controller('dashBoardController', ['$rootScope', '$scope', '$http', '$location', '$interval', '$window', 'menus', 'templates', 'host', 'dashboardFactory', dashBoardController]);
 
-function dashBoardController($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia, $window, menus, templates, host, dashboardFactory) {
+function dashBoardController($rootScope, $scope, $http, $location, $interval, $window, menus, templates, host, dashboardFactory) {
 
-	var vm = $scope;
-	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+	var vm = $scope;	
 	vm.menus = menus;
 	vm.templates = templates;
 	vm.selected = [];
