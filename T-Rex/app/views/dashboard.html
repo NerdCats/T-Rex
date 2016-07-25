@@ -64,6 +64,11 @@
     <div>        
         <div>
             <h3>Total Newly arrived orders : {{newOrders.total}}</h3>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="autoRefreshState" ng-true-value="true" ng-false-value="false" ng-change="AutoRefreshChanged()"> Auto Refresh
+                </label>
+            </div>
         </div>
         <div>            
             <table  class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" ng-show="newOrders.isCompleted == 'SUCCESSFULL'">

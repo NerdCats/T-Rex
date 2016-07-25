@@ -69,14 +69,43 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $w
 		dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
 	}
 
-	vm.loadEnqueuedOrders();
-	vm.loadInProgressOrders();
-	vm.loadCompletedOrders();
 
-	$interval(function () {
-		vm.newOrders.isCompleted = 'IN_PROGRESS';
-		vm.newOrders.orders= [];
-		vm.newOrders.pages = [];
-		vm.loadEnqueuedOrders();	
-	}, 60000); 
+
+	var autoRefresh;
+	vm.autoRefreshState = true;
+	vm.AutoRefreshChanged = function () {
+		if (vm.autoRefreshState) {
+			vm.StartRefresh();
+		} else {
+			vm.StopRefresh();
+		}
+	}
+	vm.StartRefresh = function () {
+		if (angular.isDefined(autoRefresh)) return;
+		autoRefresh = $interval(function () {
+			console.log("start");
+			vm.newOrders.isCompleted = 'IN_PROGRESS';
+			vm.newOrders.orders= [];
+			vm.newOrders.pages = [];
+			vm.loadEnqueuedOrders();	
+		}, 60000); //60000
+	}
+	
+
+	vm.StopRefresh = function () {
+		if (angular.isDefined(autoRefresh)) {
+			console.log("stop")
+			$interval.cancel(autoRefresh);
+			autoRefresh = undefined;
+		}
+	}
+
+	vm.activate = function () {
+		vm.loadEnqueuedOrders();
+		vm.loadInProgressOrders();
+		vm.loadCompletedOrders();
+		vm.StartRefresh();
+	}
+	vm.activate();
+	
 }
