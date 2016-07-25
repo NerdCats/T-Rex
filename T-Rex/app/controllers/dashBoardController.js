@@ -12,9 +12,57 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $w
 
 	// the isCompleted value of the orders has 4 states IN_PROGRESS, SUCCESSFULL, EMPTY, FAILED
 	// these states indicates the http request's state and content of the page
-	vm.newOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '', state: "ENQUEUED" };
-	vm.processingOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '', state: "IN_PROGRESS" };
-	vm.completedOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '', state: "COMPLETED" };
+	vm.newOrders = {
+		orders: [], 
+		pagination: null, 
+		pages:[], 
+		total: 0, 
+		isCompleted : '', 
+		state: "ENQUEUED",
+		loadPage: function (orders, page) {			
+			vm.loadPage(orders, page);
+		},
+		loadPrevPage: function (orders) {
+			vm.loadPrevPage(orders);
+		},
+		loadNextPage: function (orders) {
+			vm.loadNextPage(orders);
+		}
+	};
+	vm.processingOrders = {
+		orders: [], 
+		pagination: null, 
+		pages:[], 
+		total: 0, 
+		isCompleted : '', 
+		state: "IN_PROGRESS",
+		loadPage: function (orders, page) {
+			vm.loadPage(orders, page);
+		},
+		loadPrevPage: function (orders) {
+			vm.loadPrevPage(orders);
+		},
+		loadNextPage: function (orders) {
+			vm.loadNextPage(orders);
+		}
+	};
+	vm.completedOrders = {
+		orders: [],
+		pagination: null, 
+		pages:[], 
+		total: 0, 
+		isCompleted : '', 
+		state: "COMPLETED",
+		loadPage: function (orders, page) {
+			vm.loadPage(orders, page);
+		},
+		loadPrevPage: function (orders) {
+			vm.loadPrevPage(orders);
+		},
+		loadNextPage: function (orders) {
+			vm.loadNextPage(orders);
+		}
+	};
 
 	vm.createNewOrder = function () {
 		$window.location.href = "#/order/create/new";
@@ -88,7 +136,7 @@ function dashBoardController($rootScope, $scope, $http, $location, $interval, $w
 			vm.newOrders.orders= [];
 			vm.newOrders.pages = [];
 			vm.loadEnqueuedOrders();	
-		}, 60000); //60000
+		}, 60000);
 	}
 	
 

@@ -1,6 +1,9 @@
 .pdl-15 {
     padding-left: 15px;
 }
+.mt-50 {
+    margin: 20px 0px;
+}
 .pending {
     background-color: #FF5722;
 }
@@ -14,18 +17,18 @@
     background-color: #b71c1c;
 }
 .summary-icon-div {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     text-align: center;
     vertical-align: middle;
 }
 .summary-icon-div i {
     color: white;
-    line-height: 100px;    
+    line-height: 50px;    
 }
 .job-state {
-    width: 100px;
+    margin-top: -16px;
 }
 .selected-page {
     background: #337ab7 !important;

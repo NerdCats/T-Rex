@@ -1,0 +1,59 @@
+<table  class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" ng-show="orders.isCompleted == 'SUCCESSFULL'">
+    <thead>
+        <tr>
+            <th>S\L</th>
+            <th>Job no</th>
+            <th>Order</th>
+            <!-- <th>Type</th> -->
+            <th>Create Time</th>
+            <th>Pickup</th>
+            <th>Delivery State</th>
+            <th>User</th>
+            <th>Pickup State</th>   
+            <th>Deliver State</th>                     
+            <th>State</th>
+            <th>Payment</th>
+            <th>Time Elapsed</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="order in orders.orders track by $index">
+            <td>{{$index + orders.pagination.Start}}</td>
+            <td class="col-md-1">
+                <a href="#/job/{{order.Id}}">{{order.Id}}</a>
+            </td>
+            <td class="col-md-1">{{order.Name}}</td>                            
+            <td class="col-md-1">{{order.CreateTime | date:"EEE d MMM y,h:m"}}</td>
+            <td class="col-md-2">{{order.From}}</td>
+            <td class="col-md-2">{{order.To}}</td>
+            <td>{{order.User}}</td>
+            <td><span class="label {{order.PickUpState().class}}">{{order.PickUpState().value}}</span></td>
+            <td><span class="label {{order.DeliveryState().class}}">{{order.DeliveryState().value}}</span></td>
+            <td><span class="label {{order.JobState().class}}">{{order.JobState().value}}</span></td>
+            <td>{{order.PaymentStatus}}</td>
+            <td class="col-md-1">{{order.RequestedAgo}}</td>                                                        
+        </tr>
+    </tbody>
+</table>
+<div ng-show="orders.isCompleted == 'IN_PROGRESS'" ng-include="'../content/component/loadinSnake/loading-snake.html'"></div>
+<div ng-show="orders.isCompleted == 'FAILED'" >
+    <p>Server error! click <button flex="5" ng-click="orders.loadEnqueuedOrders()" >here</button> to refresh</p>
+</div>
+<div ng-show="orders.isCompleted == 'EMPTY'" >
+    <p>There is no order here! click <button flex="5" ng-click="orders.loadEnqueuedOrders()" >here</button> to check</p>
+</div>
+
+<nav class="navbar-right">
+    <ul class="pagination">
+        <li>
+            <a ng-click="orders.loadPrevPage(orders)" ng-hide="orders.pagination.PrevPage === undefined" href=""> << </a>
+        </li>
+        <li ng-repeat="page in orders.pages" ng-click="orders.loadPage(orders, page.pageNo)">
+            <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+        </li>
+        <li>
+            <a ng-click="orders.loadNextPage(orders)" ng-hide="orders.pagination.NextPage === undefined" href=""> >> </a>
+        </li>
+    </ul>                
+</nav>            
