@@ -1,4 +1,4 @@
-app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host', function($http, $window, timeAgo, restCall, host){
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', function($http, $window, $interval, timeAgo, restCall, host){
 
 	var jobListUrlMaker = function (state, envelope, page, pageSize) {
 		var path = "api/Job/odata?";
@@ -99,13 +99,76 @@ app.factory('dashboardFactory', ['$http', '$window','timeAgo', 'restCall', 'host
 		}
 		return State;
 	}
+
 	var loadNextPage = function(Orders, nextPageUrl){		
 		populateOrdersTable(Orders, nextPageUrl);
 	};
 
+	// the isCompleted value of the orders has 4 states IN_PROGRESS, SUCCESSFULL, EMPTY, FAILED
+	// these states indicates the http request's state and content of the page
+	var orders = function (jobState) {
+		return {
+			orders: [], 
+			pagination: null,
+			perPageTotal: 10,
+			pages:[],
+			total: 0, 
+			isCompleted : '', 
+			state: jobState,
+			loadOrders: function () {
+				this.isCompleted = 'IN_PROGRESS';
+				var pageUrl = jobListUrlMaker(jobState, true, 0, this.perPageTotal);
+				populateOrdersTable(this, pageUrl);
+			},
+			loadPage: function (pageNo) {			
+				var pageUrl = jobListUrlMaker(this.state, true, pageNo, this.perPageTotal);
+				console.log(pageNo);
+				console.log(pageUrl);
+				console.log(this);
+				populateOrdersTable(this, pageUrl);
+			},
+			loadPrevPage: function () {
+				console.log(this);
+				console.log(this.pagination.PrevPage);
+				if (prevPageUrl) {
+					populateOrdersTable(this, this.pagination.PrevPage);
+				}
+			},
+			loadNextPage: function () {
+				console.log(this);
+				console.log(this.pagination.NextPage);
+				if (nextPageUrl) {
+					populateOrdersTable(this, this.pagination.NextPage);			
+				}
+			}
+		}
+	};
+
+	var autoRefresh;
+	var startRefresh = function (Orders) {
+		if (angular.isDefined(autoRefresh)) return;
+		autoRefresh = $interval(function () {
+			Orders.isCompleted = 'IN_PROGRESS';
+			Orders.orders= [];
+			Orders.pages = [];
+			Orders.loadOrders();	
+		}, 60000);
+	}
+	
+
+	var stopRefresh = function () {
+		if (angular.isDefined(autoRefresh)) {			
+			$interval.cancel(autoRefresh);
+			autoRefresh = undefined;
+		}
+	}
+
 	return {
 		populateOrdersTable : populateOrdersTable,
 		loadNextPage : loadNextPage,
-		jobListUrlMaker : jobListUrlMaker
+		jobListUrlMaker : jobListUrlMaker,
+		orders: orders,
+		startRefresh: startRefresh,
+		stopRefresh: stopRefresh
 	};
 }]);

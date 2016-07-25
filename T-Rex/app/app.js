@@ -28,6 +28,16 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/dashboard.html',
 		        controller: 'dashBoardController',
 		        controllerAs: 'dashboard'
+			}).
+			when('/same-day', {
+				templateUrl: 'app/views/same-day.html',
+				controller: 'sameDayC',
+				controllerAs: 'sameDay'
+			}).
+			when('/next-day', {
+				templateUrl: 'app/views/next-day.html',
+				controller: 'nextDayC',
+				controllerAs: 'nextDay'
 			})
 			//.
 			// when('/order/create/:id',{
