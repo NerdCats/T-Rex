@@ -16,7 +16,7 @@ function indexController($scope, $location, $timeout, $log, menus, templates, $w
 
 	
 
-  vm.authData = {};
+  	vm.authData = {};
 
  
 	vm.logout = function () {

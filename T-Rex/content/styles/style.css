@@ -1,8 +1,14 @@
+html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
+    font-family: 'Roboto', sans-serif !important;
+}
 .pdl-15 {
     padding-left: 15px;
 }
 .mt-50 {
     margin: 20px 0px;
+}
+.mt-15-percent {
+    margin-top: 15%;
 }
 .pending {
     background-color: #FF5722;
