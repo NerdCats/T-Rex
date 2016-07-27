@@ -53,16 +53,31 @@
             </div>            
         </div>
     </div>
-    <div class="form-group">
-        <label>Show:</label>
-        <select ng-model="jobPerPage" ng-change="jobPerPageChanged()">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
-        </select>
-        <label>Job per page</label>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label>Show:</label>
+            <select ng-model="jobTime" ng-change="activate()">
+                <option value="all">All</option>
+                <option value="today">ToDay's</option>
+                <option value="nextday">Next Day</option>                    
+            </select>
+            <label>Orders</label>                
+        </div>
+        <div class="form-group col-md-2">
+            <label>Show:</label>
+            <select ng-model="jobPerPage" ng-change="activate()">
+                <option value="10" ng-selected="jobPerPage">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">60</option>
+                <option value="50">70</option>
+                <option value="50">80</option>
+                <option value="50">90</option>
+                <option value="50">100</option>
+            </select>
+            <label>Orders</label>
+        </div>
     </div>
     <uib-tabset  active="activeJustified" justified="true">
         <uib-tab index="0">

@@ -38,8 +38,7 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/next-day.html',
 				controller: 'nextDayC',
 				controllerAs: 'nextDay'
-			})
-			//.
+			}).
 			// when('/order/create/:id',{
 			// 	templateUrl: 'app/views/order/create.html',
 			// 	controller: 'createOrderController',
@@ -100,11 +99,11 @@ app.config(['$routeProvider',
 			// 	controller: 'supportedOrderUpdateController',
 			// 	controllerAs: 'supportedOrders'
 			// }).
-			// when('/job-search', {
-			// 	templateUrl: 'app/views/job-search.html',
-			// 	controller: 'jobSearchController',
-			// 	controllerAs: 'jobSearch'
-			// });
+			when('/job-search', {
+				templateUrl: 'app/views/job-search.html',
+				controller: 'jobSearchController',
+				controllerAs: 'jobSearch'
+			});
 
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}

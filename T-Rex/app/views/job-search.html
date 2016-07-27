@@ -3,22 +3,34 @@
 		<md-content layout-gt-sm="row" layout-padding flex="100">
 			<div flex="20">		
 				<h4>Start Date</h4>
-				<md-datepicker ng-model="jobSearch.startDate" md-placeholder="Enter date"></md-datepicker>
+				<div class="input-group date" data-provide="datepicker">
+				    <input type="date" class="form-control" ng-model="jobSearch.searchParam.startDate">
+				    <div class="input-group-addon">
+				        <span class="glyphicon glyphicon-th"></span>
+				    </div>
+				</div>
+				<md-datepicker ng-model="jobSearch.searchParam.startDate" md-placeholder="Enter date"></md-datepicker>
 			</div>
 			<div flex="20">		
 				<h4>End Date</h4>
-				<md-datepicker ng-model="jobSearch.endDate" md-placeholder="Enter date"></md-datepicker>			
+				 <div class="input-group date" data-provide="datepicker">
+				    <input type="date" class="form-control" ng-model="jobSearch.searchParam.endDate">
+				    <div class="input-group-addon">
+				        <span class="glyphicon glyphicon-th"></span>
+				    </div>
+				</div>
+				<md-datepicker ng-model="jobSearch.searchParam.endDate" md-placeholder="Enter date"></md-datepicker>			
 			</div>		 
-			<div flex="20">
+			<!-- <div flex="20">
                 <h4>Job State</h4>
-                <md-select ng-model="jobSearch.jobState">
+                <md-select ng-model="jobSearch.searchParam.jobState">
                     <md-option ng-repeat="state in jobSearch.jobStates" value="{{state}}">
                         {{state}}
                     </md-option>
                 </md-select>                       
-            </div>	    	
+            </div>	    	 -->
         </md-content>
-        <md-content layout-gt-sm="row" layout-padding flex="100">
+       <!--  <md-content layout-gt-sm="row" layout-padding flex="100">
         	<md-input-container flex="100">
                 <h4>User Name</h4>
                 <md-autocomplete                        
@@ -46,7 +58,7 @@
                     <div ng-message="md-maxlength">The User has to be less than 30 characters long.</div>
                 </div>
             </md-input-container>      
-        </md-content>
+        </md-content> -->
 		<div flex="20">
 			<md-button class="md-raised" ng-click="jobSearch.Search()">
 			<span>

@@ -8,7 +8,6 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 	};
 	
 	var populateOrdersTable = function(Orders, jobListUrl){
-		console.log(Orders);
 		function successCallback(response){
 			// Orders.orders = [];
 			// Orders.pages = [];
@@ -17,7 +16,6 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 			if (orders.data.length == 0) {
 				Orders.isCompleted = 'EMPTY';
 			}
-			console.log(response)
 			if (response.data.pagination) {				
 				Orders.pagination = response.data.pagination;
 			}
@@ -110,14 +108,16 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 		return {
 			orders: [], 
 			pagination: null,
-			perPageTotal: 10,
+			perPageTotal: 0,
 			pages:[],
 			total: 0, 
-			isCompleted : '', 
+			isCompleted : '',
+			jobTime: '',			
 			state: jobState,
 			loadOrders: function () {
 				this.isCompleted = 'IN_PROGRESS';
-				var pageUrl = jobListUrlMaker(jobState, true, 0, this.perPageTotal);
+				getDate(this.jobTime)
+				var pageUrl = jobListUrlMaker(jobState, true, 0, this.perPageTotal);				
 				populateOrdersTable(this, pageUrl);
 			},
 			loadPage: function (pageNo) {			
@@ -143,6 +143,30 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 			}
 		}
 	};
+
+	var getDate = function (day) {
+		var thisDate = new Date().getDate();
+		var thisMonth = new Date().getMonth();
+		var thisYear = new Date().getFullYear();
+						
+
+		if (day == 'today') {			
+			var toDay = new Date(thisYear, thisMonth, thisDate + 1).toISOString();			
+			var nextDay = new Date(thisYear, thisMonth, thisDate + 2).toISOString();						
+			return {
+				day1: toDay,
+				day2: nextDay
+			}
+		} else if (day == 'nextday') {
+			var nextDay = new Date(thisYear, thisMonth, thisDate + 2).toISOString();			
+			var nextnextDay = new Date(thisYear, thisMonth, thisDate + 3).toISOString();						
+			return {
+				day1: nextDay,
+				day2: nextnextDay
+			}
+		}
+		else return;
+	}
 
 	var autoRefresh;
 	var startRefresh = function (Orders) {

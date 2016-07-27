@@ -1,13 +1,15 @@
 'use strict';
 
-app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'host', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
+app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'host', 'timeAgo', 'restCall', 'dashboardFactory', 'jobSearch', dashBoardController]);
 
-function dashBoardController($scope, $interval, $window, menus, host, timeAgo, restCall, dashboardFactory)  {
+function dashBoardController($scope, $interval, $window, menus, host, timeAgo, restCall, dashboardFactory, jobSearch)  {
 
 	var vm = $scope;	
 	vm.menus = menus;	
 	vm.autoRefreshState = true;
 	vm.jobPerPage = 10;
+
+	vm.jobTime = "all";
 
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
 
@@ -19,13 +21,6 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		$window.location.href = "#/order/create/new";
 	}
 
-	vm.jobPerPageChanged = function () {
-		vm.newOrders.perPageTotal = vm.jobPerPage;
-		vm.processingOrders.perPageTotal = vm.jobPerPage;
-		vm.completedOrders.perPageTotal = vm.jobPerPage;
-		vm.activate();
-	}
-
 	vm.AutoRefreshChanged = function () {
 		if (vm.autoRefreshState) {
 			dashboardFactory.startRefresh();
@@ -34,6 +29,14 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		}
 	}
 	vm.activate = function () {
+		vm.newOrders.perPageTotal = vm.jobPerPage;
+		vm.processingOrders.perPageTotal = vm.jobPerPage;
+		vm.completedOrders.perPageTotal = vm.jobPerPage;
+
+		vm.newOrders.jobTime = vm.jobTime;
+		vm.processingOrders.jobTime = vm.jobTime;
+		vm.completedOrders.jobTime = vm.jobTime;
+
 		vm.newOrders.loadOrders();
 		vm.processingOrders.loadOrders();
 		vm.completedOrders.loadOrders();
