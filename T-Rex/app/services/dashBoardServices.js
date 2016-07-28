@@ -1,4 +1,4 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', function($http, $window, $interval, timeAgo, restCall, host){
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', 'jobSearch', function($http, $window, $interval, timeAgo, restCall, host, jobSearch){
 
 	var jobListUrlMaker = function (state, envelope, page, pageSize) {
 		var path = "api/Job/odata?";
@@ -108,36 +108,46 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 		return {
 			orders: [], 
 			pagination: null,
-			perPageTotal: 0,
 			pages:[],
 			total: 0, 
 			isCompleted : '',
-			jobTime: '',			
-			state: jobState,
+			jobTime: function (jobTime) {				
+				this.searchParam.startDate = getDate(jobTime).startDate;
+				this.searchParam.endDate = getDate(jobTime).endDate;				
+			},
+			searchParam : {
+				startDate : null,
+				endDate: null,
+				UserName: null,
+				jobState: jobState,
+				orderby: {
+					property : "CreateTime",
+					orderbyCondition: "desc"
+				},
+				envelope: true,
+				page: 0,
+				pageSize: 10
+			},
 			loadOrders: function () {
 				this.isCompleted = 'IN_PROGRESS';
-				getDate(this.jobTime)
-				var pageUrl = jobListUrlMaker(jobState, true, 0, this.perPageTotal);				
+				var pageUrl = jobSearch.jobOdataQueryMaker(this.searchParam);
 				populateOrdersTable(this, pageUrl);
 			},
-			loadPage: function (pageNo) {			
-				var pageUrl = jobListUrlMaker(this.state, true, pageNo, this.perPageTotal);
-				console.log(pageNo);
-				console.log(pageUrl);
-				console.log(this);
-				populateOrdersTable(this, pageUrl);
+			loadPage: function (pageNo) {	
+				this.searchParam.pageNo = pageNo;		
+				this.loadOrders();
 			},
 			loadPrevPage: function () {
 				console.log(this);
 				console.log(this.pagination.PrevPage);
-				if (prevPageUrl) {
+				if (this.pagination.PrevPage) {
 					populateOrdersTable(this, this.pagination.PrevPage);
 				}
 			},
 			loadNextPage: function () {
 				console.log(this);
 				console.log(this.pagination.NextPage);
-				if (nextPageUrl) {
+				if (this.pagination.NextPage) {
 					populateOrdersTable(this, this.pagination.NextPage);			
 				}
 			}
@@ -148,24 +158,30 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 		var thisDate = new Date().getDate();
 		var thisMonth = new Date().getMonth();
 		var thisYear = new Date().getFullYear();
-						
+		var dates = {
+			startDate: null,
+			endDate: null
+		}	
 
 		if (day == 'today') {			
-			var toDay = new Date(thisYear, thisMonth, thisDate + 1).toISOString();			
-			var nextDay = new Date(thisYear, thisMonth, thisDate + 2).toISOString();						
-			return {
-				day1: toDay,
-				day2: nextDay
-			}
+			//FIXME:
+			//not sure why there is T18 in ex: 2016-07-28T18:00:00.000Z ISO time string,
+			//untill i find out, using this blant hack
+
+			// dates.startDate = new Date(thisYear, thisMonth, thisDate + 1,0,0,0,0).toISOString();			
+			// dates.endDate = new Date(thisYear, thisMonth, thisDate + 2,0,0,0,0).toISOString();
+
+			dates.startDate = thisYear+"-0"+(thisMonth+1)+"-"+thisDate+"T00:00:00.000Z";
+			dates.endDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+1)+"T00:00:00.000Z";
 		} else if (day == 'nextday') {
-			var nextDay = new Date(thisYear, thisMonth, thisDate + 2).toISOString();			
-			var nextnextDay = new Date(thisYear, thisMonth, thisDate + 3).toISOString();						
-			return {
-				day1: nextDay,
-				day2: nextnextDay
-			}
+			// dates.startDate = new Date(thisYear, thisMonth, thisDate + 2,0,0,0,0).toISOString();			
+			// dates.endDate = new Date(thisYear, thisMonth, thisDate + 3,0,0,0,0).toISOString();
+			dates.startDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+1)+"T00:00:00.000Z";
+			dates.endDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+2)+"T00:00:00.000Z";
 		}
-		else return;
+		console.log(day)
+		console.log(dates)
+		return dates;
 	}
 
 	var autoRefresh;

@@ -29,13 +29,14 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		}
 	}
 	vm.activate = function () {
-		vm.newOrders.perPageTotal = vm.jobPerPage;
-		vm.processingOrders.perPageTotal = vm.jobPerPage;
-		vm.completedOrders.perPageTotal = vm.jobPerPage;
 
-		vm.newOrders.jobTime = vm.jobTime;
-		vm.processingOrders.jobTime = vm.jobTime;
-		vm.completedOrders.jobTime = vm.jobTime;
+		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
+
+		vm.newOrders.jobTime(vm.jobTime);
+		vm.processingOrders.jobTime(vm.jobTime);
+		vm.completedOrders.jobTime(vm.jobTime);
 
 		vm.newOrders.loadOrders();
 		vm.processingOrders.loadOrders();

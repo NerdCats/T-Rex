@@ -2,20 +2,24 @@ app.factory('jobSearch', ['restCall', 'host', jobSearchService])
 
 function jobSearchService(restCall, host){
 	
-	var Search = function (searchParam) {
+	var jobOdataQueryMaker = function (searchParam) {
 		searchUrl = host + "api/Job/";
 		var allreadyAParamIsThere = false;
-
-		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != "") {
+		console.log(searchParam)
+		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null
+			|| searchParam.orderby.property != null) {
 			searchUrl += "odata?$filter=";
 		} else {
-			searchUrl += "?page=0&envelope=true";
+			searchUrl += "?page="+ searchParam.page + 
+						 "&pageSize="+ searchParam.pageSize +
+						 "&envelope="+ searchParam.envelope;
 		}
+
+		
 		
 		if (searchParam.startDate != null) {
-			var startDateParam = "CreateTime gt datetime'"+ searchParam.startDate.toISOString() +"'";
+			var startDateParam = "CreateTime gt datetime'"+ searchParam.startDate +"'";
 			if (!allreadyAParamIsThere) {
-				console.log("found")
 				searchUrl +=  startDateParam;
 				allreadyAParamIsThere = true;
 			} else {
@@ -23,7 +27,7 @@ function jobSearchService(restCall, host){
 			}
 		}
 		if (searchParam.endDate != null) {
-			var endDateParam = "CreateTime lt datetime'"+ searchParam.endDate.toISOString() +"'";
+			var endDateParam = "CreateTime lt datetime'"+ searchParam.endDate +"'";
 			if (!allreadyAParamIsThere) {
 				searchUrl +=  endDateParam;
 				allreadyAParamIsThere = true;
@@ -50,11 +54,28 @@ function jobSearchService(restCall, host){
 				searchUrl += " and " + jobStateParam;
 			}
 		}
+
+		if (searchParam.orderby.property != null) {
+			var orderbyParam = "$orderby=" + searchParam.orderby.property;
+			if (searchParam.orderby.orderbyCondition != null) {
+				orderbyParam += " " + searchParam.orderby.orderbyCondition;
+			} else {
+				orderbyParam += " desc";
+			}
+
+			if (!allreadyAParamIsThere) {
+				searchUrl += orderbyParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += "&" + orderbyParam;
+			}
+		}
+
 		console.log(searchUrl);
 		return searchUrl;
 	}
 
 	return {
-		Search: Search
+		jobOdataQueryMaker: jobOdataQueryMaker
 	}
 }
