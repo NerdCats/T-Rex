@@ -34,7 +34,7 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 						return State(value.State);	
 					},
 					PickUpState: function () {
-						return State(value.Tasks[1].State);	
+						return State(value.Tasks[1].State);
 					},
 					DeliveryState: function () {
 						return State(value.Tasks[2].State);	
