@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$window',  'host', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$http', '$window',  'host', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
 
-function createOrderController($scope, $window, host, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
+function createOrderController($scope, $http, $window, host, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
 
 	var vm = $scope;
 
@@ -127,6 +127,51 @@ function createOrderController($scope, $window, host, UrlPath, restCall, $rootSc
 	// mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
 
+
+
+	vm.loadUserNames = function loadUserNames(){
+		function successCallback(response) {
+			vm.userNames = response.data.data;
+			console.log(vm.userNames)
+		}
+		function errorCallback(error) {
+			console.log(error);
+		}
+		var query = vm.selectedUser;
+		console.log(query)
+
+		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+		console.log(getUsersUrl)
+		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
+		console.log("loadUserNames")		
+	};
+
+	vm.onSelectUser = function ($item, $model, $label, $event) {
+		console.log($item);
+		vm.order.UserId = $item.Id;
+	}
+	
+	function createNewOrder() {
+		// TODO: This is the code for showing a Toast when you dont have coordinates
+		// Would move this to a service someday
+		console.log(vm.selectedUser)
+		console.log(vm.order);
+		// If you have a coordinates of both From and To, then it creates an order
+		// vm.ordersIsBeingCreated = true;
+		// // orderFactory.createNewOrder(vm.order, vm.ordersIsBeingCreated);
+		// var successCallback = function (response) {
+		// 	console.log("success : ");
+		// 	vm.ordersIsBeingCreated = false;
+		// 	if (vm.isPutOrder) {
+		// 		alert("order successfully updated!");
+		// 		$window.location.href = '#/job/' + vm.HRID;
+		// 	} else {
+		// 		alert("order successfully updated!");
+		// 		$window.location.href = '#/job/' + response.data.HRID;
+		// 	}
+			
+		};
+	
 	// loadPaymentMethods();
 
 	// vm.AddItem = AddItem;
@@ -206,20 +251,7 @@ function createOrderController($scope, $window, host, UrlPath, restCall, $rootSc
 	// 	return results;
 	// }
 
-	// function loadUserNames(query){
-	// 	function successCallback(response) {
-	// 		vm.autocompleteUserNames = response.data.data;
-	// 		console.log(vm.autocompleteUserNames)
-	// 	}
-	// 	function errorCallback(error) {
-	// 		console.log(error);
-	// 	}
-
-	// 	var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
-	// 	console.log(getUsersUrl)
-	// 	restCall('GET', getUsersUrl, null, successCallback, errorCallback)
-	// 	console.log("loadUserNames")
-	// };
+	
 
 	// function loadPaymentMethods() {
 	// 	// function successCallback(response) {
@@ -245,25 +277,7 @@ function createOrderController($scope, $window, host, UrlPath, restCall, $rootSc
 	// 	};
 	// }
 
-	function createNewOrder() {
-		// TODO: This is the code for showing a Toast when you dont have coordinates
-		// Would move this to a service someday
-		console.log(vm.order);
-		// If you have a coordinates of both From and To, then it creates an order
-		// vm.ordersIsBeingCreated = true;
-		// // orderFactory.createNewOrder(vm.order, vm.ordersIsBeingCreated);
-		// var successCallback = function (response) {
-		// 	console.log("success : ");
-		// 	vm.ordersIsBeingCreated = false;
-		// 	if (vm.isPutOrder) {
-		// 		alert("order successfully updated!");
-		// 		$window.location.href = '#/job/' + vm.HRID;
-		// 	} else {
-		// 		alert("order successfully updated!");
-		// 		$window.location.href = '#/job/' + response.data.HRID;
-		// 	}
-			
-		};
+	
 
 	// 	var errorCallback = function error(error) {
 	// 		console.log("error : ");

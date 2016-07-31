@@ -26,10 +26,23 @@
 
             <!-- Text input-->
             <div class="form-group">
-              <label class="control-label col-md-2" for="">User Name</label>
-              <div class="col-md-6">
-                <input name="username" type="text" placeholder="ex. ZuumZuum" class="form-control"  ng-required>
-              </div>
+                <label class="control-label col-md-2" for="">User Name</label>
+                <div class="col-md-6">
+                     <input type="text" 
+                         ng-model="selectedUser"
+                         placeholder="Locations loaded via $http"
+                         ng-change="loadUserNames()"
+                         uib-typeahead="user.UserName for user in userNames"
+                         typeahead-loading="loadingLocations" 
+                         typeahead-no-results="noResults"
+                         typeahead-wait-ms=100
+                         typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+                         class="form-control">
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+                </div>
             </div>
 
 
