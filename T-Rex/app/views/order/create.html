@@ -1,15 +1,13 @@
-<div class="container">
+<div ng-show="OrderIsLoading" ng-include="'../../content/component/sk-cube/sk-cube.html'"></div>
 
-    <div class="alert alert-danger" role="alert">
+<div ng-show="!OrderIsLoading" class="container">
+    <div ng-show="OrderFailed" class="alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">Error:</span>
-        Enter a valid email address
+        {{errorMsg}}
     </div>
-    <div class="alert alert-success" role="alert">
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        <span class="sr-only">Error:</span>
-        Enter a valid email address
-    </div>
+
+
     <ng-form class="form-horizontal mt-100" name="orderCreationForm" in>
         <fieldset>
             <!-- Form Name -->
@@ -36,7 +34,7 @@
             </div>
 
             <!-- Text input-->
-            <div class="form-group">
+            <div class="form-group" ng-hide="isPutOrder">
                 <label class="control-label col-md-2" for="">User Name</label>
                 <div class="col-md-6">
                      <input type="text" 
@@ -48,7 +46,7 @@
                          typeahead-no-results="noResults"
                          typeahead-wait-ms=100
                          typeahead-on-select="onSelectUser($item, $model, $label, $event)"
-                         class="form-control" required>
+                         class="form-control">
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -62,7 +60,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Pickup Address</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.From.Address" required></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.From.AddressLine1" required></textarea>
               </div>              
             </div>
 
@@ -87,7 +85,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Delivery Address</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.To.Address" required></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.To.AddressLine1" required></textarea>
               </div>
             </div>
 
@@ -114,7 +112,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Order Location</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.OrderLocation.Address"></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.OrderLocation.AddressLine1"></textarea>
               </div>
             </div>
 
@@ -173,8 +171,8 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Payment Method</label>
               <div class="col-md-6">
-                <select id="" name="" class="form-control" ng-model="order.PaymentMethod" required>
-                  <option>CashOnDelivery</option>
+                <select id="" name="" class="form-control" ng-model="order.PaymentMethod" ng-repeat="payment in PaymentMethod" required>
+                  <option>{{payment}}</option>
                 </select>
               </div>
             </div>
@@ -236,7 +234,10 @@
                     </button>
                 </div>
             </div>            
-            <button class="btn btn-primary pull-right" ng-disabled="orderCreationForm.$invalid" ng-click="createNewOrder()">Create Order</button>
+            <button class="btn btn-primary pull-right" ng-disabled="orderCreationForm.$invalid" ng-click="createNewOrder()">
+                <span ng-show="OrderInProgress" class="fa fa-refresh fa-spin"></span>            
+                <span ng-show="!OrderInProgress">{{buttonText}}</span>
+            </button>
         </fieldset>
 
     </ng-form>

@@ -69,12 +69,14 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	vm.placesResults = [];
 
 	vm.SelectedTo = "";
-	vm.SelectedTo = "";
+	
+  	vm.OrderIsLoading = false;
+  	vm.OrderInProgress = false;
+  	vm.OrderFailed = false;
 
-	vm.isOrderSelected = true;
-	vm.RideOrderSelected = false;
-	vm.DeliveryOrderSelected = true;
-	vm.ordersIsBeingCreated = false;
+  	vm.buttonText = "Create Order";
+
+
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
 
@@ -93,33 +95,28 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		vm.order = orderFactory.newOrder;
 	} else {		
 		var jobUrl = host + "/api/job/" + vm.id;
+		vm.OrderIsLoading = true;
+		vm.buttonText = "Update"
 		var successCallback = function(response){
-
 			vm.order = response.data.Order;
 			vm.jobId = response.data.Id;
 			vm.HRID = response.data.HRID;
-			vm.isPutOrder = true;			
+			vm.isPutOrder = true;
+			vm.OrderIsLoading = false;
+
 			console.log(vm.order);
-			// $scope.$apply();
 		}
 		var errorCallback = function(responese){
 			console.log(responese);
+			vm.OrderIsLoading = false;
+			vm.OrderFailed = true;
 			alert("No Job Found!!!");
 		}
 		restCall("GET", jobUrl, null, successCallback, errorCallback);
 	}
 
 
-
- 
-
-	// vm.CreateNewUser = CreateNewUser;
-	// vm.searchTextChange = searchTextChange;
-	// vm.selectedItemChange = selectedItemChange;
-	// vm.querySearch = querySearch;
-
 	vm.createNewOrder = createNewOrder;
-	// vm.orderTypeSelected = orderTypeSelected;
 
 	vm.currentMarkerLocation = {lat:0,lng:0};
 	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
@@ -151,20 +148,88 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 
 
 	
-	function createNewOrder() {	
-		vm.order.JobTaskETAPreference[0].ETA = new Date(vm.order.JobTaskETAPreference[0].ETA).toISOString();
-		vm.order.JobTaskETAPreference[1].ETA = new Date(vm.order.JobTaskETAPreference[1].ETA).toISOString();
-		console.log(vm.selectedUser)
-		console.log(vm.order);			
+	function createNewOrder() {
+		console.log(vm.order.JobTaskETAPreference)
+
+		if (vm.order.JobTaskETAPreference && vm.order.JobTaskETAPreference[0].ETA) {
+			vm.order.JobTaskETAPreference[0].ETA = new Date(vm.order.JobTaskETAPreference[0].ETA).toISOString();			
+		}
+		if (vm.order.JobTaskETAPreference && vm.order.JobTaskETAPreference[1].ETA) {
+			vm.order.JobTaskETAPreference[1].ETA = new Date(vm.order.JobTaskETAPreference[1].ETA).toISOString();			
+		}
+		if (vm.order.ETA) {
+			vm.order.ETA = new Date(vm.order.ETA).toISOString();			
+		}
+		if (!vm.order.OrderLocation.AddressLine1 === "") {
+			vm.order.OrderLocation = null;
+		}
+		
+		console.log(vm.order);
+		vm.OrderInProgress = true;
+		vm.OrderFailed = false;
+		var successCallback = function (response){
+			vm.OrderInProgress = false;
+			$window.href = "#/job/" + response.data.HRID;
+		}
+
+		var errorCallback = function error(error) {
+			vm.OrderFailed = true;
+			vm.OrderInProgress = false;
+
+			console.log("error : ");
+			console.log(error);
+			vm.ordersIsBeingCreated = false;
+
+			vm.errorMsg = error.data.Message || "Server error";
+			var i = 0;
+	        if (error.data.ModelState) {
+	            errorMsg += "\n";
+	            if (error.data.ModelState["model.From.AddressLine1"]) {
+	                var err = error.data.ModelState["model.From.AddressLine1"][0];
+	                errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
+	            }
+	            if (error.data.ModelState["model.To.AddressLine1"]) {
+	                var err = error.data.ModelState["model.To.AddressLine1"][0];
+	                errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Item"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Item"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Quantity"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Quantity"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Weight"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Weight"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.PaymentMethod"]) {
+	                var err = error.data.ModelState["model.PaymentMethod"][0];
+	                errorMsg += ++i + ". " + err + "\n";
+	            }
+	        }
+	        
+		};
+		if (vm.isPutOrder) {
+			var requestMethod = "PUT";
+			var orderUrl = host + "api/job/"+ vm.jobId +"/order";
+			console.log(vm.jobId);
+			vm.order.OrderCart.TotalVATAmount = 0;
+			vm.order.OrderCart.SubTotal = 0;
+			vm.order.OrderCart.TotalToPay = 0;			
+			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
+		} else {			
+			var requestMethod = "POST";
+			var orderUrl = host + "api/Order/";
+			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
+		}
 	};
 	
-	// loadPaymentMethods();
+	loadPaymentMethods();
 
 	vm.AddItem = AddItem;
 	vm.RemoveItem = RemoveItem;
-
-	// vm.itemChange = itemChange;
-
 
 	function AddItem() {
 		var newItem = {
@@ -188,143 +253,32 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		$scope.$apply();
 	}
 
-	// function itemChange(index) {
-	// 	var item = vm.order.OrderCart.PackageList[index];
-	// 	item.Total = Math.round(item.Quantity * item.Price);
-	// 	item.VATAmount = Math.round(item.Quantity*item.Price*(1 + item.VAT / 100) - item.Quantity*item.Price);
-	// 	item.TotalPlusVAT = Math.round(item.Quantity*item.Price*(1 + item.VAT / 100));
-
-	// 	vm.order.OrderCart.SubTotal = 0;
-	// 	vm.order.OrderCart.TotalVATAmount = 0;
-	// 	vm.order.OrderCart.TotalWeight = 0;
-	// 	vm.order.OrderCart.TotalToPay = 0;
-
-	// 	angular.forEach(vm.order.OrderCart.PackageList, function (value, key) {
-	// 		vm.order.OrderCart.SubTotal += value.Total;
-	// 		vm.order.OrderCart.TotalVATAmount += value.VATAmount;
-	// 		vm.order.OrderCart.TotalWeight += value.Weight;
-	// 		vm.order.OrderCart.TotalToPay += value.TotalPlusVAT;
-	// 	});
-
-	// 	// vm.order.OrderCart.TotalToPay += vm.order.OrderCart.ServiceCharge;
-	// 	vm.order.OrderCart.TotalToPay = 0;
-
-	// }
-
-
-
-	// function CreateNewUser() {
-	// 	$window.location.href = '#/asset/create';
-	// }
-
-	// function searchTextChange(item) {
-	// 	// vm.order.UserId = item.Id;
-	// 	console.log(vm.selectedItem);
-	// 	console.log(item);
-	// }
-
-	// function selectedItemChange(item) {
-	// 	// console.log("Item changed to " + item.UserName);
-	// 	// console.log("selectedItem : ")
-	// 	console.log(vm.selectedItem)
-	// 	console.log(item);
-	// 	vm.order.UserId = item.Id;
-	// 	console.log(vm.order.UserId);
-	// }
-
- 
 
 	
 
-	// function loadPaymentMethods() {
-	// 	// function successCallback(response) {
-	// 	// 	var paymentMethod = response.data;
-	// 	// 	angular.forEach(paymentMethod, function (value, key) {
-	// 	// 		 vm.PaymentMethod.push(value.Key);
-	// 	// 	})
+	function loadPaymentMethods() {
+		// function successCallback(response) {
+		// 	var paymentMethod = response.data;
+		// 	angular.forEach(paymentMethod, function (value, key) {
+		// 		 vm.PaymentMethod.push(value.Key);
+		// 	})
 
-	// 	// 	console.log(vm.PaymentMethod)
-	// 	// }
-	// 	// function errorCallback(error) {
-	// 	// 	console.log(error);
-	// 	// }
-	// 	// restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)
-	// 	vm.PaymentMethod.push("CashOnDelivery");
-	// };
+		// 	console.log(vm.PaymentMethod)
+		// }
+		// function errorCallback(error) {
+		// 	console.log(error);
+		// }
+		// restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)
+		vm.PaymentMethod.push("CashOnDelivery");
+	};
 
 
  
 	
 
-	// 	var errorCallback = function error(error) {
-	// 		console.log("error : ");
-	// 		console.log(error);
-	// 		vm.ordersIsBeingCreated = false;
 
-	// 		var errorMsg = error.data.Message || "Server error";
-	// 		var i = 0;
-	//         if (error.data.ModelState) {
-	//             errorMsg += "\n";
-	//             if (error.data.ModelState["model.From.AddressLine1"]) {
-	//                 var err = error.data.ModelState["model.From.AddressLine1"][0];
-	//                 errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
-	//             }
-	//             if (error.data.ModelState["model.To.AddressLine1"]) {
-	//                 var err = error.data.ModelState["model.To.AddressLine1"][0];
-	//                 errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
-	//             }
-	//             if (error.data.ModelState["model.OrderCart.PackageList[0].Item"]) {
-	//                 var err = error.data.ModelState["model.OrderCart.PackageList[0].Item"][0];
-	//                 errorMsg += ++i + ". " + err + "\n";
-	//             }
-	//             if (error.data.ModelState["model.OrderCart.PackageList[0].Quantity"]) {
-	//                 var err = error.data.ModelState["model.OrderCart.PackageList[0].Quantity"][0];
-	//                 errorMsg += ++i + ". " + err + "\n";
-	//             }
-	//             if (error.data.ModelState["model.OrderCart.PackageList[0].Weight"]) {
-	//                 var err = error.data.ModelState["model.OrderCart.PackageList[0].Weight"][0];
-	//                 errorMsg += ++i + ". " + err + "\n";
-	//             }
-	//             if (error.data.ModelState["model.PaymentMethod"]) {
-	//                 var err = error.data.ModelState["model.PaymentMethod"][0];
-	//                 errorMsg += ++i + ". " + err + "\n";
-	//             }
-	//         }
-	//         alert(errorMsg);
-	// 	};
 
-	// 	if (vm.isPutOrder) {
-	// 		var requestMethod = "PUT";
-	// 		var orderUrl = host + "api/job/"+ vm.jobId +"/order";
-	// 		console.log(vm.jobId);
-	// 		vm.order.OrderCart.TotalVATAmount = 0,
-	// 		vm.order.OrderCart.SubTotal = 0,
-	// 		vm.order.OrderCart.TotalToPay = 0
-	// 		console.log(vm.order);
-	// 		restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
-	// 	} else {
-	// 		var requestMethod = "POST";
-	// 		var orderUrl = host + "api/Order/";
-	// 		restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
-	// 	}
-	// }
-
-	// function orderTypeSelected(type) {
-	// 	vm.isOrderSelected = true;
-	// 	if (type == "Ride") {
-	// 		vm.RideOrderSelected = true;
-	// 		vm.DeliveryOrderSelected = false;
-
-	// 		vm.FromLabel = "User's Location";
-	// 		vm.ToLabel = "User's Destination";
-	// 	} else if ("Delivery") {
-	// 		vm.RideOrderSelected = false;
-	// 		vm.DeliveryOrderSelected = true;
-
-	// 		vm.FromLabel = "Pick Up Location";
-	// 		vm.ToLabel = "Delivery Location";
-	// 	}
-	// };
+ 
 
 	function getCurrentMarkerLocationCallback(lat, lng) {
 		vm.currentMarkerLocation.lat = lat;
