@@ -123,10 +123,8 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 
 	vm.currentMarkerLocation = {lat:0,lng:0};
 	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
-	// vm.searchAddress = searchAddress;
-	// mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
-
-
+	vm.searchAddress = searchAddress;
+	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
 
 	vm.loadUserNames = function loadUserNames(){
@@ -154,6 +152,9 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	function createNewOrder() {
 		// TODO: This is the code for showing a Toast when you dont have coordinates
 		// Would move this to a service someday
+		
+		vm.order.JobTaskETAPreference[0].ETA = new Date(vm.order.JobTaskETAPreference[0].ETA).toISOString();
+		vm.order.JobTaskETAPreference[1].ETA = new Date(vm.order.JobTaskETAPreference[1].ETA).toISOString();
 		console.log(vm.selectedUser)
 		console.log(vm.order);
 		// If you have a coordinates of both From and To, then it creates an order
@@ -349,46 +350,46 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	// 	}
 	// };
 
-	// function getCurrentMarkerLocationCallback(lat, lng) {
-	// 	vm.currentMarkerLocation.lat = lat;
-	// 	vm.currentMarkerLocation.lng = lng;
-	// 	console.log(lat + " " + lng)
-	// }
+	function getCurrentMarkerLocationCallback(lat, lng) {
+		vm.currentMarkerLocation.lat = lat;
+		vm.currentMarkerLocation.lng = lng;
+		console.log(lat + " " + lng)
+	}
 
 	// // You should initialize the search box after creating the map, right?
-	// function searchAddress() {
-	// 	// mapFactory.searchBox(vm.toSearchText, getCurrentMarkerLocationCallback);
-	// };
+	function searchAddress() {
+		mapFactory.searchBox(vm.toSearchText, getCurrentMarkerLocationCallback);
+	};
 
 
-	// function setFromLocationCallback(lat, lng) {
-	// 	console.log(lat + " " + lng)
-	// 	vm.currentMarkerLocation.lat = lat;
-	// 	vm.currentMarkerLocation.lng = lng;
+	function setFromLocationCallback(lat, lng) {
+		console.log(lat + " " + lng)
+		vm.currentMarkerLocation.lat = lat;
+		vm.currentMarkerLocation.lng = lng;
 
-	// 	vm.order.From.Point.coordinates = [];
-	// 	vm.order.From.Point.coordinates.push(lng);
-	// 	vm.order.From.Point.coordinates.push(lat);
+		vm.order.From.Point.coordinates = [];
+		vm.order.From.Point.coordinates.push(lng);
+		vm.order.From.Point.coordinates.push(lat);
 
-	// 	// mapFactory.getAddress(lat, lng, function (address, latLng) {
-	// 	// 	vm.order.From.AddressLine1 = address;
-	// 	// });
+		// mapFactory.getAddress(lat, lng, function (address, latLng) {
+		// 	vm.order.From.AddressLine1 = address;
+		// });
 
-	// 	$scope.$apply();
-	// }
+		$scope.$apply();
+	}
 
-	// function setToLocationCallback(lat, lng) {
-	// 	console.log(lat + " " + lng)
-	// 	vm.currentMarkerLocation.lat = lat;
-	// 	vm.currentMarkerLocation.lng = lng;
+	function setToLocationCallback(lat, lng) {
+		console.log(lat + " " + lng)
+		vm.currentMarkerLocation.lat = lat;
+		vm.currentMarkerLocation.lng = lng;
 
-	// 	vm.order.To.Point.coordinates = [];
-	// 	vm.order.To.Point.coordinates.push(lng);
-	// 	vm.order.To.Point.coordinates.push(lat);
+		vm.order.To.Point.coordinates = [];
+		vm.order.To.Point.coordinates.push(lng);
+		vm.order.To.Point.coordinates.push(lat);
 
-	// 	// mapFactory.getAddress(lat, lng, function (address, latLng) {
-	// 	// 	vm.order.To.AddressLine1 = address;
-	// 	// });
-	// 	$scope.$apply();
-	// }
+		// mapFactory.getAddress(lat, lng, function (address, latLng) {
+		// 	vm.order.To.AddressLine1 = address;
+		// });
+		$scope.$apply();
+	}
 };

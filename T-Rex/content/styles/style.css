@@ -52,3 +52,34 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 #orderCreateMap {
     height: 400px;    
 }
+
+
+.overlay {
+    display: block;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    line-height: 30px;
+    opacity: 0.8;
+    background: #4477aa;
+    border: solid 3px #336699;
+    border-radius: 4px;
+    box-shadow: 2px 2px 10px #333;
+    text-shadow: 1px 1px 1px #666;
+    padding: 0 4px;
+}
+
+.overlay_arrow.above {
+    bottom: -15px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 16px solid #336699;
+}
+
+.overlay_arrow {
+    left: 50%;
+    margin-left: -16px;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
