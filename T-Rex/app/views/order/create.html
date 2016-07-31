@@ -1,5 +1,5 @@
 <div class="container">
-    <form class="form-horizontal" name="orderCreationForm">
+    <ng-form class="form-horizontal mt-50" name="orderCreationForm" >
         <fieldset>
             <!-- Form Name -->
             <legend>Create Order</legend>
@@ -8,7 +8,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Order Name</label>
               <div class="col-md-6">
-                <input type="text" placeholder="ex: delivery order for Mr. X" class="form-control">                
+                <input type="text" placeholder="ex: delivery order for Mr. X" class="form-control" ng-model="order.Name" required>                
               </div>
             </div>
 
@@ -16,7 +16,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Delivery Type</label>
               <div class="col-md-6">
-                <select id="" name="" class="form-control">
+                <select id="" name="" class="form-control" ng-model="order.Type">
                   <option>Delivery</option>
                   <option>Ride</option>
                   <option>ClassifiedDelivery</option>
@@ -28,7 +28,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">User Name</label>
               <div class="col-md-6">
-                <input name="username" type="text" placeholder="ex. ZuumZuum" class="form-control" ng-class="{'ng-invalid' : orderCreationForm.username.$invalid}" required>
+                <input name="username" type="text" placeholder="ex. ZuumZuum" class="form-control"  ng-required>
               </div>
             </div>
 
@@ -38,7 +38,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Pickup Address</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.From.Address"></textarea>
               </div>              
             </div>
 
@@ -50,7 +50,9 @@
                                datetimepicker
                                datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
                                 placeholder="..."
-                                name="time"/>
+                                name="time"
+                                ng-model="order.JobTaskETAPreference[0].ETA"
+                                />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -62,7 +64,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Delivery Address</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.To.Address"></textarea>
               </div>
             </div>
 
@@ -74,7 +76,8 @@
                                datetimepicker
                                datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
                                 placeholder="..."
-                                name="time"/>
+                                name="time"
+                                ng-model="order.JobTaskETAPreference[1].ETA"/>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -88,7 +91,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Order Location</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.OrderLocation.Address"></textarea>
               </div>
             </div>
 
@@ -96,10 +99,17 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">ETA</label>
               <div class="col-md-6">
-                <select id="" name="" class="form-control">
-                  <option>Same Day</option>
-                  <option>Next Day</option>
-                </select>
+                <div class='input-group date'>
+                    <input type='text' class="form-control" class="form-control input-sm"
+                           datetimepicker
+                           datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+                            placeholder="..."
+                            name="time"
+                            ng-model="order.ETA"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
               </div>
             </div>
 
@@ -107,8 +117,14 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">ETA in Minute</label>
               <div class="col-md-6">
-                <input id="" name="" type="number" placeholder="30" class="form-control">                
+                <input id="" name="" type="number" placeholder="30" class="form-control" ng-model="order.ETA">
               </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Select Location On Map</label>
+                <div id="orderCreateMap" class="col-md-10"></div>
             </div>
 
 
@@ -117,7 +133,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Payment Method</label>
               <div class="col-md-6">
-                <select id="" name="" class="form-control">
+                <select id="" name="" class="form-control" ng-model="order.PaymentMethod">
                   <option>CashOnDelivery</option>
                 </select>
               </div>
@@ -128,8 +144,8 @@
               <label class="control-label col-md-2" for="">Required Change For</label>
               <div class="col-md-6">
                 <div class="input-group ">
-                    <input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT">
-                    <span class="input-group-addon" id="BDT">BDT</span>                    
+                    <input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.RequiredChangeFor">
+                    <span class="input-group-addon" id="BDT">BDT</span>
                 </div>
               </div>
             </div>
@@ -139,7 +155,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Package Description</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.Description"></textarea>
               </div>
             </div>
 
@@ -147,24 +163,24 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Note to Delivery Man</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" ng-model="order.NoteToDeliveryMan"></textarea>
               </div>
             </div>
 
             <legend>Order Cart</legend>
-            <div class="form-group">
-                <label class="control-label col-md-1">Item 1</label>
+            <div class="form-group" ng-repeat="item in order.OrderCart.PackageList track by $index">
+                <label class="control-label col-md-1">Item {{$index}}</label>
                 <div class="col-md-3">
-                    <textarea class="form-control" rows="1" type="text" placeholder="Item Name"></textarea>
+                    <textarea class="form-control" rows="1" type="text" placeholder="Item Name" ng-model="item.Item"></textarea>
                 </div>                
                 <div class="col-md-2">
-                    <input class="form-control" type="number" placeholder="Quantity">
+                    <input class="form-control" type="number" placeholder="Quantity" ng-model="item.Quantity">
                 </div>
                 <div class="col-md-2">
-                    <input class="form-control" type="number" placeholder="Unit Price">
+                    <input class="form-control" type="number" placeholder="Unit Price" ng-model="item.Price">
                 </div>
                 <div class="col-md-2">
-                    <input class="form-control" type="number" placeholder="Weight">
+                    <input class="form-control" type="number" placeholder="Weight" ng-model="item.Weight">
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-default">
@@ -175,7 +191,9 @@
                     </button>
                 </div>
             </div>            
+            <button class="btn btn-primary pull-right" ng-click="createNewOrder()">Create Order</button>
         </fieldset>
-    </form>
+
+    </ng-form>
 
 </div>
