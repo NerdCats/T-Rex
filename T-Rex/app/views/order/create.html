@@ -1,9 +1,8 @@
 <div class="container">
     <form class="form-horizontal" name="orderCreationForm">
         <fieldset>
-
             <!-- Form Name -->
-            <legend>Form Name</legend>
+            <legend>Create Order</legend>
 
             <!-- Text input-->
             <div class="form-group">
@@ -33,12 +32,30 @@
               </div>
             </div>
 
+
+            <legend>Addresses and ETA</legend>
             <!-- Textarea -->
             <div class="form-group">
               <label class="control-label col-md-2" for="">Pickup Address</label>
               <div class="col-md-6">                     
                 <textarea class="form-control" rows="3"></textarea>
-              </div>
+              </div>              
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Pickup ETA</label>
+                <div class="col-md-6">
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" class="form-control input-sm"
+                               datetimepicker
+                               datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+                                placeholder="..."
+                                name="time"/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
 
             <!-- Textarea -->
@@ -48,6 +65,24 @@
                 <textarea class="form-control" rows="3"></textarea>
               </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Delivery ETA</label>
+                <div class="col-md-6">
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" class="form-control input-sm"
+                               datetimepicker
+                               datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+                                placeholder="..."
+                                name="time"/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>  
+
+
 
             <!-- Textarea -->
             <div class="form-group">
@@ -72,11 +107,12 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">ETA in Minute</label>
               <div class="col-md-6">
-                <input id="" name="" type="text" placeholder="30" class="form-control">
-                
+                <input id="" name="" type="number" placeholder="30" class="form-control">                
               </div>
             </div>
 
+
+            <legend>Other Infos</legend>
             <!-- Select Basic -->
             <div class="form-group">
               <label class="control-label col-md-2" for="">Payment Method</label>
@@ -87,6 +123,18 @@
               </div>
             </div>
 
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label col-md-2" for="">Required Change For</label>
+              <div class="col-md-6">
+                <div class="input-group ">
+                    <input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT">
+                    <span class="input-group-addon" id="BDT">BDT</span>                    
+                </div>
+              </div>
+            </div>
+
+
             <!-- Textarea -->
             <div class="form-group">
               <label class="control-label col-md-2" for="">Package Description</label>
@@ -95,6 +143,38 @@
               </div>
             </div>
 
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="control-label col-md-2" for="">Note to Delivery Man</label>
+              <div class="col-md-6">                     
+                <textarea class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+            <legend>Order Cart</legend>
+            <div class="form-group">
+                <label class="control-label col-md-1">Item 1</label>
+                <div class="col-md-3">
+                    <textarea class="form-control" rows="1" type="text" placeholder="Item Name"></textarea>
+                </div>                
+                <div class="col-md-2">
+                    <input class="form-control" type="number" placeholder="Quantity">
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" type="number" placeholder="Unit Price">
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" type="number" placeholder="Weight">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            </div>            
         </fieldset>
     </form>
 

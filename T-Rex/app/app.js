@@ -13,7 +13,8 @@ var app = angular.module('app', [
 	'angularFileUpload',
 	// 'mdPickers',
 	'ngclipboard',
-	'SignalR'
+	'SignalR',
+	'datetimepicker'
 ]);
 
 app.config(['$routeProvider',
@@ -107,6 +108,15 @@ app.config(['$routeProvider',
 
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}
+]);
+
+app.config([
+    'datetimepickerProvider',
+    function (datetimepickerProvider) {
+        datetimepickerProvider.setOptions({
+            locale: 'en'
+        });
+    }
 ]);
 
 // app.config(function($mdThemingProvider) {
