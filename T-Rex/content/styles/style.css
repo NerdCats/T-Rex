@@ -7,6 +7,9 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 .mt-50 {
     margin: 20px 0px;
 }
+.mt-100 {
+    margin: 100px 0px;
+}
 .mt-15-percent {
     margin-top: 15%;
 }

@@ -148,55 +148,45 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		console.log($item);
 		vm.order.UserId = $item.Id;
 	}
+
+
 	
-	function createNewOrder() {
-		// TODO: This is the code for showing a Toast when you dont have coordinates
-		// Would move this to a service someday
-		
+	function createNewOrder() {	
 		vm.order.JobTaskETAPreference[0].ETA = new Date(vm.order.JobTaskETAPreference[0].ETA).toISOString();
 		vm.order.JobTaskETAPreference[1].ETA = new Date(vm.order.JobTaskETAPreference[1].ETA).toISOString();
 		console.log(vm.selectedUser)
-		console.log(vm.order);
-		// If you have a coordinates of both From and To, then it creates an order
-		// vm.ordersIsBeingCreated = true;
-		// // orderFactory.createNewOrder(vm.order, vm.ordersIsBeingCreated);
-		// var successCallback = function (response) {
-		// 	console.log("success : ");
-		// 	vm.ordersIsBeingCreated = false;
-		// 	if (vm.isPutOrder) {
-		// 		alert("order successfully updated!");
-		// 		$window.location.href = '#/job/' + vm.HRID;
-		// 	} else {
-		// 		alert("order successfully updated!");
-		// 		$window.location.href = '#/job/' + response.data.HRID;
-		// 	}
-			
-		};
+		console.log(vm.order);			
+	};
 	
 	// loadPaymentMethods();
 
-	// vm.AddItem = AddItem;
-	// vm.RemoveItem = RemoveItem;
+	vm.AddItem = AddItem;
+	vm.RemoveItem = RemoveItem;
 
 	// vm.itemChange = itemChange;
 
 
-	// function AddItem() {
-	// 	var newItem = {
- //    		"Item": "",
-	// 		"Quantity": 0,
-	// 		"Price": 0,
-	// 		"VAT": 0,
-	// 		"Total": 0,
-	// 		"VATAmount": 0,
-	// 		"TotalPlusVAT": 0,
-	// 		"Weight": 0
- //    	};
+	function AddItem() {
+		var newItem = {
+    		"Item": "",
+			"Quantity": 0,
+			"Price": 0,
+			"VAT": 0,
+			"Total": 0,
+			"VATAmount": 0,
+			"TotalPlusVAT": 0,
+			"Weight": 0
+    	};
 
-	// 	vm.order.OrderCart.PackageList.push(newItem);
-	// 	$scope.$apply();
-	// }
+		vm.order.OrderCart.PackageList.push(newItem);
+		$scope.$apply();
+	}
 
+	function RemoveItem(itemIndex) {
+		console.log(itemIndex);
+		vm.order.OrderCart.PackageList.splice(itemIndex, 1);
+		$scope.$apply();
+	}
 
 	// function itemChange(index) {
 	// 	var item = vm.order.OrderCart.PackageList[index];
@@ -221,11 +211,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 
 	// }
 
-	// function RemoveItem(itemIndex) {
-	// 	console.log(itemIndex);
-	// 	vm.order.OrderCart.PackageList.splice(itemIndex, 1);
-	// 	$scope.$apply();
-	// }
+
 
 	// function CreateNewUser() {
 	// 	$window.location.href = '#/asset/create';
@@ -246,11 +232,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	// 	console.log(vm.order.UserId);
 	// }
 
-	// function querySearch(query) {
-	// 	loadUserNames(query);
-	// 	var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
-	// 	return results;
-	// }
+ 
 
 	
 
@@ -271,13 +253,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	// };
 
 
-	// function createFilterFor(query) {
-	// 	// var lowercaseQuery = angular.lowercase(query);
-	// 	return function filterFn(state) {
-	// 		return(state.UserName.indexOf(query) === 0)
-	// 	};
-	// }
-
+ 
 	
 
 	// 	var errorCallback = function error(error) {
@@ -356,11 +332,20 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		console.log(lat + " " + lng)
 	}
 
+	function getPlacesResultCallback(placesResults, status) {
+		vm.placesResults = placesResults;
+		console.log(vm.placesResults)
+	}
+
 	// // You should initialize the search box after creating the map, right?
 	function searchAddress() {
-		mapFactory.searchBox(vm.toSearchText, getCurrentMarkerLocationCallback);
+		mapFactory.searchBox(vm.toSearchText, getPlacesResultCallback);
 	};
 
+	vm.onSelectPlace = function ($item, $model, $label, $event) {
+		console.log($item)
+		mapFactory.setCenterByAddress($item.description, getCurrentMarkerLocationCallback);
+	}
 
 	function setFromLocationCallback(lat, lng) {
 		console.log(lat + " " + lng)
