@@ -8,8 +8,8 @@
     </div>
 
 
-    <ng-form class="form-horizontal mt-100" name="orderCreationForm" in>
-        <fieldset>
+    <ng-form class="form-horizontal" name="orderCreationForm">
+        <fieldset class="mb-100" ng-disabled="OrdersIsBeingCreated">
             <!-- Form Name -->
             <legend>Create Order</legend>
 
@@ -25,7 +25,7 @@
             <div class="form-group">
               <label class="control-label col-md-2" for="">Delivery Type</label>
               <div class="col-md-6">
-                <select id="" name="" class="form-control" ng-model="order.Type" required>
+                <select class="form-control" ng-model="order.Type" required>
                   <option>Delivery</option>
                   <option>Ride</option>
                   <option>ClassifiedDelivery</option>
@@ -39,15 +39,15 @@
                 <div class="col-md-6">
                      <input type="text" 
                          ng-model="selectedUser"
-                         placeholder="Locations loaded via $http"
+                         placeholder="Type user's name and select from the autocomplete"
                          ng-change="loadUserNames()"
                          uib-typeahead="user.UserName for user in userNames"
-                         typeahead-loading="loadingLocations" 
+                         typeahead-loading="UserNameIsLoading" 
                          typeahead-no-results="noResults"
                          typeahead-wait-ms=100
                          typeahead-on-select="onSelectUser($item, $model, $label, $event)"
                          class="form-control">
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                     </div>
@@ -56,6 +56,17 @@
 
 
             <legend>Addresses and ETA</legend>
+
+            <div class="form-group">
+              <label class="control-label col-md-2" for="">Pickup Area</label>
+              <div class="col-md-6">
+                <select class="form-control" ng-model="order.From.Locality">
+                  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
+                </select>
+              </div>
+            </div>
+
+
             <!-- Textarea -->
             <div class="form-group">
               <label class="control-label col-md-2" for="">Pickup Address</label>
@@ -73,12 +84,22 @@
                                 datetimepicker-options="{icons:{next:'glyphicon     glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
                                 placeholder="..."
                                 name="time"
-                                ng-model="order.JobTaskETAPreference[0].ETA"/>
+                                ng-model="PackagePickUp.ETA"/>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
+            </div>
+
+            <hr>
+            <div class="form-group">
+              <label class="control-label col-md-2" for="">Delivery Area</label>
+              <div class="col-md-6">
+                <select class="form-control" ng-model="order.To.Locality" >
+                  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
+                </select>
+              </div>
             </div>
 
             <!-- Textarea -->
@@ -98,14 +119,14 @@
                                datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
                                 placeholder="..."
                                 name="time"
-                                ng-model="order.JobTaskETAPreference[1].ETA"/>
+                                ng-model="Delivery.ETA"/>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
             </div>  
-
+            <hr>
 
 
             <!-- Textarea -->
@@ -114,7 +135,8 @@
               <div class="col-md-6">                     
                 <textarea class="form-control" rows="3" ng-model="order.OrderLocation.AddressLine1"></textarea>
               </div>
-            </div>
+            </div>  
+            <hr>
 
             <!-- Select Basic -->
             <div class="form-group">
@@ -215,15 +237,19 @@
                 <label class="control-label col-md-1">Item {{$index + 1}}</label>
                 <div class="col-md-3">
                     <textarea class="form-control" rows="1" type="text" placeholder="Item Name" ng-model="item.Item" required></textarea>
+                    <p class="help-block">Item Name</p>
                 </div>                
                 <div class="col-md-2">
                     <input class="form-control" type="number" placeholder="Quantity" ng-model="item.Quantity" required>
+                    <p class="help-block">Quantity</p>
                 </div>
                 <div class="col-md-2">
                     <input class="form-control" type="number" placeholder="Unit Price" ng-model="item.Price">
+                    <p class="help-block">Unit Price</p>
                 </div>
                 <div class="col-md-2">
                     <input class="form-control" type="number" placeholder="Weight" ng-model="item.Weight">
+                    <p class="help-block">Weight</p>
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-default" ng-click="AddItem()">
@@ -234,9 +260,9 @@
                     </button>
                 </div>
             </div>            
-            <button class="btn btn-primary pull-right" ng-disabled="orderCreationForm.$invalid" ng-click="createNewOrder()">
-                <span ng-show="OrderInProgress" class="fa fa-refresh fa-spin"></span>            
-                <span ng-show="!OrderInProgress">{{buttonText}}</span>
+            <button class="btn btn-primary pull-right col-md-2" ng-disabled="orderCreationForm.$invalid" ng-click="createNewOrder()">
+                <span ng-show="OrdersIsBeingCreated" class="fa fa-refresh fa-spin"></span>            
+                <span ng-show="!OrdersIsBeingCreated">{{buttonText}}</span>
             </button>
         </fieldset>
 

@@ -103,16 +103,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host
 					      TotalWeight: 0.0,
 					      TotalToPay: 0.0
 					    },
-					    JobTaskETAPreference: [
-						    {
-						      Type: "PackagePickUp",
-						      ETA: null
-						    },
-						    {
-						      Type: "Delivery",
-						      ETA: null
-						    }
-					  ]
+					    JobTaskETAPreference: []
 					};	
 
 	return {		

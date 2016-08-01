@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$http', '$window',  'host', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$http', '$window', 'host', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
 
 function createOrderController($scope, $http, $window, host, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
 
@@ -8,7 +8,8 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 
 	vm.OrderType = ["Delivery"];
 	vm.VehiclePreference = ["CNG","SEDAN"];
-	vm.LocalAreas = ['Bailey Road',
+	vm.LocalAreas = ['',
+					'Bailey Road',
 		            'Banani',
 		            'Banani DOHS',
 		            'Baridhara',
@@ -64,6 +65,15 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		            'Uttara',
 		            'Wari'];
 
+	vm.PackagePickUp = {
+		Type: "PackagePickUp",
+	    ETA: null
+	}
+
+	vm.Delivery = {
+		Type: "Delivery",
+	    ETA: null
+	}
 
 	vm.PaymentMethod = [];
 	vm.placesResults = [];
@@ -71,8 +81,9 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	vm.SelectedTo = "";
 	
   	vm.OrderIsLoading = false;
-  	vm.OrderInProgress = false;
+  	vm.OrdersIsBeingCreated = false;
   	vm.OrderFailed = false;
+  	vm.UserNameIsLoading = false;
 
   	vm.buttonText = "Create Order";
 
@@ -102,9 +113,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			vm.jobId = response.data.Id;
 			vm.HRID = response.data.HRID;
 			vm.isPutOrder = true;
-			vm.OrderIsLoading = false;
-
-			console.log(vm.order);
+			vm.OrderIsLoading = false;			
 		}
 		var errorCallback = function(responese){
 			console.log(responese);
@@ -117,7 +126,6 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 
 
 	vm.createNewOrder = createNewOrder;
-
 	vm.currentMarkerLocation = {lat:0,lng:0};
 	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
 	vm.searchAddress = searchAddress;
@@ -127,14 +135,15 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	vm.loadUserNames = function loadUserNames(){
 		function successCallback(response) {
 			vm.userNames = response.data.data;
+			vm.UserNameIsLoading = false;
 			console.log(vm.userNames)
 		}
 		function errorCallback(error) {
 			console.log(error);
+			vm.UserNameIsLoading = false;
 		}
+		vm.UserNameIsLoading = true;
 		var query = vm.selectedUser;
-		console.log(query)
-
 		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
 		console.log(getUsersUrl)
 		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
@@ -149,36 +158,42 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 
 	
 	function createNewOrder() {
-		console.log(vm.order.JobTaskETAPreference)
+		
+		if (vm.PackagePickUp.ETA) {
+			var ETA = new Date(vm.PackagePickUp.ETA).toISOString();
+			vm.order.JobTaskETAPreference.push(ETA);
+		}
 
-		if (vm.order.JobTaskETAPreference && vm.order.JobTaskETAPreference[0].ETA) {
-			vm.order.JobTaskETAPreference[0].ETA = new Date(vm.order.JobTaskETAPreference[0].ETA).toISOString();			
+		if (vm.Delivery.ETA) {
+			var ETA = new Date(vm.Delivery.ETA).toISOString();
+			vm.order.JobTaskETAPreference.push(ETA);
 		}
-		if (vm.order.JobTaskETAPreference && vm.order.JobTaskETAPreference[1].ETA) {
-			vm.order.JobTaskETAPreference[1].ETA = new Date(vm.order.JobTaskETAPreference[1].ETA).toISOString();			
-		}
+
 		if (vm.order.ETA) {
 			vm.order.ETA = new Date(vm.order.ETA).toISOString();			
 		}
-		if (!vm.order.OrderLocation.AddressLine1 === "") {
+
+		if (vm.order.OrderLocation.AddressLine1 === "") {
 			vm.order.OrderLocation = null;
 		}
 		
 		console.log(vm.order);
-		vm.OrderInProgress = true;
+		vm.OrdersIsBeingCreated = true;
 		vm.OrderFailed = false;
 		var successCallback = function (response){
-			vm.OrderInProgress = false;
-			$window.href = "#/job/" + response.data.HRID;
+			vm.OrdersIsBeingCreated = false;
+			if (isPutOrder) {
+				$window.location.href = '#/job/' + response.data.HRID;
+			} else {
+				$window.location.href = '#/job/' + vm.HRID;
+			}
 		}
 
 		var errorCallback = function error(error) {
-			vm.OrderFailed = true;
-			vm.OrderInProgress = false;
-
+			vm.OrderFailed = true;			
 			console.log("error : ");
 			console.log(error);
-			vm.ordersIsBeingCreated = false;
+			vm.OrdersIsBeingCreated = false;
 
 			vm.errorMsg = error.data.Message || "Server error";
 			var i = 0;
