@@ -7,24 +7,16 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 .mt-50 {
     margin: 20px 0px;
 }
+.mb-50 {
+    margin-bottom: 50px;
+}
 .mb-100 {
     margin-bottom: 100px;
 }
 .mt-15-percent {
     margin-top: 15%;
 }
-.pending {
-    background-color: #FF5722;
-}
-.in-progress {
-    background-color: #3F51B5;
-}
-.completed {
-    background-color: #4CAF50;
-}
-.canceled {
-    background-color: #b71c1c;
-}
+
 .summary-icon-div {
     width: 50px;
     height: 50px;
@@ -85,4 +77,37 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
     width: 0;
     height: 0;
     position: absolute;
+}
+
+
+.pending {
+    background-color: #FF5722;  
+    color: white;
+}
+.in-progress {
+    background-color: #FFEB3B;
+    color: black;
+}
+.in-progress span {
+    color: black;
+}
+.completed {
+    background-color: #4CAF50;
+    color: white;
+}
+.canceled {
+    background-color: #b71c1c;
+}
+
+.panel-pending-border {
+    border-color: #FF5722;   
+}
+.panel-in-progress-border {
+    border-color: #FFEB3B;   
+}
+.panel-completed-border {
+    border-color: #4CAF50;   
+}
+.panel-canceled-border {
+    border-color: #b71c1c;   
 }

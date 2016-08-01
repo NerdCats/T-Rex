@@ -3,11 +3,11 @@
 angular
 	.module('app')
 	.factory('jobFactory', ['tracking_host', 'listToString','mapFactory', '$window','$http',
-	'$mdMedia','$mdDialog', '$interval','templates','patchUpdate', 'restCall', 'COLOR', jobFactory]);
+	'$interval','templates','patchUpdate', 'restCall', 'COLOR', jobFactory]);
 	
 	
 	function jobFactory(tracking_host, listToString, mapFactory, $window, $http, 
-		$mdMedia, $mdDialog, $interval, templates, patchUpdate, restCall, COLOR){
+		$interval, templates, patchUpdate, restCall, COLOR){
 	
 	var OrderDetails = function (job) {
 		var details = {
@@ -53,46 +53,7 @@ angular
 		return map;							
 	};
 
-	var populateAssetAssignDialog = function (vm, event, job) {
-
-		var success = function (response) {
-			console.log("success : ");
-  			console.log(response);
-  			alert("success");
-  			location.reload();
-  			return true;
-		};
-
-		var error = function (response) {
-			console.log("error : ");
-  			console.log(response);
-  			alert("failed");
-  			return false;
-		};
-
-		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
-
-	    $mdDialog.show({
-			controller: assetAssignDialogController,
-			templateUrl: templates.availableAsset,
-			parent: angular.element(document.body),
-			targetEvent: event,
-			clickOutsideToClose:true,
-			fullscreen: useFullScreen,
-			job: job
-	    })
-	    .then(function(selectedAssets) {		    
-		    var result = patchUpdate(selectedAssets[0].Id, "replace", "/AssetRef", "api/job/", job.Id, job.Tasks[0].id, success, error);			
-	    }, function() {
-			console.log("Asset Assign dialog canceled");
-	    });
-
-	    vm.$watch(function() {
-	      return $mdMedia('xs') || $mdMedia('sm');
-	    }, function(wantsFullScreen) {
-	      vm.customFullscreen = (wantsFullScreen === true);
-	    });	
-	};
+	 
 
  	var populateJobTasks = function (job) {
 
@@ -283,7 +244,6 @@ angular
 		OrderDetails : OrderDetails,
 		populateServingBy : populateServingBy,
 		populateMap : populateMap,
-		populateAssetAssignDialog : populateAssetAssignDialog,		
 		populateJobTasks : populateJobTasks		
 	}
 };

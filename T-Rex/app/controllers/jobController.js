@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('jobController', [ '$scope', '$http', '$interval', '$window', '$mdDialog', '$mdMedia', '$location', '$routeParams',
+app.controller('jobController', [ '$scope', '$http', '$interval', '$window', '$routeParams',
 							'menus', 'templates', 'host', 'tracking_host', 'tracking_link',
 							'timeAgo', 'jobFactory', 'mapFactory', 'restCall', jobController]);
 
 
 
-function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $location, $routeParams,
+function jobController($scope, $http, $interval, $window, $routeParams,
 							menus, templates, host, tracking_host, tracking_link,
 							timeAgo,jobFactory, mapFactory, restCall) {
 	
@@ -84,9 +84,6 @@ function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $
 	};
 
 	restCall('GET', jobUrl, null, successCallback, errorCallback);
-	
-	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-
 
 	vm.locateMarkerOnMap = function (value) {
 			mapFactory.locateMarkerOnMap(value);			

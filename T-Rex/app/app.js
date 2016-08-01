@@ -1,17 +1,14 @@
 'use strict';
 
 
-var app = angular.module('app', [
-	// 'ngMaterial',
+var app = angular.module('app', [	
 	'ngMessages',
 	'ngRoute',
 	"ngAnimate",
 	'ngAria',
 	'LocalStorageModule',
-	'ui.bootstrap',
-	// 'md.data.table',
-	'angularFileUpload',
-	// 'mdPickers',
+	'ui.bootstrap',	
+	'angularFileUpload',	
 	'ngclipboard',
 	'SignalR',
 	'datetimepicker'
@@ -49,12 +46,12 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/job-search.html',
 				controller: 'jobSearchController',
 				controllerAs: 'jobSearch'
+			}).
+			when('/job/:id',{
+				templateUrl: 'app/views/job.html',
+				controller: 'jobController',
+				controllerAs: 'job'
 			})
-			// when('/job/:id',{
-			// 	templateUrl: 'app/views/job.html',
-			// 	controller: 'jobController',
-			// 	controllerAs: 'job'
-			// }).
 			// when('/users', {
 			// 	templateUrl: 'app/views/users.html',
 			// 	controller: 'userController',

@@ -1,250 +1,98 @@
-<div class="title">
-    <h1>{{job.Name}}</h1>
-    <p>Created: {{ requestedAgo }}</p>
-    <div class="horizontal">
-        <p><b>This Order is {{OrderDetails.State()}} now</b></p> 
-    </div>
-    <div flex="50">
-        <!-- need to make ngclipboard working -->
-        <p class="md-body-2">Public Order Track Link</p>
-        <p class="md-body-1" id="foo">
-            <a href="{{publicTrackingLink}}" target="_blank">{{publicTrackingLink}}</a>
-        </p>
-        <!-- <button ngclipboard data-clipboard-target="#foo">Copy Link</button> -->
-    </div>
-    <div layout="row">
-        <md-button class="md-raised" flex="20">
-            <a href="#/order/create/{{job.HRID}}">EDIT THIS JOB</a>
-        </md-button>
-        <md-button ng-show="!job.State=='CANCELLED'" class="md-raised" flex="20">
-            <a href="`#">CANCEL THIS JOB</a> <!-- api/Job/cancel/{jobId} -->
-        </md-button>
-        <md-button ng-show="job.State=='CANCELLED'" class="md-raised" flex="20">
-            <a href="#/order/create/{{job.HRID}}">EDIT THE CANCEL REASON</a>
-        </md-button>
-    </div>
-</div>
-<div id="order-details">
-    <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">Details</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-content>                
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Order ID</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.OrderId}}</span>
-                    </div>                    
-                </div> 
-                
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">User</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.UserName}}</span>
+<div class="container-fluid">
+    <div class="row mb-50">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>Job-ASDJUNU</h1>
+                    <span class="label in-progress">IN PROGRESS</span>
+                </div>
+                <div class="col-md-8">
+                    <div class="row pull-right">
+                        <button>CLAIM</button>
+                        <button>INVOICE</button>
                     </div>
-                </div>
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Phone</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.PhoneNumber}}</span>
-                    </div>
-                </div>
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Order</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.OrderType}}</span>
-                    </div>
-                </div>
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">ETA</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.eta}}</span>
-                    </div>
-                </div>     
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Payment Status</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{job.PaymentStatus}}</span>
-                        <md-button flex="10" ng-hide="job.PaymentStatus != 'Pending'" ng-click="paymentStatusUpdate()">Update</md-button>
-                    </div>
-                </div>          
-            </md-card-content>
-    </md-card>
-    <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">Package List</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-content>            
-            <table md-table flex="100">
-                <thead md-head md-on-recorder="onReorder">
-                    <tr md-row flex="100">
-                        <th md-column class="responsive-td">S/L no</th>
-                        <th md-column class="responsive-td">Item</th>
-                        <th md-column class="responsive-td">Quantity</th>
-                        <th md-column class="responsive-td">Price</th>
-                        <th md-column class="responsive-td">Total</th>
-                        <!--<th md-column class="responsive-td">VATAmount</th>
-                        <th md-column class="responsive-td">TotalPlusVAT</th> -->
-                        <th md-column class="responsive-td">Weight</th>
-                    </tr>
-                </thead>
-                <tbody md-body>
-                    <tr md-row  flex="100" md-select="order" md-select-id="name" md-auto-select ng-repeat="package in OrderDetails.orderCart.PackageList track by $index">
-                            <td md-cell class="number responsive-td">{{$index + 1}}</td>
-                            <td md-cell class="text responsive-td">{{package.Item}}</td>
-                            <td md-cell class="text responsive-td">{{package.Quantity}}</td>
-                            <td md-cell class="text responsive-td">{{package.Price}} BDT</td>
-                            <td md-cell class="text responsive-td">{{package.Total}} BDT</td>
-                            <!--<td md-cell class="text responsive-td">{{package.VATAmount}}</td>
-                            <td md-cell class="text responsive-td">{{package.TotalPlusVAT}}</td> -->
-                            <td md-cell class="text responsive-td">{{package.Weight}} KG</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="order-summary">
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Package Details</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1 word_wrap_500">{{OrderDetails.description}}</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Note To Delivery Man</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1 word_wrap_500">{{OrderDetails.note}}</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Sub Total</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.SubTotal}} BDT</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Service Charge</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.ServiceCharge}} BDT</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Total Weight</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.TotalWeight}} KG</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Total To Pay</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.TotalToPay}} BDT</span>
-                </div>
-                <div>
-                    <a href="{{invoiceLink(OrderDetails.OrderId)}}" target="_blank">
-                        <md-button class="md-raised">GENERATE INVOICE</md-button>
-                    </a>
                 </div>
             </div>
-        </md-card-content>
-    </md-card>
+        </div>
+    </div>
+    <div class="row mb-50">
+        <div class="col-md-3">
+            <div class="panel panel-completed-border">
+                <div class="panel-heading completed">
+                    <h4>Fetch Delivery Man <span class="label pull-right">COMPLETED</span></h4>                    
+                </div>
+                <div class="panel-body">
+                    <div class="row">                        
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                                    <div class="col-md-7">
+                                        <p>ashik</p>
+                                        <span>01911725897</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>                        
+                        <div class="col-md-8"></div>
+                    </div>
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>
+            <div class="panel panel-in-progress-border">
+                <div class="panel-heading in-progress">
+                    <h4>Pickup <span class="label pull-right">IN PROGRESS</span></h4>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>
+            <div class="panel panel-pending-border">
+                <div class="panel-heading pending">
+                    <h4>Deliver <span class="label pull-right">PENDING</span></h4>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>            
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Panel content
+                </div>
+                <div class="panel-footer">Panel footer</div>
+            </div>            
+        </div>
+    </div>
 </div>
-
-<article id="container" layout="row" layout-xs="column" layout-sm="column">     
-    <div id="asset-admin" flex>
-        <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">Asset</span>                                                
-                </md-card-title-text>
-                <div layout="column">
-                    <md-button class="md-raised" ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto">
-                        <span md-menu-align-target>Assign</span> 
-                    </md-button>
-                </div>   
-            </md-card-title>
-            <md-card-content>
-                <md-list>                    
-                    <md-list-item ng-repeat="asset in Assets" ng-click="locateMarkerOnMap(asset)">
-                        <!-- <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />                             -->
-                        <p><a href="#/asset/details/{{asset.asset_id}}" target="_blank">{{ asset.title }}</a></p>
-                        <!-- <p>*****</p>     -->
-                    </md-list-item>
-                </md-list>
-            </md-card-content>
-        </md-card>
-        
-        <!-- <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">This Order is Currently Serving by</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-content>
-                <p>{{servingby.name}}</p>
-            </md-card-content>
-        </md-card>	      -->                           
-    </div>
-
-    <div id="tasks" flex>
-        <md-list>
-            <md-list-item  ng-repeat="(key, task) in jobTasks track by $index">
-                <md-card flex="95">
-                    <md-card-actions layout-align="end center">
-                        <md-card-title>
-                            <md-card-title-text layout="row" flex="100">
-                                <span class="md-title" flex="70">{{task.title}}</span>                                
-                                <div layout="column" flex="30">                            
-                                    <md-menu md-offset="0 -7">
-                                        <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)" ng-disabled="task.updateStateDisable">
-                                            <span>{{task.State()}}</span>
-                                        </md-button>
-                                        <md-menu-content width="2">
-                                            <md-menu-item ng-repeat="item in jobTaskStates">
-                                                <md-button ng-click="task.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
-                                            </md-menu-item>
-                                        </md-menu-content>
-                                    </md-menu>
-                                </div>
-                            </md-card-title-text>                                                  
-                        </md-card-title>
-                        <md-card-content>
-                            <div layout="row">
-                                <div flex="35">
-                                    <p class="md-body-2">Started</p>
-                                </div>
-                                <div flex="10"></div>
-                                <div>
-                                    <p class="md-body-1">{{task.startDate}}</p>
-                                    <p class="md-body-1">{{task.startTime}}</p>
-                                </div>
-                            </div>
-                            <div layout="row">
-                                <div flex="35">
-                                    <p class="md-body-2">Last Modified</p>
-                                </div>
-                                <div flex="10"></div>
-                                <div>
-                                    <p class="md-body-1">{{task.lastModifyDate}}</p>
-                                    <p class="md-body-1">{{task.lastModifyTime}}</p>
-                                </div>
-                            </div>
-                            <div layout="row" ng-show="task.haveLocation">
-                                <div flex="35">
-                                    <p class="md-body-2">Address</p>
-                                </div>
-                                <div flex="10"></div>
-                                <div><p class="md-body-1">{{task.address}}</p></div>
-                            </div>                       
-                        </md-card-content>
-                        <md-button ng-click="locateMarkerOnMap(task)" ng-show="task.haveLocation">Locate on Map</md-button>
-                    </md-card-actions>
-                </md-card>
-            </md-list-item>
-        </md-list>         
-    </div>
-
-    <div id="job-map" flex></div>					 
-</article>		
