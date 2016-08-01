@@ -7,6 +7,9 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 .mt-50 {
     margin: 20px 0px;
 }
+.mb-20{
+    margin-bottom: 20px;
+}
 .mb-50 {
     margin-bottom: 50px;
 }
@@ -47,7 +50,9 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 #orderCreateMap {
     height: 400px;    
 }
-
+#jobMap{
+    height: 400px;
+}
 
 .overlay {
     display: block;

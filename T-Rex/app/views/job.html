@@ -3,22 +3,30 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
-                    <h1>Job-ASDJUNU <span class="label in-progress pull-right">IN PROGRESS</span></h1>
+                    <h1>Job-ASDJUNU <span class="label canceled pull-right">CANCELED</span></h1>
+                    <h3>This Job is Claimed by fahim</h3>
+                    <div class="alert alert-danger" role="alert">
+                        <!-- No one has claimed this Job. Someone must claim this job Before start processing the job! -->
+                        The customer wasn't available, that's why it was returned
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row pull-right">
-                        <button>CLAIM</button>
-                        <button>INVOICE</button>
+                        <button type="button" class="btn btn-success">RESTORE THIS ORDER</button>
+                        <button type="button" class="btn btn-danger">CANCEL THIS ORDER</button>
+                        <button type="button" class="btn btn-danger">CLAIM THIS ORDER</button>
+                        <button type="button" class="btn btn-info">INVOICE</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mb-50">
+    
+    <div class="row">
         <div class="col-md-3">
             <div class="panel panel-completed-border">
                 <div class="panel-heading completed">
-                    <h4>Fetch Delivery Man <span class="label pull-right">COMPLETED</span></h4>                    
+                    Fetch Delivery Man <span class="label pull-right">COMPLETED</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">                        
@@ -40,7 +48,7 @@
             </div>
             <div class="panel panel-in-progress-border">
                 <div class="panel-heading in-progress">
-                    <h4>Pickup<span class="label pull-right">IN PROGRESS</span></h4>
+                    Pickup<span class="label pull-right">IN PROGRESS</span>
                 </div>
                 <div class="panel-body">
                     Panel content
@@ -49,7 +57,7 @@
             </div>
             <div class="panel panel-pending-border">
                 <div class="panel-heading pending">
-                    <h4>Delivery<span class="label pull-right">PENDING</span></h4>
+                    Delivery<span class="label pull-right">PENDING</span>
                 </div>
                 <div class="panel-body">
                     Panel content
@@ -58,7 +66,7 @@
             </div>
             <div class="panel panel-pending-border">
                 <div class="panel-heading pending">
-                    <h4>Secure Delivery<span class="label pull-right">PENDING</span></h4>
+                    Secure Delivery<span class="label pull-right">PENDING</span>
                 </div>
                 <div class="panel-body">
                     Panel content
@@ -69,7 +77,7 @@
         <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h4>Order Information</h4>
+                    Order Information
                 </div>
                 <div class="panel-body">
                     <div class="row">                        
@@ -118,26 +126,140 @@
                     </div>                    
                 </div>                
             </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    Panel content
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Item Details
                 </div>
-                <div class="panel-footer">Panel footer</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of job.Order.OrderCart.PackageList">
+                                    <th scope="row">1</th>
+                                    <td>item.Item</td>
+                                    <td>item.Quantity</td>
+                                    <td>item.Price</td>
+                                    <td>item.Total</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Subtotal</td>
+                                    <td> job.Order.OrderCart.SubTotal </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Delivery Charge</td>
+                                    <td> job.Order.OrderCart.ServiceCharge </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total</td>
+                                    <td> job.Order.OrderCart.TotalToPay </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
             </div>
         </div>
         <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    Panel content
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Customer Info
                 </div>
-                <div class="panel-footer">Panel footer</div>
+                <div class="panel-body">
+                    <div class="row mb-20">
+                        <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                        <h4>Farhan</h4>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-user col-md-3" aria-hidden="true"></span>
+                        <span>Enterprise</span>                        
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-earphone col-md-3" aria-hidden="true"></span>
+                        <span>01911725897</span>                        
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-envelope col-md-3" aria-hidden="true"></span>
+                        <span>farhan@gobd.co</span>                        
+                    </div>
+                </div>                
             </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    Panel content
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Order Status
                 </div>
-                <div class="panel-footer">Panel footer</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-6">CreateTime</label>
+                        <span class="col-md-6">2016-08-01T05:43:25.192Z</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">ModifiedTime</label>
+                        <span class="col-md-6">2016-08-01T05:43:25.192Z</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">ETAFailed</label>
+                        <span class="col-md-6">false</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">CompletionTime</label>
+                        <span class="col-md-6"></span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">InitiatinTime</label>
+                        <span class="col-md-6">Duration</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">PreferredDeliveryTime</label>
+                        <span class="col-md-6"></span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">InvoiceId</label>
+                        <span class="col-md-6"></span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Payment Status</label>
+                        <span class="col-md-6">Pending</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">CancellationReason</label>
+                        <span class="col-md-6"></span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">IsDeleted</label>
+                        <span class="col-md-6"></span><br>                    
+                    </dv>                
+                        
+                    </div>
             </div>
         </div>       
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Map
+                </div>
+                <div id="jobMap" class="panel-body"></div>
+            </div>
+        </div>
     </div>
 </div>

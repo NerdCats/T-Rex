@@ -24,7 +24,7 @@ function jobController($scope, $http, $interval, $window, $routeParams,
 		return host + "api/job/"+ HRID +"/invoice";
 	}
 
-	var jobUrl = host + "api/Job?id=" + id;	
+	var jobUrl = host + "api/job/" + id;	
 	function successCallback(response) {
 
 		vm.job = response.data;

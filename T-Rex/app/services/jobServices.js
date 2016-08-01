@@ -43,8 +43,8 @@ angular
 	var populateMap = function (jobTasks) {
 		var lat = 23.816577;
 		var lng = 90.405150;
-		var map = mapFactory.createMap(lat, lng, 'job-map', 11);
-	 		
+		var map = mapFactory.createMap(lat, lng, 'jobMap', 11);
+	 	console.log("map should be created")
 		angular.forEach(jobTasks, function (value, key) {
 			if (value.haveLocation) {
 				var overlay = mapFactory.createOverlay(value.lat, value.lng, value.title);				
