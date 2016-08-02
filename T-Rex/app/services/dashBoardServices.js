@@ -95,6 +95,12 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 				class: "completed"
 			}
 		}
+		else if (State == "CANCELED") {
+			return {
+				value: "CANCELED",
+				class: "canceled"
+			}
+		}
 		return State;
 	}
 
@@ -209,6 +215,7 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 		jobListUrlMaker : jobListUrlMaker,
 		orders: orders,
 		startRefresh: startRefresh,
-		stopRefresh: stopRefresh
+		stopRefresh: stopRefresh,
+		state: State
 	};
 }]);

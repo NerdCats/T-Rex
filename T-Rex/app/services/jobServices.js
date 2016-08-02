@@ -1,9 +1,10 @@
 'use strict';
 
 app.factory('jobFactory', ['tracking_host', 'host', 'listToString','mapFactory', '$window','$http',
-	'$interval','templates','patchUpdate', 'restCall', 'COLOR', jobFactory]);
+	'$interval','templates','patchUpdate', 'restCall', 'COLOR', 'dashboardFactory', jobFactory]);
 	
-function jobFactory(tracking_host, host, listToString, mapFactory, $window, $http, $interval, templates, patchUpdate, restCall, COLOR){
+function jobFactory(tracking_host, host, listToString, mapFactory, $window, $http, 
+	$interval, templates, patchUpdate, restCall, COLOR, dashboardFactory){
 	
 
 	var getJob = function (id, data, jobIsLoading, redMessage) {
@@ -61,10 +62,9 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	 			
 	 		},
 	 		getSantizedState: function (state) {
-	 			return state;
-	 		},
-	 		getStateCssClass: function (state) {
-	 			return "pending";
+	 			console.log(state)
+	 			console.log(dashboardFactory.state(state))
+	 			return dashboardFactory.state(state);
 	 		}
 	 	}
 	 }
