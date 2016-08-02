@@ -1,9 +1,9 @@
 'use strict';
 
-app.factory('jobFactory', ['tracking_host', 'host', 'listToString','mapFactory', '$window','$http',
+app.factory('jobFactory', ['$http', 'tracking_host', 'host', 'listToString','mapFactory', '$window',
 	'$interval','templates','patchUpdate', 'restCall', 'COLOR', 'dashboardFactory', jobFactory]);
 	
-function jobFactory(tracking_host, host, listToString, mapFactory, $window, $http, 
+function jobFactory($http, tracking_host, host, listToString, mapFactory, $window, 
 	$interval, templates, patchUpdate, restCall, COLOR, dashboardFactory){
 	
 
@@ -46,23 +46,54 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	 			console.log("claim")
 	 			restCall('POST', host + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
-	 		stateUpdate: function (taskId, state) {
+	 		stateUpdate: function (taskId, state, task) {	 			
+	 			if (task === "PackagePickUp") this.modifying = "PackagePickUp_UPDATING"
+	 			else if (task === "Delivery") this.modifying = "Delivery_UPDATING"
+	 			else if (task === "SecureDelivery") this.modifying = "SecureDelivery_UPDATING"
+	 			var itSelf = this;
 	 			function stateUpdateSuccess(response) {
+	 				itSelf.modifying = "";
 	 				$window.location.reload();
 	 			}
 	 			function stateUpdateError(error) {
-	 				this.redMessage = error.message;
+	 				itSelf.modifying = "";
+	 				itSelf.redMessage = error.message;
 	 			}
 	 			patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
 	 		},
-	 		assignAsset: function (assetRef) {
-	 			
+	 		assigningAsset: function (assigning) {
+	 			if (assigning) this.modifying = "FetchDeliveryMan_UPDATING";
+	 			else this.modifying = "";
 	 		},
-	 		cancel: function (reason) {
-	 			
+	 		cancel: function (reason) {	 			
+	 			this.modifying = "CANCELLING";
+	 			var itSelf = this;
+	 			$http({
+	 				method: 'POST',
+	 				url: host + 'api/Job/cancel/' + itSelf.data.Id
+	 			}).then(function (response) {
+	 				itSelf.modifying = "";
+	 				$window.location.reload();
+	 			}, function (error) {
+	 				console.log(error);
+	 				itSelf.modifying = "";
+	 				itSelf.redMessage = error;
+	 			})
 	 		},
 	 		restore: function () {
-	 			
+	 			this.modifying = "RESTORING";
+	 			var itSelf = this;
+	 			$http({
+	 				method: 'POST',
+	 				url: host + 'api/Job/restore/' + itSelf.data.Id
+	 			}).then(function (response) {
+	 				itSelf.modifying = "";
+	 				$window.location.reload();
+	 			}, function (error) {
+	 				console.log(error);
+	 				itSelf.modifying = "";
+	 				itSelf.redMessage = error;
+	 			})	
 	 		},
 	 		getInvoice: function () {
 	 			
@@ -77,7 +108,17 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	 			
 	 		},
 	 		updatePaymentStatus: function () {
-	 			
+	 			this.modifying = "PAYMENT_UPDATING";
+	 			$http({
+	 				method: 'POST',
+	 				url: host + 'api/payment/process/' + this.data.Id,
+	 			}).then(function(response){
+	 				this.modifying = "";
+	 				$window.location.reload();
+	 			}, function (error) {
+	 				this.modifying = "";
+	 				this.redMessage = error;
+	 			})
 	 		},
 	 		getSantizedState: function (state) {
 	 			return dashboardFactory.state(state);

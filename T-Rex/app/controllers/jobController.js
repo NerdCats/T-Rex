@@ -28,13 +28,16 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 
 		modalInstance.result.then(function (selectedItem) {
 				vm.selected = selectedItem;
-				console.log($scope.selected)
-				var success = function (response) {					
-		  			$window.location.reload();		  			
+				console.log($scope.selected);
+				vm.job.assigningAsset(true);
+				var success = function (response) {
+					vm.job.assigningAsset(false);					
+		  			$window.location.reload();	  			
 				};
-
 				var error = function (error) {
 		  			console.log(error);
+		  			vm.job.redMessage = error;
+		  			vm.job.assigningAsset(false);
 				};
 
 				var result = patchUpdate(vm.selected.Id, "replace", 
@@ -60,7 +63,7 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, host) {
 	};
 
 	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 10);
-		
+	
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data.data;
 		$scope.loadingAssets = false;
@@ -72,7 +75,6 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, host) {
 
 	$scope.ok = function () {
 		console.log($scope.selectedAsset);
-
 		$uibModalInstance.close($scope.selectedAsset);
 	};
 

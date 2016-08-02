@@ -1,5 +1,5 @@
 <div ng-show="job.jobIsLoading == 'INPROGRESS'" class="mt-15-percent" ng-include="'../content/component/spinner/spinner.html'"></div>
- <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED'">
+ <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED' || job.redMessage">
     {{job.redMessage}}
 </div>
 <div class="container-fluid" ng-show="job.jobIsLoading == 'COMPLETED'">
@@ -21,11 +21,21 @@
                 <div ng-show="job.data.JobServedBy" class="col-md-6">
                     <div class="row pull-right">
                         <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
-                        <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELED'" ng-click="job.restore()">RESTORE</button>
-                        <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELED'" ng-click="job.cancel()">CANCEL</button>
+                        <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELED'" ng-click="job.restore()">
+                            RESTORE
+                            <span ng-show="job.modifying === 'RESTORING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELED'" ng-click="job.cancel()">
+                            CANCEL
+                            <span ng-show="job.modifying === 'CANCELLING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
                         <button type="button" class="btn btn-danger" ng-click="job.claim()">
                             RE CLAIM
                             <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-info" ng-click="job.updatePaymentStatus()">
+                            UPDATE PAYMENT
+                            <span ng-show="job.modifying === 'PAYMENT_UPDATING'" class="fa fa-refresh fa-spin"></span>
                         </button>
                         <button type="button" class="btn btn-info" ng-click="job.getInvoice()">INVOICE</button>
                     </div>
@@ -53,7 +63,10 @@
                             </div>
                         </li>
                     </ul>                        
-                    <button class="btn btn-primary pull-right" ng-click="open()">ASSIGN DELIVERY MAN</button>                    
+                    <button class="btn btn-primary pull-right" ng-click="open()">
+                        ASSIGN DELIVERY MAN
+                        <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
                 </div>               
             </div>
             <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
@@ -82,7 +95,10 @@
                         <option value="IN_PROGRESS">IN PROGRESS</option>
                         <option value="COMPLETED">COMPLETED</option>
                     </select>                    
-                    <button class="btn btn-primary pull-right" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup)">UPDATE STATE</button>
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForPickup" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup, job.data.Tasks[1].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'PackagePickUp_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
                 </div>
             </div>
 
@@ -107,12 +123,15 @@
                         <label class="col-md-4">ETA Failed: </label>                                                    
                         <span class="col-md-8">{{ job.data.Tasks[2].ETAFailed }}</span><br>                            
                     </div>                    
-                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForDelivery">
                         <option value="PENDING">PENDING</option>
                         <option value="IN_PROGRESS">IN PROGRESS</option>
                         <option value="COMPLETED">COMPLETED</option>
                     </select>                    
-                    <button class="btn btn-primary pull-right" ng-click="job.stateUpdate(job.data.Tasks[2].id, selectedStateForPickup)">UPDATE STATE</button>
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForDelivery" ng-click="job.stateUpdate(job.data.Tasks[2].id, selectedStateForDelivery, job.data.Tasks[2].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'Delivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
                 </div>
             </div>
 
@@ -139,12 +158,15 @@
                         <label class="col-md-4">ETA Failed: </label>                                                    
                         <span class="col-md-8">{{ job.data.Tasks[3].ETAFailed }}</span><br>                            
                     </div>                    
-                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForSecuredelivery">
                         <option value="PENDING">PENDING</option>
                         <option value="IN_PROGRESS">IN PROGRESS</option>
                         <option value="COMPLETED">COMPLETED</option>
                     </select>                    
-                    <button class="btn btn-primary pull-right" ng-click="job.stateUpdate(job.data.Tasks[3].id, selectedStateForPickup)">UPDATE STATE</button>
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForSecuredelivery" ng-click="job.stateUpdate(job.data.Tasks[3].id, selectedStateForSecuredelivery, job.data.Tasks[3].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'SecureDelivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
                 </div>
             </div>         
         </div>
