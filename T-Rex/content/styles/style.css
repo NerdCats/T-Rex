@@ -20,6 +20,11 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
     margin-top: 15%;
 }
 
+.task-state-update-select {
+    margin-left: 12px !important;
+    width: 90% !important;
+}
+
 .summary-icon-div {
     width: 50px;
     height: 50px;

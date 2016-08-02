@@ -10,20 +10,20 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	var job = function (id) {
 	 	return {
 	 		data : {},
-	 		jobIsLoading: false,
+	 		jobIsLoading: "PENDING",
 	 		jobUpdating: false,
 	 		redMessage : null,
 	 		loadJob: function () {
-				this.jobIsLoading = true;
+				this.jobIsLoading = "INPROGRESS";
 				console.log(this.data)
 				var itSelf = this;
 				function successCallback(response) {
 					itSelf.data = response.data;
-					itSelf.jobIsLoading = false;
+					itSelf.jobIsLoading = "COMPLETED";
 					console.log(itSelf);
 				};
 				function errorCallback(error) {
-					itSelf.jobIsLoading = false;
+					itSelf.jobIsLoading = "FAILED";
 					itSelf.redMessage = error;
 				};
 				restCall('GET', host + "api/job/" + id, null, successCallback, errorCallback);	 			
@@ -58,7 +58,7 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	 		updatePaymentStatus: function () {
 	 			
 	 		},
-	 		getSantizedState: function (state) {	 			
+	 		getSantizedState: function (state) {
 	 			return dashboardFactory.state(state);
 	 		}
 	 	}

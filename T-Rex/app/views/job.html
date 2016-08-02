@@ -1,15 +1,14 @@
-<div ng-show="job.jobIsLoading" ng-include="'../content/component/spinner/spinner.html'"></div>
-<div class="container-fluid" ng-hide="job.jobIsLoading">
+<div ng-show="job.jobIsLoading == 'INPROGRESS'" ng-include="'../content/component/spinner/spinner.html'"></div>
+ <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED'">
+    {{job.redMessage}}
+</div>
+<div class="container-fluid" ng-show="job.jobIsLoading == 'COMPLETED'">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
                     <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.data.State}}</span></h1>
-                    <h3>This Job is Claimed by {{job.data.ServedBy.UserName}}</h3>
-                   <!--  <div class="alert alert-danger" role="alert">
-                        No one has claimed this Job. Someone must claim this job Before start processing the job!
-                        The customer wasn't available, that's why it was returned
-                    </div> -->
+                    <h3>This Job is Claimed by {{job.data.ServedBy.UserName}}</h3>                   
                 </div>
                 <div class="col-md-6">
                     <div class="row pull-right">
@@ -25,13 +24,14 @@
     
     <div class="row">
         <div class="col-md-3">
-            <div class="panel" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
+            <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
+                               ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[0].State).class">
                     Fetch Delivery Man <span class="label pull-right">{{job.data.Tasks[0].State}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <button ng-click="open()">ASSIGN DELIVERY MAN</button>                     
+                        <button class="btn btn-primary mb-20" ng-click="open()">ASSIGN DELIVERY MAN</button>                     
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
                                 <div class="row">
@@ -45,47 +45,96 @@
                         </ul>                        
                         <div class="col-md-8"></div>
                     </div>
-                </div>
-                <script type="text/ng-template" id="myModalContent.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title">I'm a modal!</h3>
-                    </div>
-                    <div class="modal-body">
-                        <ul>
-                            <li ng-repeat="item in items">
-                                <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-                            </li>
-                        </ul>
-                        Selected: <b>{{ selected.item }}</b>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-                        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-                    </div>
-                </script> 
+                </div>               
             </div>
-            <div class="panel panel-in-progress-border">
-                <div class="panel-heading in-progress">
-                    Pickup<span class="label pull-right">IN PROGRESS</span>
+            <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" 
+                               ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[1].State).class">
+                    Pickup<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
                 </div>
                 <div class="panel-body">
-                    Panel content
-                </div>                
+                    <div class="row">
+                        <label class="col-md-6">Pickup ETA: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup Started: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup Completed: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup ETA Failed: </label>                                                    
+                        <span class="col-md-6">False</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select">
+                        <option>PENDING</option>
+                        <option>IN PROGRESS</option>
+                        <option>COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right">Update State</button>
+                </div>
             </div>
-            <div class="panel panel-pending-border">
-                <div class="panel-heading pending">
-                    Delivery<span class="label pull-right">PENDING</span>
+            <div class="panel" ng-show="job.data.Tasks[2].Type == 'Delivery'" 
+                               ng-class="'panel-'+job.getSantizedState(job.data.Tasks[2].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[2].State).class">
+                    Pickup<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[2].State).value}}</span>
                 </div>
                 <div class="panel-body">
-                    Panel content
-                </div>                
+                    <div class="row">
+                        <label class="col-md-6">Pickup ETA: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup Started: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup Completed: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup ETA Failed: </label>                                                    
+                        <span class="col-md-6">False</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select">
+                        <option>PENDING</option>
+                        <option>IN PROGRESS</option>
+                        <option>COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right">Update State</button>
+                </div>
             </div>
-            <div class="panel panel-pending-border">
-                <div class="panel-heading pending">
-                    Secure Delivery<span class="label pull-right">PENDING</span>
+            <div class="panel" ng-show="job.data.Tasks[3].Type == 'SecureDelivery'" 
+                               ng-class="'panel-'+job.getSantizedState(job.data.Tasks[3].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[3].State).class">
+                    Pickup<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[3].State).value}}</span>
                 </div>
                 <div class="panel-body">
-                    Panel content
+                    <div class="row">
+                        <label class="col-md-6">Pickup ETA: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup Started: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup Completed: </label>                                                    
+                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Pickup ETA Failed: </label>                                                    
+                        <span class="col-md-6">False</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select">
+                        <option>PENDING</option>
+                        <option>IN PROGRESS</option>
+                        <option>COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right">Update State</button>
                 </div>
             </div>
         </div>
