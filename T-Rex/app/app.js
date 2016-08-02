@@ -49,8 +49,7 @@ app.config(['$routeProvider',
 			}).
 			when('/job/:id',{
 				templateUrl: 'app/views/job.html',
-				controller: 'jobController',
-				controllerAs: 'job'
+				controller: 'jobController',				
 			})
 			// when('/users', {
 			// 	templateUrl: 'app/views/users.html',

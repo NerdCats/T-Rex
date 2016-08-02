@@ -1,21 +1,21 @@
 <div class="container-fluid">
-    <div class="row mb-50">
+    <div class="row">
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
-                    <h1>Job-ASDJUNU <span class="label canceled pull-right">CANCELED</span></h1>
-                    <h3>This Job is Claimed by fahim</h3>
-                    <div class="alert alert-danger" role="alert">
-                        <!-- No one has claimed this Job. Someone must claim this job Before start processing the job! -->
+                    <h1>{{job.data.HRID}} <span class="label canceled pull-right">CANCELED</span></h1>
+                    <h3>This Job is Claimed by fahim again</h3>
+                   <!--  <div class="alert alert-danger" role="alert">
+                        No one has claimed this Job. Someone must claim this job Before start processing the job!
                         The customer wasn't available, that's why it was returned
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-6">
                     <div class="row pull-right">
-                        <button type="button" class="btn btn-success">RESTORE THIS ORDER</button>
-                        <button type="button" class="btn btn-danger">CANCEL THIS ORDER</button>
-                        <button type="button" class="btn btn-danger">CLAIM THIS ORDER</button>
-                        <button type="button" class="btn btn-info">INVOICE</button>
+                        <button type="button" class="btn btn-success" ng-click="job.data.restore()">RESTORE THIS ORDER</button>
+                        <button type="button" class="btn btn-danger" ng-click="job.data.cancel()">CANCEL THIS ORDER</button>
+                        <button type="button" class="btn btn-danger" ng-click="job.data.claim()">CLAIM THIS ORDER</button>
+                        <button type="button" class="btn btn-info" ng-click="job.data.getInvoice()">INVOICE</button>
                     </div>
                 </div>
             </div>
@@ -24,27 +24,26 @@
     
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-completed-border">
-                <div class="panel-heading completed">
-                    Fetch Delivery Man <span class="label pull-right">COMPLETED</span>
+            <div class="panel" ng-class="'panel-'+job.getStateCssClass(job.data.tasks[0].State)+'-border'">
+                <div class="panel-heading" ng-class="job.getStateCssClass(job.data.tasks[0].State)">
+                    Fetch Delivery Man <span class="label pull-right">{{job.data.tasks[0].State}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">                        
                         <ul class="list-group">
-                            <li class="list-group-item">
+                            <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
                                 <div class="row">
                                     <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
                                     <div class="col-md-7">
-                                        <p>ashik</p>
-                                        <span>01911725897</span>
+                                        <p>{{job.data.Assets[key].UserName}}</p>
+                                        <span>{{job.data.Assets[key].PhoneNumber}}</span>
                                     </div>
                                 </div>
                             </li>
                         </ul>                        
                         <div class="col-md-8"></div>
                     </div>
-                </div>
-                <div class="panel-footer">Panel footer</div>
+                </div>                
             </div>
             <div class="panel panel-in-progress-border">
                 <div class="panel-heading in-progress">
@@ -52,8 +51,7 @@
                 </div>
                 <div class="panel-body">
                     Panel content
-                </div>
-                <div class="panel-footer">Panel footer</div>
+                </div>                
             </div>
             <div class="panel panel-pending-border">
                 <div class="panel-heading pending">
@@ -61,8 +59,7 @@
                 </div>
                 <div class="panel-body">
                     Panel content
-                </div>
-                <div class="panel-footer">Panel footer</div>
+                </div>                
             </div>
             <div class="panel panel-pending-border">
                 <div class="panel-heading pending">
@@ -71,7 +68,6 @@
                 <div class="panel-body">
                     Panel content
                 </div>
-                <div class="panel-footer">Panel footer</div>
             </div>
         </div>
         <div class="col-md-6">
