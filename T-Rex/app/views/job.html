@@ -1,4 +1,4 @@
-<div ng-show="job.jobIsLoading == 'INPROGRESS'" ng-include="'../content/component/spinner/spinner.html'"></div>
+<div ng-show="job.jobIsLoading == 'INPROGRESS'" class="mt-15-percent" ng-include="'../content/component/spinner/spinner.html'"></div>
  <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED'">
     {{job.redMessage}}
 </div>
@@ -145,27 +145,27 @@
                     <div class="row">                        
                         <div class="col-md-6">
                             <label>Pickup Address:</label><br>
-                            <span>seller name-Bikroy today :D phone no-01830606504, address-New Market,hatire pull,naherer plaza,mokka telecom, shop no-247, 2nd floor., Hatirpul Residential Area, Dhaka</span>
+                            <span>{{job.data.Order.From.Address}}</span>
                         </div>
                         <div class="col-md-6">
                             <label>Delivery Address:</label><br>
-                            <span>buyer name-Maruf ahmed, phon no-01763674393,address-Ashiyan medical college. Barua - khilket - Dhaka, Nikunjo - 2, Dhaka</span>
+                            <span>{{job.data.Order.To.Address}}</span>
                         </div>
                     </div><br>
                     <div class="row">
                         <div class="col-md-6">
                             <label>Note to Delivery Man:</label><br>
-                            <span>seller payable amount 5096BDT Bikroy.com service charge 104BDT.pick time 8/2/2016 (10:30am) delivery time 8/4/2016 (10)am.must be call before pick and deliver</span>
+                            <span>{{job.data.Order.NoteToDeliveryMan}}</span>
                         </div>
                         <div class="col-md-6">
                             <label>Package Description:</label><br>
-                            <span>seller payable amount 5096BDT Bikroy.com service charge 104BDT.pick time 8/2/2016 (10:30am) delivery time 8/4/2016 (10)am.must be call before pick and deliver</span>
+                            <span>{{job.data.Order.Description}}</span>
                         </div>
                     </div><br>
                     <div class="row">
                         <div class="col-md-6">
                             <label>Payment Method:</label><br>
-                            <span>CashOnDelivery</span>
+                            <span>{{job.data.Order.PaymentMethod}}</span>
                         </div>
                         <div class="col-md-6">
                             <label>Required Change For:</label><br>
@@ -175,16 +175,16 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label>Pickup ETA:</label><br>
-                            <span>08/01/2016 12:00 AM</span>
+                            <span>{{(job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
                         </div>
                         <div class="col-md-4">
                             <label>Delivery ETA:</label><br>
-                            <span>08/01/2016 12:00 AM</span>
+                            <span>{{(job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" ng-show="job.data.Tasks[3]">
                             <label>Secure Delivery ETA:</label><br>
-                            <span>08/01/2016 12:00 AM</span>
-                        </div>
+                            <span>{{(job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>                        
                     </div>                    
                 </div>                
             </div>
@@ -202,27 +202,31 @@
                                     <th>Qty</th>
                                     <th>Unit Price</th>
                                     <th>Total</th>
+                                    <th>Weight</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of job.Order.OrderCart.PackageList">
-                                    <th scope="row">1</th>
-                                    <td>item.Item</td>
-                                    <td>item.Quantity</td>
-                                    <td>item.Price</td>
-                                    <td>item.Total</td>
+                                <tr ng-repeat="item in job.data.Order.OrderCart.PackageList track by $index">
+                                    <th scope="row">{{$index + 1}}</th>
+                                    <td>{{item.Item}}</td>
+                                    <td>{{item.Quantity}}</td>
+                                    <td>{{item.Price}}</td>
+                                    <td>{{item.Total}}</td>
+                                    <td>{{item.Weight}}</td>
                                 </tr>
                                 <tr>
+                                    <td colspan="4" class="text-right">Total Weight</td>
+                                    <td> {{job.data.Order.OrderCart.TotalWeight}} </td>
                                     <td colspan="4" class="text-right">Subtotal</td>
-                                    <td> job.Order.OrderCart.SubTotal </td>
+                                    <td> {{job.data.Order.OrderCart.SubTotal}} </td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right">Delivery Charge</td>
-                                    <td> job.Order.OrderCart.ServiceCharge </td>
+                                    <td> {{job.data.Order.OrderCart.ServiceCharge}} </td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
-                                    <td> job.Order.OrderCart.TotalToPay </td>
+                                    <td> {{job.data.Order.OrderCart.TotalToPay}} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -238,19 +242,19 @@
                 <div class="panel-body">
                     <div class="row mb-20">
                         <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
-                        <h4>Farhan</h4>
+                        <h4>{{job.data.User.UserName}}</h4>
                     </div>
                     <div class="row mb-20">
                         <span class="glyphicon glyphicon-user col-md-3" aria-hidden="true"></span>
-                        <span>Enterprise</span>                        
+                        <span>{{job.data.User.Type}}</span>
                     </div>
                     <div class="row mb-20">
                         <span class="glyphicon glyphicon-earphone col-md-3" aria-hidden="true"></span>
-                        <span>01911725897</span>                        
+                        <span>{{job.data.User.PhoneNumber}}</span>
                     </div>
                     <div class="row mb-20">
                         <span class="glyphicon glyphicon-envelope col-md-3" aria-hidden="true"></span>
-                        <span>farhan@gobd.co</span>                        
+                        <span>{{job.data.User.Email}}</span>
                     </div>
                 </div>                
             </div>
@@ -260,53 +264,58 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <label class="col-md-6">CreateTime</label>
-                        <span class="col-md-6">2016-08-01T05:43:25.192Z</span><br>                        
+                        <label class="col-md-6">Create Time</label>
+                        <span class="col-md-6">{{ job.data.CreateTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
                     </div>
 
                     <div class="row">
-                        <label class="col-md-6">ModifiedTime</label>
-                        <span class="col-md-6">2016-08-01T05:43:25.192Z</span><br>                        
+                        <label class="col-md-6">Modified Time</label>
+                        <span class="col-md-6">{{ job.data.ModifiedTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
                     </div>
 
                     <div class="row">
-                        <label class="col-md-6">ETAFailed</label>
-                        <span class="col-md-6">false</span><br>                        
+                        <label class="col-md-6">ETA Failed</label>
+                        <span class="col-md-6">{{ job.data.ETAFailed }}</span><br>                        
                     </div>
 
                     <div class="row">
-                        <label class="col-md-6">CompletionTime</label>
-                        <span class="col-md-6"></span><br>                        
+                        <label class="col-md-6">Processing Start Time</label>
+                        <span class="col-md-6">{{ (job.data.InitiatinTime | date:'EEE d MMM y,h:m a') || 'Not Started Yet' }}</span><br>
                     </div>
 
                     <div class="row">
-                        <label class="col-md-6">InitiatinTime</label>
-                        <span class="col-md-6">Duration</span><br>
+                        <label class="col-md-6">Completion Time</label>
+                        <span class="col-md-6">{{ (job.data.CompletionTime | date:'EEE d MMM y,h:m a') || 'Not Completed Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Duration Time</label>
+                        <span class="col-md-6">{{ job.data.Duration || 'Not Completed Yet' }}</span><br>
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">PreferredDeliveryTime</label>
-                        <span class="col-md-6"></span><br>                        
+                        <span class="col-md-6">{{ (job.data.PreferredDeliveryTime | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                        
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">InvoiceId</label>
-                        <span class="col-md-6"></span><br>                        
+                        <span class="col-md-6"> {{ job.data.InvoiceId || 'Not Generated Yet' }}</span><br>
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">Payment Status</label>
-                        <span class="col-md-6">Pending</span><br>                        
+                        <span class="col-md-6"> {{ job.data.PaymentStatus }} </span><br>
                     </div>
 
-                    <div class="row">
+                    <div class="row" ng-show="job.data.CancellationReason">
                         <label class="col-md-6">CancellationReason</label>
-                        <span class="col-md-6"></span><br>                        
+                        <span class="col-md-6"> {{ job.data.CancellationReason }}</span><br>                        
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">IsDeleted</label>
-                        <span class="col-md-6"></span><br>                    
+                        <span class="col-md-6"> {{ job.data.IsDeleted }} </span><br>
                     </dv>                
                         
                     </div>
