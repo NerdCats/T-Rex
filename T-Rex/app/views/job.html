@@ -7,14 +7,14 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
-                    <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.data.State}}</span></h1>
+                    <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
                     <h3>This Job is Claimed by {{job.data.ServedBy.UserName}}</h3>                   
                 </div>
                 <div class="col-md-6">
                     <div class="row pull-right">
-                        <button type="button" class="btn btn-success" ng-click="job.data.restore()">RESTORE THIS ORDER</button>
-                        <button type="button" class="btn btn-danger" ng-click="job.data.cancel()">CANCEL THIS ORDER</button>
-                        <button type="button" class="btn btn-danger" ng-click="job.data.claim()">CLAIM THIS ORDER</button>
+                        <button type="button" class="btn btn-success" ng-click="job.data.restore()">RESTORE</button>
+                        <button type="button" class="btn btn-danger" ng-click="job.data.cancel()">CANCEL</button>
+                        <button type="button" class="btn btn-danger" ng-click="job.data.claim()">CLAIM</button>
                         <button type="button" class="btn btn-info" ng-click="job.data.getInvoice()">INVOICE</button>
                     </div>
                 </div>
@@ -27,35 +27,32 @@
             <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[0].State).class">
-                    Fetch Delivery Man <span class="label pull-right">{{job.data.Tasks[0].State}}</span>
+                     {{job.data.Tasks[0].Type}}<span class="label pull-right">{{job.data.Tasks[0].State}}</span>
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <button class="btn btn-primary mb-20" ng-click="open()">ASSIGN DELIVERY MAN</button>                     
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
-                                <div class="row">
-                                    <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
-                                    <div class="col-md-7">
-                                        <p>{{job.data.Assets[key].UserName}}</p>
-                                        <span>{{job.data.Assets[key].PhoneNumber}}</span>
-                                    </div>
+                <div class="panel-body">                    
+                    <ul class="list-group mb-20">
+                        <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
+                            <div class="row">
+                                <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                                <div class="col-md-7">
+                                    <p>{{job.data.Assets[key].UserName}}</p>
+                                    <span>{{job.data.Assets[key].PhoneNumber}}</span>
                                 </div>
-                            </li>
-                        </ul>                        
-                        <div class="col-md-8"></div>
-                    </div>
+                            </div>
+                        </li>
+                    </ul>                        
+                    <button class="btn btn-primary pull-right" ng-click="open()">ASSIGN DELIVERY MAN</button>                    
                 </div>               
             </div>
             <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[1].State).class">
-                    Pickup<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
+                    {{job.data.Tasks[1].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <label class="col-md-6">Pickup ETA: </label>                                                    
-                        <span class="col-md-6">08/02/2016 12:00 AM</span><br>                            
+                        <span class="col-md-6">{{ job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m'}}</span><br>                            
                     </div>
                     <div class="row">
                         <label class="col-md-6">Pickup Started: </label>                                                    
@@ -69,18 +66,18 @@
                         <label class="col-md-6">Pickup ETA Failed: </label>                                                    
                         <span class="col-md-6">False</span><br>                            
                     </div>                    
-                    <select class="row form-control mb-20 task-state-update-select">
-                        <option>PENDING</option>
-                        <option>IN PROGRESS</option>
-                        <option>COMPLETED</option>
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
                     </select>                    
-                    <button class="btn btn-primary pull-right">Update State</button>
+                    <button class="btn btn-primary pull-right" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup)">UPDATE STATE</button>
                 </div>
             </div>
             <div class="panel" ng-show="job.data.Tasks[2].Type == 'Delivery'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[2].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[2].State).class">
-                    Pickup<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[2].State).value}}</span>
+                    {{job.data.Tasks[2].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[2].State).value}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -99,18 +96,18 @@
                         <label class="col-md-6">Pickup ETA Failed: </label>                                                    
                         <span class="col-md-6">False</span><br>                            
                     </div>                    
-                    <select class="row form-control mb-20 task-state-update-select">
-                        <option>PENDING</option>
-                        <option>IN PROGRESS</option>
-                        <option>COMPLETED</option>
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForDelivery">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
                     </select>                    
-                    <button class="btn btn-primary pull-right">Update State</button>
+                    <button class="btn btn-primary pull-right" ng-click="job.stateUpdate(job.data.Tasks[2].id, selectedStateForDelivery)">UPDATE STATE</button>
                 </div>
             </div>
             <div class="panel" ng-show="job.data.Tasks[3].Type == 'SecureDelivery'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[3].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[3].State).class">
-                    Pickup<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[3].State).value}}</span>
+                    {{job.data.Tasks[3].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[3].State).value}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -129,12 +126,12 @@
                         <label class="col-md-6">Pickup ETA Failed: </label>                                                    
                         <span class="col-md-6">False</span><br>                            
                     </div>                    
-                    <select class="row form-control mb-20 task-state-update-select">
-                        <option>PENDING</option>
-                        <option>IN PROGRESS</option>
-                        <option>COMPLETED</option>
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForSecureDelivery">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
                     </select>                    
-                    <button class="btn btn-primary pull-right">Update State</button>
+                    <button class="btn btn-primary pull-right" ng-click="job.stateUpdate(job.data.Tasks[3].id, selectedStateForSecureDelivery)">UPDATE STATE</button>
                 </div>
             </div>
         </div>

@@ -160,12 +160,18 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	function createNewOrder() {
 		
 		if (vm.PackagePickUp.ETA) {
-			var ETA = new Date(vm.PackagePickUp.ETA).toISOString();
+			var ETA = {				
+				Type: "PackagePickUp",
+				ETA: new Date(vm.PackagePickUp.ETA).toISOString()
+		    }
 			vm.order.JobTaskETAPreference.push(ETA);
 		}
 
 		if (vm.Delivery.ETA) {
-			var ETA = new Date(vm.Delivery.ETA).toISOString();
+			var ETA = {				
+				Type: "Delivery",
+				ETA: new Date(vm.Delivery.ETA).toISOString()
+		    }			
 			vm.order.JobTaskETAPreference.push(ETA);
 		}
 
@@ -193,6 +199,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			vm.OrderFailed = true;			
 			console.log("error : ");
 			console.log(error);
+			vm,order.JobTaskETAPreference = [];
 			vm.OrdersIsBeingCreated = false;
 
 			vm.errorMsg = error.data.Message || "Server error";

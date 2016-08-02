@@ -24,15 +24,22 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 				};
 				function errorCallback(error) {
 					itSelf.jobIsLoading = "FAILED";
-					itSelf.redMessage = error;
+					console.log(error)
+					itSelf.redMessage = error.Message;
 				};
 				restCall('GET', host + "api/job/" + id, null, successCallback, errorCallback);	 			
 	 		},	 		
 	 		claim: function () {
 	 			
 	 		},
-	 		stateUpdate: function (taskId, value) {
-	 			
+	 		stateUpdate: function (taskId, state) {
+	 			function stateUpdateSuccess(response) {
+	 				$window.location.reload();
+	 			}
+	 			function stateUpdateError(error) {
+	 				this.redMessage = error.message;
+	 			}
+	 			patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
 	 		},
 	 		assignAsset: function (assetRef) {
 	 			
