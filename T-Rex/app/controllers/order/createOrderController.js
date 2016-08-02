@@ -162,7 +162,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		if (vm.PackagePickUp.ETA) {
 			var ETA = {				
 				Type: "PackagePickUp",
-				ETA: new Date(vm.PackagePickUp.ETA).toISOString()
+				ETA: new Date(vm.PackagePickUp.ETA)
 		    }
 			vm.order.JobTaskETAPreference.push(ETA);
 		}
@@ -170,16 +170,16 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		if (vm.Delivery.ETA) {
 			var ETA = {				
 				Type: "Delivery",
-				ETA: new Date(vm.Delivery.ETA).toISOString()
+				ETA: new Date(vm.Delivery.ETA)
 		    }			
 			vm.order.JobTaskETAPreference.push(ETA);
 		}
 
 		if (vm.order.ETA) {
-			vm.order.ETA = new Date(vm.order.ETA).toISOString();			
+			vm.order.ETA = new Date(vm.order.ETA);			
 		}
 
-		if (vm.order.OrderLocation.AddressLine1 === "") {
+		if (vm.order.OrderLocation.AddressLine1 === "" || vm.order.OrderLocation.AddressLine1 === null) {
 			vm.order.OrderLocation = null;
 		}
 		
@@ -188,7 +188,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		vm.OrderFailed = false;
 		var successCallback = function (response){
 			vm.OrdersIsBeingCreated = false;
-			if (isPutOrder) {
+			if (vm.isPutOrder) {
 				$window.location.href = '#/job/' + response.data.HRID;
 			} else {
 				$window.location.href = '#/job/' + vm.HRID;
@@ -199,7 +199,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			vm.OrderFailed = true;			
 			console.log("error : ");
 			console.log(error);
-			vm,order.JobTaskETAPreference = [];
+			vm.order.JobTaskETAPreference = [];
 			vm.OrdersIsBeingCreated = false;
 
 			vm.errorMsg = error.data.Message || "Server error";
@@ -245,6 +245,10 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			var requestMethod = "POST";
 			var orderUrl = host + "api/Order/";
 			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
+			console.log(vm.PackagePickUp.ETA)
+			console.log(new Date(vm.PackagePickUp.ETA).toISOString())
+			console.log(vm.Delivery.ETA)
+			console.log(new Date(vm.Delivery.ETA).toISOString())
 		}
 	};
 	
@@ -265,14 +269,12 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			"Weight": 0
     	};
 
-		vm.order.OrderCart.PackageList.push(newItem);
-		$scope.$apply();
+		vm.order.OrderCart.PackageList.push(newItem);		
 	}
 
 	function RemoveItem(itemIndex) {
 		console.log(itemIndex);
-		vm.order.OrderCart.PackageList.splice(itemIndex, 1);
-		$scope.$apply();
+		vm.order.OrderCart.PackageList.splice(itemIndex, 1);		
 	}
 
 
