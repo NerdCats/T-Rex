@@ -1,64 +1,16 @@
-<link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css">
-<md-dialog ng-cloak>
-	<form>
-		<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Assign Asset</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="cancel()">
-					X
-				</md-button>
-	  		</div>
-		</md-toolbar>
-		<md-dialog-content>
-			<div class="md-dialog-content">
-				<table md-table>
-					<thead md-head md-on-recorder="onReorder">
-						<tr md-row>
-							<th flex="5" class="md-headline"></th>
-							<th class="md-headline">Name</th>
-							<th class="md-headline">Phone Number</th>
-							<!-- <th class=".md-headline">IsAvailable</th> -->
-							<th class="md-headline">Role</th>
-							<!-- <th class=".md-headline">Current Addres</th> -->
-							<!-- <th class=".md-headline">Assigned JobId</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						<tr md-row ng-repeat="asset in assets">
-							<td ><md-checkbox class="md-secondary" ng-click="assinged(asset)"></md-checkbox></td>
-							<td >{{asset.UserName}}</td>
-							<td >{{asset.PhoneNumber}}</td>
-							<!-- <td >{{asset.IsAvailable}}</td> -->
-							<td >{{asset.Type}}</td>
-							<!-- <td >{{Profile.Address}}</td> -->
-							<!-- <td >{{asset.AssignedJobId}}</td> -->
-						</tr>						
-					</tbody>
-				</table>
-			</div>
-		</md-dialog-content>
-		<md-dialog-actions layout="row">
-			<md-button ng-click="answer('Close')">
-				Close
-			</md-button>
-			<md-button ng-click="answer('Confirm')" style="margin-right:20px;">
-				Confirm
-			</md-button>
-		</md-dialog-actions>
-	</form>
-</md-dialog>
-
-<style type="text/css">
-	th, td{
-		padding: 10px;
-		width: 20%;
-		
-	}
-	th{
-		text-align: left;
-	}
-	tr:hover {
-		background-color: #BDBDBD;
-	}
-</style>
+<div class="modal-header">
+    <h3 class="modal-title">Delivery Men</h3>
+</div>
+<div class="modal-body">    
+    <div class="list-group asset-list">
+    	<div class="row" ng-repeat="asset in assets">
+			<input class="col-md-1" type="radio" ng-model="selectedAsset" ng-change="selectionChanged(asset)" ng-value="asset" name="assetSelected">
+		  	<button class="col-md-5 list-group-item asset-list-item" type="button" ng-click="selectionChanged(asset)">{{ asset.UserName }}</button>    		
+    	</div>
+	</div>
+    Selected: <b>{{ selectedAsset.UserName }}</b>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

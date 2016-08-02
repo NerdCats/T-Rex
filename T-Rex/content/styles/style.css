@@ -116,3 +116,11 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 .panel-canceled-border {
     border-color: #b71c1c;   
 }
+
+.asset-list {
+    overflow-y: auto;
+    height: 400px;
+}
+.asset-list-item {
+    width: 50% !important;
+}

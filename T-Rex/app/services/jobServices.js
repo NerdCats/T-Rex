@@ -61,9 +61,7 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	 		updatePaymentStatus: function () {
 	 			
 	 		},
-	 		getSantizedState: function (state) {
-	 			console.log(state)
-	 			console.log(dashboardFactory.state(state))
+	 		getSantizedState: function (state) {	 			
 	 			return dashboardFactory.state(state);
 	 		}
 	 	}
