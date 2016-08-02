@@ -12,6 +12,7 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	 		data : {},
 	 		jobIsLoading: "PENDING",
 	 		jobUpdating: false,
+	 		modifying: "",
 	 		redMessage : null,
 	 		loadJob: function () {
 				this.jobIsLoading = "INPROGRESS";
@@ -30,7 +31,20 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 				restCall('GET', host + "api/job/" + id, null, successCallback, errorCallback);	 			
 	 		},	 		
 	 		claim: function () {
-	 			
+	 			var itSelf = this;
+	 			itSelf.modifying = "CLAIMING";
+	 			function successFulClaim(response) {
+	 				console.log(response);
+	 				itSelf.modifying = "";
+	 				$window.location.reload();
+	 			}
+	 			function failedClaim(error) {
+	 				console.log(error);
+	 				itSelf.modifying = "";
+	 				itSelf.redMessage = "Unable to Claim";
+	 			}
+	 			console.log("claim")
+	 			restCall('POST', host + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
 	 		stateUpdate: function (taskId, state) {
 	 			function stateUpdateSuccess(response) {

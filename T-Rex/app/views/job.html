@@ -8,21 +8,33 @@
             <div class="row">
                 <div class="col-md-6">
                     <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
-                    <h3>This Job is Claimed by {{job.data.ServedBy.UserName}}</h3>                   
+                    <h3 ng-show="job.data.JobServedBy">This Job is Claimed by {{job.data.JobServedBy.UserName}}</h3>                   
+                    <h3 ng-show="!job.data.JobServedBy">
+                        You must 
+                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                            CLAIM
+                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>    
+                        </button>
+                        the Order first to start processing it
+                    </h3>
                 </div>
-                <div class="col-md-6">
+                <div ng-show="job.data.JobServedBy" class="col-md-6">
                     <div class="row pull-right">
-                        <button type="button" class="btn btn-success" ng-click="job.data.restore()">RESTORE</button>
-                        <button type="button" class="btn btn-danger" ng-click="job.data.cancel()">CANCEL</button>
-                        <button type="button" class="btn btn-danger" ng-click="job.data.claim()">CLAIM</button>
-                        <button type="button" class="btn btn-info" ng-click="job.data.getInvoice()">INVOICE</button>
+                        <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
+                        <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELED'" ng-click="job.restore()">RESTORE</button>
+                        <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELED'" ng-click="job.cancel()">CANCEL</button>
+                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                            RE CLAIM
+                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-info" ng-click="job.getInvoice()">INVOICE</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="row">
+    <div ng-show="job.data.JobServedBy" class="row">
         <div class="col-md-3">
             <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
@@ -323,7 +335,7 @@
         </div>       
     </div>
 
-    <div class="row">
+    <div ng-show="job.data.JobServedBy" class="row">
         <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
