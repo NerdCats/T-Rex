@@ -93,16 +93,28 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 	 				console.log(error);
 	 				itSelf.modifying = "";
 	 				itSelf.redMessage = error;
-	 			})	
+	 			})
 	 		},
-	 		getInvoice: function () {
-	 			
+	 		getInvoice: function () {	 			
+	 			this.modifying = "GETTING_INVOICE";
+	 			var itSelf = this;
+	 			$http({
+	 				method: 'POST',
+	 				url: host + '/api/job/'+itSelf.data.Id+'/invoice'
+	 			}).then(function (response) {
+	 				itSelf.modifying = "";
+	 				$window.location.reload();
+	 			}, function (error) {
+	 				console.log(error);
+	 				itSelf.modifying = "";
+	 				itSelf.redMessage = error;
+	 			})
 	 		},
 	 		mapZoomIn: function (coordinate) {
 	 			
 	 		},
-	 		edit: function () {
-	 			
+	 		edit: function () {	 			
+	 			$window.location.href = "#/order/create/" + this.data.HRID;
 	 		},
 	 		trackingLink: function () {
 	 			
