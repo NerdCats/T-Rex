@@ -7,9 +7,6 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 	$interval, templates, patchUpdate, restCall, COLOR, dashboardFactory){
 	
 
-	var getJob = function (id, data, jobIsLoading, redMessage) {
-		
-	}
 	var job = function (id) {
 	 	return {
 	 		data : {},
@@ -69,7 +66,6 @@ function jobFactory(tracking_host, host, listToString, mapFactory, $window, $htt
 
 
 	return {		 		
-		 job: job,
-		 getJob:getJob
+		job: job
 	}
 };

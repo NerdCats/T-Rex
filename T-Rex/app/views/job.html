@@ -1,4 +1,5 @@
-<div class="container-fluid">
+<div ng-show="job.jobIsLoading" ng-include="'../content/component/spinner/spinner.html'"></div>
+<div class="container-fluid" ng-hide="job.jobIsLoading">
     <div class="row">
         <div class="col-md-12">
             <div class="row">

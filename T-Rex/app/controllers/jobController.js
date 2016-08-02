@@ -51,7 +51,8 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'host', ModalInstanceCtrl]);
 function ModalInstanceCtrl($scope, $http, $uibModalInstance, host) {
 	
-	$scope.assets = [1,2,3,4,5];
+	$scope.assets = [];
+	$scope.loadingAssets = true;
 	var assetListUrlMaker = function (type, envelope, page, pageSize) {
 		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
 		var assetListUrl = host + "/api/Account/odata?" + parameters;		
@@ -62,6 +63,7 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, host) {
 		
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data.data;
+		$scope.loadingAssets = false;
 	});
 
 	$scope.selectionChanged = function (asset) {
