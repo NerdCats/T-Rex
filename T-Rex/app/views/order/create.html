@@ -148,7 +148,7 @@
                             datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
                             placeholder="..."
                             name="time"
-                            ng-model="order.ETA" required/>
+                            ng-model="order.ETA"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -189,6 +189,18 @@
 
 
             <legend>Other Infos</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label col-md-2" for="">Service Charge</label>
+              <div class="col-md-6">
+                <div class="input-group ">
+                    <input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.OrderCart.ServiceCharge">
+                    <span class="input-group-addon" id="BDT">BDT</span>
+                </div>
+              </div>
+            </div>
+
             <!-- Select Basic -->
             <div class="form-group">
               <label class="control-label col-md-2" for="">Payment Method</label>

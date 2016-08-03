@@ -132,7 +132,7 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 				},
 				envelope: true,
 				page: 0,
-				pageSize: 10
+				pageSize: 10				
 			},
 			loadOrders: function () {
 				this.isCompleted = 'IN_PROGRESS';
@@ -185,8 +185,8 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 			dates.startDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+1)+"T00:00:00.000Z";
 			dates.endDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+2)+"T00:00:00.000Z";
 		}
-		console.log(day)
-		console.log(dates)
+		// console.log(day)
+		// console.log(dates)
 		return dates;
 	}
 

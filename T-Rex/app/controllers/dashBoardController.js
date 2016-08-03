@@ -8,6 +8,8 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 	vm.menus = menus;	
 	vm.autoRefreshState = true;
 	vm.jobPerPage = 10;
+	vm.EnterpriseUser = null;
+	vm.EnterpriseUsers = [];	
 
 	vm.jobTime = "all";
 
@@ -17,6 +19,24 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
 	
+
+	function loadUserName(_EnterpriseUsers) {
+		function success(response) {
+			vm.EnterpriseUsers.push("all");
+			angular.forEach(response.data.data, function (value, keys) {
+				_EnterpriseUsers.push(value.UserName);
+			});
+			console.log(_EnterpriseUsers)
+		}
+		function error(error) {
+			console.log(error);
+		}
+		var enterpriseUsersUrl = host + "api/Account/odata?$filter=Type eq 'Enterprise'&PageSize=50";
+		restCall('GET', enterpriseUsersUrl, null, success, error);
+	}
+
+	loadUserName(vm.EnterpriseUsers);
+
 	vm.createNewOrder = function () {
 		$window.location.href = "#/order/create/new";
 	}
@@ -29,7 +49,10 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		}
 	}
 	vm.activate = function () {
-
+		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
+		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
+		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;		
+		
 		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
@@ -41,7 +64,8 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		vm.newOrders.loadOrders();
 		vm.processingOrders.loadOrders();
 		vm.completedOrders.loadOrders();
+		
 		dashboardFactory.startRefresh(vm.newOrders);
 	}
-	vm.activate();	
+	vm.activate();
 }

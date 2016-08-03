@@ -179,7 +179,9 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			vm.order.ETA = new Date(vm.order.ETA);			
 		}
 
-		if (vm.order.OrderLocation.AddressLine1 === "" || vm.order.OrderLocation.AddressLine1 === null) {
+		if (vm.order.OrderLocation === null ||
+			vm.order.OrderLocation.AddressLine1 === "" || 
+			vm.order.OrderLocation.AddressLine1 === null) {
 			vm.order.OrderLocation = null;
 		}
 		
@@ -189,7 +191,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		var successCallback = function (response){
 			vm.OrdersIsBeingCreated = false;
 			if (vm.isPutOrder) {
-				$window.location.href = '#/job/' + response.data.HRID;
+				$window.location.href = '#/job/' + vm.HRID;
 			} else {
 				$window.location.href = '#/job/' + vm.HRID;
 			}

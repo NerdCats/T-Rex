@@ -16,7 +16,18 @@ function jobSearchService(restCall, host){
 		}
 
 		
-		
+		console.log("searchParam.UserName : " + searchParam.UserName);
+		if (searchParam.UserName != null && searchParam.UserName != "all") {
+			var UserNameParam = "User/UserName eq '"+ searchParam.UserName +"'";
+			console.log("how the hell you r coming here ??? Mr. " + searchParam.UserName)
+			if (!allreadyAParamIsThere) {
+				searchUrl +=  UserNameParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += " and " + UserNameParam;
+			}
+		}
+
 		if (searchParam.startDate != null) {
 			var startDateParam = "CreateTime gt datetime'"+ searchParam.startDate +"'";
 			if (!allreadyAParamIsThere) {
@@ -26,6 +37,7 @@ function jobSearchService(restCall, host){
 				searchUrl += " and " + startDateParam;
 			}
 		}
+
 		if (searchParam.endDate != null) {
 			var endDateParam = "CreateTime lt datetime'"+ searchParam.endDate +"'";
 			if (!allreadyAParamIsThere) {
@@ -35,15 +47,7 @@ function jobSearchService(restCall, host){
 				searchUrl += " and " + endDateParam;
 			}
 		}
-		if (searchParam.UserName != null) {
-			var userNameParam = "User/UserName eq '"+ searchParam.UserName +"'";
-			if (!allreadyAParamIsThere) {
-				searchUrl +=  userNameParam;
-				allreadyAParamIsThere = true;
-			} else {
-				searchUrl += " and " + userNameParam;
-			}
-		}
+
 		if (searchParam.jobState != null) {
 			var jobStateParam = "State eq '"+ searchParam.jobState +"'";
 			console.log(searchParam.jobState)
