@@ -16,7 +16,7 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
 	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
-
+	
 	vm.createNewOrder = function () {
 		$window.location.href = "#/order/create/new";
 	}

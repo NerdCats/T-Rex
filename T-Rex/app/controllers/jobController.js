@@ -12,9 +12,12 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	var id = $routeParams.id;	
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
-
+	vm.invoiceUrl = function () {
+		var url = host + '/api/job/'+ vm.job.data.HRID +'/invoice';
+		return url;
+	}
 	
-	
+	console.log(vm.invoiceUrl)
 	vm.restore = function () {
 		console.log(vm.job)
 	}

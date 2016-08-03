@@ -13,7 +13,7 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 	 		jobIsLoading: "PENDING",
 	 		jobUpdating: false,
 	 		modifying: "",
-	 		redMessage : null,
+	 		redMessage : null,	 		
 	 		loadJob: function () {
 				this.jobIsLoading = "INPROGRESS";
 				console.log(this.data)
@@ -86,21 +86,6 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 	 			$http({
 	 				method: 'POST',
 	 				url: host + 'api/Job/restore/' + itSelf.data.Id
-	 			}).then(function (response) {
-	 				itSelf.modifying = "";
-	 				$window.location.reload();
-	 			}, function (error) {
-	 				console.log(error);
-	 				itSelf.modifying = "";
-	 				itSelf.redMessage = error;
-	 			})
-	 		},
-	 		getInvoice: function () {	 			
-	 			this.modifying = "GETTING_INVOICE";
-	 			var itSelf = this;
-	 			$http({
-	 				method: 'POST',
-	 				url: host + '/api/job/'+itSelf.data.Id+'/invoice'
 	 			}).then(function (response) {
 	 				itSelf.modifying = "";
 	 				$window.location.reload();
