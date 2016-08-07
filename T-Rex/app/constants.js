@@ -1,0 +1,36 @@
+app.constant('ngAuthSettings', {
+  apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
+  // apiServiceBaseUri: "http://gofetch.cloudapp.net:80/",
+  // apiServiceBaseUri: "http://localhost:23873/",
+  clientId: 'GoFetchDevWebApp'
+});
+app.constant('host', "http://taskcatdev.azurewebsites.net/");
+// app.constant('host', "http://gofetch.cloudapp.net:80/");
+// app.constant('host', "http://localhost:23873/");
+
+app.constant('menus', [
+	{ title : "Dashboard", link: '#/'},
+	{ title : "Search Jobs", link: '#/job-search'},
+	{ title : "Order Types", link: '#/supportedOrder'},
+	{ title : "Users", link: '#/users'},
+	{ title : "Assets", link: '#/asset'},
+	// { Title : "Agents", Href: '#/'},
+	// { Title : "Administration", Href: '#/'}
+]);
+
+
+app.constant('tracking_host', "http://gofetch.cloudapp.net:1337/");
+app.constant('tracking_link', "http://gofetchtrack.azurewebsites.net/#/");
+app.constant('signlr_link', "http://gofetch.cloudapp.net:1001/signalr/hubs");
+
+app.constant('templates', {
+	sidebar: 'app/views/sidebar.html',
+	availableAsset: 'app/views/detailsJob/availableAsset.html'
+});
+
+app.constant('COLOR', {
+	"red" : "#F44336",
+	"green" : "#4CAF50",
+	"yellow" : "#FFEB3B"
+
+});
