@@ -134,18 +134,20 @@
             </div>
             <div id="page-content-wrapper">
                 <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">                    
-                    <div class="col-md-8"></div>
-                    <div class="col-md-2">
-                        <div class="input-group">
-                            <input type="text" ng-model="jobId" class="form-control" placeholder="ex: Job-SDHA54SD">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" ng-click="saerchJob(jobId)">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>                            
-                            </span>
-                        </div>            
+                    <div class="col-md-7"></div>
+                    <div class="">
+                        <form class="navbar-form navbar-left">
+                            <div class="input-group">
+                                <input type="text" ng-model="jobId" class="form-control" placeholder="ex: Job-SDHA54SD">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" ng-click="saerchJob(jobId)">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>                            
+                                </span>
+                            </div>                            
+                        </form>
                     </div>
-                    <div class="col-md-1 collapse navbar-collapse" id="bs-example-navbar-collapse-1">                        
+                    <div class="col-md-1 collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">                        
                         <ul class="nav navbar-nav navbar-right">                            
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as {{authData.userName}}<span class="caret"></span></a>
