@@ -109,6 +109,10 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
     background-color: #b71c1c;
 }
 
+.claimed-by {
+    background-color: #9C27B0;
+    color: white;
+}
 .panel-pending-border {
     border-color: #FF5722;   
 }

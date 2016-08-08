@@ -9,7 +9,6 @@
                 <div class="col-md-6">
                     <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
                     <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
-                    <h3 ng-show="job.data.JobServedBy">This Job is Claimed by {{job.data.JobServedBy.UserName}}</h3>                   
                     <h3 ng-show="!job.data.JobServedBy">
                         You must 
                         <button type="button" class="btn btn-danger" ng-click="job.claim()">
@@ -40,7 +39,7 @@
                         </button>
                         <a class="btn btn-info" href="{{invoiceUrl()}}">INVOICE</a>
                     </div>
-                    <div class="row">
+                    <div class="row mb-20">
                         <div class="input-group col-md-6 pull-right">                            
                             <input id="tracking-link" type="text" class="form-control" ng-model="trackingLink">
                             <span class="input-group-btn">
@@ -307,7 +306,11 @@
                 <div class="panel-heading">
                     Order Status
                 </div>
-                <div class="panel-body">
+                <div class="panel-body">                    
+                    <div class="row">
+                        <label class="col-md-6">Claimed By</label>
+                        <span class="col-md-6 label claimed-by">{{job.data.JobServedBy.UserName}}</span>
+                    </div>
                     <div class="row">
                         <label class="col-md-6">Create Time</label>
                         <span class="col-md-6">{{ job.data.CreateTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
