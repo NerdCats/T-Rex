@@ -43,6 +43,10 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		$window.location.href = "#/order/create/new";
 	}
 
+	vm.saerchJob = function (jobId) {
+		$window.location.href = "#/job/" + jobId;
+	}
+
 	vm.AutoRefreshChanged = function () {
 		if (vm.autoRefreshState) {
 			dashboardFactory.startRefresh();

@@ -1,9 +1,13 @@
 <div class="container-fluid">
     
     <div class="row">    	
-        <div class="col-md-10">            
+        <div class="col-md-9">            
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 form-group form-inline">            
+            <input type="text" ng-model="jobId" class="form-control job-id-search-input" placeholder="ex: Job-SDHA54SD">
+            <button class="btn btn-primary" ng-click="saerchJob(jobId)">Search</button>
+        </div>
+        <div class="col-md-1">
             <button class="btn btn-primary" ng-click="createNewOrder()">Create new Order</button>
         </div>
     </div>
