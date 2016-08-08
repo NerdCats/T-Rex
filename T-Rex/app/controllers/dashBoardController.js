@@ -43,9 +43,7 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		$window.location.href = "#/order/create/new";
 	}
 
-	vm.saerchJob = function (jobId) {
-		$window.open("#/job/" + jobId, '_blank');
-	}
+	
 
 	vm.AutoRefreshChanged = function () {
 		if (vm.autoRefreshState) {

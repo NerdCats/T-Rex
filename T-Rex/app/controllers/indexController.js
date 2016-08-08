@@ -32,6 +32,10 @@ function indexController($scope, $location, $timeout, $log, menus, templates, $w
 		vm.sidebarVisible = !vm.sidebarVisible;		
 	}
 
+	vm.saerchJob = function (jobId) {
+		$window.open("#/job/" + jobId, '_blank');
+	}
+
 	function activate()
 	{
 		if ($window.location.hash == '#/login'){

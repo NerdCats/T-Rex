@@ -133,8 +133,18 @@
                 </ul>
             </div>
             <div id="page-content-wrapper">
-                <nav class="navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">                    
-                    <div class="col-md-10"></div>
+                <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">                    
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" ng-model="jobId" class="form-control" placeholder="ex: Job-SDHA54SD">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="saerchJob(jobId)">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>                            
+                            </span>
+                        </div>            
+                    </div>
                     <div class="col-md-1 collapse navbar-collapse" id="bs-example-navbar-collapse-1">                        
                         <ul class="nav navbar-nav navbar-right">                            
                             <li class="dropdown">
