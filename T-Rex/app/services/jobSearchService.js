@@ -75,6 +75,9 @@ function jobSearchService(restCall, host){
 			}
 		}
 
+		searchUrl += "&page="+ searchParam.page + 
+					 "&pageSize="+ searchParam.pageSize +
+					 "&envelope="+ searchParam.envelope;
 		console.log(searchUrl);
 		return searchUrl;
 	}

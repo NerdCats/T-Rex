@@ -105,7 +105,7 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
     background-color: #4CAF50;
     color: white;
 }
-.canceled {
+.cancelled {
     background-color: #b71c1c;
 }
 
@@ -118,7 +118,7 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 .panel-completed-border {
     border-color: #4CAF50;   
 }
-.panel-canceled-border {
+.panel-cancelled-border {
     border-color: #b71c1c;   
 }
 

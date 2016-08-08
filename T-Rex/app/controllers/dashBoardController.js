@@ -18,6 +18,8 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
 	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
+
+	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");
 	
 
 	function loadUserName(_EnterpriseUsers) {
@@ -51,19 +53,23 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 	vm.activate = function () {
 		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
-		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;		
+		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;
+		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;	
 		
 		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
 
 		vm.newOrders.jobTime(vm.jobTime);
 		vm.processingOrders.jobTime(vm.jobTime);
 		vm.completedOrders.jobTime(vm.jobTime);
+		vm.cancelledOrders.jobTime(vm.jobTime);
 
 		vm.newOrders.loadOrders();
 		vm.processingOrders.loadOrders();
 		vm.completedOrders.loadOrders();
+		vm.cancelledOrders.loadOrders();
 		
 		dashboardFactory.startRefresh(vm.newOrders);
 	}

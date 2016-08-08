@@ -42,12 +42,12 @@
             </div>            
         </div>
         <div class="col-md-3 row">
-            <div class="summary-icon-div canceled col-md-1">
+            <div class="summary-icon-div cancelled col-md-1">
                 <i class="fa fa-times fa-2x" aria-hidden="true"></i>
             </div>
             <div class="col-md-4 job-state">
                 <div>
-                    <h3 class="display-4">0</h3>
+                    <h3 class="display-4">{{cancelledOrders.pagination.Total}}</h3>
                 </div>
                 <div>CANCELED</div>                    
             </div>            
@@ -112,9 +112,9 @@
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                CANCELED : {{canceledOrders.total}}
+                CANCELED : {{cancelledOrders.total}}
             </uib-tab-heading>
-            <order-table orders="canceledOrders"></order-table>            
+            <order-table orders="cancelledOrders"></order-table>            
         </uib-tab>
     </uib-tabset>    
 </div>			

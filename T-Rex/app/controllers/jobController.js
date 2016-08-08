@@ -22,7 +22,23 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		console.log(vm.job)
 	}
 	
-	vm.open = function (size) {
+	vm.openCancellationModal = function (size) {
+		var modalInstance = $uibModal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'app/views/detailsJob/JobCancellation.html',
+			controller: 'JobCancellationCtrl'
+		});
+
+		modalInstance.result.then(function (reason) {
+			vm.cancelReason = reason;
+			console.log(reason);
+			vm.job.cancel(reason);
+		}, function () {
+			console.log("discarded")
+		})
+	}
+
+	vm.openAssetsList = function (size) {
 		var modalInstance = $uibModal.open({
 			animation: $scope.animationsEnabled,
 			templateUrl: 'app/views/detailsJob/availableAsset.html',
@@ -84,4 +100,16 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, host) {
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
   	};
+}
+
+app.controller('JobCancellationCtrl', ['$scope', '$uibModalInstance', JobCancellationCtrl]);
+function JobCancellationCtrl($scope, $uibModalInstance) {
+	$scope.reason = "";
+
+	$scope.cancel = function () {
+		$uibModalInstance.close($scope.reason);
+	}
+	$scope.discard = function () {
+		$uibModalInstance.dismiss("cancel");
+	}
 }

@@ -95,10 +95,10 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 				class: "completed"
 			}
 		}
-		else if (State == "CANCELED") {
+		else if (State == "CANCELLED") {
 			return {
-				value: "CANCELED",
-				class: "canceled"
+				value: "CANCELLED",
+				class: "cancelled"
 			}
 		}
 		return State;
@@ -139,8 +139,8 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 				var pageUrl = jobSearch.jobOdataQueryMaker(this.searchParam);
 				populateOrdersTable(this, pageUrl);
 			},
-			loadPage: function (pageNo) {	
-				this.searchParam.pageNo = pageNo;		
+			loadPage: function (pageNo) {				
+				this.searchParam.page = pageNo;		
 				this.loadOrders();
 			},
 			loadPrevPage: function () {

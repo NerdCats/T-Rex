@@ -20,7 +20,7 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 				var itSelf = this;
 				function successCallback(response) {
 					itSelf.data = response.data;
-					itSelf.jobIsLoading = "COMPLETED";
+					itSelf.jobIsLoading = "COMPLETED";					
 					console.log(itSelf);
 				};
 				function errorCallback(error) {
@@ -56,8 +56,9 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 	 				$window.location.reload();
 	 			}
 	 			function stateUpdateError(error) {
-	 				itSelf.modifying = "";
-	 				itSelf.redMessage = error.message;
+	 				console.log(error)
+	 				itSelf.modifying = "FAILED";
+	 				itSelf.redMessage = error.data.Message;
 	 			}
 	 			patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
 	 		},
@@ -70,7 +71,11 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 	 			var itSelf = this;
 	 			$http({
 	 				method: 'POST',
-	 				url: host + 'api/Job/cancel/' + itSelf.data.Id
+	 				url: host + 'api/job/cancel',
+	 				data: {
+	 					JobId: itSelf.data.Id,
+	 					Reason: reason
+	 				}
 	 			}).then(function (response) {
 	 				itSelf.modifying = "";
 	 				$window.location.reload();
