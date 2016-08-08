@@ -10,6 +10,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	
 	var vm = $scope;
 	var id = $routeParams.id;	
+	vm.trackingLink = "gofetch.cloudapp.net:8000/#/track/" + id;
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
 	vm.invoiceUrl = function () {
@@ -17,11 +18,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		return url;
 	}
 	
-	console.log(vm.invoiceUrl)
-	vm.restore = function () {
-		console.log(vm.job)
-	}
-	
+ 
 	vm.openCancellationModal = function (size) {
 		var modalInstance = $uibModal.open({
 			animation: $scope.animationsEnabled,

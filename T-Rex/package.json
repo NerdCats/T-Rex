@@ -19,6 +19,7 @@
     "angular-signalr-hub": "^1.6.2",
     "angular-touch": "^1.5.8",
     "bootstrap": "^3.3.6",
+    "clipboard": "^1.5.12",
     "eonasdan-bootstrap-datetimepicker-npm": "^4.17.37",
     "font-awesome": "^4.6.3",
     "gmaps": "^0.4.24",

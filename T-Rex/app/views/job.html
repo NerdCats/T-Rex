@@ -20,7 +20,7 @@
                     </h3>
                 </div>
                 <div ng-show="job.data.JobServedBy" class="col-md-6">
-                    <div class="row pull-right">
+                    <div class="row pull-right mb-20">
                         <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
                         <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELLED'" ng-click="job.restore()">
                             RESTORE
@@ -39,6 +39,16 @@
                             <span ng-show="job.modifying === 'PAYMENT_UPDATING'" class="fa fa-refresh fa-spin"></span>
                         </button>
                         <a class="btn btn-info" href="{{invoiceUrl()}}">INVOICE</a>
+                    </div>
+                    <div class="row">
+                        <div class="input-group col-md-6 pull-right">                            
+                            <input id="tracking-link" type="text" class="form-control" ng-model="trackingLink">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ngclipboard data-clipboard-target="#tracking-link"  data-toggle="tooltip" data-placement="bottom" title="Copy GO! Fetch Public Tracking Link of {{job.data.HRID}}" >
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>                        
                     </div>
                 </div>
             </div>
