@@ -308,8 +308,12 @@
                 </div>
                 <div class="panel-body">                    
                     <div class="row">
+                        <label class="col-md-6">Order Type</label>
+                        <span class="col-md-6">{{job.data.Order.Type}}</span>
+                    </div>
+                    <div class="row">
                         <label class="col-md-6">Claimed By</label>
-                        <span class="col-md-6 label claimed-by">{{job.data.JobServedBy.UserName}}</span>
+                        <span class="col-md-6">{{job.data.JobServedBy.UserName}}</span>
                     </div>
                     <div class="row">
                         <label class="col-md-6">Create Time</label>

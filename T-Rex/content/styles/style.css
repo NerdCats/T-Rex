@@ -109,6 +109,18 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
     background-color: #b71c1c;
 }
 
+.not-applicable {
+    background-color: #9E9E9E;
+}
+
+.b2b {
+    background-color: #2196F3;
+}
+
+.b2c {
+    background-color: #3F51B5;
+}
+
 .claimed-by {
     background-color: #9C27B0;
     color: white;

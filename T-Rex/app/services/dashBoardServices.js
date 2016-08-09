@@ -26,18 +26,28 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 					Type : value.Order.Type,
 					From : value.Order.From.Address,
 					To : value.Order.To.Address,
-					User : value.User.UserName,
-					PaymentStatus : value.PaymentStatus,
+					User : function () {
+						var user = getProperWordWithCss(value.User.Type);
+						user.value = value.User.UserName + " ("+ user.value + ")";
+						return user;
+					},
+					PaymentStatus : getProperWordWithCss(value.PaymentStatus),
 					CreateTime : value.CreateTime,
 					RequestedAgo : timeAgo(value.CreateTime),
 					JobState : function () {
-						return State(value.State);	
+						return getProperWordWithCss(value.State);	
 					},
 					PickUpState: function () {
-						return State(value.Tasks[1].State);
+						return getProperWordWithCss(value.Tasks[1].State);
 					},
 					DeliveryState: function () {
-						return State(value.Tasks[2].State);	
+						return getProperWordWithCss(value.Tasks[2].State);	
+					},
+					SecureDeliveryState: function () {
+						if (value.Tasks[3]) {
+							return getProperWordWithCss(value.Tasks[3].State);
+						}
+						return {value: "N/A", class: "not-applicable"};
 					},
 					Details : function(){
 						$window.location.href = '#/job/'+ value.HRID;
@@ -70,38 +80,56 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
  		restCall('GET', jobListUrl, null, successCallback, errorCallback);
 	};
 
-	var State = function (State) {
-		if (State == "ENQUEUED") {
+	var getProperWordWithCss = function (word) {
+		if (word == "ENQUEUED" || word == "PENDING" || word == "Pending") {
 			return {
 				value: "PENDING",
 				class: "pending"
 			};
 		}
-		else if (State == "PENDING") {
-			return {
-				value: "PENDING",
-				class: "pending"
-			};
-		}
-		else if (State == "IN_PROGRESS") {
+		// else if (word == "PENDING") {
+		// 	return {
+		// 		value: "PENDING",
+		// 		class: "pending"
+		// 	};
+		// }
+		else if (word == "IN_PROGRESS") {
 			return {
 				value: "IN PROGRESS",
 				class: "in-progress"
 			}
 		}
-		else if (State == "COMPLETED") {
+		else if (word == "COMPLETED") {
 			return {
 				value: "COMPLETED",
 				class: "completed"
 			}
 		}
-		else if (State == "CANCELLED") {
+		else if (word == "CANCELLED") {
 			return {
 				value: "CANCELLED",
 				class: "cancelled"
 			}
 		}
-		return State;
+		if (word == "USER") {
+			return {
+				value: "B2C",
+				class: "b2c"
+			}
+		}
+		if (word == "ENTERPRISE") {
+			return {
+				value: "B2B",
+				class: "b2b"
+			}
+		}
+		if (word == "Paid") {
+			return {
+				value: "PAID",
+				class: "completed"
+			}
+		}
+		return word;
 	}
 
 	var loadNextPage = function(Orders, nextPageUrl){		
@@ -216,6 +244,6 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 		orders: orders,
 		startRefresh: startRefresh,
 		stopRefresh: stopRefresh,
-		state: State
+		getProperWordWithCss: getProperWordWithCss
 	};
 }]);

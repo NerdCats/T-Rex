@@ -123,7 +123,7 @@ function jobFactory($http, tracking_host, host, listToString, mapFactory, $windo
 	 			})
 	 		},
 	 		getSantizedState: function (state) {
-	 			return dashboardFactory.state(state);
+	 			return dashboardFactory.getProperWordWithCss(state);
 	 		}
 	 	}
 	 }

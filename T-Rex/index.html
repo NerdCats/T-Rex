@@ -136,11 +136,11 @@
                 <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">                    
                     <div class="col-md-7"></div>
                     <div class="">
-                        <form class="navbar-form navbar-left">
+                        <form name="jobSearchForm" class="navbar-form navbar-left">
                             <div class="input-group">
-                                <input type="text" ng-model="jobId" class="form-control" placeholder="ex: Job-SDHA54SD">
+                                <input type="text" ng-model="jobId" class="form-control" pattern="Job-[A-Z|0-9]{8}" title="ex: Job-VV1XDFOW" placeholder="ex: Job-SDHA54SD">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" ng-click="saerchJob(jobId)">
+                                    <button class="btn btn-default" ng-click="saerchJob(jobId)" ng-disabled="jobSearchForm.$invalid">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </button>                            
                                 </span>
