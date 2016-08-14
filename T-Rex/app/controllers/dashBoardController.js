@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'host', 'timeAgo', 'restCall', 'dashboardFactory', 'jobSearch', dashBoardController]);
+app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'host', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
 
-function dashBoardController($scope, $interval, $window, menus, host, timeAgo, restCall, dashboardFactory, jobSearch)  {
+function dashBoardController($scope, $interval, $window, menus, host, timeAgo, restCall, dashboardFactory)  {
 
 	var vm = $scope;	
 	vm.menus = menus;	

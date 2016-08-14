@@ -1,8 +1,8 @@
-app.factory('jobSearch', ['restCall', 'host', jobSearchService])
+app.factory('odata', ['restCall', 'host', odataService])
 
-function jobSearchService(restCall, host){
+function odataService(restCall, host){
 	
-	var jobOdataQueryMaker = function (searchParam) {
+	var odataQueryMaker = function (searchParam) {
 		searchUrl = host + "api/Job/";
 		var allreadyAParamIsThere = false;
 		console.log(searchParam)
@@ -83,6 +83,6 @@ function jobSearchService(restCall, host){
 	}
 
 	return {
-		jobOdataQueryMaker: jobOdataQueryMaker
+		odataQueryMaker: odataQueryMaker
 	}
 }

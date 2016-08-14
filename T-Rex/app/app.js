@@ -27,16 +27,6 @@ app.config(['$routeProvider',
 		        controller: 'dashBoardController',
 		        controllerAs: 'dashboard'
 			}).
-			when('/same-day', {
-				templateUrl: 'app/views/same-day.html',
-				controller: 'sameDayC',
-				controllerAs: 'sameDay'
-			}).
-			when('/next-day', {
-				templateUrl: 'app/views/next-day.html',
-				controller: 'nextDayC',
-				controllerAs: 'nextDay'
-			}).
 			when('/order/create/:id',{
 				templateUrl: 'app/views/order/create.html',
 				controller: 'createOrderController',
@@ -50,12 +40,13 @@ app.config(['$routeProvider',
 			when('/job/:id',{
 				templateUrl: 'app/views/job.html',
 				controller: 'jobController',				
+			}).
+			when('/users', {
+				templateUrl: 'app/views/users.html',
+				controller: 'userController',
+				controllerAs: 'users'
 			})
-			// when('/users', {
-			// 	templateUrl: 'app/views/users.html',
-			// 	controller: 'userController',
-			// 	controllerAs: 'users'
-			// }).
+			// .
 			// when('/user/create',{
 			// 	templateUrl: 'app/views/user/create.html',
 			// 	controller: 'createAssetController',

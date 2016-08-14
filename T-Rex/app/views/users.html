@@ -1,39 +1,120 @@
-<div class="title">
-	<h1>Asset</h1>
-</div>
-<article class="container">
-    <div id="new-orders" >   
-        <md-container flex layout="row">
-            <div flex="80"></div>            
-            <div flex="20">
-                <md-button class="md-raised" ng-click="users.Register()">Register new user</md-button> 
-            </div>
-
-        </md-container>
-        <table md-table class="order-table" ng-model="selected" flex="90">
-            <thead md-head md-on-recorder="onReorder">
-                <tr md-row>
-                    <th md-column>S/L no</th>
-                    <th md-column>Username</th>
-                    <th md-column>Type</th>
-                    <th md-column>Phone</th>
-                    <th md-column>Address</th>                    
-                </tr>
-            </thead>
-            <tbody md-body>
-                <tr md-row md-auto-select ng-repeat="user in users.Users.Collection track by $index" ng-click="users.Details(user.Id)">
-                    <td md-cell class="text">{{$index + 1}}</td>
-                    <td md-cell class="text">{{user.UserName}}</td>
-                    <td md-cell class="text">{{user.Type}}</td>
-                    <td md-cell class="text">{{user.PhoneNumber}}</td>
-                    <td md-cell class="text">{{user.Profile.Address}}</td>                    
-                </tr>
-            </tbody>
-        </table>
-        <div style="float:right;margin-bottom: 100px;">
-            <ul layout="row">
-                <li ng-repeat="page in users.Assets.pages" ng-click="users.loadNextPage(page)">{{page+1}}</li>                                    
-            </ul>
+<div class="container-fluid">    
+    <div class="row">       
+        <div class="col-md-10">            
         </div>
-     </div>		 
-</article>				
+        
+        <div class="col-md-1">
+            <button class="btn btn-primary" ng-click="createNewOrder()">Create new Order</button>
+        </div>
+    </div>
+    <div class="row mt-50">
+        <div class="col-md-3 row">
+            <div class="summary-icon-div pending col-md-1">
+                <i class="fa fa-users fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 user">
+                <div>
+                    <h3 class="display-4">{{newOrders.pagination.Total}}</h3>
+                </div>
+                <div>USERS</div>                    
+            </div>            
+        </div>
+        <div class="col-md-3 row">
+            <div class="summary-icon-div in-progress col-md-1">
+                <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+            </div>                
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{processingOrders.pagination.Total}}</h3>
+            </div>
+                <div>ENTERPRISE USERS</div>                    
+            </div>            
+        </div>
+        <div class="col-md-3 row">
+            <div class="summary-icon-div completed col-md-1">
+                <i class="fa fa-bicycle fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{completedOrders.pagination.Total}}</h3>
+                </div>
+                <div>BIKE MESSENGERS</div>                    
+            </div>            
+        </div>
+        <div class="col-md-3 row">
+            <div class="summary-icon-div cancelled col-md-1">
+                <i class="fa fa-anchor fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{cancelledOrders.pagination.Total}}</h3>
+                </div>
+                <div>ADMINS</div>                    
+            </div>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label>Show:</label>
+            <select ng-model="jobTime" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                <option value="all">All</option>
+                <option value="today">ToDay's</option>
+                <option value="nextday">Next Day</option>                    
+            </select>
+            <label>Orders</label>                
+        </div>
+        <div class="form-group col-md-3">
+            <label>Show:</label>
+            <select ng-model="jobPerPage" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">60</option>
+                <option value="50">70</option>
+                <option value="50">80</option>
+                <option value="50">90</option>
+                <option value="50">100</option>
+            </select>
+            <label>Orders</label>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Show:</label>
+            <select ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                <option></option>                
+            </select>
+            <label>Orders</label>
+        </div>
+    </div>
+    <uib-tabset  active="activeJustified" justified="true">
+        <uib-tab index="0">
+            <uib-tab-heading>
+                PENDING : {{newOrders.total}}
+            </uib-tab-heading>
+            <div>                
+                <label>
+                    <input type="checkbox" ng-model="autoRefreshState" ng-true-value="true" ng-false-value="false" ng-change="AutoRefreshChanged(newOrders)"> Auto Refresh
+                </label>
+            </div>            
+            <order-table orders="newOrders"></order-table>            
+        </uib-tab>
+        <uib-tab index="1">
+            <uib-tab-heading>
+                IN PROGRESS : {{processingOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="processingOrders"></order-table>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                COMPLETED : {{completedOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="completedOrders"></order-table>            
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                CANCELED : {{cancelledOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="cancelledOrders"></order-table>            
+        </uib-tab>
+    </uib-tabset>    
+</div>          

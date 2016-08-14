@@ -1,4 +1,4 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', 'jobSearch', function($http, $window, $interval, timeAgo, restCall, host, jobSearch){
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', 'odata', function($http, $window, $interval, timeAgo, restCall, host, odata){
 
 	var jobListUrlMaker = function (state, envelope, page, pageSize) {
 		var path = "api/Job/odata?";
@@ -164,7 +164,7 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 			},
 			loadOrders: function () {
 				this.isCompleted = 'IN_PROGRESS';
-				var pageUrl = jobSearch.jobOdataQueryMaker(this.searchParam);
+				var pageUrl = odata.odataQueryMaker(this.searchParam);
 				populateOrdersTable(this, pageUrl);
 			},
 			loadPage: function (pageNo) {				

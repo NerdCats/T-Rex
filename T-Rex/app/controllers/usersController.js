@@ -1,7 +1,7 @@
 'use strict';
 app.controller('userController', ['$scope', '$http', '$window', 'userService', function($scope, $http, $window, userService){
 	
-	var vm = this;
+	var vm = $scope;
 	
 	vm.Users = {Collection : [], pages: []};
 	 

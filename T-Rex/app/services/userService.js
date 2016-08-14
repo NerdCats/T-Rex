@@ -2,6 +2,26 @@
 
 app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", function($http, $window, restCall, host, UrlPath){
 
+	var users = function (userType) {
+		return {
+			users: [],
+			pagination: null,
+			pages: [],
+			total: 0,
+			isCompleted: '',
+			orderBy: {
+				property: "UserName",
+				orderbyCondition: "asc"
+			},
+			searchParam: {
+				type: userType,
+				envelope: true,
+				page: 0,
+				pageSize: 10
+			},
+		}
+	}
+
 	var populateUsers = function (users, pageSize) {
 		var userListUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
 		function successCallback(response) {
