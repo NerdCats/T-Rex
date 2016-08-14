@@ -19,7 +19,7 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
 
-	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");
+	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
 
 	function loadUserName(_EnterpriseUsers) {

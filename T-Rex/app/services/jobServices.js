@@ -26,7 +26,7 @@ function jobFactory($http, tracking_host, host, listToString, $window,
 				function errorCallback(error) {
 					itSelf.jobIsLoading = "FAILED";
 					console.log(error)
-					itSelf.redMessage = error.Message;
+					itSelf.redMessage = error.data.Message;
 				};
 				restCall('GET', host + "api/job/" + id, null, successCallback, errorCallback);	 			
 	 		},	 		

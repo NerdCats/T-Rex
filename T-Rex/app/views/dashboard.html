@@ -56,7 +56,7 @@
     <div class="row">
         <div class="form-group col-md-3">
             <label>Show:</label>
-            <select ng-model="jobTime" ng-change="activate()">
+            <select ng-model="jobTime" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                 <option value="all">All</option>
                 <option value="today">ToDay's</option>
                 <option value="nextday">Next Day</option>                    
@@ -65,7 +65,7 @@
         </div>
         <div class="form-group col-md-3">
             <label>Show:</label>
-            <select ng-model="jobPerPage" ng-change="activate()">
+            <select ng-model="jobPerPage" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
@@ -80,7 +80,7 @@
         </div>
         <div class="form-group col-md-3">
             <label>Show:</label>
-            <select ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers" ng-change="activate()">
+            <select ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                 <option></option>                
             </select>
             <label>Orders</label>
