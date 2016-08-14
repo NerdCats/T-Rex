@@ -16,7 +16,7 @@ function odataService(restCall, host){
 		}
 
 		
-		console.log("searchParam.UserName : " + searchParam.UserName);
+		
 		if (searchParam.UserName != null && searchParam.UserName != "all") {
 			var UserNameParam = "User/UserName eq '"+ searchParam.UserName +"'";
 			console.log("how the hell you r coming here ??? Mr. " + searchParam.UserName)
@@ -51,6 +51,17 @@ function odataService(restCall, host){
 		if (searchParam.jobState != null) {
 			var jobStateParam = "State eq '"+ searchParam.jobState +"'";
 			console.log(searchParam.jobState)
+			if (!allreadyAParamIsThere) {
+				searchUrl +=  jobStateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += " and " + jobStateParam;
+			}
+		}
+
+		if (searchParam._t != null) {
+			var jobStateParam = "_t eq '"+ searchParam._t +"'";
+			console.log(searchParam._t)
 			if (!allreadyAParamIsThere) {
 				searchUrl +=  jobStateParam;
 				allreadyAParamIsThere = true;

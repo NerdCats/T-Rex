@@ -1,4 +1,7 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', 'odata', function($http, $window, $interval, timeAgo, restCall, host, odata){
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', 'odata', dashboardFactory]);
+
+
+function dashboardFactory($http, $window, $interval, timeAgo, restCall, host, odata){
 
 	var jobListUrlMaker = function (state, envelope, page, pageSize) {
 		var path = "api/Job/odata?";
@@ -246,4 +249,6 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 		stopRefresh: stopRefresh,
 		getProperWordWithCss: getProperWordWithCss
 	};
-}]);
+}
+
+

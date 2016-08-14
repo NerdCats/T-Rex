@@ -1,6 +1,8 @@
 'use strict';
 
-app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", function($http, $window, restCall, host, UrlPath){
+app.factory('userService', ["$http", "$window", "restCall", "host", "odata", userService]);
+
+function userService($http, $window, restCall, host){
 
 	var users = function (userType) {
 		return {
@@ -14,11 +16,15 @@ app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", f
 				orderbyCondition: "asc"
 			},
 			searchParam: {
-				type: userType,
+				_t: userType,
 				envelope: true,
 				page: 0,
 				pageSize: 10
 			},
+			loadUsers: function () {
+				this.isCompleted = 'IN_PROGRESS';
+				var pageUrl = odata.odataQueryMaker(this.searchParam)
+			}
 		}
 	}
 
@@ -37,7 +43,7 @@ app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", f
 	}
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
-		var assetlistUrl = host + UrlPath.assets(type, envelope, page, pageSize);
+		var assetlistUrl = host .assets(type, envelope, page, pageSize);
 		console.log(assetlistUrl);
 		function successCallback (response) {
 			assets.Collection = response.data.data;
@@ -88,4 +94,4 @@ app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", f
 		populateUsers : populateUsers,
 		populateUserDetails : populateUserDetails
 	}
-}]);
+}
