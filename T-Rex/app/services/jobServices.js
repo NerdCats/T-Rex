@@ -1,10 +1,10 @@
 'use strict';
 
-app.factory('jobFactory', ['$http', 'tracking_host', 'host', 'listToString','mapFactory', '$window',
-	'$interval','templates','patchUpdate', 'restCall', 'COLOR', 'dashboardFactory', jobFactory]);
+app.factory('jobFactory', ['$http', 'tracking_host', 'host', 'listToString', '$window',
+	'patchUpdate', 'restCall', 'dashboardFactory', jobFactory]);
 	
-function jobFactory($http, tracking_host, host, listToString, mapFactory, $window, 
-	$interval, templates, patchUpdate, restCall, COLOR, dashboardFactory){
+function jobFactory($http, tracking_host, host, listToString, $window, 
+	patchUpdate, restCall, dashboardFactory){
 	
 
 	var job = function (id) {

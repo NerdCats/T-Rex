@@ -247,10 +247,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			var requestMethod = "POST";
 			var orderUrl = host + "api/Order/";
 			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
-			console.log(vm.PackagePickUp.ETA)
-			console.log(new Date(vm.PackagePickUp.ETA).toISOString())
-			console.log(vm.Delivery.ETA)
-			console.log(new Date(vm.Delivery.ETA).toISOString())
+			console.log(vm.order);			
 		}
 	};
 	
