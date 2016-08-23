@@ -1,7 +1,7 @@
 'use strict';
-app.controller('jobSearchController', ['$scope', 'host', 'restCall', 'dashboardFactory', 'jobSearch', jobSearchController]);
+app.controller('jobSearchController', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'jobSearch', jobSearchController]);
 
-function jobSearchController($scope, host, restCall, dashboardFactory, jobSearch){
+function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory, jobSearch){
 	var vm = this;
 	vm.jobStates = ["ENQUEUED", "IN_PROGRESS", "COMPLETED"]
 	vm.SearchResultJobs = {orders: [], pages:[], total: 0};
@@ -58,7 +58,7 @@ function jobSearchController($scope, host, restCall, dashboardFactory, jobSearch
 			console.log(error);
 		}
 
-		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
 		console.log(getUsersUrl)
 		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
 		console.log("loadUserNames")

@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'host', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
+app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'ngAuthSettings', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
 
-function dashBoardController($scope, $interval, $window, menus, host, timeAgo, restCall, dashboardFactory)  {
+function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, timeAgo, restCall, dashboardFactory)  {
 
 	var vm = $scope;	
 	vm.menus = menus;	
@@ -33,7 +33,7 @@ function dashBoardController($scope, $interval, $window, menus, host, timeAgo, r
 		function error(error) {
 			console.log(error);
 		}
-		var enterpriseUsersUrl = host + "api/Account/odata?$filter=Type eq 'Enterprise'&PageSize=50";
+		var enterpriseUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'Enterprise'&PageSize=50";
 		restCall('GET', enterpriseUsersUrl, null, success, error);
 	}
 

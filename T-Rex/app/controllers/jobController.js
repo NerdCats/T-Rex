@@ -1,12 +1,12 @@
 'use strict';
 
 app.controller('jobController', [ '$scope', '$http', '$interval', '$uibModal','$window', '$routeParams', 'menus', 'templates', 
-	'host', 'tracking_host', 'tracking_link', 'timeAgo', 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', jobController]);
+	'ngAuthSettings', 'tracking_host', 'tracking_link', 'timeAgo', 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', jobController]);
 
 
 
 function jobController($scope, $http, $interval, $uibModal, $window, $routeParams,	menus, 
-	templates, host, tracking_host, tracking_link, timeAgo,jobFactory, mapFactory, restCall, patchUpdate) {
+	templates, ngAuthSettings, tracking_host, tracking_link, timeAgo,jobFactory, mapFactory, restCall, patchUpdate) {
 	
 	var vm = $scope;
 	var id = $routeParams.id;	
@@ -14,7 +14,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
 	vm.invoiceUrl = function () {
-		// var url = host + '/api/job/'+ vm.job.data.HRID +'/invoice';
+		// var url = ngAuthSettings.apiServiceBaseUri + '/api/job/'+ vm.job.data.HRID +'/invoice';
 		var url = '/invoice/invoice.html?'+ vm.job.data.HRID;
 		return url;
 	}
@@ -68,14 +68,14 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 };
 
 
-app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'host', ModalInstanceCtrl]);
-function ModalInstanceCtrl($scope, $http, $uibModalInstance, host) {
+app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'ngAuthSettings', ModalInstanceCtrl]);
+function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 	
 	$scope.assets = [];
 	$scope.loadingAssets = true;
 	var assetListUrlMaker = function (type, envelope, page, pageSize) {
 		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
-		var assetListUrl = host + "/api/Account/odata?" + parameters;		
+		var assetListUrl = ngAuthSettings.apiServiceBaseUri + "/api/Account/odata?" + parameters;		
 		return assetListUrl;
 	};
 

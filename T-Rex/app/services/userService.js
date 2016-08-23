@@ -1,8 +1,8 @@
 'use strict';
 
-app.factory('userService', ["$http", "$window", "restCall", "host", "odata", userService]);
+app.factory('userService', ["$http", "$window", "restCall", "ngAuthSettings", "odata", userService]);
 
-function userService($http, $window, restCall, host){
+function userService($http, $window, restCall, ngAuthSettings){
 
 	var users = function (userType) {
 		return {
@@ -29,7 +29,7 @@ function userService($http, $window, restCall, host){
 	}
 
 	var populateUsers = function (users, pageSize) {
-		var userListUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+		var userListUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
 		function successCallback(response) {
 			users.Collection = response.data.data;			
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
@@ -43,7 +43,7 @@ function userService($http, $window, restCall, host){
 	}
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
-		var assetlistUrl = host .assets(type, envelope, page, pageSize);
+		var assetlistUrl = ngAuthSettings.apiServiceBaseUri .assets(type, envelope, page, pageSize);
 		console.log(assetlistUrl);
 		function successCallback (response) {
 			assets.Collection = response.data.data;
@@ -59,7 +59,7 @@ function userService($http, $window, restCall, host){
 
 
 	var populateUserDetails = function (user, userId) {
-		var userUrl = host + "api/account/profile/" + userId;
+		var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + userId;
 		function successCallback(response) {
 			user = response.data;
 			console.log(user);			
@@ -84,7 +84,7 @@ function userService($http, $window, restCall, host){
   		};
 
 		console.log(asset);
-		var registerNewUserUrl = host + "api/Account/Register";
+		var registerNewUserUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Register";
 		restCall('POST', registerNewUserUrl, asset, successCallback, errorCallback)  	
 	};
 

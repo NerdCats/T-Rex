@@ -1,9 +1,9 @@
 'use strict';
 
-app.factory('jobFactory', ['$http', 'tracking_host', 'host', 'listToString', '$window',
+app.factory('jobFactory', ['$http', 'tracking_host', 'ngAuthSettings', 'listToString', '$window',
 	'patchUpdate', 'restCall', 'dashboardFactory', jobFactory]);
 	
-function jobFactory($http, tracking_host, host, listToString, $window, 
+function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window, 
 	patchUpdate, restCall, dashboardFactory){
 	
 
@@ -28,7 +28,7 @@ function jobFactory($http, tracking_host, host, listToString, $window,
 					console.log(error)
 					itSelf.redMessage = error.data.Message;
 				};
-				restCall('GET', host + "api/job/" + id, null, successCallback, errorCallback);	 			
+				restCall('GET', ngAuthSettings.apiServiceBaseUri + "api/job/" + id, null, successCallback, errorCallback);	 			
 	 		},	 		
 	 		claim: function () {
 	 			var itSelf = this;
@@ -44,7 +44,7 @@ function jobFactory($http, tracking_host, host, listToString, $window,
 	 				itSelf.redMessage = "Unable to Claim";
 	 			}
 	 			console.log("claim")
-	 			restCall('POST', host + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
+	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
 	 		stateUpdate: function (taskId, state, task) {	 			
 	 			if (task === "PackagePickUp") this.modifying = "PackagePickUp_UPDATING"
@@ -71,7 +71,7 @@ function jobFactory($http, tracking_host, host, listToString, $window,
 	 			var itSelf = this;
 	 			$http({
 	 				method: 'POST',
-	 				url: host + 'api/job/cancel',
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/job/cancel',
 	 				data: {
 	 					JobId: itSelf.data.Id,
 	 					Reason: reason
@@ -90,7 +90,7 @@ function jobFactory($http, tracking_host, host, listToString, $window,
 	 			var itSelf = this;
 	 			$http({
 	 				method: 'POST',
-	 				url: host + 'api/Job/restore/' + itSelf.data.Id
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Job/restore/' + itSelf.data.Id
 	 			}).then(function (response) {
 	 				itSelf.modifying = "";
 	 				$window.location.reload();
@@ -113,7 +113,7 @@ function jobFactory($http, tracking_host, host, listToString, $window,
 	 			this.modifying = "PAYMENT_UPDATING";
 	 			$http({
 	 				method: 'POST',
-	 				url: host + 'api/payment/process/' + this.data.Id,
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/payment/process/' + this.data.Id,
 	 			}).then(function(response){
 	 				this.modifying = "";
 	 				$window.location.reload();

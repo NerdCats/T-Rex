@@ -1,4 +1,4 @@
-app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host', function($http, $window, restCall, mapFactory, host){
+app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAuthSettings', function($http, $window, restCall, mapFactory, ngAuthSettings){
 		
 	var createNewOrder = function (newOrder, ordersIsBeingCreated) {
 		ordersIsBeingCreated = true;
@@ -16,7 +16,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host
 			ordersIsBeingCreated = false;
 		};
 
-		var createNewOrderUrl = host + "api/Order/";
+		var createNewOrderUrl = ngAuthSettings.apiServiceBaseUri + "api/Order/";
 		restCall('POST', createNewOrderUrl, newOrder, successCallback, errorCallback);
 	};
 
@@ -84,19 +84,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'host
 					    PaymentMethod: "CashOnDelivery",
 					    Description: null,
 					    OrderCart: {
-					      PackageList: [
-					        {
-					          Item: null,
-					          PicUrl: null,
-					          Quantity: 0,
-					          Price: 0.0,
-					          VAT: 0.0,
-					          Total: 0.0,
-					          VATAmount: 0.0,
-					          TotalPlusVAT: 0.0,
-					          Weight: 0.0
-					        }
-					      ],
+					      PackageList: [],
 					      TotalVATAmount: 0.0,
 					      SubTotal: 0.0,
 					      ServiceCharge: 0.0,

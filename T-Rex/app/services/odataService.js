@@ -1,9 +1,9 @@
-app.factory('odata', ['restCall', 'host', odataService])
+app.factory('odata', ['restCall', 'ngAuthSettings', odataService])
 
-function odataService(restCall, host){
+function odataService(restCall, ngAuthSettings){
 	
 	var odataQueryMaker = function (searchParam) {
-		searchUrl = host + "api/Job/";
+		searchUrl = ngAuthSettings.apiServiceBaseUri + "api/Job/";
 		var allreadyAParamIsThere = false;
 		console.log(searchParam)
 		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null

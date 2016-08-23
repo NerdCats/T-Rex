@@ -1,14 +1,7 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'host', 'odata', dashboardFactory]);
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'odata', dashboardFactory]);
 
 
-function dashboardFactory($http, $window, $interval, timeAgo, restCall, host, odata){
-
-	var jobListUrlMaker = function (state, envelope, page, pageSize) {
-		var path = "api/Job/odata?";
-		var odataQUery = "$filter=State eq " + "'" + state + "'" + "&$orderby=CreateTime desc";	
-		var jobListOdataUrl = host + path + odataQUery + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
-		return jobListOdataUrl;
-	};
+function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 	
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
@@ -242,8 +235,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, host, od
 
 	return {
 		populateOrdersTable : populateOrdersTable,
-		loadNextPage : loadNextPage,
-		jobListUrlMaker : jobListUrlMaker,
+		loadNextPage : loadNextPage,		
 		orders: orders,
 		startRefresh: startRefresh,
 		stopRefresh: stopRefresh,

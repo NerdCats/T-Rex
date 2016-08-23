@@ -4,9 +4,6 @@ app.constant('ngAuthSettings', {
   // apiServiceBaseUri: "http://localhost:23873/",
   clientId: 'GoFetchDevWebApp'
 });
-app.constant('host', "http://taskcatdev.azurewebsites.net/");
-// app.constant('host', "http://gofetch.cloudapp.net:80/");
-// app.constant('host', "http://localhost:23873/");
 
 app.constant('menus', [
 	{ title : "Dashboard", link: '#/'},

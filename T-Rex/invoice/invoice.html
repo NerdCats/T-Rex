@@ -90,15 +90,30 @@
             .asset-list {
                 display: inline-block;
                 list-style: none;
-                margin: 0;
+                /*margin: 0;*/
+                float: left;
+                padding-right: 5px;
             }
-        </style>  
-        <div class="center-block">
-            
+            .asset-list-ul {
+                margin: 0;
+                margin-left: -80px;
+                margin-right: 60px;
+            }
+
+            .asset {
+                display: flex;
+                flex-flow: row;
+            }
+
+            .asset div {
+                margin: 0 auto;
+            }
+            </style>
+
+            <div class="center-block">            
                 <img src="logo.png" id="logo">
                 <div class="gohq-div">
-                    <div class="gohq">H-28, R-20, Block-K, Banani, Dhaka</div>
-                    <div class="gohq">Message us on WhatsApp 01735829687</div>
+                    <div class="gohq">H-28, R-20, Block-K, Banani, Dhaka</div>                
                 </div>
             
             <hr class="style-one">
@@ -106,9 +121,10 @@
                 <div>Job ID: {{job.HRID}}</div>
                 <div>Date: {{ today | date:'EEEE, MMMM d, y' }}</div>
                 <div>Payment Method: {{job.PaymentMethod}}</div>
-                <div>Delivery Man:
-                    <ul class="asset-list">
-                        <li ng-repeat="(key, value) in job.Assets"> {{value.UserName}} </li>
+                <div class="asset">
+                    <div>Delivery Man:</div>
+                    <ul class="asset-list-ul">
+                       <li class="asset-list" ng-repeat="(key, value) in job.Assets"> {{value.UserName}} </li>
                     </ul>
                 </div>
             </div>
@@ -182,7 +198,10 @@
             </div>
             <hr class="style-one">
             <div>                
-                <span class="tracking-help">track this job from <br>www.gofetch.com/#/track/<strong>{{job.HRID}}}</strong></span>
+                <span class="tracking-help">track this job from <br>www.gofetch.com/#/track/<strong>{{job.HRID}}</strong></span>
+            </div>
+            <div>
+                <span class="tracking-help">For Complain and Queries Call: +88 01735952047</span>
             </div>
         </div>        
     </body>
