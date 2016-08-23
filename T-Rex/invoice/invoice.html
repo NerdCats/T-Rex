@@ -2,19 +2,12 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
-        <script src="node_modules/angular/angular.js"></script>
-        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="../node_modules/angular/angular.js"></script>
+        <script src="../node_modules/angular-route/angular-route.js"></script>
     </head>    
     <body>
-        <style>
-           
-            @font-face {
-              font-family: PosFont;
-              src:  url(merchant-copy.doublesize.ttf)                    
-            }
-             body {
-/*                font-family: PosFont, sans-serif !important;*/
-                /*font-family: 'Share Tech Mono';*/
+        <style>            
+            body {
                 font-family: cursive;
                 margin: 0;
             }
@@ -111,7 +104,7 @@
             <hr class="style-one">
             <div class="date">
                 <div>Job ID: {{job.HRID}}</div>
-                <div>Shipping Date: 08/08/2016</div>
+                <div>Date: {{ today | date:'EEEE, MMMM d, y' }}</div>
                 <div>Payment Method: {{job.PaymentMethod}}</div>
                 <div>Delivery Man:
                     <ul class="asset-list">
@@ -125,14 +118,16 @@
                 <!-- <div class="address">Name: M Plus Electronics</div> -->
                 <!-- <div class="address">Mobile:01922962787</div> -->
                 <!-- <div class="address">email : shtelecom468@gmail.com Address: Circle Ambia Shopping Mall, Level #01, Shop # 04 (1st Floor), Rampura Bazaar, Dhaka-1219., Bashundhara, Dhaka</div> -->
+                <div class="address" ng-show="job.Order.Type === 'ClassifiedDelivery'">Pickup Time: {{job.Order.JobTaskETAPreference[0].ETA | date: 'medium'}}</div>
                 <div class="address">{{job.Order.From.Address}}</div>
             </div>
             <hr class="style-one">
             <div>
-                <h3 class="address-header">Shipping Address</h3>
+                <h3 class="address-header">Delivery Address</h3>
                 <!-- <div class="address">Name: Mr. Rezvee</div> -->
                 <!-- <div class="address">Mobile: 01771117031</div> -->
                 <!-- <div class="address">Address: uttara sector-5, Road-6, House-13 , Uttara, Dhaka</div> -->
+                <div class="address" ng-show="job.Order.Type === 'ClassifiedDelivery'">Delivery Time: {{job.Order.JobTaskETAPreference[1].ETA | date: 'medium'}}</div>
                 <div class="address">{{job.Order.To.Address}}</div>
             </div>
             <hr class="style-one">
@@ -200,6 +195,7 @@
             var id = $window.location.search.substring(1);
             console.log(id)
 
+            vm.today = new Date();
             vm.job = {};
             var prod = "http://gofetch.cloudapp.net/api/job/";
             var dev = "http://taskcatdev.azurewebsites.net/api/job/";

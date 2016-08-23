@@ -15,7 +15,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	vm.job.loadJob();
 	vm.invoiceUrl = function () {
 		// var url = host + '/api/job/'+ vm.job.data.HRID +'/invoice';
-		var url = '/invoice.html?'+ vm.job.data.HRID;
+		var url = '/invoice/invoice.html?'+ vm.job.data.HRID;
 		return url;
 	}
 	
