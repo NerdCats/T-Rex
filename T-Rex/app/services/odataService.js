@@ -3,7 +3,7 @@ app.factory('odata', ['restCall', 'ngAuthSettings', odataService])
 function odataService(restCall, ngAuthSettings){
 	
 	var odataQueryMaker = function (searchParam) {
-		searchUrl = ngAuthSettings.apiServiceBaseUri + "api/Job/";
+		searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type +"/";
 		var allreadyAParamIsThere = false;
 		console.log(searchParam)
 		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null
@@ -14,8 +14,6 @@ function odataService(restCall, ngAuthSettings){
 						 "&pageSize="+ searchParam.pageSize +
 						 "&envelope="+ searchParam.envelope;
 		}
-
-		
 		
 		if (searchParam.UserName != null && searchParam.UserName != "all") {
 			var UserNameParam = "User/UserName eq '"+ searchParam.UserName +"'";

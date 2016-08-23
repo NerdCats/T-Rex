@@ -3,9 +3,9 @@ app.controller('userController', ['$scope', '$http', '$window', 'userService', f
 	
 	var vm = $scope;
 	
-	vm.Users = {Collection : [], pages: []};
+	vm.Users = userService.users();
 	 
-	userService.populateUsers(vm.Users, 25);
+	vm.Users.loadUsers();
 	
 	vm.Register = function () {
 		$window.location.href = '#/user/create';

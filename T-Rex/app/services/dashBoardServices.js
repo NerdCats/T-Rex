@@ -146,6 +146,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 				this.searchParam.endDate = getDate(jobTime).endDate;				
 			},
 			searchParam : {
+				type: "Job",
 				startDate : null,
 				endDate: null,
 				UserName: null,

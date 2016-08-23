@@ -5,6 +5,5 @@ app.directive('orderTable', function () {
 			orders: '=orders',			
 		},
 		templateUrl: '../app/directives/OrderTable/orderTable.html'
-
 	};
 });

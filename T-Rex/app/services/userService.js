@@ -2,7 +2,7 @@
 
 app.factory('userService', ["$http", "$window", "restCall", "ngAuthSettings", "odata", userService]);
 
-function userService($http, $window, restCall, ngAuthSettings){
+function userService($http, $window, restCall, ngAuthSettings, odata){
 
 	var users = function (userType) {
 		return {
@@ -10,36 +10,37 @@ function userService($http, $window, restCall, ngAuthSettings){
 			pagination: null,
 			pages: [],
 			total: 0,
-			isCompleted: '',
-			orderBy: {
-				property: "UserName",
-				orderbyCondition: "asc"
-			},
+			isCompleted: '',			
 			searchParam: {
-				_t: userType,
+				type: "account",
+				userType: userType,
+				orderby: {
+					property: "UserName",
+					orderbyCondition: "asc"
+				},
 				envelope: true,
 				page: 0,
 				pageSize: 10
 			},
 			loadUsers: function () {
 				this.isCompleted = 'IN_PROGRESS';
-				var pageUrl = odata.odataQueryMaker(this.searchParam)
+				var pageUrl = odata.odataQueryMaker(this.searchParam);
+				populateUsers(this, pageUrl);
 			}
 		}
 	}
 
-	var populateUsers = function (users, pageSize) {
-		var userListUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+	var populateUsers = function (Users, usersListUrl) {		
 		function successCallback(response) {
-			users.Collection = response.data.data;			
+			Users.users = response.data;			
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
-				users.pages.push(i);
+				Users.pages.push(i);
 			};
 		}
 		function errorCallback(error) {
 			console.log(error);
 		}
-		restCall('GET', userListUrl, null, successCallback, errorCallback);
+		restCall('GET', usersListUrl, null, successCallback, errorCallback);
 	}
 
 	var populateAssets = function (assets, type, envelope, page, pageSize){	
@@ -89,6 +90,7 @@ function userService($http, $window, restCall, ngAuthSettings){
 	};
 
 	return {
+		users: users,
 		populateAssets : populateAssets,
 		registerNewUser : registerNewUser,
 		populateUsers : populateUsers,
