@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('assetsTrackingMapController', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'host', 'tracking_host', 'signlr_link', assetsTrackingMapController]); 
+app.controller('trackingMapC', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'host', 'tracking_host', 'signlr_link', trackingMapC]); 
 
-function assetsTrackingMapController($scope, $http, $window, restCall, mapFactory, host, tracking_host, signlr_link) {
+function trackingMapC($scope, $http, $window, restCall, mapFactory, host, tracking_host, signlr_link) {
 	var vm = this;
 	vm.map = mapFactory.createMap(23.7968725, 90.4083922, "tracking-map", 15);
 	vm.assetsList = [];

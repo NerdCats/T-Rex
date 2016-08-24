@@ -45,37 +45,27 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/users.html',
 				controller: 'userController',
 				controllerAs: 'users'
+			}).
+			when('/user/create/:jobid',{
+				templateUrl: 'app/views/usercreate.html',
+				controller: 'usercreateC',
+				controllerAs: 'usercreateC'
 			})
 			// .
-			// when('/user/create',{
-			// 	templateUrl: 'app/views/user/create.html',
-			// 	controller: 'createAssetController',
-			// 	controllerAs: 'createAsset'
-			// }).
 			// when('/asset', {
 			// 	templateUrl: 'app/views/assets.html',
 			// 	controller: 'assetController',
 			// 	controllerAs: 'assets'
 			// }).
 			// when('/asset/details/:id',{
-			// 	templateUrl: 'app/views/user/details.html',
+			// 	templateUrl: 'app/views/userdetails.html',
 			// 	controller: 'userDetailsController',
 			// 	controllerAs: 'user'
-			// }).
-			// when('/user/details/:id',{
-			// 	templateUrl: 'app/views/user/details.html',
-			// 	controller: 'userDetailsController',
-			// 	controllerAs: 'user'
-			// }).
-			// when('/asset/create',{
-			// 	templateUrl: 'app/views/user/create.html',
-			// 	controller: 'createAssetController',
-			// 	controllerAs: 'createAsset'
-			// }).
+			// }).			
 			// when('/asset/assets-tracking-map',{
-			// 	templateUrl: 'app/views/user/assetsTrackingMap.html',
-			// 	controller: 'assetsTrackingMapController',
-			// 	controllerAs: 'assetsTrackingMap'
+			// 	templateUrl: 'app/views/trackingMap.html',
+			// 	controller: 'trackingMapC',
+			// 	controllerAs: 'trackingMapC'
 			// }).
 			// when('/supportedOrder',{
 			// 	templateUrl: 'app/views/supportedOrders.html',

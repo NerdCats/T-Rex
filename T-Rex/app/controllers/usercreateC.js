@@ -1,7 +1,7 @@
 'use strict';
-app.controller('createAssetController', ['$scope', 'userService', createAssetController]);
+app.controller('usercreateC', ['$scope', 'userService', usercreateC]);
 
-function createAssetController($scope,userService) {
+function usercreateC($scope,userService) {
 
   var vm = this;
 
