@@ -30,6 +30,60 @@ function userService($http, $window, restCall, ngAuthSettings, odata){
 		}
 	}
 
+	var getNewUser = function () {
+		return  {
+			data : {
+				UserName : "",
+				Password : "",
+				ConfirmPassword : "",
+				Email : "",
+				PhoneNumber : "",
+				PicUri : "",
+				Type : "USER",
+				FirstName : "",
+				LastName : "",
+				Age : 0,
+				Gender : "MALE",
+				Address : "",      
+				NationalId : "",
+				DrivingLicenceId : "",
+				ContactPersonName : "",
+				Website : ""
+			},
+			status: '',
+			loadUser: function (userId) {
+				var user = this;
+				user.status = 'LOADING_USER';				
+				function successCallback(response){
+					user.status = '';					
+					console.log(response);
+				}
+				function errorCallback(response){
+					user.status = 'LOADING_FAILED';
+					console.log(response);
+				}
+				var userUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Profile/" + userId;
+				restCall('GET', userUrl, null, successCallback, errorCallback);
+			},
+			register: function () {
+				var user = this;
+				user.status = 'IN_PROGRESS';
+				var successCallback = function (response) {		  			
+		  			user.status = 'SUCCESSFULL';		  			
+		  			console.log(response);
+		  			$window.location.href = '#/users';
+		  		};
+		  		
+		  		var errorCallback = function error(response) {		  			
+		  			user.status = 'FAILED';		  			
+		  			console.log(response);
+		  		};
+				var registerNewUserUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Register";
+				restCall('POST', registerNewUserUrl, this.data, successCallback, errorCallback)  	
+			}
+		}
+	}
+
 	var populateUsers = function (Users, usersListUrl) {		
 		function successCallback(response) {
 			Users.users = [];
@@ -51,22 +105,6 @@ function userService($http, $window, restCall, ngAuthSettings, odata){
 		restCall('GET', usersListUrl, null, successCallback, errorCallback);
 	}
 
-	var populateAssets = function (assets, type, envelope, page, pageSize){	
-		var assetlistUrl = ngAuthSettings.apiServiceBaseUri .assets(type, envelope, page, pageSize);
-		console.log(assetlistUrl);
-		function successCallback (response) {
-			assets.Collection = response.data.data;
-			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
-				assets.pages.push(i);
-			};
-		}
-		function errorCallback(error) {
-			console.log(error);
-		}
-		restCall('GET', assetlistUrl, null, successCallback, errorCallback);
-	};
-
-
 	var populateUserDetails = function (user, userId) {
 		var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + userId;
 		function successCallback(response) {
@@ -79,29 +117,9 @@ function userService($http, $window, restCall, ngAuthSettings, odata){
 		restCall('GET', userUrl, null, successCallback, errorCallback);
 	}
 
-	var registerNewUser = function (asset){
-		var successCallback = function (response) {
-  			console.log("success : ");
-  			console.log(response);
-  			alert("Success")
-  			$window.location.href = '#/asset';
-  		};
-  		
-  		var errorCallback = function error(response) {
-  			console.log("error : ");
-  			console.log(response);
-  		};
-
-		console.log(asset);
-		var registerNewUserUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Register";
-		restCall('POST', registerNewUserUrl, asset, successCallback, errorCallback)  	
-	};
-
 	return {
 		users: users,
-		populateAssets : populateAssets,
-		registerNewUser : registerNewUser,
-		populateUsers : populateUsers,
+		getNewUser: getNewUser,			
 		populateUserDetails : populateUserDetails
 	}
 }

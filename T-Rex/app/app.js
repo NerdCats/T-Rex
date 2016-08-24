@@ -46,7 +46,7 @@ app.config(['$routeProvider',
 				controller: 'userController',
 				controllerAs: 'users'
 			}).
-			when('/user/create/:jobid',{
+			when('/user/create',{
 				templateUrl: 'app/views/usercreate.html',
 				controller: 'usercreateC',
 				controllerAs: 'usercreateC'
