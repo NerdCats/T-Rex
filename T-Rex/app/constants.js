@@ -10,7 +10,7 @@ app.constant('menus', [
 	{ title : "Search Jobs", link: '#/job-search'},
 	{ title : "Order Types", link: '#/supportedOrder'},
 	{ title : "Users", link: '#/users'},
-	{ title : "Assets", link: '#/asset'},
+	{ title : "Tracking Map", link: '#/tracking-map'},
 	// { Title : "Agents", Href: '#/'},
 	// { Title : "Administration", Href: '#/'}
 ]);

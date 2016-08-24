@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('trackingMapC', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'host', 'tracking_host', 'signlr_link', trackingMapC]); 
+app.controller('trackingMapC', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'ngAuthSettings', 'tracking_host', 'signlr_link', trackingMapC]); 
 
-function trackingMapC($scope, $http, $window, restCall, mapFactory, host, tracking_host, signlr_link) {
+function trackingMapC($scope, $http, $window, restCall, mapFactory, ngAuthSettings, tracking_host, signlr_link) {
 	var vm = this;
 	vm.map = mapFactory.createMap(23.7968725, 90.4083922, "tracking-map", 15);
 	vm.assetsList = [];
 	vm.locateMarkerOnMap = mapFactory.locateMarkerOnMap;
 	vm.totalAsset = 0;
 	vm.totalOnlineAsset = 0;
-	var getAllAssetUrl = host + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=25"; // this is an ugly piece of code!
+	var getAllAssetUrl = ngAuthSettings.apiServiceBaseUri + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=25"; // this is an ugly piece of code!
 
 	var _signalRAssetList = {};
 	$http.get(getAllAssetUrl).then(

@@ -50,6 +50,11 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/usercreate.html',
 				controller: 'usercreateC',
 				controllerAs: 'usercreateC'
+			}).
+			when('/tracking-map',{
+				templateUrl: 'app/views/trackingMap.html',
+				controller: 'trackingMapC',
+				controllerAs: 'trackingMapC'
 			})
 			// .
 			// when('/asset', {
@@ -62,11 +67,6 @@ app.config(['$routeProvider',
 			// 	controller: 'userDetailsController',
 			// 	controllerAs: 'user'
 			// }).			
-			// when('/asset/assets-tracking-map',{
-			// 	templateUrl: 'app/views/trackingMap.html',
-			// 	controller: 'trackingMapC',
-			// 	controllerAs: 'trackingMapC'
-			// }).
 			// when('/supportedOrder',{
 			// 	templateUrl: 'app/views/supportedOrders.html',
 			// 	controller: 'supportedOrderController',
