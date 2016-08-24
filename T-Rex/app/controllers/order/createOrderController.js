@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$http', '$window', 'host', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$http', '$window', 'ngAuthSettings', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
 
-function createOrderController($scope, $http, $window, host, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
+function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
 
 	var vm = $scope;
 
@@ -105,7 +105,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 	if(vm.id == "new"){
 		vm.order = orderFactory.newOrder;
 	} else {		
-		var jobUrl = host + "/api/job/" + vm.id;
+		var jobUrl = ngAuthSettings.apiServiceBaseUri + "/api/job/" + vm.id;
 		vm.OrderIsLoading = true;
 		vm.buttonText = "Update"
 		var successCallback = function(response){
@@ -144,7 +144,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		}
 		vm.UserNameIsLoading = true;
 		var query = vm.selectedUser;
-		var getUsersUrl = host + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
 		console.log(getUsersUrl)
 		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
 		console.log("loadUserNames")		
@@ -237,7 +237,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		};
 		if (vm.isPutOrder) {
 			var requestMethod = "PUT";
-			var orderUrl = host + "api/job/"+ vm.jobId +"/order";
+			var orderUrl = ngAuthSettings.apiServiceBaseUri + "api/job/"+ vm.jobId +"/order";
 			console.log(vm.jobId);
 			vm.order.OrderCart.TotalVATAmount = 0;
 			vm.order.OrderCart.SubTotal = 0;
@@ -245,7 +245,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
 		} else {			
 			var requestMethod = "POST";
-			var orderUrl = host + "api/Order/";
+			var orderUrl = ngAuthSettings.apiServiceBaseUri + "api/Order/";
 			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
 			console.log(vm.order);			
 		}
@@ -291,7 +291,7 @@ function createOrderController($scope, $http, $window, host, UrlPath, restCall, 
 		// function errorCallback(error) {
 		// 	console.log(error);
 		// }
-		// restCall('GET', host + "/api/Payment", null, successCallback, errorCallback)
+		// restCall('GET', ngAuthSettings.apiServiceBaseUri + "/api/Payment", null, successCallback, errorCallback)
 		vm.PaymentMethod.push("CashOnDelivery");
 	};
 
