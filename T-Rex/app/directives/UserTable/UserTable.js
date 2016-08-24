@@ -1,4 +1,4 @@
-app.directive('orderTable', [function(){
+app.directive('userTable', [function(){
 	// Runs during compile
 	return {
 		restrict: 'E',

@@ -32,12 +32,20 @@ function userService($http, $window, restCall, ngAuthSettings, odata){
 
 	var populateUsers = function (Users, usersListUrl) {		
 		function successCallback(response) {
-			Users.users = response.data;			
+			Users.users = [];
+			Users.pages = [];
+			Users.users = response.data.data;
+			Users.isCompleted = 'SUCCESSFULL';
+			Users.pagination = response.data.pagination;
+			Users.total = response.data.pagination.Total;
+			
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
 				Users.pages.push(i);
 			};
+			console.log(Users);
 		}
 		function errorCallback(error) {
+			Users.isCompleted = 'FAILED';
 			console.log(error);
 		}
 		restCall('GET', usersListUrl, null, successCallback, errorCallback);

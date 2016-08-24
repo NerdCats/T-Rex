@@ -4,8 +4,7 @@ function odataService(restCall, ngAuthSettings){
 	
 	var odataQueryMaker = function (searchParam) {
 		searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type +"/";
-		var allreadyAParamIsThere = false;
-		console.log(searchParam)
+		var allreadyAParamIsThere = false;		
 		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null
 			|| searchParam.orderby.property != null) {
 			searchUrl += "odata?$filter=";
@@ -54,6 +53,17 @@ function odataService(restCall, ngAuthSettings){
 				allreadyAParamIsThere = true;
 			} else {
 				searchUrl += " and " + jobStateParam;
+			}
+		}
+
+		if (searchParam.userType != null) {
+			var userTypeParam = "Type eq '"+ searchParam.userType +"'";
+			console.log(searchParam.userType)
+			if (!allreadyAParamIsThere) {
+				searchUrl +=  userTypeParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += " and " + userTypeParam;
 			}
 		}
 
