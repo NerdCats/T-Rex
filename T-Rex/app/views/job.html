@@ -9,7 +9,8 @@
                 <div class="col-md-6">
                     <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
                     <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
-                    <h3 ng-show="!job.data.JobServedBy">
+                    <!-- <h3 ng-show="!job.data.JobServedBy"> someday it should come back, when server will response fast-->
+                    <h3>
                         You must 
                         <button type="button" class="btn btn-danger" ng-click="job.claim()">
                             CLAIM
@@ -18,6 +19,7 @@
                         the Order first to start processing it
                     </h3>
                 </div>
+                <!-- <div ng-show="job.data.JobServedBy" class="col-md-6"> someday it should come back, when server will response fast-->
                 <div ng-show="job.data.JobServedBy" class="col-md-6">
                     <div class="row pull-right mb-20">
                         <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
