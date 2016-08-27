@@ -1,283 +1,284 @@
 <div ng-show="OrderIsLoading" ng-include="'../../content/component/sk-cube/sk-cube.html'"></div>
 
 <div ng-show="!OrderIsLoading" class="container">
-    <div ng-show="OrderFailed" class="alert alert-danger" role="alert">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span class="sr-only">Error:</span>
-        {{errorMsg}}
-    </div>
+	<div ng-show="OrderFailed" class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span>
+		{{errorMsg}}
+	</div>
 
 
-    <ng-form class="form-horizontal" name="orderCreationForm">
-        <fieldset class="mb-100" ng-disabled="OrdersIsBeingCreated">
-            <!-- Form Name -->
-            <legend>Create Order</legend>
+	<ng-form class="form-horizontal" name="orderCreationForm">
+		<fieldset class="mb-100" ng-disabled="OrdersIsBeingCreated">
+			<!-- Form Name -->
+			<legend>Create Order</legend>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Order Name</label>
-              <div class="col-md-6">
-                <input type="text" placeholder="ex: delivery order for Mr. X" class="form-control" ng-model="order.Name">                
-              </div>
-            </div>
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Order Name</label>
+			  <div class="col-md-6">
+				<input type="text" placeholder="ex: delivery order for Mr. X" class="form-control" ng-model="order.Name">                
+			  </div>
+			</div>
 
-            <!-- Select Basic -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Delivery Type</label>
-              <div class="col-md-6">
-                <select class="form-control" ng-model="order.Type" required>
-                  <option>Delivery</option>
-                  <option>Ride</option>
-                  <option>ClassifiedDelivery</option>
-                </select>
-              </div>
-            </div>
+			<!-- Select Basic -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Delivery Type</label>
+			  <div class="col-md-6">
+				<select class="form-control" ng-model="order.Type" required>
+				  <option>Delivery</option>
+				  <option>Ride</option>
+				  <option>ClassifiedDelivery</option>
+				</select>
+			  </div>
+			</div>
 
-            <!-- Text input-->
-            <div class="form-group" ng-hide="isPutOrder">
-                <label class="control-label col-md-2" for="">User Name</label>
-                <div class="col-md-6">
-                     <input type="text" 
-                         ng-model="selectedUser"
-                         placeholder="Type user's name and select from the autocomplete"
-                         ng-change="loadUserNames()"
-                         uib-typeahead="user.UserName for user in userNames"
-                         typeahead-loading="UserNameIsLoading" 
-                         typeahead-no-results="noResults"
-                         typeahead-wait-ms=100
-                         typeahead-on-select="onSelectUser($item, $model, $label, $event)"
-                         class="form-control">
-                    <i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
-                </div>
-            </div>
-
-
-            <legend>Addresses and ETA</legend>
-
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Pickup Area</label>
-              <div class="col-md-6">
-                <select class="form-control" ng-model="order.From.Locality">
-                  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
-                </select>
-              </div>
-            </div>
+			<!-- Text input-->
+			<div class="form-group" ng-hide="isPutOrder">
+				<label class="control-label col-md-2" for="">User Name</label>
+				<div class="col-md-6">
+					 <input type="text" 
+						 ng-model="selectedUser"
+						 placeholder="Type user's name and select from the autocomplete"
+						 ng-change="loadUserNames()"
+						 uib-typeahead="user.UserName for user in userNames"
+						 typeahead-loading="UserNameIsLoading" 
+						 typeahead-no-results="noResults"
+						 typeahead-wait-ms=100
+						 typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+						 class="form-control">
+					<i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
+					<div ng-show="noResults">
+						<i class="glyphicon glyphicon-remove"></i> No Results Found
+					</div>
+				</div>
+			</div>
 
 
-            <!-- Textarea -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Pickup Address</label>
-              <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.From.AddressLine1" required></textarea>
-              </div>              
-            </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2">Pickup ETA</label>
-                <div class="col-md-6">
-                    <div class='input-group date'>
-                        <input  type='text' class="form-control" class="form-control input-sm"
-                                datetimepicker
-                                datetimepicker-options="{icons:{next:'glyphicon     glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
-                                placeholder="..."
-                                name="time"
-                                ng-model="PackagePickUp.ETA"/>
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
+			<legend>Addresses and ETA</legend>
 
-            <hr>
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Delivery Area</label>
-              <div class="col-md-6">
-                <select class="form-control" ng-model="order.To.Locality" >
-                  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
-                </select>
-              </div>
-            </div>
-
-            <!-- Textarea -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Delivery Address</label>
-              <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.To.AddressLine1" required></textarea>
-              </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-2">Delivery ETA</label>
-                <div class="col-md-6">
-                    <div class='input-group date'>
-                        <input type='text' class="form-control" class="form-control input-sm"
-                               datetimepicker
-                               datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
-                                placeholder="..."
-                                name="time"
-                                ng-model="Delivery.ETA"/>
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>  
-            <hr>
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Pickup Area</label>
+			  <div class="col-md-6">
+				<select class="form-control" ng-model="order.From.Locality">
+				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
+				</select>
+			  </div>
+			</div>
 
 
-            <!-- Textarea -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Order Location</label>
-              <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.OrderLocation.AddressLine1"></textarea>
-              </div>
-            </div>  
-            <hr>
+			<!-- Textarea -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Pickup Address</label>
+			  <div class="col-md-6">                     
+				<textarea class="form-control" rows="3" ng-model="order.From.AddressLine1" required></textarea>
+			  </div>              
+			</div>
 
-            <!-- Select Basic -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">ETA</label>
-              <div class="col-md-6">
-                <div class='input-group date'>
-                    <input  type='text' class="form-control" class="form-control input-sm"
-                            datetimepicker
-                            datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
-                            placeholder="..."
-                            name="time"
-                            ng-model="order.ETA"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-              </div>
-            </div>
+			<div class="form-group">
+				<label class="control-label col-md-2">Pickup ETA</label>
+				<div class="col-md-6">
+					<div class='input-group date'>
+						<input  type='text' class="form-control" class="form-control input-sm"
+								datetimepicker
+								datetimepicker-options="{icons:{next:'glyphicon     glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+								placeholder="..."
+								name="time"
+								ng-model="PackagePickUp.ETA"/>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">ETA in Minute</label>
-              <div class="col-md-6">
-                <input id="" name="" type="number" placeholder="ex: 30 or 45" class="form-control" ng-model="order.ETAMinutes">
-              </div>
-            </div>
+			<hr>
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Delivery Area</label>
+			  <div class="col-md-6">
+				<select class="form-control" ng-model="order.To.Locality" >
+				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
+				</select>
+			  </div>
+			</div>
 
+			<!-- Textarea -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Delivery Address</label>
+			  <div class="col-md-6">                     
+				<textarea class="form-control" rows="3" ng-model="order.To.AddressLine1" required></textarea>
+			  </div>
+			</div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2">Select Location On Map</label>
-                <div  class="col-md-10">
-                    <input  type="text" 
-                            placeholder="Search for locations on map" 
-                            class="form-control" 
-                            ng-model="toSearchText" 
-                            ng-change="searchAddress()"
-                            nc-places-autocomplete 
-                            nc-root-vm="createOrder"
-                            uib-typeahead="place.description for place in placesResults"
-                            typeahead-loading="loadingLocations" 
-                            typeahead-no-results="noResults"
-                            typeahead-wait-ms=100
-                            typeahead-on-select="onSelectPlace($item, $model, $label, $event)"
-                            class="form-control"
-                            >
-                    <div id="orderCreateMap">
-                </div>
-                </div>
-            </div>
-
-
-            <legend>Other Infos</legend>
-
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Service Charge</label>
-              <div class="col-md-6">
-                <div class="input-group ">
-                    <input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.OrderCart.ServiceCharge">
-                    <span class="input-group-addon" id="BDT">BDT</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Select Basic -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Payment Method</label>
-              <div class="col-md-6">
-                <select id="" name="" class="form-control" ng-model="order.PaymentMethod" ng-repeat="payment in PaymentMethod" required>
-                  <option>{{payment}}</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Required Change For</label>
-              <div class="col-md-6">
-                <div class="input-group ">
-                    <input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.RequiredChangeFor">
-                    <span class="input-group-addon" id="BDT">BDT</span>
-                </div>
-              </div>
-            </div>
+			<div class="form-group">
+				<label class="control-label col-md-2">Delivery ETA</label>
+				<div class="col-md-6">
+					<div class='input-group date'>
+						<input type='text' class="form-control" class="form-control input-sm"
+							   datetimepicker
+							   datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+								placeholder="..."
+								name="time"
+								ng-model="Delivery.ETA"/>
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>  
+			<hr>
 
 
-            <!-- Textarea -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Package Description</label>
-              <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.Description"></textarea>
-              </div>
-            </div>
+			<!-- Textarea -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Order Location</label>
+			  <div class="col-md-6">                     
+				<textarea class="form-control" rows="3" ng-model="order.OrderLocation.AddressLine1"></textarea>
+			  </div>
+			</div>  
+			<hr>
 
-            <!-- Textarea -->
-            <div class="form-group">
-              <label class="control-label col-md-2" for="">Note to Delivery Man</label>
-              <div class="col-md-6">                     
-                <textarea class="form-control" rows="3" ng-model="order.NoteToDeliveryMan"></textarea>
-              </div>
-            </div>
+			<!-- Select Basic -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">ETA</label>
+			  <div class="col-md-6">
+				<div class='input-group date'>
+					<input  type='text' class="form-control" class="form-control input-sm"
+							datetimepicker
+							datetimepicker-options="{icons:{next:'glyphicon glyphicon-arrow-right',previous:'glyphicon glyphicon-arrow-left',up:'glyphicon glyphicon-arrow-up',down:'glyphicon glyphicon-arrow-down'}}"
+							placeholder="..."
+							name="time"
+							ng-model="order.ETA"/>
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+			  </div>
+			</div>
 
-            <legend>Order Cart</legend>
-            <div class="col-md-2" ng-show="order.OrderCart.PackageList.length===0">
-                <button class="btn btn-default" ng-click="AddItem()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </div>
-            <div class="form-group" ng-repeat="item in order.OrderCart.PackageList track by $index">
-                <label class="control-label col-md-1">Item {{$index + 1}}</label>
-                <div class="col-md-3">
-                    <textarea class="form-control" rows="1" type="text" placeholder="Item Name" ng-model="item.Item" required></textarea>
-                    <p class="help-block">Item Name</p>
-                </div>                
-                <div class="col-md-2">
-                    <input class="form-control" type="number" placeholder="Quantity" ng-model="item.Quantity" required>
-                    <p class="help-block">Quantity</p>
-                </div>
-                <div class="col-md-2">
-                    <input class="form-control" type="number" placeholder="Unit Price" ng-model="item.Price">
-                    <p class="help-block">Unit Price</p>
-                </div>
-                <div class="col-md-2">
-                    <input class="form-control" type="number" placeholder="Weight" ng-model="item.Weight">
-                    <p class="help-block">Weight</p>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-default" ng-click="AddItem()">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    <button class="btn btn-default" ng-click="RemoveItem($index)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                </div>
-            </div>            
-            <button class="btn btn-primary pull-right col-md-2" ng-disabled="orderCreationForm.$invalid" ng-click="createNewOrder()">
-                <span ng-show="OrdersIsBeingCreated" class="fa fa-refresh fa-spin"></span>            
-                <span ng-show="!OrdersIsBeingCreated">{{buttonText}}</span>
-            </button>
-        </fieldset>
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">ETA in Minute</label>
+			  <div class="col-md-6">
+				<input id="" name="" type="number" placeholder="ex: 30 or 45" class="form-control" ng-model="order.ETAMinutes">
+			  </div>
+			</div>
 
-    </ng-form>
+
+			<div class="form-group">
+				<label class="control-label col-md-2">Select Location On Map</label>
+				<div  class="col-md-10">
+					<input  type="text" 
+							placeholder="Search for locations on map" 
+							class="form-control" 
+							ng-model="toSearchText" 
+							ng-change="searchAddress()"
+							nc-places-autocomplete 
+							nc-root-vm="createOrder"
+							uib-typeahead="place.description for place in placesResults"
+							typeahead-loading="loadingLocations" 
+							typeahead-no-results="noResults"
+							typeahead-wait-ms=100
+							typeahead-on-select="onSelectPlace($item, $model, $label, $event)"
+							class="form-control"
+							>
+					<div id="orderCreateMap">
+				</div>
+				</div>
+			</div>
+
+
+			<legend>Other Infos</legend>
+
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Service Charge</label>
+			  <div class="col-md-6">
+				<div class="input-group ">
+					<input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.OrderCart.ServiceCharge">
+					<span class="input-group-addon" id="BDT">BDT</span>
+				</div>
+			  </div>
+			</div>
+
+			<!-- Select Basic -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Payment Method</label>
+			  <div class="col-md-6">
+				<select id="" name="" class="form-control" ng-model="order.PaymentMethod" ng-repeat="payment in PaymentMethod" required>
+				  <option>{{payment}}</option>
+				</select>
+			  </div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Required Change For</label>
+			  <div class="col-md-6">
+				<div class="input-group ">
+					<input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.RequiredChangeFor">
+					<span class="input-group-addon" id="BDT">BDT</span>
+				</div>
+			  </div>
+			</div>
+
+
+			<!-- Textarea -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Package Description</label>
+			  <div class="col-md-6">                     
+				<textarea class="form-control" rows="3" ng-model="order.Description"></textarea>
+			  </div>
+			</div>
+
+			<!-- Textarea -->
+			<div class="form-group">
+			  <label class="control-label col-md-2" for="">Note to Delivery Man</label>
+			  <div class="col-md-6">                     
+				<textarea class="form-control" rows="3" ng-model="order.NoteToDeliveryMan"></textarea>
+			  </div>
+			</div>
+
+			<legend>Order Cart</legend>
+			<div class="col-md-2" ng-show="order.OrderCart.PackageList.length===0">
+				<button class="btn btn-default" ng-click="AddItem()">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</div>
+			<div class="form-group" ng-repeat="item in order.OrderCart.PackageList track by $index">
+				<label class="control-label col-md-1">Item {{$index + 1}}</label>
+				<div class="col-md-3">
+					<textarea class="form-control" rows="1" type="text" placeholder="Item Name" ng-model="item.Item" required></textarea>
+					<p class="help-block">Item Name</p>
+				</div>                
+				<div class="col-md-2">
+					<input class="form-control" type="number" placeholder="Quantity" ng-model="item.Quantity" required>
+					<p class="help-block">Quantity</p>
+				</div>
+				<div class="col-md-2">
+					<input class="form-control" type="number" placeholder="Unit Price" ng-model="item.Price">
+					<p class="help-block">Unit Price</p>
+				</div>
+				<div class="col-md-2">
+					<input class="form-control" type="number" placeholder="Weight" ng-model="item.Weight">
+					<p class="help-block">Weight</p>
+				</div>
+				<div class="col-md-2">
+					<button class="btn btn-default" ng-click="AddItem()">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+					<button class="btn btn-default" ng-click="RemoveItem($index)">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</div>
+			</div>            
+			<button class="btn btn-primary pull-right col-md-2" ng-disabled="orderCreationForm.$invalid" ng-click="createNewOrder()">
+				<span ng-show="OrdersIsBeingCreated" class="fa fa-refresh fa-spin"></span>            
+				<span ng-show="!OrdersIsBeingCreated">{{buttonText}}</span>
+			</button>
+		</fieldset>
+
+	</ng-form>
 
 </div>

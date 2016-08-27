@@ -193,6 +193,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 			if (vm.isPutOrder) {
 				$window.location.href = '#/job/' + vm.HRID;
 			} else {
+				vm.HRID = response.data.HRID;
 				$window.location.href = '#/job/' + vm.HRID;
 			}
 		}

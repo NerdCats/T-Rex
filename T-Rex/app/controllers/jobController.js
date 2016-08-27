@@ -57,10 +57,14 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		  			vm.job.assigningAsset(false);
 				};
 
-				var result = patchUpdate(vm.selected.Id, "replace", 
-										"/AssetRef", "api/job/", 
-										vm.job.data.Id, vm.job.data.Tasks[0].id, 
-										success, error);
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[0].id;
+				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"},
+										{value: "COMPLETED", path: "/State", op: "replace"}];
+				// var result = patchUpdate(vm.selected.Id, "replace", 
+				// 						"/AssetRef", "api/job/", 
+				// 						vm.job.data.Id, vm.job.data.Tasks[0].id, 
+				// 						success, error);
+				var result = restCall("PATCH", url, assetRefUpdateData, success, error);
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});
