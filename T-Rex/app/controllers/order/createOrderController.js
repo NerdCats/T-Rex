@@ -86,7 +86,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
   	vm.UserNameIsLoading = false;
 
   	vm.buttonText = "Create Order";
-
+  	vm.minMode = false;
 
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
@@ -132,7 +132,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
 
-	vm.loadUserNames = function loadUserNames(){
+	vm.loadUserNames = function (){
 		function successCallback(response) {
 			vm.userNames = response.data.data;
 			vm.UserNameIsLoading = false;
@@ -144,11 +144,12 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 		}
 		vm.UserNameIsLoading = true;
 		var query = vm.selectedUser;
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
 		console.log(getUsersUrl)
-		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
-		console.log("loadUserNames")		
+		restCall('GET', getUsersUrl, null, successCallback, errorCallback)		
 	};
+
+	vm.loadUserNames();
 
 	vm.onSelectUser = function ($item, $model, $label, $event) {
 		console.log($item);

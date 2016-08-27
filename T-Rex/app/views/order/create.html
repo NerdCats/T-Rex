@@ -8,13 +8,18 @@
 	</div>
 
 
+	<div class="form-group">
+		<button type="button" class="btn btn-primary col-md-2 pull-right" ng-model="minMode" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+	        Minimum Mode: {{minMode}}
+	    </button>				
+	</div>
 	<ng-form class="form-horizontal" name="orderCreationForm">
 		<fieldset class="mb-100" ng-disabled="OrdersIsBeingCreated">
 			<!-- Form Name -->
 			<legend>Create Order</legend>
 
 			<!-- Text input-->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Order Name</label>
 			  <div class="col-md-6">
 				<input type="text" placeholder="ex: delivery order for Mr. X" class="form-control" ng-model="order.Name">                
@@ -37,7 +42,7 @@
 			<div class="form-group" ng-hide="isPutOrder">
 				<label class="control-label col-md-2" for="">User Name</label>
 				<div class="col-md-6">
-					 <input type="text" 
+<!-- 					 <input type="text" 
 						 ng-model="selectedUser"
 						 placeholder="Type user's name and select from the autocomplete"
 						 ng-change="loadUserNames()"
@@ -50,6 +55,15 @@
 					<i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
 					<div ng-show="noResults">
 						<i class="glyphicon glyphicon-remove"></i> No Results Found
+					</div> -->
+					<input type="text" 
+				    		ng-model="selectedUser" 
+				    		uib-typeahead="user.UserName for user in userNames | filter:$viewValue | limitTo:20" 
+				    		typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+				    		class="form-control">
+					<i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
+					<div ng-show="noResults">
+						<i class="glyphicon glyphicon-remove"></i> No Results Found
 					</div>
 				</div>
 			</div>
@@ -58,7 +72,7 @@
 
 			<legend>Addresses and ETA</legend>
 
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Pickup Area</label>
 			  <div class="col-md-6">
 				<select class="form-control" ng-model="order.From.Locality">
@@ -76,7 +90,7 @@
 			  </div>              
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 				<label class="control-label col-md-2">Pickup ETA</label>
 				<div class="col-md-6">
 					<div class='input-group date'>
@@ -94,7 +108,7 @@
 			</div>
 
 			<hr>
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Delivery Area</label>
 			  <div class="col-md-6">
 				<select class="form-control" ng-model="order.To.Locality" >
@@ -111,7 +125,7 @@
 			  </div>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 				<label class="control-label col-md-2">Delivery ETA</label>
 				<div class="col-md-6">
 					<div class='input-group date'>
@@ -131,7 +145,7 @@
 
 
 			<!-- Textarea -->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Order Location</label>
 			  <div class="col-md-6">                     
 				<textarea class="form-control" rows="3" ng-model="order.OrderLocation.AddressLine1"></textarea>
@@ -140,7 +154,7 @@
 			<hr>
 
 			<!-- Select Basic -->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">ETA</label>
 			  <div class="col-md-6">
 				<div class='input-group date'>
@@ -158,7 +172,7 @@
 			</div>
 
 			<!-- Text input-->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">ETA in Minute</label>
 			  <div class="col-md-6">
 				<input id="" name="" type="number" placeholder="ex: 30 or 45" class="form-control" ng-model="order.ETAMinutes">
@@ -166,7 +180,7 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 				<label class="control-label col-md-2">Select Location On Map</label>
 				<div  class="col-md-10">
 					<input  type="text" 
@@ -203,7 +217,7 @@
 			</div>
 
 			<!-- Select Basic -->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Payment Method</label>
 			  <div class="col-md-6">
 				<select id="" name="" class="form-control" ng-model="order.PaymentMethod" ng-repeat="payment in PaymentMethod" required>
@@ -213,7 +227,7 @@
 			</div>
 
 			<!-- Text input-->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Required Change For</label>
 			  <div class="col-md-6">
 				<div class="input-group ">
@@ -225,7 +239,7 @@
 
 
 			<!-- Textarea -->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Package Description</label>
 			  <div class="col-md-6">                     
 				<textarea class="form-control" rows="3" ng-model="order.Description"></textarea>
@@ -233,7 +247,7 @@
 			</div>
 
 			<!-- Textarea -->
-			<div class="form-group">
+			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Note to Delivery Man</label>
 			  <div class="col-md-6">                     
 				<textarea class="form-control" rows="3" ng-model="order.NoteToDeliveryMan"></textarea>
