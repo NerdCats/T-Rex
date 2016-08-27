@@ -56,7 +56,8 @@
         </div>
     </div>
     
-    <div ng-show="job.data.JobServedBy" class="row">
+    <!-- <div ng-show="job.data.JobServedBy" class="row"> -->
+    <div class="row">
         <div class="col-md-3">
             <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
