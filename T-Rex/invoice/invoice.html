@@ -108,6 +108,13 @@
             .asset div {
                 margin: 0 auto;
             }
+
+            .service-charge {
+                font-size: 11px;
+            }
+            .service-charge-bdt {
+                float: right;
+            }
             </style>
 
             <div class="center-block">            
@@ -163,26 +170,18 @@
                             <td>{{item.Price}}</td>
                             <td>{{item.Weight}}</td>
                             <td>{{item.Total}}</td>
-                        </tr>
-                        <!-- <tr>
-                            <td>Samsung Galaxy S7 HD 4G Replica / Clone</td>
-                            <td>1</td>
-                            <td>5600</td>
-                            <td>0</td>
-                            <td>5600</td>
-                        </tr> -->
-                        <tr>
-                            <td colspan="1"></td>
-                            <td colspan="3">Service Charge(BDT)</td>
-                            <td>{{job.Order.OrderCart.ServiceCharge}}</td>
                         </tr>                        
-                        <tr>
-                            <td colspan="1"></td>
-                            <td colspan="3">Net Total(BDT)</td>
-                            <td>{{job.Order.OrderCart.TotalToPay}}</td>
+                        <tr>                            
+                            <td colspan="4">Item Total Price</td>
+                            <td>{{job.Order.OrderCart.TotalToPay - job.Order.OrderCart.ServiceCharge}}</td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <br>
+            <div class="service-charge">
+                <span>Go! Fetch Service Charge (Vat Included)</span>
+                <span class="service-charge-bdt">{{job.Order.OrderCart.ServiceCharge}} tk</span>
             </div>
             <hr class="style-one">
             <div class="signature">
@@ -218,7 +217,7 @@
             vm.job = {};
             var prod = "http://gofetch.cloudapp.net/api/job/";
             var dev = "http://taskcatdev.azurewebsites.net/api/job/";
-            var url =  prod + id;
+            var url =  dev + id;
             $http({
                 method: 'GET',
                 url: url,                
