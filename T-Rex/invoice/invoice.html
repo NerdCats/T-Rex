@@ -8,8 +8,12 @@
     <body>
         <style>            
             body {
-                font-family: cursive;
+                font-family: arial;
                 margin: 0;
+                font-weight: 600;
+            }
+            .jobid {
+                font-size: 18px;
             }
             .center-block {
                 display: block;                
@@ -125,7 +129,7 @@
             
             <hr class="style-one">
             <div class="date">
-                <div>Job ID: {{job.HRID}}</div>
+                <div class="jobid">Job ID: {{job.HRID}}</div>
                 <div>Date: {{ today | date:'EEEE, MMMM d, y' }}</div>
                 <div>Payment Method: {{job.PaymentMethod}}</div>
                 <div class="asset">
@@ -189,16 +193,16 @@
                     <p class="authorization-div"><strong>.....................</strong></p>
                     <p class="authorization-div"><strong>Authorized By</strong></p>                    
                 </div>
-                <div style="width:60px"></div>
+                <div style="width:125px"></div>
                 <div class="authorization">
                     <p class="authorization-div"><strong>.....................</strong></p>
                     <p class="authorization-div"><strong>Recieved By</strong></p>
                 </div>
             </div>
             <hr class="style-one">
-            <div>                
+          <!--   <div>                
                 <span class="tracking-help">track this job from <br>www.gofetch.com/#/track/<strong>{{job.HRID}}</strong></span>
-            </div>
+            </div> -->
             <div>
                 <span class="tracking-help">For Complain and Queries Call: +88 01735952047</span>
             </div>
