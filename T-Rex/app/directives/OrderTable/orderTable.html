@@ -20,7 +20,7 @@
         <tr ng-repeat="order in orders.orders track by $index">
             <td>{{$index + orders.pagination.Start}}</td>
             <td class="col-md-1">
-                <a href="#/job/{{order.Id}}" target="_blank">{{order.Id}}</a>
+                <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.Id}}" target="_blank">{{order.Id}}</a>
             </td>
             <td class="col-md-1">{{order.CreateTime | date:"EEE d MMM y,h:m"}}</td>
             <td><span class="label {{order.User().class}}">{{order.User().value}}</span></td>

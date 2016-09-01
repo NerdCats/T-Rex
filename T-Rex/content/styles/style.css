@@ -115,10 +115,12 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 
 .b2b {
     background-color: #2196F3;
+    font-size: 18px;
 }
 
 .b2c {
     background-color: #3F51B5;
+    font-size: 18px;
 }
 
 .claimed-by {
