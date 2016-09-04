@@ -5,8 +5,8 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 	
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
-			// Orders.orders = [];
-			// Orders.pages = [];
+			Orders.orders = [];
+			Orders.pages = [];
 			Orders.isCompleted = 'SUCCESSFULL';
 			var orders = response.data;			
 			if (orders.data.length == 0) {
@@ -70,9 +70,9 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
  			 Orders.isCompleted = 'FAILED';
  		}
 
- 		Orders.orders= [];
-		Orders.pages = [];
-		Orders.isCompleted = 'IN_PROGRESS';
+ 		// Orders.orders = [];
+		// Orders.pages = [];
+		// Orders.isCompleted = 'IN_PROGRESS';
  		restCall('GET', jobListUrl, null, successCallback, errorCallback);
 	};
 
@@ -160,7 +160,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 				pageSize: 10				
 			},
 			loadOrders: function () {
-				this.isCompleted = 'IN_PROGRESS';
+				// this.isCompleted = 'IN_PROGRESS';
 				var pageUrl = odata.odataQueryMaker(this.searchParam);
 				populateOrdersTable(this, pageUrl);
 			},
@@ -219,9 +219,9 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 	var startRefresh = function (Orders) {
 		if (angular.isDefined(autoRefresh)) return;
 		autoRefresh = $interval(function () {
-			Orders.isCompleted = 'IN_PROGRESS';
-			Orders.orders= [];
-			Orders.pages = [];
+			// Orders.isCompleted = 'IN_PROGRESS';
+			// Orders.orders = [];
+			// Orders.pages = [];
 			Orders.loadOrders();	
 		}, 60000);
 	}

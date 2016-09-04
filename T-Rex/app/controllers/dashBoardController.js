@@ -62,6 +62,11 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
+		
+		vm.newOrders.isCompleted = 'IN_PROGRESS';
+		vm.processingOrders.isCompleted = 'IN_PROGRESS';
+		vm.completedOrders.isCompleted = 'IN_PROGRESS';
+		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
 
 		vm.newOrders.jobTime(vm.jobTime);
 		vm.processingOrders.jobTime(vm.jobTime);

@@ -90,12 +90,7 @@
         <uib-tab index="0">
             <uib-tab-heading>
                 PENDING : {{newOrders.total}}
-            </uib-tab-heading>
-            <div>                
-                <label>
-                    <input type="checkbox" ng-model="autoRefreshState" ng-true-value="true" ng-false-value="false" ng-change="AutoRefreshChanged(newOrders)"> Auto Refresh
-                </label>
-            </div>            
+            </uib-tab-heading>            
             <order-table orders="newOrders"></order-table>            
         </uib-tab>
         <uib-tab index="1">

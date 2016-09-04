@@ -1,6 +1,6 @@
 app.constant('ngAuthSettings', {
-  // apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
-  apiServiceBaseUri: "http://gofetch.cloudapp.net:80/",
+  apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
+  // apiServiceBaseUri: "http://gofetch.cloudapp.net:80/",
   // apiServiceBaseUri: "http://localhost:23873/",
   clientId: 'GoFetchDevWebApp'
 });
@@ -11,7 +11,7 @@ app.constant('menus', [
 	{ title : "Search Jobs", link: '#/job-search'},
 	{ title : "Order Types", link: '#/supportedOrder'},
 	{ title : "Users", link: '#/users'},
-	{ title : "Tracking Map", link: '#/tracking-map'},
+	{ title : "Tracking Map", link: '#/tracking-map', target: "_blank"},
 	// { Title : "Agents", Href: '#/'},
 	// { Title : "Administration", Href: '#/'}
 ]);
