@@ -1,26 +1,19 @@
-<article class="container">
-	<section>
+<div>
+	<div>
 		<h1 class="md-headline">Asset's location on Map</h1>
-		<h3>Total Asset: {{assetsTrackingMap.totalAsset}}</h3>
-		<h3>Total Asset Online: {{assetsTrackingMap.totalOnlineAsset}}</h3>
-	</section>
-	<section layout="row">
-		<div id="assets-track-list">
-			<md-list flex>
-	        	<md-subheader class="md-no-sticky">Asset's Status</md-subheader>
-	        		<md-list-item class="md-3-line" aria-label="asset status" ng-repeat="(key, asset) in assetsTrackingMap.assetsList" ng-click="assetsTrackingMap.locateMarkerOnMap(asset)">
-	          			<img ng-src="" class="md-avatar {{asset.online}}" alt="" />
-	      				<div class="md-list-item-text" layout="column">
-				            <h3>{{ asset.content }}</h3>
-				            <h4>{{ asset.online }}</h4>
-				            <p>{{ asset.lastSeen }}</p>
-	      				</div>
-	        		</md-list-item>
-	        		<md-divider ></md-divider>
-	        	</md-subheader>
-	        </md-list>
-		</div>
-		
-		<div id="tracking-map" flex="90"></div>
-	</section>
-</article>
+		<p>Total Asset: {{totalAsset}}</p>
+		<p>Total Asset Online: {{totalOnlineAsset}}</p>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-md-2 list-group">			
+    		<button class="list-group-item asset-list-li" ng-repeat="(key, asset) in assetsList" ng-click="locateMarkerOnMap(asset)">
+      			<div class="asset-status {{ asset.online }}"></div>
+	            <div>
+	            	<div><b>{{ asset.content }}</b></div>
+		            <div ng-show="asset.lastSeen">{{ 'Last Seen : ' + asset.lastSeen }}</div>
+	            </div>
+    		</button>
+		</div>		
+		<div class="col-sm-8 col-md-10" id="tracking-map"></div>
+	</div>
+</div>

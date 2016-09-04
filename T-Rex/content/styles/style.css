@@ -1,6 +1,10 @@
 html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
     font-family: 'Roboto', sans-serif !important;
 }
+body, html {
+  height: 100%;
+  width: 100%;
+}
 .pdl-15 {
     padding-left: 15px;
 }
@@ -150,4 +154,38 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 
 .job-id-search-input {
     width: 175px !important;
+}
+
+#tracking-map {
+    height: 800px;
+}
+
+#asset-list {
+    list-style: none;
+    /*overflow-y: scroll;*/
+    overflow-x: none;
+}
+
+.asset-list-li {
+    padding: 0px !important;
+    display: flex !important;
+    flex-flow: row;
+}
+
+.asset-status {
+    border: 2px solid #a1a1a1;
+    padding: 4px 4px;
+    width: 10px;
+    border-radius: 180px;
+    margin-top: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.online {
+    background: green;    
+}
+
+.offline {
+    background: red;    
 }

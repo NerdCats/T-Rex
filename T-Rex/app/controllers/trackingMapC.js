@@ -3,7 +3,7 @@
 app.controller('trackingMapC', ['$scope', '$http' , '$window', 'restCall', 'mapFactory', 'ngAuthSettings', 'tracking_host', 'signlr_link', trackingMapC]); 
 
 function trackingMapC($scope, $http, $window, restCall, mapFactory, ngAuthSettings, tracking_host, signlr_link) {
-	var vm = this;
+	var vm = $scope;
 	vm.map = mapFactory.createMap(23.7968725, 90.4083922, "tracking-map", 15);
 	vm.assetsList = [];
 	vm.locateMarkerOnMap = mapFactory.locateMarkerOnMap;
