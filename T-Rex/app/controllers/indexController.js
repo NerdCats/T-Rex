@@ -33,7 +33,7 @@ function indexController($scope, $location, $timeout, $log, menus, templates, $w
 	}
 
 	vm.saerchJob = function (jobId) {
-		$window.open("#/job/" + jobId, '_blank');
+		$window.open("#/job/" + "Job-" + jobId.toUpperCase(), '_blank');
 	}
 
 	function activate()
