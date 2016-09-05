@@ -14,11 +14,8 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 	vm.jobTime = "all";
 
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
-
-	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
-	
+	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
-
 	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
 

@@ -1,7 +1,7 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'odata', dashboardFactory]);
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'odata', 'ngAuthSettings', dashboardFactory]);
 
 
-function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
+function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, ngAuthSettings){
 	
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
@@ -148,6 +148,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 			searchParam : {
 				type: "Job",
 				startDate : null,
+				userId : null,
 				endDate: null,
 				UserName: null,
 				jobState: jobState,
@@ -164,9 +165,18 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 				var pageUrl = odata.odataQueryMaker(this.searchParam);
 				populateOrdersTable(this, pageUrl);
 			},
+			loadOrdersAssignedToAssets : function () {
+				var pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&jobStateUpto="+ this.searchParam.jobState +"&sortDirection=Descending";
+				populateOrdersTable(this, pageUrl);
+			},
 			loadPage: function (pageNo) {				
-				this.searchParam.page = pageNo;		
-				this.loadOrders();
+				this.searchParam.page = pageNo;
+				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
+				if (this.searchParam.userId) {
+					this.loadOrdersAssignedToAssets();
+				} else {
+					this.loadOrders();					
+				}
 			},
 			loadPrevPage: function () {
 				console.log(this);
@@ -179,7 +189,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata){
 				console.log(this);
 				console.log(this.pagination.NextPage);
 				if (this.pagination.NextPage) {
-					populateOrdersTable(this, this.pagination.NextPage);			
+					populateOrdersTable(this, this.pagination.NextPage);
 				}
 			}
 		}

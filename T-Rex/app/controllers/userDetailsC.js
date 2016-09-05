@@ -1,17 +1,23 @@
 'use strict';
-app.controller('userDetailsC', ['$scope', '$routeParams', 'userService', 'ngAuthSettings', 'restCall', userDetailsC]);
+app.controller('userDetailsC', ['$scope', '$routeParams', 'userService', 'ngAuthSettings', 'restCall', 'dashboardFactory', userDetailsC]);
 
-function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCall){
+function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCall, dashboardFactory){
 	
-	var vm = this;
-	var id = $routeParams.id;
+	var vm = $scope;
+	vm.id = $routeParams.id;
 	vm.User = {};
 	vm.isAsset = false;
 	vm.isEnterprise = false;
 	vm.isUser = false;
+	vm.jobPerPage = 10;
+
+	vm.newOrders = dashboardFactory.orders("ENQUEUED");
+	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
+	vm.completedOrders = dashboardFactory.orders("COMPLETED");
+	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");
 
 
-	var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + id;
+	var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + vm.id;
 
 	function userFound(response) {
 		vm.User = response.data;
@@ -31,7 +37,7 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 	restCall('GET', userUrl, null, userFound, userNotFound);
 
 
-	var asignedJobUrl = ngAuthSettings.apiServiceBaseUri + "api/account/" + id + "/jobs";
+	var asignedJobUrl = ngAuthSettings.apiServiceBaseUri + "api/account/" + vm.id + "/jobs";
 	function jobsFound(response) {
 		vm.UsersJobs = response.data;
 		console.log(vm.UsersJobs);
@@ -40,4 +46,34 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 		console.log(error)
 	}
 	restCall('GET', asignedJobUrl, null, jobsFound, jobsNotFound);
+
+
+	vm.activate = function () {	
+		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
+		
+		vm.newOrders.isCompleted = 'IN_PROGRESS';
+		vm.processingOrders.isCompleted = 'IN_PROGRESS';
+		vm.completedOrders.isCompleted = 'IN_PROGRESS';
+		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
+
+		vm.newOrders.jobTime(vm.jobTime);
+		vm.processingOrders.jobTime(vm.jobTime);
+		vm.completedOrders.jobTime(vm.jobTime);
+		vm.cancelledOrders.jobTime(vm.jobTime);
+
+
+		vm.newOrders.searchParam.userId = vm.id;
+		vm.processingOrders.searchParam.userId = vm.id;
+		vm.completedOrders.searchParam.userId = vm.id;
+		vm.cancelledOrders.searchParam.userId = vm.id;
+
+		vm.newOrders.loadOrdersAssignedToAssets();
+		vm.processingOrders.loadOrdersAssignedToAssets();
+		vm.completedOrders.loadOrdersAssignedToAssets();
+		vm.cancelledOrders.loadOrdersAssignedToAssets();
+	}
+	vm.activate();
 }
