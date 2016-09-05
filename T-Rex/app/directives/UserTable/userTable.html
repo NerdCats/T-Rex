@@ -1,3 +1,4 @@
+<input type="text" class="form-control asset-search-input" placeholder="Type UserName to search!" ng-model="searchUser">
 <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" ng-show="users.isCompleted === 'SUCCESSFULL'">
 	<thead>
 		<tr>
@@ -10,7 +11,7 @@
 		</tr>
 	</thead>
 	<tbody>	
-		<tr ng-repeat="user in users.users; track by $index">
+		<tr ng-repeat="user in users.users | filter:searchUser track by $index ">
 			<td>{{$index + 1}}</td>
 			<td>{{user.UserName}}</td>
 			<td>{{user.Email}}</td>

@@ -192,4 +192,6 @@ body, html {
 
 .asset-search-input {
     margin-bottom: 20px;
+    width: 400px;
+    margin-top: 20px;
 }
