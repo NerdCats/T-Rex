@@ -4,8 +4,9 @@
 	    <h3 class="modal-title">Delivery Men</h3>
 	</div>
 	<div class="modal-body">    
+		<input class="form-control asset-search-input" placeholder="Type Asset's UserName to search!" type="text" ng-model="searchText">
 	    <div class="list-group asset-list">
-	    	<div class="row" ng-repeat="asset in assets">
+	    	<div class="row" ng-repeat="asset in assets | filter:searchText">
 				<input class="col-md-1" type="radio" ng-model="selectedAsset" ng-change="selectionChanged(asset)" ng-value="asset" name="assetSelected">
 			  	<button class="col-md-5 list-group-item asset-list-item" type="button" ng-click="selectionChanged(asset)">{{ asset.UserName }}</button>    		
 	    	</div>

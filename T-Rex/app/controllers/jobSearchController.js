@@ -1,7 +1,7 @@
 'use strict';
-app.controller('jobSearchController', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'jobSearch', jobSearchController]);
+app.controller('jobSearchController', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'odata', jobSearchController]);
 
-function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory, jobSearch){
+function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory, odata){
 	var vm = this;
 	vm.jobStates = ["ENQUEUED", "IN_PROGRESS", "COMPLETED"]
 	vm.SearchResultJobs = {orders: [], pages:[], total: 0};
@@ -14,10 +14,15 @@ function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory,
 	vm.searching = false;
 
 	vm.searchParam = {
+		type: "Job",
 		startDate : null,
 		endDate: null,
 		UserName: null,
-		jobState: null
+		jobState: null,
+		orderby: {
+			property : "CreateTime",
+			orderbyCondition: "desc"
+		}
 	}
 
 	vm.loadNextPage = function (page) {
@@ -26,9 +31,10 @@ function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory,
 	}
 
 	vm.Search = function () {
+		jobSearch.searchParam.startDate = jobSearch.searchParam.startDate.toISOString();
+		jobSearch.searchParam.endDate = jobSearch.searchParam.endDate.toISOString();
+		vm.searchUrl = odata.odataQueryMaker(vm.searchParam);
 		console.log(vm.searchParam)
-		vm.searchUrl = jobSearch.Search(vm.searchParam);
-
 		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, vm.searchUrl);
 	}
 
