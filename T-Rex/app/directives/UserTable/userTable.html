@@ -13,7 +13,7 @@
 	<tbody>	
 		<tr ng-repeat="user in users.users | filter:searchUser track by $index ">
 			<td>{{$index + 1}}</td>
-			<td>{{user.UserName}}</td>
+			<td><a href="#/users/{{user.Id}}" target="_blank">{{user.UserName}}</a></td>
 			<td>{{user.Email}}</td>
 			<td>{{user.PhonNumber}}</td>
 			<td>{{user.Profile.Address}}</td>

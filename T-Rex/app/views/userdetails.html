@@ -1,75 +1,26 @@
-<section layout="row" layout-align="center center">
-	<md-content class="md-padding" layout-xs="column" layout="row" flex="100">
-		<div flex-xs flex-gt-xs="100" layout="column">
-			<md-card layout="column">
-				<md-card-title>
-					<md-card-title-text>
-						<h1 class="md-headline">{{user.User.UserName}}</h1>	
-						<span flex="20" class="md-body-1">{{user.User.Type}}</span>
-						<span flex="20" ng-show="user.isAsset">{{user.AverageRating}}</span>
-					</md-card-title-text>
-					<md-card-title-media>
-		            	<img class="md-media-lg card-media"  src="{{user.Profile.PicUri}}">            	
-		          	</md-card-title-media>
-				</md-card-title>
-		    <!--     <md-card-content>
-					<md-card-actions layout="row" layout-align="end center" flex="20">
-				        <md-button class="md-raised">Update</md-button>
-				        <md-button class="md-raised">Delete</md-button>
-			        </md-card-actions>
-		        </md-card-content> -->
-				<md-card-content>
-					<h1 class="md-headline">Contact Info</h1>					
-					<div layout="row" flex>
-						<span flex="20" class="md-body-2">Email</span>
-						<span flex="20" class="md-body-1">{{user.User.Email}}</span>
-					</div>
-					<div layout="row" flex>
-						<span flex="20" class="md-body-2">Phone</span>
-						<span flex="20" class="md-body-1">{{user.User.PhoneNumber}}</span>
-					</div>					
-				</md-card-content>
-				<md-card-content>
-					<h1 class="md-headline">Profile Info</h1>					
-					<div layout="row" flex ng-show="user.isAsset||user.isUser">
-						<span flex="20" class="md-body-2">First Name</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.FirstName}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isAsset||user.isUser">
-						<span flex="20" class="md-body-2">Last Name</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.LastName}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isAsset||user.isUser">
-						<span flex="20" class="md-body-2">Age</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.Age}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isAsset||user.isUser">
-						<span flex="20" class="md-body-2">Gender</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.Gender}}</span>
-					</div>
-					<div layout="row" flex>
-						<span flex="20" class="md-body-2">Address</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.Address}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isAsset">
-						<span flex="20" class="md-body-2">NationalId</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.NationalId}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isAsset">
-						<span flex="20" class="md-body-2">DriversLicenseId</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.DriversLicenseId}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isEnterprise">
-						<span flex="20" class="md-body-2">CompanyName</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.CompanyName}}</span>
-					</div>
-					<div layout="row" flex ng-show="user.isEnterprise">
-						<span flex="20" class="md-body-2">Website</span>
-						<span flex="20" class="md-body-1">{{user.User.Profile.Website}}</span>
-					</div>
-
-				</md-card-content>
-			</md-card>			
+<div class="container-fluid">	
+	<div class="row">
+		<div class="col-md-4">
+			<h1>{{user.User.UserName}}</h1>	
+			<span>{{user.User.Type}}</span>
+			<span ng-show="user.isAsset">{{user.AverageRating}}</span><br>
+			<span>Email : {{user.User.Email}}</span><br>
+			<span>Phone : {{user.User.PhoneNumber}}</span><br>
 		</div>
-	</md-content>
-</section>
+		<div class="col-md-6">
+			<h1>Profile Info</h1>					
+				<span ng-show="user.isAsset||user.isUser">First Name : {{user.User.Profile.FirstName}}</span><br>
+				<span ng-show="user.isAsset||user.isUser"></span><br>
+				<span ng-show="user.isAsset||user.isUser">Age : {{user.User.Profile.Age}}</span><br>
+				<span ng-show="user.isAsset||user.isUser">Gender : {{user.User.Profile.Gender}}</span><br>
+				<span>Address : {{user.User.Profile.Address}}</span><br>
+				<span ng-show="user.isAsset">NationalId : {{user.User.Profile.NationalId}}</span><br>
+				<span ng-show="user.isAsset">DriversLicenseId : {{user.User.Profile.DriversLicenseId}}</span><br>
+				<span ng-show="user.isEnterprise">CompanyName : {{user.User.Profile.CompanyName}}</span><br>
+				<span ng-show="user.isEnterprise">Website : {{user.User.Profile.Website}}</span><br>
+		</div>
+		<div class="col-md-2">
+	    	<img src="{{user.Profile.PicUri || '/content/img/ppnotfound.png'}}">
+	  	</div>
+	</div>
+</div>			

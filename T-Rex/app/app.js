@@ -55,18 +55,18 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/trackingMap.html',
 				controller: 'trackingMapC',
 				controllerAs: 'trackingMapC'
-			})
+			}).
+			when('/users/:id',{
+				templateUrl: 'app/views/userdetails.html',
+				controller: 'userDetailsC',
+				controllerAs: 'user'
+			})		
 			// .
 			// when('/asset', {
 			// 	templateUrl: 'app/views/assets.html',
 			// 	controller: 'assetController',
 			// 	controllerAs: 'assets'
 			// }).
-			// when('/asset/details/:id',{
-			// 	templateUrl: 'app/views/userdetails.html',
-			// 	controller: 'userDetailsController',
-			// 	controllerAs: 'user'
-			// }).			
 			// when('/supportedOrder',{
 			// 	templateUrl: 'app/views/supportedOrders.html',
 			// 	controller: 'supportedOrderController',

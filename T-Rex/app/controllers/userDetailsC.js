@@ -1,7 +1,7 @@
 'use strict';
-app.controller('userDetailsController', ['$scope', '$routeParams', 'userService', 'host', 'restCall', userDetailsController]);
+app.controller('userDetailsC', ['$scope', '$routeParams', 'userService', 'ngAuthSettings', 'restCall', userDetailsC]);
 
-function userDetailsController($scope, $routeParams, userService, host, restCall){
+function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCall){
 	
 	var vm = this;
 	var id = $routeParams.id;
@@ -11,7 +11,7 @@ function userDetailsController($scope, $routeParams, userService, host, restCall
 	vm.isUser = false;
 
 
-	var userUrl = host + "api/account/profile/" + id;
+	var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + id;
 
 	function userFound(response) {
 		vm.User = response.data;
@@ -31,7 +31,7 @@ function userDetailsController($scope, $routeParams, userService, host, restCall
 	restCall('GET', userUrl, null, userFound, userNotFound);
 
 
-	var asignedJobUrl = host + "api/account/" + id + "/jobs";
+	var asignedJobUrl = ngAuthSettings.apiServiceBaseUri + "api/account/" + id + "/jobs";
 	function jobsFound(response) {
 		vm.UsersJobs = response.data;
 		console.log(vm.UsersJobs);
