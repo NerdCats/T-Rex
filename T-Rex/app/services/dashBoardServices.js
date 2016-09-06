@@ -160,8 +160,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, n
 				page: 0,
 				pageSize: 10				
 			},
-			loadOrders: function () {
-				// this.isCompleted = 'IN_PROGRESS';
+			loadOrders: function () {				
 				var pageUrl = odata.odataQueryMaker(this.searchParam);
 				populateOrdersTable(this, pageUrl);
 			},
@@ -169,7 +168,8 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, n
 				var pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&jobStateUpto="+ this.searchParam.jobState +"&sortDirection=Descending";
 				populateOrdersTable(this, pageUrl);
 			},
-			loadPage: function (pageNo) {				
+			loadPage: function (pageNo) {
+				this.isCompleted = 'IN_PROGRESS';		
 				this.searchParam.page = pageNo;
 				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
 				if (this.searchParam.userId) {
@@ -179,6 +179,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, n
 				}
 			},
 			loadPrevPage: function () {
+				this.isCompleted = 'IN_PROGRESS';
 				console.log(this);
 				console.log(this.pagination.PrevPage);
 				if (this.pagination.PrevPage) {
@@ -186,6 +187,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, n
 				}
 			},
 			loadNextPage: function () {
+				this.isCompleted = 'IN_PROGRESS';
 				console.log(this);
 				console.log(this.pagination.NextPage);
 				if (this.pagination.NextPage) {

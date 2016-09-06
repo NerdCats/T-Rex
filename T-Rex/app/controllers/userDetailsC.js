@@ -10,8 +10,7 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 	vm.isEnterprise = false;
 	vm.isUser = false;
 	vm.jobPerPage = 10;
-
-	vm.newOrders = dashboardFactory.orders("ENQUEUED");
+	
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
 	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");
@@ -48,29 +47,24 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 	restCall('GET', asignedJobUrl, null, jobsFound, jobsNotFound);
 
 
-	vm.activate = function () {	
-		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
+	vm.activate = function () {			
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
-		
-		vm.newOrders.isCompleted = 'IN_PROGRESS';
+				
 		vm.processingOrders.isCompleted = 'IN_PROGRESS';
 		vm.completedOrders.isCompleted = 'IN_PROGRESS';
 		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
-
-		vm.newOrders.jobTime(vm.jobTime);
+		
 		vm.processingOrders.jobTime(vm.jobTime);
 		vm.completedOrders.jobTime(vm.jobTime);
 		vm.cancelledOrders.jobTime(vm.jobTime);
 
-
-		vm.newOrders.searchParam.userId = vm.id;
+		
 		vm.processingOrders.searchParam.userId = vm.id;
 		vm.completedOrders.searchParam.userId = vm.id;
 		vm.cancelledOrders.searchParam.userId = vm.id;
-
-		vm.newOrders.loadOrdersAssignedToAssets();
+		
 		vm.processingOrders.loadOrdersAssignedToAssets();
 		vm.completedOrders.loadOrdersAssignedToAssets();
 		vm.cancelledOrders.loadOrdersAssignedToAssets();

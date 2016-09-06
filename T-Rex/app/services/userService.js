@@ -26,9 +26,10 @@ function userService($http, $window, restCall, ngAuthSettings, odata){
 				this.isCompleted = 'IN_PROGRESS';
 				var pageUrl;
 				if (userType !== "BIKE_MESSENGER") {
-					pageUrl = odata.odataQueryMaker(this.searchParam);					
+					pageUrl = odata.odataQueryMaker(this.searchParam);
 				} else {
 					pageUrl = "/mockdata/assets.json";
+					// pageUrl = odata.odataQueryMaker(this.searchParam);
 				}
 				populateUsers(this, pageUrl);
 			}

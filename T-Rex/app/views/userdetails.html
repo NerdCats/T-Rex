@@ -56,26 +56,20 @@
             <label>Orders</label>
         </div>
     </div>
-    <uib-tabset  active="activeJustified" justified="true">
+    <uib-tabset  active="activeJustified" justified="true">        
         <uib-tab index="0">
-            <uib-tab-heading>
-                PENDING : {{newOrders.total}}
-            </uib-tab-heading>            
-            <order-table orders="newOrders"></order-table>            
-        </uib-tab>
-        <uib-tab index="1">
             <uib-tab-heading>
                 IN PROGRESS : {{processingOrders.total}}
             </uib-tab-heading>
             <order-table orders="processingOrders"></order-table>
         </uib-tab>
-        <uib-tab index="2">
+        <uib-tab index="1">
             <uib-tab-heading>
                 COMPLETED : {{completedOrders.total}}
             </uib-tab-heading>
             <order-table orders="completedOrders"></order-table>            
         </uib-tab>
-        <uib-tab index="3">
+        <uib-tab index="2">
             <uib-tab-heading>
                 CANCELED : {{cancelledOrders.total}}
             </uib-tab-heading>
