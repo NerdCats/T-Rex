@@ -32,8 +32,9 @@
             .address {
                 word-wrap: break-word;
                 width: 270px !important;
-                font-size: 11px;
+                font-size: 16px;
                 text-align: center;
+                font-weight: 500;
             }
             .address-header {
                 text-align: center;
@@ -74,7 +75,7 @@
                 margin-top: 10px
             }
             td, th {
-                font-size: 11px;
+                font-size: 14px;
                 border: 1px solid #999;
                 padding: 2px;
                 text-align: center;
@@ -113,11 +114,10 @@
                 margin: 0 auto;
             }
 
-            .service-charge {
-                font-size: 11px;
-            }
+
             .service-charge-bdt {
-                float: right;
+                text-align: center;
+                font-size: 16px;
             }
             </style>
 
@@ -146,7 +146,7 @@
                 <!-- <div class="address">Mobile:01922962787</div> -->
                 <!-- <div class="address">email : shtelecom468@gmail.com Address: Circle Ambia Shopping Mall, Level #01, Shop # 04 (1st Floor), Rampura Bazaar, Dhaka-1219., Bashundhara, Dhaka</div> -->
                 <div class="address" ng-show="job.Order.Type === 'ClassifiedDelivery'">Pickup Time: {{job.Order.JobTaskETAPreference[0].ETA | date: 'medium'}}</div>
-                <div class="address">{{job.Order.From.Address}}</div>
+                <div class="address">{{job.Order.From.AddressLine1}}</div>
             </div>
             <hr class="style-one">
             <div>
@@ -155,7 +155,7 @@
                 <!-- <div class="address">Mobile: 01771117031</div> -->
                 <!-- <div class="address">Address: uttara sector-5, Road-6, House-13 , Uttara, Dhaka</div> -->
                 <div class="address" ng-show="job.Order.Type === 'ClassifiedDelivery'">Delivery Time: {{job.Order.JobTaskETAPreference[1].ETA | date: 'medium'}}</div>
-                <div class="address">{{job.Order.To.Address}}</div>
+                <div class="address">{{job.Order.To.AddressLine1}}</div>
             </div>
             <hr class="style-one">
             <div>
@@ -176,16 +176,23 @@
                             <td>{{item.Total}}</td>
                         </tr>                        
                         <tr>                            
-                            <td colspan="4">Item Total Price</td>
-                            <td>{{job.Order.OrderCart.TotalToPay - job.Order.OrderCart.ServiceCharge}}</td>
+                            <td colspan="4"><b>Package Total</b></td>
+                            <td>{{job.Order.OrderCart.SubTotal}}</td>
+                        </tr>
+                        <tr>
+                            <td class="service-charge-bdt" colspan="4">Go! Fetch Service Charge <br>(Vat Included)</td>
+                            <td class="service-charge-bdt">{{job.Order.OrderCart.ServiceCharge}}</td>
+                        </tr>
+                        <tr>
+                            <td class="service-charge-bdt" colspan="4"><b>Total Receivable</b></td>
+                            <td class="service-charge-bdt"><b>{{job.Order.OrderCart.TotalToPay}}</b></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <br>
             <div class="service-charge">
-                <span>Go! Fetch Service Charge (Vat Included)</span>
-                <span class="service-charge-bdt">{{job.Order.OrderCart.ServiceCharge}} tk</span>
+                
             </div>
             <hr class="style-one">
             <div class="signature">
