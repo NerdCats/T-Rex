@@ -2,78 +2,31 @@
 app.controller('jobSearchController', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'queryService', jobSearchController]);
 
 function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory, queryService){
-	var vm = this;
+	var vm = $scope;
 	vm.jobStates = ["ENQUEUED", "IN_PROGRESS", "COMPLETED"]
-	vm.SearchResultJobs = {orders: [], pages:[], total: 0};
-	vm.selectedItem = null;
-	vm.searchTextChange = searchTextChange;
-	vm.selectedItemChange = selectedItemChange;
-	vm.searchText = "";
-	vm.querySearch = querySearch;
-	vm.searchUrl = "";
-	vm.searching = false;
-
-	vm.searchParam = {
-		type: "Job",
-		startDate : null,
-		endDate: null,
-		UserName: null,
-		jobState: null,
-		orderby: {
-			property : "CreateTime",
-			orderbyCondition: "desc"
-		}
-	}
+	vm.jobSearchResult = dashboardFactory.orders("IN_PROGRESS");
+	vm.slectedStartDate = new Date();
+	vm.slectedEndDate = new Date();	
 
 	vm.loadNextPage = function (page) {
-		var jobSearchUrlWithPage = vm.searchUrl + "&page=" + page;
-		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, jobSearchUrlWithPage);
+		jobSearchResult.searchParam.loadPage(page);		
 	}
 
 	vm.Search = function () {
-		jobSearch.searchParam.startDate = jobSearch.searchParam.startDate.toISOString();
-		jobSearch.searchParam.endDate = jobSearch.searchParam.endDate.toISOString();
-		vm.searchUrl = queryService.getOdataQuery(vm.searchParam);
-		console.log(vm.searchParam)
-		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, vm.searchUrl);
-	}
+		vm.slectedStartDate = new Date(vm.slectedStartDate.getFullYear(), vm.slectedStartDate.getMonth(), vm.slectedStartDate.getDate(), 0, 0, 0)
+		vm.slectedEndDate = new Date(vm.slectedEndDate.getFullYear(), vm.slectedEndDate.getMonth(), vm.slectedEndDate.getDate(), 23, 59, 59);
 
-	function searchTextChange(item) {
-		console.log("searchText change : ");
-		console.log(item);
-	}
-	function selectedItemChange(item) {
-		if (item!=null) {
-			vm.searchParam.UserName = item.UserName;			
-		}
-		console.log(vm.selectedItem)
-		console.log(item);
-		console.log(vm.searchParam.UserName);
-	}
-	function querySearch(query) {
-		loadUserNames(query);
-		var results = query ? vm.autocompleteUserNames.filter( createFilterFor(query)) : vm.autocompleteUserNames, deferred;
-		return results;
-	}
-	function loadUserNames(query){
-		function successCallback(response) {
-			vm.autocompleteUserNames = response.data.data;	
-			console.log(vm.autocompleteUserNames)
-		}
-		function errorCallback(error) {
-			console.log(error);
-		}
+		console.log(vm.slectedStartDate + " gtg")
+		console.log(vm.slectedEndDate + "   asd")
 
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=startswith(UserName,'"+ query +"') eq true and Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;		
-		console.log(getUsersUrl)
-		restCall('GET', getUsersUrl, null, successCallback, errorCallback)
-		console.log("loadUserNames")
-	};
-	function createFilterFor(query) {
-		// var lowercaseQuery = angular.lowercase(query);
-
-		return function filterFn(state) {			
-			return(state.UserName.indexOf(query) === 0)			
-		};
-	}
+		console.log(vm.slectedStartDate.toISOString() + " gtg")
+		console.log(vm.slectedEndDate.toISOString() + "   asd")
+		
+		// vm.jobSearchResult.jobTime(vm.slectedStartDate);
+		// vm.jobSearchResult.jobTime(vm.slectedEndDate);
+		vm.jobSearchResult.searchParam.startDate = vm.slectedStartDate.toISOString();
+		vm.jobSearchResult.searchParam.endDate = vm.slectedEndDate.toISOString();
+		vm.jobSearchResult.isCompleted = "IN_PROGRESS";
+		vm.jobSearchResult.loadOrders();
+	}	
 }

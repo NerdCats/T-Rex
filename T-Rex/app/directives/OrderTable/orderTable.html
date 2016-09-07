@@ -22,7 +22,7 @@
             <td class="col-md-1">
                 <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.Id}}" target="_blank">{{order.Id}}</a>
             </td>
-            <td class="col-md-1">{{order.CreateTime | date:"EEE d MMM y,h:m"}}</td>
+            <td>{{order.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
             <td><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
             <td>{{order.Type}}</td>                            
             <td class="col-md-2">{{order.From}}</td>
