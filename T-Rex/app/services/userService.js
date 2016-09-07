@@ -29,7 +29,7 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				} else {
 					pageUrl = "/mockdata/assets.json";
-					pageUrl = queryService.getOdataQuery(this.searchParam);
+					// pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
 				populateUsers(this, pageUrl);
 			}

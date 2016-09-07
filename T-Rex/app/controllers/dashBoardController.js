@@ -8,6 +8,8 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 	vm.menus = menus;	
 	vm.autoRefreshState = true;
 	vm.jobPerPage = 50;
+	vm.startDate = undefined;
+	vm.endDate = undefined;
 	vm.EnterpriseUser = null;
 	vm.EnterpriseUsers = [];	
 
@@ -40,6 +42,35 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 		$window.location.href = "#/order/create/new";
 	}
 
+	vm.clearDate = function () {
+		vm.startDate = undefined;
+		vm.endDate = undefined;
+
+		vm.activate();
+	}
+
+	vm.setDate = function () {
+		var startDateISO = undefined;
+		var endDateISO = undefined;
+		
+		if (vm.startDate&&vm.endDate) {
+			startDateISO = new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), 0, 0, 0).toISOString();
+			endDateISO = new Date(vm.endDate.getFullYear(), vm.endDate.getMonth(), vm.endDate.getDate(), 23, 59, 59).toISOString();			
+		}
+
+		vm.newOrders.searchParam.startDate = startDateISO;
+		vm.newOrders.searchParam.endDate = endDateISO;
+
+		vm.processingOrders.searchParam.startDate = startDateISO;
+		vm.processingOrders.searchParam.endDate = endDateISO;
+
+		vm.completedOrders.searchParam.startDate = startDateISO;
+		vm.completedOrders.searchParam.endDate = endDateISO;
+
+		vm.cancelledOrders.searchParam.startDate = startDateISO;
+		vm.cancelledOrders.searchParam.endDate = endDateISO;		
+	}
+
 	
 
 	vm.AutoRefreshChanged = function () {
@@ -49,6 +80,8 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 			dashboardFactory.stopRefresh();
 		}
 	}
+
+
 	vm.activate = function () {
 		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
@@ -65,10 +98,7 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 		vm.completedOrders.isCompleted = 'IN_PROGRESS';
 		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
 
-		vm.newOrders.jobTime(vm.jobTime);
-		vm.processingOrders.jobTime(vm.jobTime);
-		vm.completedOrders.jobTime(vm.jobTime);
-		vm.cancelledOrders.jobTime(vm.jobTime);
+		vm.setDate();
 
 		vm.newOrders.loadOrders();
 		vm.processingOrders.loadOrders();
