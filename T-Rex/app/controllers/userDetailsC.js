@@ -65,9 +65,9 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 		vm.completedOrders.searchParam.userId = vm.id;
 		vm.cancelledOrders.searchParam.userId = vm.id;
 		
-		vm.processingOrders.loadOrdersAssignedToAssets();
-		vm.completedOrders.loadOrdersAssignedToAssets();
-		vm.cancelledOrders.loadOrdersAssignedToAssets();
+		vm.processingOrders.loadOrders();
+		vm.completedOrders.loadOrders();
+		vm.cancelledOrders.loadOrders();
 	}
 	vm.activate();
 }

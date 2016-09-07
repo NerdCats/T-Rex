@@ -8,7 +8,7 @@ app.constant('ngAuthSettings', {
 app.constant('menus', [
 	{ title : "Dashboard", link: '#/'},
 	{ title : "Create Order", link: '#/order/create/new', target: "_blank"},
-	{ title : "Search Jobs", link: '#/job-search'},
+	{ title : "Report", link: '#/job-search'},
 	{ title : "Order Types", link: '#/supportedOrder'},
 	{ title : "Users", link: '#/users'},
 	{ title : "Tracking Map", link: '#/tracking-map', target: "_blank"},

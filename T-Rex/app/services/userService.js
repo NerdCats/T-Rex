@@ -1,8 +1,8 @@
 'use strict';
 
-app.factory('userService', ["$http", "$window", "restCall", "ngAuthSettings", "odata", userService]);
+app.factory('userService', ["$http", "$window", "restCall", "ngAuthSettings", "queryService", userService]);
 
-function userService($http, $window, restCall, ngAuthSettings, odata){
+function userService($http, $window, restCall, ngAuthSettings, queryService){
 
 	var users = function (userType) {
 		return {
@@ -26,10 +26,10 @@ function userService($http, $window, restCall, ngAuthSettings, odata){
 				this.isCompleted = 'IN_PROGRESS';
 				var pageUrl;
 				if (userType !== "BIKE_MESSENGER") {
-					pageUrl = odata.odataQueryMaker(this.searchParam);
+					pageUrl = queryService.getOdataQuery(this.searchParam);
 				} else {
 					pageUrl = "/mockdata/assets.json";
-					// pageUrl = odata.odataQueryMaker(this.searchParam);
+					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
 				populateUsers(this, pageUrl);
 			}

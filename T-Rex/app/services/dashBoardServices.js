@@ -1,7 +1,7 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'odata', 'ngAuthSettings', dashboardFactory]);
+app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'queryService', 'ngAuthSettings', dashboardFactory]);
 
 
-function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, ngAuthSettings){
+function dashboardFactory($http, $window, $interval, timeAgo, restCall, queryService, ngAuthSettings){
 	
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
@@ -149,6 +149,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, n
 				type: "Job",
 				startDate : null,
 				userId : null,
+
 				endDate: null,
 				UserName: null,
 				jobState: jobState,
@@ -158,25 +159,22 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, odata, n
 				},
 				envelope: true,
 				page: 0,
-				pageSize: 10				
+				pageSize: 50				
 			},
 			loadOrders: function () {				
-				var pageUrl = odata.odataQueryMaker(this.searchParam);
-				populateOrdersTable(this, pageUrl);
-			},
-			loadOrdersAssignedToAssets : function () {
-				var pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&jobStateUpto="+ this.searchParam.jobState +"&sortDirection=Descending";
+				var pageUrl;
+				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
+				if (this.searchParam.userId) {
+					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&jobStateUpto="+ this.searchParam.jobState +"&sortDirection=Descending";
+				} else {
+					pageUrl = queryService.getOdataQuery(this.searchParam);
+				}
 				populateOrdersTable(this, pageUrl);
 			},
 			loadPage: function (pageNo) {
 				this.isCompleted = 'IN_PROGRESS';		
-				this.searchParam.page = pageNo;
-				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
-				if (this.searchParam.userId) {
-					this.loadOrdersAssignedToAssets();
-				} else {
-					this.loadOrders();					
-				}
+				this.searchParam.page = pageNo;				
+				this.loadOrders();			
 			},
 			loadPrevPage: function () {
 				this.isCompleted = 'IN_PROGRESS';

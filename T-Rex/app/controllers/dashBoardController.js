@@ -7,7 +7,7 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 	var vm = $scope;	
 	vm.menus = menus;	
 	vm.autoRefreshState = true;
-	vm.jobPerPage = 10;
+	vm.jobPerPage = 50;
 	vm.EnterpriseUser = null;
 	vm.EnterpriseUsers = [];	
 

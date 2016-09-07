@@ -1,7 +1,7 @@
 'use strict';
-app.controller('jobSearchController', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'odata', jobSearchController]);
+app.controller('jobSearchController', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'queryService', jobSearchController]);
 
-function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory, odata){
+function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory, queryService){
 	var vm = this;
 	vm.jobStates = ["ENQUEUED", "IN_PROGRESS", "COMPLETED"]
 	vm.SearchResultJobs = {orders: [], pages:[], total: 0};
@@ -33,7 +33,7 @@ function jobSearchController($scope, ngAuthSettings, restCall, dashboardFactory,
 	vm.Search = function () {
 		jobSearch.searchParam.startDate = jobSearch.searchParam.startDate.toISOString();
 		jobSearch.searchParam.endDate = jobSearch.searchParam.endDate.toISOString();
-		vm.searchUrl = odata.odataQueryMaker(vm.searchParam);
+		vm.searchUrl = queryService.getOdataQuery(vm.searchParam);
 		console.log(vm.searchParam)
 		dashboardFactory.populateOrdersTable(vm.SearchResultJobs, vm.searchUrl);
 	}
