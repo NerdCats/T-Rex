@@ -1,3 +1,6 @@
+// This service is a piece of shit!
+// need to refactor
+
 app.factory('queryService', ['restCall', 'ngAuthSettings', queryService])
 
 function queryService(restCall, ngAuthSettings){
@@ -25,8 +28,8 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		if (searchParam.startDate != null) {
-			var startDateParam = "CreateTime gt datetime'"+ searchParam.startDate +"'";
+		if (searchParam.CreateTime.startDate != null) {
+			var startDateParam = "CreateTime gt datetime'"+ searchParam.CreateTime.startDate +"'";
 			if (!allreadyAParamIsThere) {
 				searchUrl +=  startDateParam;
 				allreadyAParamIsThere = true;
@@ -35,8 +38,28 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		if (searchParam.endDate != null) {
-			var endDateParam = "CreateTime lt datetime'"+ searchParam.endDate +"'";
+		if (searchParam.CreateTime.endDate != null) {
+			var endDateParam = "CreateTime lt datetime'"+ searchParam.CreateTime.endDate +"'";
+			if (!allreadyAParamIsThere) {
+				searchUrl +=  endDateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += " and " + endDateParam;
+			}
+		}
+
+		if (searchParam.CompletionTime.startDate != null) {
+			var startDateParam = "CompletionTime gt datetime'"+ searchParam.CompletionTime.startDate +"'";
+			if (!allreadyAParamIsThere) {
+				searchUrl +=  startDateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += " and " + startDateParam;
+			}
+		}
+
+		if (searchParam.CompletionTime.endDate != null) {
+			var endDateParam = "CompletionTime lt datetime'"+ searchParam.CompletionTime.endDate +"'";
 			if (!allreadyAParamIsThere) {
 				searchUrl +=  endDateParam;
 				allreadyAParamIsThere = true;

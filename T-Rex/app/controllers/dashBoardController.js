@@ -58,17 +58,19 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 			endDateISO = new Date(vm.endDate.getFullYear(), vm.endDate.getMonth(), vm.endDate.getDate(), 23, 59, 59).toISOString();			
 		}
 
-		vm.newOrders.searchParam.startDate = startDateISO;
-		vm.newOrders.searchParam.endDate = endDateISO;
+		vm.newOrders.searchParam.CreateTime.startDate = startDateISO;
+		vm.newOrders.searchParam.CreateTime.endDate = endDateISO;
 
-		vm.processingOrders.searchParam.startDate = startDateISO;
-		vm.processingOrders.searchParam.endDate = endDateISO;
+		// vm.processingOrders.searchParam.startDate = startDateISO;
+		// vm.processingOrders.searchParam.endDate = endDateISO;
 
-		vm.completedOrders.searchParam.startDate = startDateISO;
-		vm.completedOrders.searchParam.endDate = endDateISO;
+		vm.completedOrders.searchParam.CompletionTime.startDate = startDateISO;
+		vm.completedOrders.searchParam.CompletionTime.endDate = endDateISO;
 
-		vm.cancelledOrders.searchParam.startDate = startDateISO;
-		vm.cancelledOrders.searchParam.endDate = endDateISO;		
+		// FIXME: remember, in future, if there are any order STATE as returned, we need
+		// to open up another list
+		vm.cancelledOrders.searchParam.CreateTime.startDate = startDateISO;
+		vm.cancelledOrders.searchParam.CreateTime.endDate = endDateISO;		
 	}
 
 	

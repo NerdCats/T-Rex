@@ -147,15 +147,20 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			},
 			searchParam : {
 				type: "Job",
-				startDate : null,
 				userId : null,
-
-				endDate: null,
-				UserName: null,
-				jobState: jobState,
-				orderby: {
+				UserName : null,
+				CreateTime : {
+					startDate : null,
+					endDate : null,
+				},
+				CompletionTime : {
+					startDate : null,
+					endDate : null,
+				},
+				jobState : jobState,
+				orderby : {
 					property : "CreateTime",
-					orderbyCondition: "desc"
+					orderbyCondition : "desc"
 				},
 				envelope: true,
 				page: 0,
