@@ -38,10 +38,6 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 
 	loadUserName(vm.EnterpriseUsers);
 
-	vm.createNewOrder = function () {
-		$window.location.href = "#/order/create/new";
-	}
-
 	vm.clearDate = function () {
 		vm.startDate = undefined;
 		vm.endDate = undefined;

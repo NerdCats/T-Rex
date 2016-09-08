@@ -200,7 +200,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 		}
 
 		var errorCallback = function error(error) {
-			vm.OrderFailed = true;			
+			vm.OrderFailed = true;
 			console.log("error : ");
 			console.log(error);
 			vm.order.JobTaskETAPreference = [];
@@ -261,7 +261,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 	function AddItem() {
 		var newItem = {
     		"Item": "",
-			"Quantity": 0,
+			"Quantity": 1,
 			"Price": 0,
 			"VAT": 0,
 			"Total": 0,
