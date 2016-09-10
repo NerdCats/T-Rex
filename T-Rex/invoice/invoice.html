@@ -234,6 +234,26 @@
                 url: url,                
             }).then(function success(response){
                 vm.job = response.data;
+                if (vm.job.User.UserName === "B2C") {
+                    if (vm.job.Order.OrderCart.SubTotal === 0) {
+                        vm.job.Order.OrderCart.SubTotal = "";
+                    }
+
+                    for (var i = vm.job.Order.OrderCart.PackageList.length - 1; i >= 0; i--) {
+                        if (vm.job.Order.OrderCart.PackageList[i].Price === 0) {
+                            vm.job.Order.OrderCart.PackageList[i].Price = "";
+                            vm.job.Order.OrderCart.TotalToPay = "";                                                    
+                        }
+                        if (vm.job.Order.OrderCart.PackageList[i].Weight === 0) {
+                            vm.job.Order.OrderCart.PackageList[i].Weight = "";
+                        }
+                        if (vm.job.Order.OrderCart.PackageList[i].Total === 0) {
+                            vm.job.Order.OrderCart.PackageList[i].Total = "";
+                        }
+                        
+                    }
+
+                }
                 console.log(vm.job);
             }, function error(error) {
                 alert(error.Message)

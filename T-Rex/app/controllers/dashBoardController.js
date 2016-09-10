@@ -21,22 +21,7 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
 
-	function loadUserName(_EnterpriseUsers) {
-		function success(response) {
-			vm.EnterpriseUsers.push("all");
-			angular.forEach(response.data.data, function (value, keys) {
-				_EnterpriseUsers.push(value.UserName);
-			});
-			console.log(_EnterpriseUsers)
-		}
-		function error(error) {
-			console.log(error);
-		}
-		var enterpriseUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'Enterprise'&PageSize=50";
-		restCall('GET', enterpriseUsersUrl, null, success, error);
-	}
-
-	loadUserName(vm.EnterpriseUsers);
+	dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
 
 	vm.clearDate = function () {
 		vm.startDate = undefined;

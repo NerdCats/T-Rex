@@ -19,23 +19,19 @@ app.config(['$routeProvider',
 		$routeProvider.
 			when('/login',{
 				templateUrl: 'app/views/login.html',
-				controller: 'authController',
-				controllerAs: 'auth'
+				controller: 'authController'				
 			}).
 			when('/',{
 				templateUrl: 'app/views/dashboard.html',
-		        controller: 'dashBoardController',
-		        controllerAs: 'dashboard'
+		        controller: 'dashBoardController'		        
 			}).
 			when('/order/create/:id',{
 				templateUrl: 'app/views/order/create.html',
-				controller: 'createOrderController',
-				controllerAs: 'createOrder'
+				controller: 'createOrderController'				
 			}).			
-			when('/job-search', {
-				templateUrl: 'app/views/job-search.html',
-				controller: 'jobSearchController',
-				controllerAs: 'jobSearch'
+			when('/report', {
+				templateUrl: 'app/views/report.html',
+				controller: 'reportC'				
 			}).
 			when('/job/:id',{
 				templateUrl: 'app/views/job.html',
@@ -43,44 +39,36 @@ app.config(['$routeProvider',
 			}).
 			when('/users', {
 				templateUrl: 'app/views/users.html',
-				controller: 'userController',
-				controllerAs: 'users'
+				controller: 'userController'				
 			}).
 			when('/user/create',{
 				templateUrl: 'app/views/usercreate.html',
-				controller: 'usercreateC',
-				controllerAs: 'usercreateC'
+				controller: 'usercreateC'				
 			}).
 			when('/tracking-map',{
 				templateUrl: 'app/views/trackingMap.html',
-				controller: 'trackingMapC',
-				controllerAs: 'trackingMapC'
+				controller: 'trackingMapC'				
 			}).
 			when('/users/:id',{
 				templateUrl: 'app/views/userdetails.html',
-				controller: 'userDetailsC',
-				controllerAs: 'user'
+				controller: 'userDetailsC'				
 			})		
 			// .
 			// when('/asset', {
 			// 	templateUrl: 'app/views/assets.html',
-			// 	controller: 'assetController',
-			// 	controllerAs: 'assets'
+			// 	controller: 'assetController'			
 			// }).
 			// when('/supportedOrder',{
 			// 	templateUrl: 'app/views/supportedOrders.html',
-			// 	controller: 'supportedOrderController',
-			// 	controllerAs: 'supportedOrders'
+			// 	controller: 'supportedOrderController'			
 			// }).
 			// when('/supportedOrderCreate',{
 			// 	templateUrl: 'app/views/supportedOrder/supportedOrderCreate.html',
-			// 	controller: 'supportedOrderCreateController',
-			// 	controllerAs: 'supportedOrders'
+			// 	controller: 'supportedOrderCreateController'			
 			// }).
 			// when('/supportedOrderUpdate/:id',{
 			// 	templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
-			// 	controller: 'supportedOrderUpdateController',
-			// 	controllerAs: 'supportedOrders'
+			// 	controller: 'supportedOrderUpdateController'			
 			// });
 
 			$routeProvider.otherwise({ redirectTo: "/"});

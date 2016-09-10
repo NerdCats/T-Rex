@@ -10,7 +10,8 @@
             <th>Delivery</th>
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Pickup Status</th>   
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Delivery Status</th>   
-            <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">SecureDelivery Status</th><<th ng-show="orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
+            <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">SecureDelivery Status</th>
+            <th ng-show="orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
             <th>Payment</th>
             <th>Time Elapsed</th>
             

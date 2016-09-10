@@ -3,6 +3,20 @@ app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 're
 
 function dashboardFactory($http, $window, $interval, timeAgo, restCall, queryService, ngAuthSettings){
 	
+	var getUserNameList = function (type, Users) {
+		function success(response) {
+			Users.push("all");
+			angular.forEach(response.data.data, function (value, keys) {
+				Users.push(value.UserName);
+			});			
+		}
+		function error(error) {
+			console.log(error);
+		}
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&PageSize=50";
+		restCall('GET', getUsersUrl, null, success, error);
+	}
+
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
 			Orders.orders = [];
@@ -141,10 +155,6 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			pages:[],
 			total: 0, 
 			isCompleted : '',
-			jobTime: function (jobTime) {				
-				this.searchParam.startDate = getDate(jobTime).startDate;
-				this.searchParam.endDate = getDate(jobTime).endDate;				
-			},
 			searchParam : {
 				type: "Job",
 				userId : null,
@@ -198,45 +208,12 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				}
 			}
 		}
-	};
-
-	var getDate = function (day) {
-		var thisDate = new Date().getDate();
-		var thisMonth = new Date().getMonth();
-		var thisYear = new Date().getFullYear();
-		var dates = {
-			startDate: null,
-			endDate: null
-		}	
-
-		if (day == 'today') {			
-			//FIXME:
-			//not sure why there is T18 in ex: 2016-07-28T18:00:00.000Z ISO time string,
-			//untill i find out, using this blant hack
-
-			// dates.startDate = new Date(thisYear, thisMonth, thisDate + 1,0,0,0,0).toISOString();			
-			// dates.endDate = new Date(thisYear, thisMonth, thisDate + 2,0,0,0,0).toISOString();
-
-			dates.startDate = thisYear+"-0"+(thisMonth+1)+"-"+thisDate+"T00:00:00.000Z";
-			dates.endDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+1)+"T00:00:00.000Z";
-		} else if (day == 'nextday') {
-			// dates.startDate = new Date(thisYear, thisMonth, thisDate + 2,0,0,0,0).toISOString();			
-			// dates.endDate = new Date(thisYear, thisMonth, thisDate + 3,0,0,0,0).toISOString();
-			dates.startDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+1)+"T00:00:00.000Z";
-			dates.endDate = thisYear+"-0"+(thisMonth+1)+"-"+(thisDate+2)+"T00:00:00.000Z";
-		}
-		// console.log(day)
-		// console.log(dates)
-		return dates;
-	}
+	};	 
 
 	var autoRefresh;
 	var startRefresh = function (Orders) {
 		if (angular.isDefined(autoRefresh)) return;
-		autoRefresh = $interval(function () {
-			// Orders.isCompleted = 'IN_PROGRESS';
-			// Orders.orders = [];
-			// Orders.pages = [];
+		autoRefresh = $interval(function () {			
 			Orders.loadOrders();	
 		}, 60000);
 	}
@@ -250,6 +227,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 	}
 
 	return {
+		getUserNameList : getUserNameList,
 		populateOrdersTable : populateOrdersTable,
 		loadNextPage : loadNextPage,		
 		orders: orders,
