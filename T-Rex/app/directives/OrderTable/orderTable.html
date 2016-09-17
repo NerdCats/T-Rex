@@ -45,7 +45,7 @@
     <p>There is no order here! click <button ng-click="orders.loadOrders()" >here</button> to check</p>
 </div>
 
-<nav class="navbar-right" ng-show="orders.isCompleted == 'IN_PROGRESS'">
+<nav class="navbar-right" ng-show="orders.isCompleted !== 'IN_PROGRESS'">
     <ul class="pagination">
         <li>
             <a ng-click="orders.loadPrevPage()" ng-hide="orders.pagination.PrevPage === undefined" href=""> << </a>
