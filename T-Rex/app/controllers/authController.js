@@ -5,7 +5,7 @@ app.controller('authController', authController);
 authController.$inject = ['$scope', 'authService', '$location', '$window'];
 
 function authController($scope, authService, $location, $window) {
-    var vm = this;
+    var vm = $scope;
     vm.loginData = {};
     vm.loginData.username = "";
     vm.loginData.password = "";
