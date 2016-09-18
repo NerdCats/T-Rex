@@ -1,27 +1,27 @@
 'use strict';
-app.controller('reportC', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'queryService', reportC]);
+app.controller('reportC', ['$scope', 'ngAuthSettings', 'restCall', 'dashboardFactory', 'reportService', 'queryService', 'reportServiceUrl', reportC]);
 
-function reportC($scope, ngAuthSettings, restCall, dashboardFactory, queryService){
-	var vm = $scope;
-	vm.jobStates = ["ENQUEUED", "IN_PROGRESS", "COMPLETED"]
-	vm.jobSearchResult = dashboardFactory.orders("IN_PROGRESS");
+function reportC($scope, ngAuthSettings, restCall, dashboardFactory, reportService, queryService, reportServiceUrl){
+	var vm = $scope;	
+	vm.b2bReport = reportService.getReport();
+	vm.b2cReport = reportService.getReport();
+	vm.b2cReport.searchParam.type = "USER";
 	vm.slectedStartDate = new Date();
-	vm.slectedEndDate = new Date();	
+	vm.slectedEndDate = new Date();
 
 	vm.loadNextPage = function (page) {
-		jobSearchResult.searchParam.loadPage(page);		
+		vm.b2bReport.searchParam.loadPage(page);
 	}
 
-	
-
 	vm.Search = function () {
-		vm.slectedStartDate = new Date(vm.slectedStartDate.getFullYear(), vm.slectedStartDate.getMonth(), vm.slectedStartDate.getDate(), 0, 0, 0);
-		vm.slectedEndDate = new Date(vm.slectedEndDate.getFullYear(), vm.slectedEndDate.getMonth(), vm.slectedEndDate.getDate(), 23, 59, 59);
+		vm.b2bReport.searchParam.startdate = dashboardFactory.getIsoDate(vm.slectedStartDate, 0, 0, 0);
+		vm.b2bReport.searchParam.enddate = dashboardFactory.getIsoDate(vm.slectedEndDate, 23, 59, 59);
+		vm.b2bReport.getReport();
 
-		vm.jobSearchResult.searchParam.startDate = vm.slectedStartDate.toISOString();
-		vm.jobSearchResult.searchParam.endDate = vm.slectedEndDate.toISOString();
+		vm.b2cReport.searchParam.startdate = dashboardFactory.getIsoDate(vm.slectedStartDate, 0, 0, 0);
+		vm.b2cReport.searchParam.enddate = dashboardFactory.getIsoDate(vm.slectedEndDate, 23, 59, 59);
+		vm.b2cReport.getReport();
+	}
 
-		vm.jobSearchResult.isCompleted = "IN_PROGRESS";
-		vm.jobSearchResult.loadOrders();
-	}	
+	vm.Search();
 }

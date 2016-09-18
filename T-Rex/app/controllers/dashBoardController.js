@@ -27,6 +27,7 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 		vm.startDate = undefined;
 		vm.endDate = undefined;
 
+
 		vm.activate();
 	}
 
@@ -35,8 +36,10 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 		var endDateISO = undefined;
 		
 		if (vm.startDate&&vm.endDate) {
-			startDateISO = new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), 0, 0, 0).toISOString();
-			endDateISO = new Date(vm.endDate.getFullYear(), vm.endDate.getMonth(), vm.endDate.getDate(), 23, 59, 59).toISOString();			
+			startDateISO = dashboardFactory.getIsoDate(vm.startDate,0,0,0);
+			// new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), 0, 0, 0).toISOString();
+			endDateISO = dashboardFactory.getIsoDate(vm.endDate,23,59,59);
+			// new Date(vm.endDate.getFullYear(), vm.endDate.getMonth(), vm.endDate.getDate(), 23, 59, 59).toISOString();			
 		}
 
 		vm.newOrders.searchParam.CreateTime.startDate = startDateISO;

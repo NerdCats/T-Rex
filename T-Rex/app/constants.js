@@ -18,8 +18,9 @@ app.constant('menus', [
 
 
 app.constant('tracking_host', "http://gofetch.cloudapp.net:1337/");
-app.constant('tracking_link', "http://gofetchtrack.azurewebsites.net/#/");
+app.constant('reportServiceUrl', "http://gobdsif.cloudapp.net/");
 app.constant('signlr_link', "http://gofetch.cloudapp.net:1001/signalr/hubs");
+
 
 app.constant('templates', {
 	sidebar: 'app/views/sidebar.html',

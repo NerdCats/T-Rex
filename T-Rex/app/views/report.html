@@ -15,41 +15,8 @@
 		</fieldset>
 	</ng-form>
 
+	<report-table report="b2bReport"></report-table>
+	<br>
+	<report-table report="b2cReport"></report-table>
 
-
-	<div class="">
-		<h1>Report</h1>
-		<span>Total Found Jobs : {{SearchResultJobs.total}}</span>
-		<!-- <order-table orders="jobSearchResult"></order-table> -->
-		<table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-			<thead>
-				<th>S/L no</th>
-				<th>User</th>
-				<th>Total Jobs</th>
-				<th>Completed</th>
-				<th>In-Progress</th>
-				<th>Cancelled</th>
-				<th>Total Product Price</th>
-				<th>Cash Recieved(Completed Delivery)</th>
-				<th>Total Delivery Charge</th>
-				<th>Commision</th>
-				<th>Conveyance allowance</th>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{ $index + 1 }}</td>
-					<td>{{ report.user }}</td>
-					<td>{{ report.totalJobs }}</td>
-					<td>{{ report.totalCompleted }}</td>
-					<td>{{ report.totalInProgress }}</td>
-					<td>{{ report.totalCancelled }}</td>
-					<td>{{ report.totalProductPrice }}</td>
-					<td>{{ report.totalCashRecievedOfCompleted }}</td>
-					<td>{{ report.totalDeliveryCharge }}</td>
-					<td>{{ report.totalComission }}</td>
-					<td>{{ report.totalConveyanceAllowance }}</td>				
-				</tr>
-			</tbody>
-		</table>
-	</div>
 </div>

@@ -97,12 +97,6 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				class: "pending"
 			};
 		}
-		// else if (word == "PENDING") {
-		// 	return {
-		// 		value: "PENDING",
-		// 		class: "pending"
-		// 	};
-		// }
 		else if (word == "IN_PROGRESS") {
 			return {
 				value: "IN PROGRESS",
@@ -226,6 +220,10 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 		}
 	}
 
+	var getIsoDate = function (date, hour, min, sec) {
+		return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, min, sec).toISOString();
+	}
+
 	return {
 		getUserNameList : getUserNameList,
 		populateOrdersTable : populateOrdersTable,
@@ -233,7 +231,8 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 		orders: orders,
 		startRefresh: startRefresh,
 		stopRefresh: stopRefresh,
-		getProperWordWithCss: getProperWordWithCss
+		getProperWordWithCss: getProperWordWithCss,
+		getIsoDate: getIsoDate
 	};
 }
 
