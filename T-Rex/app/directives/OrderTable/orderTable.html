@@ -22,6 +22,7 @@
             <td>{{$index + orders.pagination.Start}}</td>
             <td class="col-md-1">
                 <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.Id}}" target="_blank">{{order.Id}}</a>
+                <span class="label text-center {{order.JobState().class}}">{{order.JobState().value}}</span>
             </td>
             <td>{{order.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
             <td><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
