@@ -1,12 +1,12 @@
 'use strict';
 
 app.controller('jobController', [ '$scope', '$http', '$interval', '$uibModal','$window', '$routeParams', 'menus', 'templates', 
-	'ngAuthSettings', 'tracking_host', 'tracking_link', 'timeAgo', 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', jobController]);
+	'ngAuthSettings', 'timeAgo' , 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', jobController]);
 
 
 
 function jobController($scope, $http, $interval, $uibModal, $window, $routeParams,	menus, 
-	templates, ngAuthSettings, tracking_host, tracking_link, timeAgo,jobFactory, mapFactory, restCall, patchUpdate) {
+	templates, ngAuthSettings, timeAgo, jobFactory, mapFactory, restCall, patchUpdate) {
 	
 	var vm = $scope;
 	var id = $routeParams.id;	

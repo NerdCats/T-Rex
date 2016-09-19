@@ -41,6 +41,9 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				this.status = 'IN_PROGRESS';
 				populateReport(this, reportUrl);
 			},
+			goToReportJobs : function (user, state) {
+				$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&user=" + user + "&state=" + state, '_blank');
+			},
 			status : 'NONE',
 		}
 	}

@@ -12,8 +12,6 @@ app.constant('menus', [
 	{ title : "Order Types", link: '#/supportedOrder'},
 	{ title : "Users", link: '#/users'},
 	{ title : "Tracking Map", link: '#/tracking-map', target: "_blank"},
-	// { Title : "Agents", Href: '#/'},
-	// { Title : "Administration", Href: '#/'}
 ]);
 
 
@@ -31,5 +29,4 @@ app.constant('COLOR', {
 	"red" : "#F44336",
 	"green" : "#4CAF50",
 	"yellow" : "#FFEB3B"
-
 });

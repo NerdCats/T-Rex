@@ -1,0 +1,5 @@
+<h3>Your are seeing all the <span class="label {{getCssClass(reportJobs.searchParam.jobState).class}}">{{reportJobs.searchParam.jobState}}</span> orders of <b>{{reportJobs.searchParam.UserName}}</b>, from 
+<span class="label startdate">{{reportJobs.searchParam.CreateTime.startDate | date:"EEE MMM d, y h:mm:ss a"}}</span> to 
+<span class="label enddate">{{reportJobs.searchParam.CreateTime.endDate | date:"EEE MMM d, y h:mm:ss a"}}</span></h3>
+<h4>Total Orders : {{reportJobs.total}}</h4>
+<order-table orders="reportJobs"></order-table>

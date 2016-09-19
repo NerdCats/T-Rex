@@ -68,7 +68,7 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		if (searchParam.jobState != null) {
+		if (searchParam.jobState != null || searchParam.jobState  != undefined != searchParam.jobState  != 'all') {
 			var jobStateParam = "State eq '"+ searchParam.jobState +"'";
 			console.log(searchParam.jobState)
 			if (!allreadyAParamIsThere) {

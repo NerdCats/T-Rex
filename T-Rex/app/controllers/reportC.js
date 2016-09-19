@@ -23,5 +23,9 @@ function reportC($scope, ngAuthSettings, restCall, dashboardFactory, reportServi
 		vm.b2cReport.getReport();
 	}
 
+	vm.goToReportJobs = function (user, state) {
+		$window.open("#/report/jobs?" + "startdate=" + vm.startdate + "&enddate="+ vm.enddate + "&user=" + user + "&state" + state, '_blank');
+	}
+
 	vm.Search();
 }

@@ -93,7 +93,13 @@ body, html {
     position: absolute;
 }
 
-
+.startdate {
+    background-color: #CDDC39;
+}
+.enddate {
+    background-color: #33691E;
+    color: white;
+}
 .pending {
     background-color: #FF5722;  
     color: white;

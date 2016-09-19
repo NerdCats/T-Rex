@@ -29,10 +29,6 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/order/create.html',
 				controller: 'createOrderController'				
 			}).			
-			when('/report', {
-				templateUrl: 'app/views/report.html',
-				controller: 'reportC'				
-			}).
 			when('/job/:id',{
 				templateUrl: 'app/views/job.html',
 				controller: 'jobController',				
@@ -52,7 +48,15 @@ app.config(['$routeProvider',
 			when('/users/:id',{
 				templateUrl: 'app/views/userdetails.html',
 				controller: 'userDetailsC'				
-			})		
+			}).
+			when('/report', {
+				templateUrl: 'app/views/report.html',
+				controller: 'reportC'				
+			}).
+			when('/report/jobs', {
+				templateUrl: 'app/views/reportJobs.html',
+				controller: 'reportJobsC'
+			})
 			// .
 			// when('/asset', {
 			// 	templateUrl: 'app/views/assets.html',
