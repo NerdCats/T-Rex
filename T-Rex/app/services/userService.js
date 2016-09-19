@@ -18,6 +18,14 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 					property: "UserName",
 					orderbyCondition: "asc"
 				},
+				CreateTime : {
+					startDate : null,
+					endDate : null,
+				},
+				CompletionTime : {
+					startDate : null,
+					endDate : null,
+				},
 				envelope: true,
 				page: 0,
 				pageSize: 10
