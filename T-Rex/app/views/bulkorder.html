@@ -1,2 +1,72 @@
-<input type="file" file-reader="fileContent" ng-model="CSV" ng-change="uploadFile($changeEvent)"/>
-<button ng-click="uploadFile()">READ</button>
+<div class="container-fluid">
+	<input type="file" file-reader="fileContent" id="csv"/>
+	<table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+		<thead>
+			<th class="col-md-1">GO! Fetch Job ID</th>
+			<th class="col-md-1">UserID</th>
+			<th class="col-md-1">Delivery Area</th>
+			<th class="col-md-1">Delivery Address</th>
+			<th class="col-md-1">Pickup Area</th>
+	 		<th class="col-md-1">Pickup Address</th>
+			<th class="col-md-1">Package Details</th>
+			<th class="col-md-1">Total Price</th>
+			<th class="col-md-1">Total Weight</th>
+			<th class="col-md-1">GO! Fetch Service Charge</th>
+			<th class="col-md-1">Note To Delivery Man</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="order in CSV">
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.jobid" value="order.jobid"></textarea>
+					<span ng-show="!order.editMode">{{order.jobid}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.userid" value="order.userid"></textarea>
+					<span ng-show="!order.editMode">{{order.userid}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.deliveryarea" value="order.deliveryarea"></textarea>
+					<span ng-show="!order.editMode">{{order.deliveryarea}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.deliveryaddress" value="order.deliveryaddress"></textarea>
+					<span ng-show="!order.editMode">{{order.deliveryaddress}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.pickuparea" value="order.pickuparea"></textarea>
+					<span ng-show="!order.editMode">{{order.pickuparea}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.pickupaddress" value="order.pickupaddress"></textarea>
+					<span ng-show="!order.editMode">{{order.pickupaddress}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.packagedetails" value="order.packagedetails"></textarea>
+					<span ng-show="!order.editMode">{{order.packagedetails}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.totalprice" value="order.totalprice"></textarea>
+					<span ng-show="!order.editMode">{{order.totalprice}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.totalweight" value="order.totalweight"></textarea>
+					<span ng-show="!order.editMode">{{order.totalweight}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.servicecharge" value="order.servicecharge"></textarea>
+					<span ng-show="!order.editMode">{{order.servicecharge}}</span>
+				</td>
+				<td class="col-md-1">
+					<textarea ng-show="order.editMode" type="text" ng-model="order.notetodeliveryman" value="order.notetodeliveryman"></textarea>
+					<span show="order.!editMode" type=>{{order.notetodeliveryman}}</span>
+				</td>
+				<td><button class="btn btn-danger" ng-click="order.editMode = !order.editMode">
+					<span ng-show="!order.editMode">Edit</span>
+					<span ng-show="order.editMode">Done</span>
+				</button></td>
+				<td><button class="btn btn-primary">Create</button></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
