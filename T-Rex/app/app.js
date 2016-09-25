@@ -57,11 +57,11 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/reportJobs.html',
 				controller: 'reportJobsC'
 			})
-			// .
-			// when('/asset', {
-			// 	templateUrl: 'app/views/assets.html',
-			// 	controller: 'assetController'			
-			// }).
+			.
+			when('/bulkorder', {
+				templateUrl: 'app/views/bulkorder.html',
+				controller: 'bulkOrderC'			
+			})
 			// when('/supportedOrder',{
 			// 	templateUrl: 'app/views/supportedOrders.html',
 			// 	controller: 'supportedOrderController'			

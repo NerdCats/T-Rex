@@ -8,6 +8,7 @@ app.constant('ngAuthSettings', {
 app.constant('menus', [
 	{ title : "Dashboard", link: '#/'},
 	{ title : "Create Order", link: '#/order/create/new', target: "_blank"},
+	{ title : "Bulk Order", link: '#/bulkorder', target: "_blank"},
 	{ title : "Report", link: '#/report'},
 	{ title : "Order Types", link: '#/supportedOrder'},
 	{ title : "Users", link: '#/users'},
