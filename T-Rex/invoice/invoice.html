@@ -2,131 +2,24 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="invoice.css">
+        <link rel="stylesheet" type="text/css" href="../content/component/loadinSnake/loading-snake.css">
+
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
         <script src="../node_modules/angular/angular.js"></script>
         <script src="../node_modules/angular-route/angular-route.js"></script>
+        <script src="invoice.js"></script>
     </head>    
     <body>
-        <style>            
-            body {
-                font-family: arial;
-                margin: 0;
-                font-weight: 600;
-            }
-            .jobid {
-                font-size: 18px;
-            }
-            .center-block {
-                display: block;                
-                width: 270px;
-/*                background-color: #F5F5F5;*/
-            }
-            .gohq {
-                text-align: center;                                             
-                font-size: 11px;
-            }
-            .gohq-div {
-/*                width: 100px;*/
-                display: block;
-                margin: 0 auto;
-            }
-            .address {
-                word-wrap: break-word;
-                width: 270px !important;
-                font-size: 16px;
-                text-align: center;
-                font-weight: 500;
-            }
-            .address-header {
-                text-align: center;
-                margin-top: 10px;
-                margin-bottom: 5px;
-                display: block;
-                margin: 10px auto;
-            }
-            #logo {
-                width: 100px;
-                display: block;
-                margin: 10px auto;
-            }
-            .style-one {
-                border: 0;
-                height: 1px;
-                background: #333;
-                background-image: linear-gradient(to right, #ccc, #333, #ccc);
-            }
-            .tracking-help {
-                font-size: 10px;
-                display: block;
-                margin: 10px auto;                
-                text-align: center;
-            }
-            h4{
-                margin-bottom: -0px;
-            }
-            .date {            
-                font-size: 11px;
-                display: block;
-                margin: 0 auto;
-                text-align: center;
-            }
-            table {
-                width: 270px;
-                border-collapse: collapse;
-                margin-top: 10px
-            }
-            td, th {
-                font-size: 14px;
-                border: 1px solid #999;
-                padding: 2px;
-                text-align: center;
-            }
-            .signature {
-                display: flex;
-                flex-direction: row;                
-            }
-            .authorization {
-                font-size: 11px;
-                margin-top: 20px;
-            }
-            .authorization-div {
-                text-align: center;
-            }
-
-            .asset-list {
-                display: inline-block;
-                list-style: none;
-                /*margin: 0;*/
-                float: left;
-                padding-right: 5px;
-            }
-            .asset-list-ul {
-                margin: 0;
-                margin-left: -80px;
-                margin-right: 60px;
-            }
-
-            .asset {
-                display: flex;
-                flex-flow: row;
-            }
-
-            .asset div {
-                margin: 0 auto;
-            }
-
-
-            .service-charge-bdt {
-                text-align: center;
-                font-size: 16px;
-            }
-            </style>
-
-            <div class="center-block">            
-                <img src="logo.png" id="logo">
-                <div class="gohq-div">
-                    <div class="gohq">H-28, R-20, Block-K, Banani, Dhaka</div>                
-                </div>
-            
+        <div class="center-block" ng-show="!loadingJob">
+            <img src="logo.png" id="logo">
+            <div class="gohq-div">
+                <div class="gohq">H-28, R-20, Block-K, Banani, Dhaka</div>                
+            </div>
+        
             <hr class="style-one">
             <div class="date">
                 <div class="jobid">Job ID: {{job.HRID}}</div>
@@ -141,19 +34,13 @@
             </div>
             <hr class="style-one">
             <div>
-                <h3 class="address-header">Pickup Address</h3>
-                <!-- <div class="address">Name: M Plus Electronics</div> -->
-                <!-- <div class="address">Mobile:01922962787</div> -->
-                <!-- <div class="address">email : shtelecom468@gmail.com Address: Circle Ambia Shopping Mall, Level #01, Shop # 04 (1st Floor), Rampura Bazaar, Dhaka-1219., Bashundhara, Dhaka</div> -->
+                <h3 class="address-header">Pickup Address</h3>                
                 <div class="address" ng-show="job.Order.Type === 'ClassifiedDelivery'">Pickup Time: {{job.Order.JobTaskETAPreference[0].ETA | date: 'medium'}}</div>
                 <div class="address">{{job.Order.From.AddressLine1}}</div>
             </div>
             <hr class="style-one">
             <div>
-                <h3 class="address-header">Delivery Address</h3>
-                <!-- <div class="address">Name: Mr. Rezvee</div> -->
-                <!-- <div class="address">Mobile: 01771117031</div> -->
-                <!-- <div class="address">Address: uttara sector-5, Road-6, House-13 , Uttara, Dhaka</div> -->
+                <h3 class="address-header">Delivery Address</h3>                
                 <div class="address" ng-show="job.Order.Type === 'ClassifiedDelivery'">Delivery Time: {{job.Order.JobTaskETAPreference[1].ETA | date: 'medium'}}</div>
                 <div class="address">{{job.Order.To.AddressLine1}}</div>
             </div>
@@ -185,15 +72,13 @@
                         </tr>
                         <tr>
                             <td class="service-charge-bdt" colspan="4"><b>Total Receivable</b></td>
-                            <td class="service-charge-bdt"><b>{{job.Order.OrderCart.TotalToPay}}</b></td>
+                            <td class="service-charge-bdt"><b>{{job.Order.OrderCart.SubTotal + job.Order.OrderCart.ServiceCharge}}</b></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <br>
-            <div class="service-charge">
-                
-            </div>
+   
             <hr class="style-one">
             <div class="signature">
                 <div class="authorization">
@@ -207,58 +92,15 @@
                 </div>
             </div>
             <hr class="style-one">
-          <!--   <div>                
+         <!--    <div>                
                 <span class="tracking-help">track this job from <br>www.gofetch.com/#/track/<strong>{{job.HRID}}</strong></span>
             </div> -->
             <div>
                 <span class="tracking-help">For Complain and Queries Call: +88 01735952047</span>
             </div>
-        </div>        
+        </div>
+        <div id="dialog-confirm" ng-show="!loadingJob" title="Who will pay GO! Fetch Service Charge?">          
+        </div>
+        <div ng-show="loadingJob" ng-include="'../content/component/loadinSnake/loading-snake.html'"></div>    
     </body>
-
-    <script type="text/javascript">
-        var app = angular.module('invoiceApp', ['ngRoute']);
-        app.controller('invoiceCtrl',['$scope', '$http', '$window', invoiceCtrl])
-        function invoiceCtrl($scope, $http, $window) {
-            var vm = $scope;
-            var id = $window.location.search.substring(1);
-            console.log(id)
-
-            vm.today = new Date();
-            vm.job = {};
-            var prod = "http://gofetch.cloudapp.net/api/job/";
-            var dev = "http://taskcatdev.azurewebsites.net/api/job/";
-            var url =  prod + id;
-            $http({
-                method: 'GET',
-                url: url,                
-            }).then(function success(response){
-                vm.job = response.data;
-                if (vm.job.User.UserName === "B2C") {
-                    if (vm.job.Order.OrderCart.SubTotal === 0) {
-                        vm.job.Order.OrderCart.SubTotal = "";
-                    }
-
-                    for (var i = vm.job.Order.OrderCart.PackageList.length - 1; i >= 0; i--) {
-                        if (vm.job.Order.OrderCart.PackageList[i].Price === 0) {
-                            vm.job.Order.OrderCart.PackageList[i].Price = "";
-                            vm.job.Order.OrderCart.TotalToPay = "";                                                    
-                        }
-                        if (vm.job.Order.OrderCart.PackageList[i].Weight === 0) {
-                            vm.job.Order.OrderCart.PackageList[i].Weight = "";
-                        }
-                        if (vm.job.Order.OrderCart.PackageList[i].Total === 0) {
-                            vm.job.Order.OrderCart.PackageList[i].Total = "";
-                        }
-                        
-                    }
-
-                }
-                console.log(vm.job);
-            }, function error(error) {
-                alert(error.Message)
-            })
-        };
-    </script>
-   
 </html>

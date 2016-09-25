@@ -34,6 +34,9 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 			},
 			getUrl: function () {
 				// FIXME: need to be refactored
+				if (this.searchParam.type === "BIKE_MESSENGER") {
+					return reportServiceUrl + "api/report?startdate="+this.searchParam.startdate+"&enddate="+this.searchParam.enddate+"&usertype="+this.searchParam.type;					
+				}
 				return reportServiceUrl + "api/report?startdate="+this.searchParam.startdate+"&enddate="+this.searchParam.enddate+"&usertype="+this.searchParam.type;
 			},
 			getReport: function () {
