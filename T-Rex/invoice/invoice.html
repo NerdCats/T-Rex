@@ -99,7 +99,8 @@
                 <span class="tracking-help">For Complain and Queries Call: +88 01735952047</span>
             </div>
         </div>
-        <div id="dialog-confirm" ng-show="!loadingJob" title="Who will pay GO! Fetch Service Charge?">          
+        <div id="dialog-confirm" ng-show="!loadingJob" title="Who will pay GO! Fetch Service Charge?">
+            <span>It is {{job.User.UserName}}'s Order</span>        
         </div>
         <div ng-show="loadingJob" ng-include="'../content/component/loadinSnake/loading-snake.html'"></div>    
     </body>

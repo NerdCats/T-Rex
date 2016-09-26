@@ -1,10 +1,27 @@
 // FIXME: someday, you should use http://oss.sheetjs.com/js-xlsx/
 
-app.controller('bulkOrderC', ['$scope', 'orderFactory', 'ngAuthSettings', 'restCall', bulkOrderC]);
+app.controller('bulkOrderC', ['$scope', 'orderFactory', 'ngAuthSettings', 'restCall', 'dashboardFactory', bulkOrderC]);
 
-function bulkOrderC ($scope, orderFactory, ngAuthSettings, restCall) {
+function bulkOrderC ($scope, orderFactory, ngAuthSettings, restCall, dashboardFactory) {
 	
-	var vm = $scope;	
+	var vm = $scope;
+	vm.EnterpriseUsers = [];
+	vm.EnterpriseUser = null;	
+
+	vm.getUserNameList = function (type, Users) {
+		function success(response) {			
+			angular.forEach(response.data.data, function (value, keys) {
+				Users.push(value);
+			});			
+		}
+		function error(error) {
+			console.log(error);
+		}
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&PageSize=50";
+		restCall('GET', getUsersUrl, null, success, error);
+	}
+	vm.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
+
 	document.getElementById('csv').addEventListener('change', handleFile, false);
 	function handleFile (e) {		
 		var files = e.target.files;
@@ -21,14 +38,21 @@ function bulkOrderC ($scope, orderFactory, ngAuthSettings, restCall) {
           r.readAsText(files[0]);
 	}
 
+	vm.createAll = function () {
+		angular.forEach(vm.CSV, function (value, index) {
+			value.createOrder();
+		});
+	}
+
 	vm.readCSV = function (input) {
 	    var rows = input.split('\n');
 	    var obj = [];
 	    angular.forEach(rows, function(val) {
 	      	var o = val.split(';');
+	      	console.log(vm.EnterpriseUser)
 	      	obj.push({
 		        jobid: o[0],
-		        userid: o[1],
+		        userid: vm.EnterpriseUser.Id,
 		        pickuparea: o[2],
 		        pickupaddress: o[3],
 		        deliveryarea: o[4],
@@ -50,7 +74,6 @@ function bulkOrderC ($scope, orderFactory, ngAuthSettings, restCall) {
 					order.OrderLocation = null;
 					order.UserId = this.userid;
 					order.Description = this.packagedetails + "\nTotal Price : " + this.totalprice + "\nTotal Weight : " + (this.totalweight || "Not Mentioned");
-
 					var newItem = {
 			    		"Item": "mdon",
 						"Quantity": 1,
@@ -65,9 +88,9 @@ function bulkOrderC ($scope, orderFactory, ngAuthSettings, restCall) {
 					order.OrderCart.PackageList[0].Item = this.packagedetails;
 					order.OrderCart.PackageList[0].Price = this.totalprice;
 					order.OrderCart.PackageList[0].Weight = (this.totalweight || 0);
+					order.OrderCart.ServiceCharge = this.servicecharge;
 
-					this.creatingOrder = 'IN_PROGRESS';
-					console.log(this.creatingOrder);
+					this.creatingOrder = 'IN_PROGRESS';					
 					var itself = this;
 					var successCallback = function (response) {
 						console.log("success : ");

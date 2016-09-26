@@ -18,24 +18,24 @@ function invoiceCtrl($scope, $http, $window) {
         vm.loadingJob = false;
         vm.job = response.data;
         //// FIXME: unveil this piece of code when bulk order creation is done
-        // $( function() {
-        //     $( "#dialog-confirm" ).dialog({
-        //       resizable: false,
-        //       height: "auto",
-        //       width: 400,
-        //       modal: true,
-        //       buttons: {
-        //         "Reciever Will Pay": function() {
-        //           $( this ).dialog( "close" );
-        //         },
-        //         "Vendor Will Pay": function() {
-        //             vm.job.Order.OrderCart.ServiceCharge = 0;                    
-        //             vm.$apply();
-        //             $( this ).dialog( "close" );
-        //         }
-        //       }
-        //     });
-        // } );
+        $( function() {
+            $( "#dialog-confirm" ).dialog({
+              resizable: false,
+              height: "auto",
+              width: 400,
+              modal: true,
+              buttons: {
+                "Reciever Will Pay": function() {
+                  $( this ).dialog( "close" );
+                },
+                "Vendor Will Pay": function() {
+                    vm.job.Order.OrderCart.ServiceCharge = 0;                    
+                    vm.$apply();
+                    $( this ).dialog( "close" );
+                }
+              }
+            });
+        } );
 
         // FIXME: if user is B2C, then we might not know product price in advance
         // hence keeping a blank space on the invoice to write product price later

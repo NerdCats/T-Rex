@@ -83,7 +83,7 @@
             <div class="form-group col-md-3">
                 <label class="control-label col-md-6">Show Vendors:</label>
                 <div class="col-md-6">
-                    <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                    <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                         <option></option>                
                     </select>                    
                 </div>

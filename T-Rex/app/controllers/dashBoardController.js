@@ -13,8 +13,6 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 	vm.EnterpriseUser = null;
 	vm.EnterpriseUsers = [];	
 
-	vm.jobTime = "all";
-
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
