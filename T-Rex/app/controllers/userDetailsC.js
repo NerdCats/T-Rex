@@ -1,7 +1,7 @@
 'use strict';
-app.controller('userDetailsC', ['$scope', '$routeParams', 'userService', 'ngAuthSettings', 'restCall', 'dashboardFactory', userDetailsC]);
+app.controller('userDetailsC', ['$scope', '$routeParams', 'ngAuthSettings', 'restCall', 'dashboardFactory', userDetailsC]);
 
-function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCall, dashboardFactory){
+function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardFactory){
 	
 	var vm = $scope;
 	vm.id = $routeParams.id;
@@ -9,7 +9,7 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 	vm.isAsset = false;
 	vm.isEnterprise = false;
 	vm.isUser = false;
-	vm.jobPerPage = 10;
+	vm.jobPerPage = 50;
 	
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
@@ -35,18 +35,6 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 	}
 	restCall('GET', userUrl, null, userFound, userNotFound);
 
-
-	var asignedJobUrl = ngAuthSettings.apiServiceBaseUri + "api/account/" + vm.id + "/jobs";
-	function jobsFound(response) {
-		vm.UsersJobs = response.data;
-		console.log(vm.UsersJobs);
-	}
-	function jobsNotFound(error) {
-		console.log(error)
-	}
-	restCall('GET', asignedJobUrl, null, jobsFound, jobsNotFound);
-
-
 	vm.activate = function () {			
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
@@ -56,13 +44,19 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 		vm.completedOrders.isCompleted = 'IN_PROGRESS';
 		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
 		
-		vm.processingOrders.searchParam.userId = vm.id;
-		vm.completedOrders.searchParam.userId = vm.id;
-		vm.cancelledOrders.searchParam.userId = vm.id;
-		
+		if (vm.isAsset) {
+			vm.processingOrders.searchParam.userId = vm.id;
+			vm.completedOrders.searchParam.userId = vm.id;
+			vm.cancelledOrders.searchParam.userId = vm.id;
+		} else if (vm.isEnterprise || vm.User) {
+			vm.processingOrders.searchParam.UserName = vm.User.UserName;
+			vm.completedOrders.searchParam.UserName = vm.User.UserName;
+			vm.cancelledOrders.searchParam.UserName = vm.User.UserName;
+		}
 		vm.processingOrders.loadOrders();
 		vm.completedOrders.loadOrders();
 		vm.cancelledOrders.loadOrders();
+		console.log("asdnaisjdiasjd")
 	}
 	vm.activate();
 }
