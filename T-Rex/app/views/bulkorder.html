@@ -17,8 +17,7 @@
 		<tbody>
 			<tr ng-repeat="order in CSV">
 				<td class="col-md-1">
-					<textarea ng-show="order.editMode" type="text" ng-model="order.jobid" value="order.jobid"></textarea>
-					<span ng-show="!order.editMode">{{order.jobid}}</span>
+					<span><a href="#/job/{{order.jobid}}">{{order.jobid}}</a></span>
 				</td>
 				<td class="col-md-1">
 					<textarea ng-show="order.editMode" type="text" ng-model="order.userid" value="order.userid"></textarea>
@@ -60,11 +59,18 @@
 					<textarea ng-show="order.editMode" type="text" ng-model="order.notetodeliveryman" value="order.notetodeliveryman"></textarea>
 					<span show="order.!editMode" type=>{{order.notetodeliveryman}}</span>
 				</td>
-				<td><button class="btn btn-danger" ng-click="order.editMode = !order.editMode">
-					<span ng-show="!order.editMode">Edit</span>
-					<span ng-show="order.editMode">Done</span>
-				</button></td>
-				<td><button class="btn btn-primary">Create</button></td>
+				<td ng-hide="order.creatingOrder === 'SUCCESS'">
+					<button class="btn btn-danger" ng-click="order.editMode = !order.editMode">
+						<span ng-show="!order.editMode">Edit</span>
+						<span ng-show="order.editMode">Done</span>
+					</button>
+				</td>
+				<td ng-hide="order.creatingOrder === 'SUCCESS'">
+					<button class="btn btn-primary" ng-click="order.createOrder()">
+						<span class="fa fa-refresh fa-spin" ng-show="order.creatingOrder === 'IN_PROGRESS'"></span>
+						<span ng-disabled="order.creatingOrder === 'IN_PROGRESS'">Create</span>					
+					</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>

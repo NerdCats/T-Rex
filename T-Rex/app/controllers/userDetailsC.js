@@ -56,11 +56,6 @@ function userDetailsC($scope, $routeParams, userService, ngAuthSettings, restCal
 		vm.completedOrders.isCompleted = 'IN_PROGRESS';
 		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
 		
-		vm.processingOrders.jobTime(vm.jobTime);
-		vm.completedOrders.jobTime(vm.jobTime);
-		vm.cancelledOrders.jobTime(vm.jobTime);
-
-		
 		vm.processingOrders.searchParam.userId = vm.id;
 		vm.completedOrders.searchParam.userId = vm.id;
 		vm.cancelledOrders.searchParam.userId = vm.id;

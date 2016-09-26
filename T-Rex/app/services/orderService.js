@@ -1,26 +1,5 @@
 app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAuthSettings', function($http, $window, restCall, mapFactory, ngAuthSettings){
 		
-	var createNewOrder = function (newOrder, ordersIsBeingCreated) {
-		ordersIsBeingCreated = true;
-		var successCallback = function (response) {
-			console.log("success : ");
-			console.log(response);
-			alert("success");
-			$window.location.href = '#/';
-		};
-		
-		var errorCallback = function error(response) {
-			console.log("error : ");
-			console.log(response);
-			alert("error");
-			ordersIsBeingCreated = false;
-		};
-
-		var createNewOrderUrl = ngAuthSettings.apiServiceBaseUri + "api/Order/";
-		restCall('POST', createNewOrderUrl, newOrder, successCallback, errorCallback);
-	};
-
-
 	var newOrder =  {
 						NoteToDeliveryMan : "",
 					    RequiredChangeFor : 0.0,
@@ -95,7 +74,6 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAu
 					};	
 
 	return {		
-		createNewOrder : createNewOrder,
 		newOrder: newOrder	
 	}
 }]);
