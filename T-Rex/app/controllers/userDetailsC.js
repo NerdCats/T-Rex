@@ -56,7 +56,6 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 		vm.processingOrders.loadOrders();
 		vm.completedOrders.loadOrders();
 		vm.cancelledOrders.loadOrders();
-		console.log("asdnaisjdiasjd")
 	}
 	vm.activate();
 }

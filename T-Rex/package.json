@@ -23,6 +23,7 @@
     "eonasdan-bootstrap-datetimepicker-npm": "^4.17.37",
     "font-awesome": "^4.6.3",
     "gmaps": "^0.4.24",
+    "jQuery.print": "^1.4.1",
     "jquery": "^2.2.2",
     "mdPickers": "^0.7.2",
     "moment": "^2.13.0",

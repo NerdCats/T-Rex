@@ -46,10 +46,11 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			console.log("claim")
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
-	 		stateUpdate: function (taskId, state, task) {	 			
-	 			if (task === "PackagePickUp") this.modifying = "PackagePickUp_UPDATING"
-	 			else if (task === "Delivery") this.modifying = "Delivery_UPDATING"
-	 			else if (task === "SecureDelivery") this.modifying = "SecureDelivery_UPDATING"
+	 		stateUpdate: function (taskId, state, task) {
+	 			if (task === "FetchDeliveryMan") this.modifying = "FetchDeliveryMan_UPDATING";
+	 			else if (task === "PackagePickUp") this.modifying = "PackagePickUp_UPDATING";
+	 			else if (task === "Delivery") this.modifying = "Delivery_UPDATING";
+	 			else if (task === "SecureDelivery") this.modifying = "SecureDelivery_UPDATING";
 	 			var itSelf = this;
 	 			function stateUpdateSuccess(response) {
 	 				itSelf.modifying = "";
@@ -110,12 +111,12 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			
 	 		},
 	 		updatePaymentStatus: function () {
-	 			this.modifying = "PAYMENT_UPDATING";
+	 			this.modifying = 'PAYMENT_UPDATING';
 	 			$http({
 	 				method: 'POST',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/payment/process/' + this.data.Id,
 	 			}).then(function(response){
-	 				this.modifying = "";
+	 				console.log(response);
 	 				$window.location.reload();
 	 			}, function (error) {
 	 				this.modifying = "";

@@ -58,8 +58,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 				};
 
 				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[0].id;
-				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"},
-										{value: "COMPLETED", path: "/State", op: "replace"}];
+				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
 				// var result = patchUpdate(vm.selected.Id, "replace", 
 				// 						"/AssetRef", "api/job/", 
 				// 						vm.job.data.Id, vm.job.data.Tasks[0].id, 
@@ -83,8 +82,8 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 		return assetListUrl;
 	};
 
-	// var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
-	var url1 = "mockdata/assets.json";
+	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
+	// var url1 = "mockdata/assets.json";
 	
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data.data;

@@ -201,3 +201,8 @@ body, html {
     width: 400px;
     margin-top: 20px;
 }
+
+.print-width {
+    margin: auto;
+    width: 1000px;
+}

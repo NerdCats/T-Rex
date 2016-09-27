@@ -24,14 +24,8 @@
 	  	</div>
 	</div>	
 	<div class="row">
-		<div class="form-group col-md-3">
-            <label>Show:</label>
-            <select ng-model="jobTime" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                <option value="all">All</option>
-                <option value="today">ToDay's</option>
-                <option value="nextday">Next Day</option>                    
-            </select>
-            <label>Orders</label>                
+		<div class="form-group col-md-3">            
+            <a class="btn btn-primary" href="#/workorder?id={{User.Id}}">Work Order</a>
         </div>
         <div class="form-group col-md-3">
             <label>Show:</label>
@@ -45,13 +39,6 @@
                 <option value="50">80</option>
                 <option value="50">90</option>
                 <option value="50">100</option>
-            </select>
-            <label>Orders</label>
-        </div>
-        <div class="form-group col-md-3">
-            <label>Show:</label>
-            <select ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers" ng-change="activate()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                <option></option>                
             </select>
             <label>Orders</label>
         </div>

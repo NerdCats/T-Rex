@@ -32,14 +32,40 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			angular.forEach(orders.data, function(value, key){
 				var newOrder = {
 					Id : value.HRID,
-					Name : value.Name,
+					Name : value.Name,					
 					Type : value.Order.Type,
+					FromArea: value.Order.From.Locality,
+					ToArea: value.Order.To.Locality,
 					From : value.Order.From.Address,
 					To : value.Order.To.Address,
+					ETA : function () {
+						var eta = "";
+						if (value.Order.ETA) {
+							eta += "ETA : " + new Date(value.Order.ETA).toUTCString("EEE MMM d, y h:mm:ss a") + " *** ";
+						}
+						if (value.Order.JobTaskETAPreference) {
+							angular.forEach(value.Order.JobTaskETAPreference, function (etaTime, index) {								
+								eta += etaTime.Type + " : " + new Date(etaTime.ETA).toUTCString("EEE MMM d, y h:mm:ss a") + " *** ";
+							});
+						}
+						return eta;
+					},
+					PackageDescription: function () {
+						var description = "";
+						angular.forEach(value.Order.OrderCart.PackageList, function (item, index) {
+							description += item.Item + "\n";
+						});
+						return description;
+					},
+					TotalToPay: value.Order.OrderCart.TotalToPay,
+					NoteToDeliveryMan: value.Order.NoteToDeliveryMan,
 					User : function () {
 						var user = getProperWordWithCss(value.User.Type);
 						user.value = value.User.UserName + " ("+ user.value + ")";
 						return user;
+					},
+					Assets: function () {						
+						return Object.keys(value.Assets).map(function(id, index){ return value.Assets[id] } )
 					},
 					PaymentStatus : getProperWordWithCss(value.PaymentStatus),
 					CreateTime : value.CreateTime,

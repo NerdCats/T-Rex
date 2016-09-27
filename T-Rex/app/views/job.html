@@ -76,10 +76,23 @@
                             </div>
                         </li>
                     </ul>                        
-                    <button class="btn btn-primary pull-right" ng-click="openAssetsList()">
-                        ASSIGN DELIVERY MAN
-                        <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
-                    </button>
+                    <div class="row mb-20">
+                        <button class="col-md-12 btn btn-primary" ng-click="openAssetsList()" ng-disabled="job.data.Tasks[0].State === 'COMPLETED'">
+                            ASSIGN DELIVERY MAN
+                            <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForFetchAsset">
+                            <option value="PENDING">PENDING</option>
+                            <option value="IN_PROGRESS">IN PROGRESS</option>
+                            <option value="COMPLETED">COMPLETED</option>
+                        </select>                    
+                        <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForFetchAsset" ng-click="job.stateUpdate(job.data.Tasks[0].id, selectedStateForFetchAsset, job.data.Tasks[0].Type)">
+                            UPDATE STATE
+                            <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                    </div>
                 </div>               
             </div>
             <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
@@ -103,15 +116,17 @@
                         <label class="col-md-4">ETA Failed: </label>                                                    
                         <span class="col-md-8">{{ job.data.Tasks[1].ETAFailed }}</span><br>                            
                     </div>                    
-                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
-                        <option value="PENDING">PENDING</option>
-                        <option value="IN_PROGRESS">IN PROGRESS</option>
-                        <option value="COMPLETED">COMPLETED</option>
-                    </select>                    
-                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForPickup" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup, job.data.Tasks[1].Type)">
-                        UPDATE STATE
-                        <span ng-show="job.modifying === 'PackagePickUp_UPDATING'" class="fa fa-refresh fa-spin"></span>
-                    </button>
+                    <div class="row">
+                        <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
+                                <option value="PENDING">PENDING</option>
+                                <option value="IN_PROGRESS">IN PROGRESS</option>
+                                <option value="COMPLETED">COMPLETED</option>
+                            </select>                    
+                            <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForPickup" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup, job.data.Tasks[1].Type)">
+                                UPDATE STATE
+                                <span ng-show="job.modifying === 'PackagePickUp_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                            </button>
+                    </div>
                 </div>
             </div>
 
