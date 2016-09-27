@@ -11,71 +11,59 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<title>Dashboard</title>
 
         <!-- load Icons -->
-        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
-        <!-- load CSS -->
-		<link rel="stylesheet" type="text/css" href="content/styles/style.css">
-        <link rel="stylesheet" type="text/css" href="content/styles/table.css">
+        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap-theme.css">
+        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="content/styles/style.css">
+        <link rel="stylesheet" type="text/css" href="content/styles/sidebar.css">
+        <link rel="stylesheet" type="text/css" href="content/component/loadinSnake/loading-snake.css">
+        <link rel="stylesheet" type="text/css" href="content/component/sk-cube/sk-cube.css">
+        <link rel="stylesheet" type="text/css" href="content/component/spinner/spinner.css">
 
-        <link rel="stylesheet" type="text/css" href="node_modules/mdPickers/dist/mdPickers.css">        
-        <!-- <link rel="stylesheet" type="text/css" href="/node_modules/angular-material/angular-material.css"> -->
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.css">
-
-
-        <!-- <link rel="stylesheet" type="text/css" href="/node_modules/angular-material-data-table/dist/md-data-table.min.css"/> -->
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.3/md-data-table.css">
+        <link rel="stylesheet" type="text/css" href="node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css">
 
 
 
-        <!-- load Google Maps -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6-oTRia-NQum_ZCOVdsX4p0Wmx1Y18o&libraries=places" async defer></script>
+
+
+
+
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/jQuery.print/jQuery.print.js"></script>
+        <script src="node_modules/moment/moment.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="node_modules/eonasdan-bootstrap-datetimepicker-npm/src/js/bootstrap-datetimepicker.js"></script>
+
+
+
+
+
         <!-- load angular librarries -->        
-        <script src="node_modules/gmaps/gmaps.min.js"></script>
+
         <script src="node_modules/angular/angular.js"></script>
         <script src="node_modules/angular-route/angular-route.js"></script>
         <script src="node_modules/angular-animate/angular-animate.js"></script>
         <script src="node_modules/angular-aria/angular-aria.js"></script>
         <script src="node_modules/angular-messages/angular-messages.js"></script>
-        <script src="node_modules/angular-material/angular-material.js"></script>
-        <script src="node_modules/angular-material-data-table/dist/md-data-table.min.js"></script>
-        <script src="node_modules/angular-local-storage/src/angular-local-storage.js"></script>
+
+        <script src="scripts/ui-bootstrap-tpls-2.0.0.js"></script>
         <script src="node_modules/angular-file-upload/dist/angular-file-upload.js"></script>
         <script src="node_modules/mdPickers/dist/mdPickers.js"></script>
-        <script src="node_modules/moment/moment.js"></script>
+        <script src="node_modules/clipboard/dist/clipboard.min.js"></script>        
         <script src="node_modules/ngclipboard/dist/ngclipboard.min.js"></script>
-
-        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/angular-local-storage/src/angular-local-storage.js"></script>
         <script src="node_modules/ms-signalr-client/jquery.signalr-2.2.0.js"></script>
         <script src="node_modules/angular-signalr-hub/signalr-hub.js"></script>
-        <!-- <script src="http://gofetch.cloudapp.net:1001/signalr/hubs"></script> -->
-
-
-        <!-- 
-        <script type="text/javascript" src="https://hpneo.github.io/gmaps/gmaps.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-route.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-aria.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.3/angular-messages.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.7/angular-material.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.7/angular-local-storage.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-file-upload/2.2.0/angular-file-upload.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
-        -->
         
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.3/md-data-table.js"></script>
-
-
-
-
 
         <script src="app/app.js"></script>
 
@@ -91,74 +79,105 @@
         <script src="app/services/orderService.js"></script>
         <script src="app/services/mapService.js"></script>
         <script src="app/services/supportedOrderService.js"></script>
+        <script src="app/services/queryService.js"></script>
+        <script src="app/services/reportService.js"></script>
         
 
         <!-- load controllers -->
-        <script src="app/controllers/indexController.js"></script>
-        <script src="app/controllers/sidebarController.js"></script>
+        <script src="app/controllers/indexController.js"></script>        
 
         <script src="app/controllers/dashBoardController.js"></script>
+        
         <script src="app/controllers/order/createOrderController.js"></script>
-
-        <script src="app/controllers/asset/assetAssignDialogController.js"></script>
 
         <script src="app/controllers/jobController.js"></script>
         <script src="app/controllers/usersController.js"></script>
-        <script src="app/controllers/userDetailsController.js"></script>        
-        <script src="app/controllers/assetController.js"></script>
-        <script src="app/controllers/asset/assetCreateController.js"></script>
-        <script src="app/controllers/asset/assetsTrackingMapController.js"></script>
-        
+        <script src="app/controllers/userDetailsC.js"></script>        
+        <script src="app/controllers/usercreateC.js"></script>
+        <script src="app/controllers/trackingMapC.js"></script>        
         <script src="app/controllers/authController.js"></script>
-
         <script src="app/controllers/supportedOrderController.js"></script>
         <script src="app/controllers/supportedOrder/supportedOrderUpdateController.js"></script>
         <script src="app/controllers/supportedOrder/supportedOrderCreateController.js"></script>
-
+        <script src="app/controllers/reportC.js"></script>
+        <script src="app/controllers/reportJobsC.js"></script>
+        <script src="app/controllers/bulkOrderC.js"></script>
+        <script src="app/controllers/workOrderC.js"></script>
 
         <!-- load directives -->
         <script src="app/directives/sidebarDirective.js"></script>
         <script src="app/directives/UserValidation.js"></script>
         <script src="app/directives/NCPlacesAutocomplete.js"></script>
-        <script src="scripts/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="app/directives/OrderTable/OrderTable.js"></script>
+        <script src="app/directives/ReportTable/reportTable.js"></script>
+        <script src="app/directives/UserTable/UserTable.js"></script>
+        <script src="app/directives/dateTimePicker.js"></script>
+        
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        <div ng-app="app" id="wrapper" ng-controller="indexController" layout="column" layout-fill>
-            <header>
-                <div layout="row" ng-show="shouldShowMenuAndFooter">
-                    <md-button id="menu-button" ng-click="toggleLeft()" flex="5">
-                        <i class="material-icons material-icon-style">menu</i>
-                    </md-button>
-                    <div flex="90"></div>
-                    <md-button id="menu-button" ng-click="logout()" flex="5">
-                        <i class="material-icons material-icon-style">exit_to_app</i>
-                    </md-button>
-                </div>
-            </header>            
-            <section layout="row">
-                <md-sidenav 
-                        md-component-id="left" class="md-sidenav-left" md-disable-backdrop flex="25"
-                        md-whiteframe="4"
-                        ng-include="templates"></md-sidenav>
-                <div id="ng-view" ng-view class="view-frame" flex="90"></div>
-            </section>
-            <!-- <footer id="mainFooter">
-                <div ng-show="shouldShowMenuAndFooter" layout="row" layout-align="center center">
-                    <h2>My Awesome Footer</h2>
-                </div>
-            </footer> -->
+        <div ng-app="app" id="wrapper" class="active" ng-controller="indexController">
+            <div id="sidebar-wrapper" ng-show="sidebarVisible">
+                <ul id="sidebar_menu" class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a id="menu-toggle">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a>
+                    </li>
+                </ul>
+                
+                <ul class="sidebar-nav" id="sidebar">     
+                    <li ng-repeat="menu in menus">
+                        <a href="{{menu.link}}" target="{{menu.target}}">
+                            {{menu.title}}
+                            <span class="sub_icon glyphicon glyphicon-link"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="page-content-wrapper">
+                <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">                    
+                    <div class="col-md-7"></div>
+                    <div class="">
+                        <form name="jobSearchForm" class="navbar-form navbar-left">
+                            <div class="input-group">
+                                <div class="input-group-addon">Job - </div>
+                                <input type="text" ng-model="jobId" class="form-control text-uppercase" pattern="[A-Z|a-z|0-9]{8}" title="ex: VV1XDFOW" placeholder="ex: SDHA54SD" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" ng-click="saerchJob(jobId)" ng-disabled="jobSearchForm.$invalid">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>                            
+                                </span>
+                            </div>                            
+                        </form>
+                    </div>
+                    <div class="col-md-1 collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">                        
+                        <ul class="nav navbar-nav navbar-right">                            
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as {{authData.userName}}<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#/user/details/{{authData.userId}}">Profile</a></li>                                    
+                                    <li role="separator" class="divider"></li>
+                                    <li><a ng-click="logout()">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>                    
+                </nav>            
+                
+            </div>
+            <section layout="row">          
+                <div id="ng-view" ng-view class="view-frame"></div>
+            </section>            
         </div> <!-- #main-container -->
 
-
-
-
-      <!--   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script> -->
-
-
+        <script type="text/javascript">
+            $("#menu-toggle").click(function(e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("active");
+                    console.log("toggleClass")
+            });
+        </script>
+                <!-- load Google Maps -->
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6-oTRia-NQum_ZCOVdsX4p0Wmx1Y18o&libraries=places&sensor=false" async defer></script>
+        <script src="node_modules/gmaps/gmaps.min.js"></script>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

@@ -5,12 +5,15 @@ app.controller('authController', authController);
 authController.$inject = ['$scope', 'authService', '$location', '$window'];
 
 function authController($scope, authService, $location, $window) {
-    var vm = this;
+    var vm = $scope;
     vm.loginData = {};
     vm.loginData.username = "";
     vm.loginData.password = "";
-    vm.loginData.email = "";
-    vm.logginOnProcess = false;
+    vm.loginData.email = "";        
+    vm.isLogging = false;
+    vm.logginFailed = false;
+    vm.logginSuccedded = false;
+    vm.message = "";
 
     vm.loginData.useRefreshTokens = false;
     vm.login = login;
@@ -20,21 +23,25 @@ function authController($scope, authService, $location, $window) {
     function activate() {
         if ($window.location.hash == '#/login'){
             vm.sidebarVisible = false;
-            vm.shouldShowMenuAndFooter = false;			
+            vm.shouldShowMenuAndFooter = false;
         }
     }
 
-    function login() {
-        vm.logginOnProcess = true;
-        authService.login(vm.loginData).then(function(response) {
-            console.log("log in success");
+    function login() {        
+        vm.message = "";
+        vm.logginFailed = false;
+        vm.isLogging = true;
+        authService.login(vm.loginData).then(function(response) {            
+            vm.logginSuccedded = true;
+            vm.isLogging = false;
             console.log(response);
-            $window.location.reload();
+            $window.location.reload();            
         },
-        function(err) {
+        function(err) {            
             console.log(err);
-            vm.logginOnProcess = false;
-            $scope.message = err.error_description;
+            vm.logginFailed = true;
+            vm.isLogging = false;
+            vm.message = err.error_description;
         });
     }
 }

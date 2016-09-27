@@ -2,9 +2,9 @@
 
 app.controller('indexController', indexController);
 
-indexController.$inject = ['$scope', '$location', '$timeout', '$mdSidenav', '$log','menus', 'templates', '$window', 'authService'];
+indexController.$inject = ['$scope', '$location', '$timeout', '$log','menus', 'templates', '$window', 'authService'];
 
-function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, templates, $window, authService) {
+function indexController($scope, $location, $timeout, $log, menus, templates, $window, authService) {
 	console.log($window.location.hash);
 	var vm = $scope;
 
@@ -14,15 +14,11 @@ function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, t
 	vm.menus = menus;
 	vm.templates = templates.sidebar;
 
-	vm.toggleLeft = buildDelayedToggler('left');
-	$scope.close = function () {
-      // Component lookup should always be available since we are not using `ng-if`
-      $mdSidenav('left').close()
-        .then(function () {
-          $log.debug("close LEFT is done");
-        });
+	
 
-    };
+  	vm.authData = {};
+
+ 
 	vm.logout = function () {
 		console.log("logout");
 		authService.logOut();
@@ -36,12 +32,18 @@ function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, t
 		vm.sidebarVisible = !vm.sidebarVisible;		
 	}
 
+	vm.saerchJob = function (jobId) {
+		$window.open("#/job/" + "Job-" + jobId.toUpperCase(), '_blank');
+	}
+
 	function activate()
 	{
 		if ($window.location.hash == '#/login'){
 			vm.sidebarVisible = false;
 			vm.shouldShowMenuAndFooter = false;
-		}
+		}   
+    vm.authData = authService.populateAuthData();
+    console.log(vm.authData) 
 	}
 
 	 /**
@@ -61,22 +63,6 @@ function indexController($scope, $location, $timeout, $mdSidenav, $log, menus, t
         }, wait || 10);
       };
     }
-
-    /**
-     * Build handler to open/close a SideNav; when animation finishes
-     * report completion in console
-     */
-    function buildDelayedToggler(navID) {
-     
-      return debounce(function() {
-
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav(navID)
-          .toggle()
-          .then(function () {
-            $log.debug("toggle " + navID + " is done");
-          });
-      }, 200);
-    }
+ 
 
 }

@@ -37,7 +37,10 @@ app.factory('timeAgo', function () {
 				timeString += minute + " minute";
 			}
 		}
-		return timeString;
+		if (timeString=="") {
+			return "";
+		}
+		return timeString + " ago";
 	};
 });
 
@@ -49,9 +52,9 @@ app.factory('timeFormat', [function(){
 	};
 }]);
 
-app.factory('patchUpdate', function($http, restCall, host){
+app.factory('patchUpdate',['$http', 'restCall', 'ngAuthSettings', function($http, restCall, ngAuthSettings){
 	return function (value, op, path, api_path, jobId, taskId, successCallback, errorCallback) {
-		var url = host + api_path + jobId + "/" + taskId;
+		var url = ngAuthSettings.apiServiceBaseUri + api_path + jobId + "/" + taskId;
 		console.log(url);
 		var data = [
 			    {
@@ -63,12 +66,11 @@ app.factory('patchUpdate', function($http, restCall, host){
 		console.log(data);
 		restCall('PATCH', url, data, successCallback, errorCallback);
 	};
-});
+}]);
 
 
-app.factory('restCall', ['$http', 'host', 'localStorageService', function($http, host, localStorageService){
-	return function (method, url, data, successCallback, errorCallback){
-		console.log(url);
+app.factory('restCall', ['$http', 'localStorageService', function($http, localStorageService){
+	return function (method, url, data, successCallback, errorCallback){		
 		var token = localStorageService.get('authorizationData');
 		$http({
   			method: method,
@@ -86,24 +88,6 @@ app.factory('restCall', ['$http', 'host', 'localStorageService', function($http,
 	};
 }]);
 
-app.factory('restCallPromise', ['$http', 'host', 'localStorageService', function($http, host, localStorageService){
-	return function (method, url, data){
-		console.log(url);
-		var token = localStorageService.get('authorizationData');
-		return $http({
-	  			method: method,
-	  			url : url,
-	  			data: data,
-	  			header: {
-	  				'Content-Type' : 'application/json'
-	  			} 
-	  		}).then(function success(response) {
-	  			successCallback(response);  			
-	  		}, function error(response) {
-	  			errorCallback(response);  		
-	  		});
-	};
-}]);
 
 app.factory('UrlPath', [function(host){
 	var assets = function (type, envelope, page, pageSize){

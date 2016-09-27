@@ -27,15 +27,21 @@
       if (rejection.status === 401) {
         var authService = $injector.get('authService');
         var authData = localStorageService.get('authorizationData');
-
+        
         if (authData) {
           if (authData.useRefreshTokens) {
-            $location.path('/refresh');
-            return $q.reject(rejection);
+            authService.refreshToken().then(function(response){
+              
+            }, function(error){
+              authService.logOut();
+              $location.path('/login');
+            })            
           }
+        } else {
+          authService.logOut();
+          $location.path('/login');
         }
-        authService.logOut();
-        $location.path('/login');
+        
       }
       return $q.reject(rejection);
     };

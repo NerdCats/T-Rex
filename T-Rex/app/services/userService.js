@@ -1,39 +1,126 @@
 'use strict';
 
-app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", function($http, $window, restCall, host, UrlPath){
+app.factory('userService', ["$http", "$window", "restCall", "ngAuthSettings", "queryService", userService]);
 
-	var populateUsers = function (users, pageSize) {
-		var userListUrl = host + "api/account/odata?" + "$filter=Type eq 'USER' or Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
-		function successCallback(response) {
-			users.Collection = response.data.data;			
-			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
-				users.pages.push(i);
-			};
+function userService($http, $window, restCall, ngAuthSettings, queryService){
+
+	var users = function (userType) {
+		return {
+			users: [],
+			pagination: null,
+			pages: [],
+			total: 0,
+			isCompleted: '',			
+			searchParam: {
+				type: "account",
+				userType: userType,
+				orderby: {
+					property: "UserName",
+					orderbyCondition: "asc"
+				},
+				CreateTime : {
+					startDate : null,
+					endDate : null,
+				},
+				CompletionTime : {
+					startDate : null,
+					endDate : null,
+				},
+				envelope: true,
+				page: 0,
+				pageSize: 10
+			},
+			loadUsers: function () {
+				this.isCompleted = 'IN_PROGRESS';
+				var pageUrl;
+				if (userType !== "BIKE_MESSENGER") {
+					pageUrl = queryService.getOdataQuery(this.searchParam);
+				} else {
+					// pageUrl = "/mockdata/assets.json";
+					pageUrl = queryService.getOdataQuery(this.searchParam);
+				}
+				populateUsers(this, pageUrl);
+			}
 		}
-		function errorCallback(error) {
-			console.log(error);
-		}
-		restCall('GET', userListUrl, null, successCallback, errorCallback);
 	}
 
-	var populateAssets = function (assets, type, envelope, page, pageSize){	
-		var assetlistUrl = host + UrlPath.assets(type, envelope, page, pageSize);
-		console.log(assetlistUrl);
-		function successCallback (response) {
-			assets.Collection = response.data.data;
+	var getNewUser = function () {
+		return  {
+			data : {
+				UserName : "",
+				Password : "",
+				ConfirmPassword : "",
+				Email : "",
+				PhoneNumber : "",
+				PicUri : "",
+				Type : "USER",
+				FirstName : "",
+				LastName : "",
+				Age : 0,
+				Gender : "MALE",
+				Address : "",      
+				NationalId : "",
+				DrivingLicenceId : "",
+				ContactPersonName : "",
+				Website : ""
+			},
+			status: '',
+			loadUser: function (userId) {
+				var user = this;
+				user.status = 'LOADING_USER';				
+				function successCallback(response){
+					user.status = '';					
+					console.log(response);
+				}
+				function errorCallback(response){
+					user.status = 'LOADING_FAILED';
+					console.log(response);
+				}
+				var userUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Profile/" + userId;
+				restCall('GET', userUrl, null, successCallback, errorCallback);
+			},
+			register: function () {
+				var user = this;
+				user.status = 'IN_PROGRESS';
+				var successCallback = function (response) {		  			
+		  			user.status = 'SUCCESSFULL';		  			
+		  			console.log(response);
+		  			$window.location.href = '#/users';
+		  		};
+		  		
+		  		var errorCallback = function error(response) {		  			
+		  			user.status = 'FAILED';		  			
+		  			console.log(response);
+		  		};
+				var registerNewUserUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Register";
+				restCall('POST', registerNewUserUrl, this.data, successCallback, errorCallback)  	
+			}
+		}
+	}
+
+	var populateUsers = function (Users, usersListUrl) {		
+		function successCallback(response) {
+			Users.users = [];
+			Users.pages = [];
+			Users.users = response.data.data;
+			Users.isCompleted = 'SUCCESSFULL';
+			Users.pagination = response.data.pagination;
+			Users.total = response.data.pagination.Total;
+			
 			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
-				assets.pages.push(i);
+				Users.pages.push(i);
 			};
+			console.log(Users);
 		}
 		function errorCallback(error) {
+			Users.isCompleted = 'FAILED';
 			console.log(error);
 		}
-		restCall('GET', assetlistUrl, null, successCallback, errorCallback);
-	};
-
+		restCall('GET', usersListUrl, null, successCallback, errorCallback);
+	}
 
 	var populateUserDetails = function (user, userId) {
-		var userUrl = host + "api/account/profile/" + userId;
+		var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + userId;
 		function successCallback(response) {
 			user = response.data;
 			console.log(user);			
@@ -44,28 +131,9 @@ app.factory('userService', ["$http", "$window", "restCall", "host", "UrlPath", f
 		restCall('GET', userUrl, null, successCallback, errorCallback);
 	}
 
-	var registerNewUser = function (asset){
-		var successCallback = function (response) {
-  			console.log("success : ");
-  			console.log(response);
-  			alert("Success")
-  			$window.location.href = '#/asset';
-  		};
-  		
-  		var errorCallback = function error(response) {
-  			console.log("error : ");
-  			console.log(response);
-  		};
-
-		console.log(asset);
-		var registerNewUserUrl = host + "api/Account/Register";
-		restCall('POST', registerNewUserUrl, asset, successCallback, errorCallback)  	
-	};
-
 	return {
-		populateAssets : populateAssets,
-		registerNewUser : registerNewUser,
-		populateUsers : populateUsers,
+		users: users,
+		getNewUser: getNewUser,			
 		populateUserDetails : populateUserDetails
 	}
-}]);
+}

@@ -1,0 +1,24 @@
+<div class="container-fluid">
+	<ng-form class="form-horizontal">
+		<fieldset class="">
+			<div class="form-group">
+				<label class="control-label col-md-1">Start Date</label>
+				<div class="col-md-2">
+					<input type="date" class="form-control" ng-model="slectedStartDate">				
+				</div>		
+				<label class="control-label col-md-1">End Date</label>
+				<div class="col-md-2">
+					<input type="date" class="form-control" ng-model="slectedEndDate">
+				</div>
+				<button class="btn btn-primary col-md-1" ng-click="Search()">SEARCH JOBS</button>
+			</div>		
+		</fieldset>
+	</ng-form>
+
+	<report-table report="b2bReport" goToReportJobs="goToReportJobs"></report-table>
+	<br>
+	<report-table report="b2cReport" goToReportJobs="goToReportJobs"></report-table>
+	<br>
+	<report-table report="assetReport" goToReportJobs="goToReportJobs"></report-table>
+
+</div>

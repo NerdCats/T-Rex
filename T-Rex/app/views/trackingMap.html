@@ -1,0 +1,19 @@
+<div>
+	<div>
+		<h1 class="md-headline">Asset's location on Map</h1>
+		<p>Total Asset: {{totalAsset}}</p>
+		<p>Total Asset Online: {{totalOnlineAsset}}</p>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-md-2 list-group">			
+    		<button class="list-group-item asset-list-li" ng-repeat="(key, asset) in assetsList" ng-click="locateMarkerOnMap(asset)">
+      			<div class="asset-status {{ asset.online }}"></div>
+	            <div>
+	            	<div><b>{{ asset.content }}</b></div>
+		            <div ng-show="asset.lastSeen">{{ 'Last Seen : ' + asset.lastSeen }}</div>
+	            </div>
+    		</button>
+		</div>		
+		<div class="col-sm-8 col-md-10" id="tracking-map"></div>
+	</div>
+</div>

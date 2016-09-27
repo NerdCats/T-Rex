@@ -1,18 +1,17 @@
 'use strict';
 
 
-var app = angular.module('app', [
-	'ngMaterial',
+var app = angular.module('app', [	
 	'ngMessages',
 	'ngRoute',
 	"ngAnimate",
 	'ngAria',
 	'LocalStorageModule',
-	'md.data.table',
-	'angularFileUpload',
-	'mdPickers',
+	'ui.bootstrap',	
+	'angularFileUpload',	
 	'ngclipboard',
-	'SignalR'
+	'SignalR',
+	'datetimepicker'
 ]);
 
 app.config(['$routeProvider',
@@ -20,85 +19,84 @@ app.config(['$routeProvider',
 		$routeProvider.
 			when('/login',{
 				templateUrl: 'app/views/login.html',
-				controller: 'authController',
-				controllerAs: 'auth'
+				controller: 'authController'				
 			}).
 			when('/',{
 				templateUrl: 'app/views/dashboard.html',
-		        controller: 'dashBoardController',
-		        controllerAs: 'dashboard'
+		        controller: 'dashBoardController'		        
 			}).
-			when('/order/create',{
+			when('/order/create/:id',{
 				templateUrl: 'app/views/order/create.html',
-				controller: 'createOrderController',
-				controllerAs: 'createOrder'
-			}).
+				controller: 'createOrderController'				
+			}).			
 			when('/job/:id',{
 				templateUrl: 'app/views/job.html',
-				controller: 'jobController',
-				controllerAs: 'job'
+				controller: 'jobController',				
 			}).
 			when('/users', {
 				templateUrl: 'app/views/users.html',
-				controller: 'userController',
-				controllerAs: 'users'
+				controller: 'userController'				
 			}).
 			when('/user/create',{
-				templateUrl: 'app/views/user/create.html',
-				controller: 'createAssetController',
-				controllerAs: 'createAsset'
+				templateUrl: 'app/views/usercreate.html',
+				controller: 'usercreateC'				
 			}).
-			when('/asset', {
-				templateUrl: 'app/views/assets.html',
-				controller: 'assetController',
-				controllerAs: 'assets'
-			}).			
-			when('/asset/details/:id',{
-				templateUrl: 'app/views/user/details.html',
-				controller: 'userDetailsController',
-				controllerAs: 'user'
+			when('/tracking-map',{
+				templateUrl: 'app/views/trackingMap.html',
+				controller: 'trackingMapC'				
 			}).
-			when('/user/details/:id',{
-				templateUrl: 'app/views/user/details.html',
-				controller: 'userDetailsController',
-				controllerAs: 'user'
+			when('/users/:id',{
+				templateUrl: 'app/views/userdetails.html',
+				controller: 'userDetailsC'				
 			}).
-			when('/asset/create',{
-				templateUrl: 'app/views/user/create.html',
-				controller: 'createAssetController',
-				controllerAs: 'createAsset'
+			when('/report', {
+				templateUrl: 'app/views/report.html',
+				controller: 'reportC'				
 			}).
-			when('/asset/assets-tracking-map',{
-				templateUrl: 'app/views/user/assetsTrackingMap.html',
-				controller: 'assetsTrackingMapController',
-				controllerAs: 'assetsTrackingMap'
+			when('/report/jobs', {
+				templateUrl: 'app/views/reportJobs.html',
+				controller: 'reportJobsC'
 			}).
-			when('/supportedOrder',{
-				templateUrl: 'app/views/supportedOrders.html',
-				controller: 'supportedOrderController',
-				controllerAs: 'supportedOrders'
+			when('/bulkorder', {
+				templateUrl: 'app/views/bulkorder.html',
+				controller: 'bulkOrderC'			
 			}).
-			when('/supportedOrderCreate',{
-				templateUrl: 'app/views/supportedOrder/supportedOrderCreate.html',
-				controller: 'supportedOrderCreateController',
-				controllerAs: 'supportedOrders'
-			}).
-			when('/supportedOrderUpdate/:id',{
-				templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
-				controller: 'supportedOrderUpdateController',
-				controllerAs: 'supportedOrders'
-			});
+			when('/workorder', {
+				templateUrl: 'app/views/workorder.html',
+				controller: 'workOrderC'			
+			})
+			// when('/supportedOrder',{
+			// 	templateUrl: 'app/views/supportedOrders.html',
+			// 	controller: 'supportedOrderController'			
+			// }).
+			// when('/supportedOrderCreate',{
+			// 	templateUrl: 'app/views/supportedOrder/supportedOrderCreate.html',
+			// 	controller: 'supportedOrderCreateController'			
+			// }).
+			// when('/supportedOrderUpdate/:id',{
+			// 	templateUrl: 'app/views/supportedOrder/supportedOrderUpdate.html',
+			// 	controller: 'supportedOrderUpdateController'			
+			// });
 
 			$routeProvider.otherwise({ redirectTo: "/"});
 	}
 ]);
 
-app.config(function($mdThemingProvider) {
-	// Configure a dark theme with primary foreground yellow
-	$mdThemingProvider.theme('docs-dark', 'default')
-	.primaryPalette('grey')
-	.dark();
-});
+app.config([
+    'datetimepickerProvider',
+    function (datetimepickerProvider) {
+        datetimepickerProvider.setOptions({
+            locale: 'en'
+        });
+    }
+]);
+
+// app.config(function($mdThemingProvider) {
+// 	// Configure a dark theme with primary foreground yellow
+// 	$mdThemingProvider.theme('docs-dark', 'default')
+// 	.primaryPalette('grey')
+// 	.dark();
+// });
 
 app.run(['authService', function (authService) {
     authService.fillAuthData();
