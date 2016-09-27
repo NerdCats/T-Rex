@@ -1,225 +1,122 @@
-<md-table-container>
-    <div class="title" layout="row">    	
-        <div flex="80">
-            <h1>Dashboard</h1>
+<div class="container-fluid">
+    <div class="row mt-50">
+        <div class="col-md-3 row">
+            <div class="summary-icon-div pending col-md-1">
+                <i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{newOrders.pagination.Total}}</h3>
+                </div>
+                <div>PENDING</div>                    
+            </div>            
         </div>
-        <div flex="20">
-            <md-button class="md-raised" ng-click="createNewOrder()">Create new Order</md-button>
+        <div class="col-md-3 row">
+            <div class="summary-icon-div in-progress col-md-1">
+                <i class="fa fa-play fa-2x" aria-hidden="true"></i>
+            </div>                
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{processingOrders.pagination.Total}}</h3>
+            </div>
+                <div>IN PROGRESS</div>                    
+            </div>            
+        </div>
+        <div class="col-md-3 row">
+            <div class="summary-icon-div completed col-md-1">
+                <i class="fa fa-check fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{completedOrders.pagination.Total}}</h3>
+                </div>
+                <div>COMPLETED</div>                    
+            </div>            
+        </div>
+        <div class="col-md-3 row">
+            <div class="summary-icon-div cancelled col-md-1">
+                <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{cancelledOrders.pagination.Total}}</h3>
+                </div>
+                <div>CANCELED</div>                    
+            </div>            
         </div>
     </div>
-    <md-card>
-        <md-card-title>
-            <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
-                <div class="md-toolbar-tools" flex="40">
-                    <p>Total Newly arrived orders : {{newOrders.total}}</p><br>
+    <ng-form class="form-horizontal">
+        <fieldset>
+            <div class="form-group col-md-3">
+                <label class="control-label col-md-4">Start Date:</label>
+                <div class="col-md-8">                
+                    <input type="date" class="form-control" ng-model="startDate">
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label col-md-4">End Date:</label>
+                <div class="col-md-8">
+                    <input type="date" class="form-control" ng-model="endDate">
+                </div>
+            </div>
+            <div class="form-group col-md-1">
+                <button class="btn btn-danger" ng-click="clearDate()">CLEAR DATE</button>
+            </div>           
+        </fieldset>
+        <fieldset>
+            <div class="form-group col-md-3">
+                <label class="control-label col-md-6">Show per page:</label>
+                <div class="col-md-6">
+                    <select class="form-control" ng-model="jobPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">60</option>
+                        <option value="50">70</option>
+                        <option value="50">80</option>
+                        <option value="50">90</option>
+                        <option value="50">100</option>
+                    </select>                    
                 </div>                
-            </md-toolbar>
-        </md-card-title>
-        <md-card-content>            
-            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="newOrders.isCompleted == 'SUCCESSFULL'">
-                <thead md-head md-on-recorder="onReorder">
-                    <tr md-row>
-                        <th md-column>S\L</th>
-                        <th md-column>Job no</th>
-                        <th md-column>Order</th>
-                        <th md-column>Type</th>
-                        <th md-column>From</th>
-                        <th md-column>To</th>
-                        <th md-column>User</th>
-                        <th md-column>State</th>
-                        <th md-column>Payment</th>
-                        <th md-column>Created</th>
-                        
-                    </tr>
-                </thead>
-                <tbody md-body>
-                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in newOrders.orders track by $index">
-                            <td md-cell class="number">{{$index + newOrders.pagination.Start}}</td>
-                            <td md-cell class="number">{{order.Id}}</td>
-                            <td md-cell class="text">{{order.Name}}</td>
-                            <td md-cell class="text">{{order.Type}}</td>
-                            <td md-cell class="text">{{order.From}}</td>
-                            <td md-cell class="text">{{order.To}}</td>
-                            <td md-cell class="text">{{order.User}}</td>
-                            <td md-cell class="text">{{order.State()}}</td>
-                            <td md-cell class="text">{{order.PaymentStatus}}</td>
-                            <td md-cell class="text">{{order.RequestedAgo}}</td>
-                            <td md-cell class="text">
-                                <a href="#/job/{{order.Id}}">
-                                    <md-button class="md-raised">DETAILS</md-button>
-                                </a>
-                            </td>
-                            
-                    </tr>
-                </tbody>
-            </table>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'IN_PROGRESS'" >
-                <md-progress-circular md-diameter="96"></md-progress-circular>
             </div>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'FAILED'" >
-                <p>Server error! click <md-button flex="5" ng-click="loadEnqueuedOrders()" >here</md-button> to refresh</p>
-            </div>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="newOrders.isCompleted == 'EMPTY'" >
-                <p>There is no order here! click <md-button flex="5" ng-click="loadEnqueuedOrders()" >here</md-button> to check</p>
-            </div>
-            
-            <div class="pagination-div">
-                <ul class="pagination">
-                    <li>
-                        <a ng-click="loadPrevPage(newOrders)" ng-hide="newOrders.pagination.PrevPage === undefined" href=""> << </a>
-                    </li>
-                    <li ng-repeat="page in newOrders.pages" ng-click="loadPage(newOrders, page.pageNo)">
-                        <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="loadNextPage(newOrders)" ng-hide="newOrders.pagination.NextPage === undefined" href=""> >> </a>
-                    </li>
-                </ul>                
-            </div>            
-        </md-card-content>
-    </md-card>
-
-    <md-card>
-        <md-card-title>
-            <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
-                <div class="md-toolbar-tools" flex="40">
-                    <p>Total currently processing orders : {{processingOrders.total}}</p><br>
+            <div class="form-group col-md-3">
+                <label class="control-label col-md-6">Show Vendors:</label>
+                <div class="col-md-6">
+                    <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        <option></option>                
+                    </select>                    
                 </div>
-            </md-toolbar>
-        </md-card-title>
-        <md-card-content>
-            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="processingOrders.isCompleted == 'SUCCESSFULL'">
-                <thead md-head md-on-recorder="onReorder">
-                    <tr md-row>
-                        <th md-column>S\L</th>
-                        <th md-column>Job no</th>
-                        <th md-column>Order</th>
-                        <th md-column>Type</th>
-                        <th md-column>From</th>
-                        <th md-column>To</th>
-                        <th md-column>User</th>
-                        <th md-column>State</th>
-                        <th md-column>Payment</th>
-                        <th md-column>Last Updated</th>
-                    </tr>
-                </thead>
-                <tbody md-body>
-                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in processingOrders.orders track by $index">
-                        <a href="/details/{{order.Id}}">
-                            <td md-cell class="number">{{$index + newOrders.pagination.Start}}</td>
-                            <td md-cell class="number">{{order.Id}}</td>
-                            <td md-cell class="text">{{order.Name}}</td>
-                            <td md-cell class="text">{{order.Type}}</td>
-                            <td md-cell class="text">{{order.From}}</td>
-                            <td md-cell class="text">{{order.To}}</td>
-                            <td md-cell class="text">{{order.User}}</td>
-                            <td md-cell class="text">{{order.State()}}</td>
-                            <td md-cell class="text">{{order.PaymentStatus}}</td>
-                            <td md-cell class="text">{{order.RequestedAgo}}</td>
-                             <td md-cell class="text">
-                                <a href="#/job/{{order.Id}}">
-                                    <md-button class="md-raised">DETAILS</md-button>
-                                </a>
-                            </td>
-                        </a>
-                    </tr>
-                </tbody>
-            </table>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'IN_PROGRESS'" >
-                <md-progress-circular md-diameter="96"></md-progress-circular>
             </div>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'FAILED'" >
-                <p>Server error! click <md-button flex="5" ng-click="loadInProgressOrders()" >here</md-button> to refresh</p>
-            </div>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="processingOrders.isCompleted == 'EMPTY'" >
-                <p>There is no order here! click <md-button flex="5" ng-click="loadInProgressOrders()" >here</md-button> to check</p>
-            </div>
-            <div class="pagination-div">
-                 <ul class="pagination">
-                    <li>
-                        <a ng-click="loadPrevPage(processingOrders)" ng-hide="processingOrders.pagination.PrevPage === undefined" href=""> << </a>
-                    </li>
-                    <li ng-repeat="page in processingOrders.pages" ng-click="loadPage(processingOrders, page.pageNo)">
-                        <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="loadNextPage(processingOrders)" ng-hide="processingOrders.pagination.NextPage === undefined" href=""> >> </a>
-                    </li>
-                </ul>                
-            </div>
-        </md-card-content>
-    </md-card>
-
-    
-
-    <md-card>
-        <md-card-title>
-            <md-toolbar class="md-table-toolbar md-default" layout="row" flex="100">
-                <div class="md-toolbar-tools" flex="40">
-                    <span>Total completed orders : {{completedOrders.total}}</span>
-                </div>
-            </md-toolbar>
-        </md-card-title>
-        <md-card-content>
-            <table md-table class="order-table" ng-model="selected" flex="90" ng-show="completedOrders.isCompleted == 'SUCCESSFULL'">
-                <thead md-head md-on-recorder="onReorder">
-                    <tr md-row>
-                        <th md-column>S\L</th>
-                        <th md-column>Job no</th>
-                        <th md-column>Order</th>
-                        <th md-column>Type</th>
-                        <th md-column>From</th>
-                        <th md-column>To</th>
-                        <th md-column>User</th>
-                        <th md-column>State</th>
-                        <th md-column>Payment</th>
-                        <th md-column>Last Updated</th>
-                    </tr>
-                </thead>
-                <tbody md-body>
-                    <tr md-row md-select="order" md-select-id="name" md-auto-select ng-repeat="order in completedOrders.orders track by $index">
-                        <a href="/job/{{order.Id}}">                            
-                            <td md-cell class="number">{{$index + newOrders.pagination.Start}}</td>
-                            <td md-cell class="text">{{order.Id}}</td>
-                            <td md-cell class="text">{{order.Name}}</td>
-                            <td md-cell class="text">{{order.Type}}</td>
-                            <td md-cell class="text">{{order.From}}</td>
-                            <td md-cell class="text">{{order.To}}</td>
-                            <td md-cell class="text">{{order.User}}</td>
-                            <td md-cell class="text">{{order.State()}}</td>
-                            <td md-cell class="text">{{order.PaymentStatus}}</td>
-                            <td md-cell class="text">{{order.RequestedAgo}}</td>
-                             <td md-cell class="text">
-                                <a href="#/job/{{order.Id}}">
-                                    <md-button class="md-raised">DETAILS</md-button>
-                                </a>
-                            </td>
-                        </a>
-                    </tr>
-                </tbody>
-            </table>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'IN_PROGRESS'" >
-                <md-progress-circular md-diameter="96"></md-progress-circular>
-            </div>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'FAILED'" >
-                <p>Server error! click <md-button flex="5" ng-click="loadCompletedOrders()" >here</md-button> to refresh</p>
-            </div>
-            <div layout="row" layout-sm="column" layout-align="space-around" ng-show="completedOrders.isCompleted == 'EMPTY'" >
-                <p>There is no order here! click <md-button flex="5" ng-click="loadCompletedOrders()" >here</md-button> to check</p>
-            </div>
-            <div class="pagination-div">
-                 <ul class="pagination">
-                    <li>
-                        <a ng-click="loadPrevPage(completedOrders)" ng-hide="completedOrders.pagination.PrevPage === undefined" href=""> << </a>
-                    </li>
-                    <li ng-repeat="page in completedOrders.pages" ng-click="loadPage(completedOrders, page.pageNo)">
-                        <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="loadNextPage(completedOrders)" ng-hide="completedOrders.pagination.NextPage === undefined" href=""> >> </a>
-                    </li>
-                </ul>                  
+            <div class="form-group col-md-1">
+                <button class="btn btn-primary" ng-click="activate()" >SEARCH JOBS</button>
             </div>            
-        </md-card-content>
-    </md-card>
-</md-table-container>			
+        </fieldset>        
+    </ng-form>
+    <uib-tabset  active="activeJustified" justified="true">
+        <uib-tab index="0">
+            <uib-tab-heading>
+                PENDING : {{newOrders.total}}
+            </uib-tab-heading>            
+            <order-table orders="newOrders"></order-table>            
+        </uib-tab>
+        <uib-tab index="1">
+            <uib-tab-heading>
+                IN PROGRESS : {{processingOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="processingOrders"></order-table>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                COMPLETED : {{completedOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="completedOrders"></order-table>            
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                CANCELED : {{cancelledOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="cancelledOrders"></order-table>            
+        </uib-tab>
+    </uib-tabset>    
+</div>

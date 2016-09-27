@@ -109,12 +109,18 @@ app.service('mapFactory', [function(){
 	};
 
 
-	var searchBox = function (placeTobeSearched, getCurrentMarkerLocationCallback) {	
-				
+	var searchBox = function (placeTobeSearched, getPlacesResultCallback) {	
+		var googleMapsService = new google.maps.places.AutocompleteService();
+			googleMapsService.getPlacePredictions({
+	          input: placeTobeSearched
+	        }, getPlacesResultCallback);		
+	};
+
+	var setCenterByAddress = function (address, getCurrentMarkerLocationCallback) {
 		var map = mapServicePrivateMap;
 	    GMaps.geocode({
-			address: placeTobeSearched,
-			callback: function(results, status) {				
+			address: address,
+			callback: function(results, status) {
 				if (status == 'OK') {
 					var latlng = results[0].geometry.location;
 					var lat = latlng.lat();
@@ -133,7 +139,7 @@ app.service('mapFactory', [function(){
 				}
 			}
 		});
-	};
+	}
 
  	
 
@@ -180,6 +186,7 @@ app.service('mapFactory', [function(){
 	this.markerDragEvent = markerDragEvent;
 	this.getAddress = getAddress;
 	this.searchBox = searchBox;
+	this.setCenterByAddress = setCenterByAddress;
 	this.mapContextMenuForCreateOrder = mapContextMenuForCreateOrder;
 	
 }]);	

@@ -1,114 +1,118 @@
 'use strict';
 
-app.controller('jobController', [ '$scope', '$http', '$interval', '$window', '$mdDialog', '$mdMedia', '$location', '$routeParams',
-							'menus', 'templates', 'host', 'tracking_host', 'tracking_link',
-							'timeAgo', 'jobFactory', 'mapFactory', 'restCall', jobController]);
+app.controller('jobController', [ '$scope', '$http', '$interval', '$uibModal','$window', '$routeParams', 'menus', 'templates', 
+	'ngAuthSettings', 'timeAgo' , 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', jobController]);
 
 
 
-function jobController($scope, $http, $interval, $window, $mdDialog, $mdMedia, $location, $routeParams,
-							menus, templates, host, tracking_host, tracking_link,
-							timeAgo,jobFactory, mapFactory, restCall) {
+function jobController($scope, $http, $interval, $uibModal, $window, $routeParams,	menus, 
+	templates, ngAuthSettings, timeAgo, jobFactory, mapFactory, restCall, patchUpdate) {
 	
-	var id = $routeParams.id;	
 	var vm = $scope;
+	var id = $routeParams.id;	
+	vm.trackingLink = "gofetch.cloudapp.net:8000/#/track/" + id;
+	vm.job = jobFactory.job(id);
+	vm.job.loadJob();
+	vm.invoiceUrl = function () {
+		// var url = ngAuthSettings.apiServiceBaseUri + '/api/job/'+ vm.job.data.HRID +'/invoice';
+		var url = '/invoice/invoice.html?'+ vm.job.data.HRID;
+		return url;
+	}
+	
+ 
+	vm.openCancellationModal = function (size) {
+		var modalInstance = $uibModal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'app/views/detailsJob/JobCancellation.html',
+			controller: 'JobCancellationCtrl'
+		});
 
-	vm.menus = menus; 
-	vm.job = {};
-	vm.jobStates = [];
-	vm.Assets = [];
-	vm.markers	= [];
-	vm.jobTaskStates = ["COMPLETED"];
-	vm.assignAsset = ["Assign Asset"];
-	vm.invoiceLink = function (HRID) {		
-		return host + "api/job/"+ HRID +"/invoice";
+		modalInstance.result.then(function (reason) {
+			vm.cancelReason = reason;
+			console.log(reason);
+			vm.job.cancel(reason);
+		}, function () {
+			console.log("discarded")
+		})
 	}
 
-	var jobUrl = host + "api/Job?id=" + id;	
-	function successCallback(response) {
+	vm.openAssetsList = function (size) {
+		var modalInstance = $uibModal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'app/views/detailsJob/availableAsset.html',
+			controller: 'ModalInstanceCtrl'
+		});
 
-		vm.job = response.data;
-
-		vm.publicTrackingLink = tracking_link + vm.job.HRID;
-
-		vm.jobTasks = jobFactory.populateJobTasks(vm.job);		
-	 
-		vm.map = jobFactory.populateMap(vm.jobTasks);				
-
-		vm.requestedAgo = timeAgo(vm.job.CreateTime);
-
-		vm.OrderDetails = jobFactory.OrderDetails(vm.job);
-
-		vm.servingby = jobFactory.populateServingBy(vm.job);
-		
-
-		/* FIXME:
-		this is the part to get tracking data of the assigned assets,
-		would move to signlr or websocket implementation when server is ready
-		*/		
-		if (!$.isEmptyObject(vm.job.Assets)) {			
-			
-			angular.forEach(vm.job.Assets, function (value, key) {
-
-				var asset = {
-					type : "Asset",			
-					asset_id : value.Id,						
-					title : value.UserName,
-					phoneNumber : value.PhoneNumber,
-					photo : "",
-					rating : 5
+		modalInstance.result.then(function (selectedItem) {
+				vm.selected = selectedItem;
+				console.log($scope.selected);
+				vm.job.assigningAsset(true);
+				var success = function (response) {
+					vm.job.assigningAsset(false);					
+		  			$window.location.reload();	  			
 				};
-				console.log(asset);
-				vm.Assets.push(asset);
-				var url = tracking_host + "api/location/" + key;	
-				restCall('GET', url, null, success, error);
-				function success(response) {
-					asset.desc = "Last seen on ";
-					asset.lat = response.data.point.coordinates[1]; 
-					asset.lng = response.data.point.coordinates[0];
-					mapFactory.createOverlay(asset.lat, asset.lng, asset.title);
-					$scope.$apply();
+				var error = function (error) {
+		  			console.log(error);
+		  			vm.job.redMessage = error;
+		  			vm.job.assigningAsset(false);
 				};
-				function error(error) {
-					value.desc = "Couldn't retrieve Last location";
-					console.log(error)
-				}
+
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[0].id;
+				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
+				// var result = patchUpdate(vm.selected.Id, "replace", 
+				// 						"/AssetRef", "api/job/", 
+				// 						vm.job.data.Id, vm.job.data.Tasks[0].id, 
+				// 						success, error);
+				var result = restCall("PATCH", url, assetRefUpdateData, success, error);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
 			});
-
-		}
-	};
-
-	function errorCallback(error) {
-		// $window.location.reload();	
-		console.log(error);
-	};
-
-	restCall('GET', jobUrl, null, successCallback, errorCallback);
-	
-	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-
-
-	vm.locateMarkerOnMap = function (value) {
-			mapFactory.locateMarkerOnMap(value);			
-	};
-	
-	vm.assetAssignPopup = function (event) {
-		jobFactory.populateAssetAssignDialog(vm, event, vm.job);
-	};
-
-	vm.paymentStatusUpdate = function () {
-		var url = host + "api/payment/process/" + vm.job.Id;
-		function successCallback(response) {
-			$window.location.reload();
-		}
-		function errorCallback(error) {
-			alert("Couldn't update the payment status!")
-		}
-		restCall("POST", url, null, successCallback, errorCallback);
-
-	}
-
+		};
 };
 
 
+app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'ngAuthSettings', ModalInstanceCtrl]);
+function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
+	
+	$scope.assets = [];
+	$scope.loadingAssets = true;
+	var assetListUrlMaker = function (type, envelope, page, pageSize) {
+		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
+		var assetListUrl = ngAuthSettings.apiServiceBaseUri + "/api/Account/odata?" + parameters;		
+		return assetListUrl;
+	};
 
+	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
+	// var url1 = "mockdata/assets.json";
+	
+	$http.get(url1).then(function(response) {
+		$scope.assets = response.data.data;
+		console.log(response)		
+		$scope.loadingAssets = false;
+	});
+
+	$scope.selectionChanged = function (asset) {
+		$scope.selectedAsset = asset;
+	};
+
+	$scope.ok = function () {
+		console.log($scope.selectedAsset);
+		$uibModalInstance.close($scope.selectedAsset);
+	};
+
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+  	};
+}
+
+app.controller('JobCancellationCtrl', ['$scope', '$uibModalInstance', JobCancellationCtrl]);
+function JobCancellationCtrl($scope, $uibModalInstance) {
+	$scope.reason = "";
+
+	$scope.cancel = function () {
+		$uibModalInstance.close($scope.reason);
+	}
+	$scope.discard = function () {
+		$uibModalInstance.dismiss("cancel");
+	}
+}

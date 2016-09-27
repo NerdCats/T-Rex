@@ -1,0 +1,144 @@
+<div class="container">
+    <ng-form name="userCreateForm" class="form-horizontal" ng-disabled="user.status === 'IN_PROGRESS'">
+        <fieldset class="mb-100">
+
+            <!-- Form Name -->
+            <legend>{{user.data.Type}} Registration Form</legend>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="selectbasic">User Type</label>
+                <div class="col-md-2">
+                <select id="selectbasic" name="selectbasic" class="form-control" ng-model="user.data.Type" required>
+                        <option value="USER">USER</option>
+                        <option value="ENTERPRISE">ENTERPRISE</option>
+                        <option value="BIKE_MESSENGER">BIKE_MESSENGER</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="textinput">UserName</label>  
+                <div class="col-md-4">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.UserName" required>
+
+                </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="passwordinput">Password</label>
+                <div class="col-md-2">
+                    <input id="passwordinput" name="passwordinput" type="password" placeholder="Must be 6 charecter" class="form-control input-md" ng-model="user.data.Password" required>    
+                </div>
+
+                <label class="col-md-2 control-label" for="passwordinput">Confirm Password</label>
+                <div class="col-md-2">
+                    <input id="passwordinput" name="passwordinput" type="password" placeholder="Type Password again" class="form-control input-md" ng-model="user.data.ConfirmPassword" required>    
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="textinput">Email</label>  
+                <div class="col-md-2">
+                    <input id="textinput" name="textinput" type="text" placeholder="ex: alim@gobd.co" class="form-control input-md" ng-model="user.data.Email" required>  
+                </div>
+
+                <label class="col-md-2 control-label" for="textinput">Phone Number</label>  
+                <div class="col-md-2">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.PhoneNumber" required>    
+                </div>
+            </div>
+
+
+            <!-- Textarea -->
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="textarea">Address</label>
+                <div class="col-md-4">                     
+                    <textarea class="form-control" id="textarea" name="textarea" ng-model="user.data.Address"></textarea>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="user.data.Type === 'USER' || user.data.Type === 'BIKE_MESSENGER'">
+                <label class="col-md-2 control-label" for="textinput">First Name</label>  
+                <div class="col-md-2">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="uset.FirstName">
+                </div>
+                <label class="col-md-2 control-label" for="textinput">Last Name</label>  
+                <div class="col-md-2">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="uset.LastName">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="user.data.Type === 'USER' || user.data.Type === 'BIKE_MESSENGER'">
+                <label class="col-md-2 control-label" for="textinput">Age</label>  
+                <div class="col-md-1">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.Age">
+                </div>
+                <label class="col-md-2 control-label" for="selectbasic">Gender</label>
+                <div class="col-md-1">
+                    <select id="selectbasic" name="selectbasic" class="form-control" ng-model="user.data.Gender">
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="user.data.Type === 'BIKE_MESSENGER'">
+                <label class="col-md-2 control-label" for="textinput">NationalId</label>  
+                <div class="col-md-4">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.NationalId">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="user.data.Type === 'BIKE_MESSENGER'">
+                <label class="col-md-2 control-label" for="textinput">DrivingLicenceId</label>  
+                <div class="col-md-4">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.DrivingLicenceId">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="user.data.Type === 'ENTERPRISE'">
+                <label class="col-md-2 control-label" for="textinput">ContactPersonName</label>  
+                <div class="col-md-4">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.ContactPersonName">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="user.data.Type === 'ENTERPRISE'">
+                <label class="col-md-2 control-label" for="textinput">Website</label>  
+                <div class="col-md-4">
+                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.Website">
+                </div>
+            </div>
+
+
+            <!-- File Button --> 
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="filebutton">Upload Picture</label>
+                <div class="col-md-4">
+                    <input id="filebutton" name="filebutton" class="input-file" type="file">
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <!-- <label class="col-md-2 control-label" for="singlebutton">Register New User</label> -->
+                <div class="col-md-8">
+                    <button class="btn btn-primary pull-right" ng-click="user.register()" ng-disabled="userCreateForm.$invalid">
+                        <span ng-show="user.status == 'IN_PROGRESS'" class="fa fa-refresh fa-spin"></span>            
+                        <span>REGISTER</span>
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </ng-form>
+</div>

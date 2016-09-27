@@ -1,83 +1,95 @@
 'use strict';
 
-app.controller('dashBoardController', ['$rootScope', '$scope', '$http', '$location', '$interval', '$mdDialog', '$mdMedia', '$window', 'menus', 'templates', 'host', 'dashboardFactory', dashBoardController]);
+app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'ngAuthSettings', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
 
-function dashBoardController($rootScope, $scope, $http, $location, $interval, $mdDialog, $mdMedia, $window, menus, templates, host, dashboardFactory) {
+function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, timeAgo, restCall, dashboardFactory)  {
 
-	var vm = $scope;
-	vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-	vm.menus = menus;
-	vm.templates = templates;
-	vm.selected = [];
-	vm.processingOrders = [];
+	var vm = $scope;	
+	vm.menus = menus;	
+	vm.autoRefreshState = true;
+	vm.jobPerPage = 50;
+	vm.startDate = undefined;
+	vm.endDate = undefined;
+	vm.EnterpriseUser = null;
+	vm.EnterpriseUsers = [];	
 
-	// the isCompleted value of the orders has 4 states IN_PROGRESS, SUCCESSFULL, EMPTY, FAILED
-	// these states indicates the http request's state and content of the page
-	vm.newOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '', state: "ENQUEUED" };
-	vm.processingOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '', state: "IN_PROGRESS" };
-	vm.completedOrders = {orders: [], pagination: null, pages:[], total: 0, isCompleted : '', state: "COMPLETED" };
-
-	vm.createNewOrder = function () {
-		$window.location.href = "#/order/create/new";
-	}
-
-	vm.loadNextPage = function (orders) {
-		var nextPageUrl = orders.pagination.NextPage;
-		console.log(orders);
-		console.log(nextPageUrl);
-		if (nextPageUrl) {
-			dashboardFactory.populateOrdersTable(orders, nextPageUrl);			
-		}
-	}
-
-	vm.loadPrevPage = function (orders) {
-		var prevPageUrl = orders.pagination.PrevPage;		
-		console.log(orders);
-		console.log(prevPageUrl);
-		if (prevPageUrl) {
-			dashboardFactory.populateOrdersTable(orders, prevPageUrl);			
-		}
-	}
-
-	vm.loadPage = function (orders, pageNo) {
-		var pageUrl = dashboardFactory.jobListUrlMaker(orders.state, true, pageNo, 50)
-		console.log(pageNo);
-		console.log(pageUrl);
-		console.log(orders);
-		dashboardFactory.populateOrdersTable(orders, pageUrl);
-	}
-
-	var URL_ENQUEUED = "api/Job/odata?$filter=State eq 'ENQUEUED'";
-	var URL_IN_PROGRESS = "api/Job/odata?$filter=State eq 'IN_PROGRESS'";
-	var URL_COMPLETED = "api/Job/odata?$filter=State eq 'COMPLETED'";
-
-
-	vm.loadEnqueuedOrders = function (){
-		vm.newOrders.isCompleted = 'IN_PROGRESS';
-		var newOrdersUrl = dashboardFactory.jobListUrlMaker("ENQUEUED", true, 0, 50)
-		dashboardFactory.populateOrdersTable(vm.newOrders, newOrdersUrl);
-	}
-
-	vm.loadInProgressOrders = function (){
-		vm.processingOrders.isCompleted = 'IN_PROGRESS';
-		var processingOrdersUrl = dashboardFactory.jobListUrlMaker("IN_PROGRESS", true, 0, 50)
-		dashboardFactory.populateOrdersTable(vm.processingOrders, processingOrdersUrl);
-	}
+	vm.newOrders = dashboardFactory.orders("ENQUEUED");
+	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");	
+	vm.completedOrders = dashboardFactory.orders("COMPLETED");
+	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
-	vm.loadCompletedOrders = function () {
-		vm.completedOrders.isCompleted = 'IN_PROGRESS';
-		var completedOrdersUrl = dashboardFactory.jobListUrlMaker("COMPLETED", true, 0, 50)
-		dashboardFactory.populateOrdersTable(vm.completedOrders, completedOrdersUrl);
+
+	dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
+
+	vm.clearDate = function () {
+		vm.startDate = undefined;
+		vm.endDate = undefined;
+
+
+		vm.activate();
 	}
 
-	vm.loadEnqueuedOrders();
-	vm.loadInProgressOrders();
-	vm.loadCompletedOrders();
+	vm.setDate = function () {
+		var startDateISO = undefined;
+		var endDateISO = undefined;
+		
+		if (vm.startDate&&vm.endDate) {
+			startDateISO = dashboardFactory.getIsoDate(vm.startDate,0,0,0);
+			// new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), 0, 0, 0).toISOString();
+			endDateISO = dashboardFactory.getIsoDate(vm.endDate,23,59,59);
+			// new Date(vm.endDate.getFullYear(), vm.endDate.getMonth(), vm.endDate.getDate(), 23, 59, 59).toISOString();			
+		}
 
-	$interval(function () {
+		vm.newOrders.searchParam.CreateTime.startDate = startDateISO;
+		vm.newOrders.searchParam.CreateTime.endDate = endDateISO;
+
+		// vm.processingOrders.searchParam.startDate = startDateISO;
+		// vm.processingOrders.searchParam.endDate = endDateISO;
+
+		vm.completedOrders.searchParam.CompletionTime.startDate = startDateISO;
+		vm.completedOrders.searchParam.CompletionTime.endDate = endDateISO;
+
+		// FIXME: remember, in future, if there are any order STATE as returned, we need
+		// to open up another list
+		vm.cancelledOrders.searchParam.CreateTime.startDate = startDateISO;
+		vm.cancelledOrders.searchParam.CreateTime.endDate = endDateISO;		
+	}
+
+	
+
+	vm.AutoRefreshChanged = function () {
+		if (vm.autoRefreshState) {
+			dashboardFactory.startRefresh();
+		} else {
+			dashboardFactory.stopRefresh();
+		}
+	}
+
+
+	vm.activate = function () {
+		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
+		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
+		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;
+		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;	
+		
+		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
+		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
+		
 		vm.newOrders.isCompleted = 'IN_PROGRESS';
-		vm.newOrders.orders= [];
-		vm.newOrders.pages = [];
-		vm.loadEnqueuedOrders();	
-	}, 60000); 
+		vm.processingOrders.isCompleted = 'IN_PROGRESS';
+		vm.completedOrders.isCompleted = 'IN_PROGRESS';
+		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
+
+		vm.setDate();
+
+		vm.newOrders.loadOrders();
+		vm.processingOrders.loadOrders();
+		vm.completedOrders.loadOrders();
+		vm.cancelledOrders.loadOrders();
+		
+		dashboardFactory.startRefresh(vm.newOrders);
+	}
+	vm.activate();
 }

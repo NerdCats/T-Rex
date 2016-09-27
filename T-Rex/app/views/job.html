@@ -1,250 +1,406 @@
-<div class="title">
-    <h1>{{job.Name}}</h1>
-    <p>Created: {{ requestedAgo }}</p>
-    <div class="horizontal">
-        <p><b>This Order is {{OrderDetails.State()}} now</b></p> 
-    </div>
-    <div flex="50">
-        <!-- need to make ngclipboard working -->
-        <p class="md-body-2">Public Order Track Link</p>
-        <p class="md-body-1" id="foo">
-            <a href="{{publicTrackingLink}}" target="_blank">{{publicTrackingLink}}</a>
-        </p>
-        <!-- <button ngclipboard data-clipboard-target="#foo">Copy Link</button> -->
-    </div>
-    <div layout="row">
-        <md-button class="md-raised" flex="20">
-            <a href="#/order/create/{{job.HRID}}">EDIT THIS JOB</a>
-        </md-button>
-        <md-button ng-show="!job.State=='CANCELLED'" class="md-raised" flex="20">
-            <a href="`#">CANCEL THIS JOB</a> <!-- api/Job/cancel/{jobId} -->
-        </md-button>
-        <md-button ng-show="job.State=='CANCELLED'" class="md-raised" flex="20">
-            <a href="#/order/create/{{job.HRID}}">EDIT THE CANCEL REASON</a>
-        </md-button>
-    </div>
+<div ng-show="job.jobIsLoading == 'INPROGRESS'" class="mt-15-percent" ng-include="'../content/component/spinner/spinner.html'"></div>
+ <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED' || job.redMessage">
+    {{job.redMessage}}
 </div>
-<div id="order-details">
-    <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">Details</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-content>                
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Order ID</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.OrderId}}</span>
-                    </div>                    
-                </div> 
-                
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">User</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.UserName}}</span>
+<div class="container-fluid" ng-show="job.jobIsLoading == 'COMPLETED'">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
+                    <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
+                    <!-- <h3 ng-show="!job.data.JobServedBy"> someday it should come back, when server will response fast-->
+                    <h3>
+                        You must 
+                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                            CLAIM
+                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>    
+                        </button>
+                        the Order first to start processing it
+                    </h3>
+                </div>
+                <!-- <div ng-show="job.data.JobServedBy" class="col-md-6"> someday it should come back, when server will response fast-->
+                <div class="col-md-6">
+                    <div class="row pull-right mb-20">
+                        <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
+                        <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELLED'" ng-click="job.restore()">
+                            RESTORE
+                            <span ng-show="job.modifying === 'RESTORING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELLED'" ng-click="openCancellationModal()">
+                            CANCEL
+                            <span ng-show="job.modifying === 'CANCELLING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                            RE CLAIM
+                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-info" ng-click="job.updatePaymentStatus()">
+                            UPDATE PAYMENT
+                            <span ng-show="job.modifying === 'PAYMENT_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <a class="btn btn-info" href="{{invoiceUrl()}}" target="_blank">INVOICE</a>                        
                     </div>
-                </div>
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Phone</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.PhoneNumber}}</span>
+                    <div class="row mb-20">
+                        <div class="input-group col-md-6 pull-right">                            
+                            <input id="tracking-link" type="text" class="form-control" ng-model="trackingLink">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ngclipboard data-clipboard-target="#tracking-link"  data-toggle="tooltip" data-placement="bottom" title="Copy GO! Fetch Public Tracking Link of {{job.data.HRID}}" >
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>                        
                     </div>
-                </div>
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Order</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.OrderType}}</span>
-                    </div>
-                </div>
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">ETA</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{OrderDetails.eta}}</span>
-                    </div>
-                </div>     
-                <div layout="row">
-                    <div layout="row" flex>
-                        <span flex="20" class="md-body-2">Payment Status</span>                        
-                        <span flex="5"></span>
-                        <span class="md-body-1">{{job.PaymentStatus}}</span>
-                        <md-button flex="10" ng-hide="job.PaymentStatus != 'Pending'" ng-click="paymentStatusUpdate()">Update</md-button>
-                    </div>
-                </div>          
-            </md-card-content>
-    </md-card>
-    <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">Package List</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-content>            
-            <table md-table flex="100">
-                <thead md-head md-on-recorder="onReorder">
-                    <tr md-row flex="100">
-                        <th md-column class="responsive-td">S/L no</th>
-                        <th md-column class="responsive-td">Item</th>
-                        <th md-column class="responsive-td">Quantity</th>
-                        <th md-column class="responsive-td">Price</th>
-                        <th md-column class="responsive-td">Total</th>
-                        <!--<th md-column class="responsive-td">VATAmount</th>
-                        <th md-column class="responsive-td">TotalPlusVAT</th> -->
-                        <th md-column class="responsive-td">Weight</th>
-                    </tr>
-                </thead>
-                <tbody md-body>
-                    <tr md-row  flex="100" md-select="order" md-select-id="name" md-auto-select ng-repeat="package in OrderDetails.orderCart.PackageList track by $index">
-                            <td md-cell class="number responsive-td">{{$index + 1}}</td>
-                            <td md-cell class="text responsive-td">{{package.Item}}</td>
-                            <td md-cell class="text responsive-td">{{package.Quantity}}</td>
-                            <td md-cell class="text responsive-td">{{package.Price}} BDT</td>
-                            <td md-cell class="text responsive-td">{{package.Total}} BDT</td>
-                            <!--<td md-cell class="text responsive-td">{{package.VATAmount}}</td>
-                            <td md-cell class="text responsive-td">{{package.TotalPlusVAT}}</td> -->
-                            <td md-cell class="text responsive-td">{{package.Weight}} KG</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="order-summary">
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Package Details</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1 word_wrap_500">{{OrderDetails.description}}</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Note To Delivery Man</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1 word_wrap_500">{{OrderDetails.note}}</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Sub Total</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.SubTotal}} BDT</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Service Charge</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.ServiceCharge}} BDT</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Total Weight</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.TotalWeight}} KG</span>
-                </div>
-                <div layout="row">
-                    <span flex="10" class="md-body-2">Total To Pay</span>
-                    <span flex="5"></span>
-                    <span class="md-body-1">{{OrderDetails.orderCart.TotalToPay}} BDT</span>
-                </div>
-                <div>
-                    <a href="{{invoiceLink(OrderDetails.OrderId)}}" target="_blank">
-                        <md-button class="md-raised">GENERATE INVOICE</md-button>
-                    </a>
                 </div>
             </div>
-        </md-card-content>
-    </md-card>
+        </div>
+    </div>
+    
+    <!-- <div ng-show="job.data.JobServedBy" class="row"> -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
+                               ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[0].State).class">
+                     {{job.data.Tasks[0].Type}}<span class="label pull-right">{{job.data.Tasks[0].State}}</span>
+                </div>
+                <div class="panel-body">                    
+                    <ul class="list-group mb-20">
+                        <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
+                            <div class="row">
+                                <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                                <div class="col-md-7">
+                                    <p>{{job.data.Assets[key].UserName}}</p>
+                                    <span>{{job.data.Assets[key].PhoneNumber}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>                        
+                    <div class="row mb-20">
+                        <button class="col-md-12 btn btn-primary" ng-click="openAssetsList()" ng-disabled="job.data.Tasks[0].State === 'COMPLETED'">
+                            ASSIGN DELIVERY MAN
+                            <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForFetchAsset">
+                            <option value="PENDING">PENDING</option>
+                            <option value="IN_PROGRESS">IN PROGRESS</option>
+                            <option value="COMPLETED">COMPLETED</option>
+                        </select>                    
+                        <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForFetchAsset" ng-click="job.stateUpdate(job.data.Tasks[0].id, selectedStateForFetchAsset, job.data.Tasks[0].Type)">
+                            UPDATE STATE
+                            <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                    </div>
+                </div>               
+            </div>
+            <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[1].State).class">
+                    {{job.data.Tasks[1].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-4">ETA: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Started: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[1].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Completed: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[1].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">ETA Failed: </label>                                                    
+                        <span class="col-md-8">{{ job.data.Tasks[1].ETAFailed }}</span><br>                            
+                    </div>                    
+                    <div class="row">
+                        <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
+                                <option value="PENDING">PENDING</option>
+                                <option value="IN_PROGRESS">IN PROGRESS</option>
+                                <option value="COMPLETED">COMPLETED</option>
+                            </select>                    
+                            <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForPickup" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup, job.data.Tasks[1].Type)">
+                                UPDATE STATE
+                                <span ng-show="job.modifying === 'PackagePickUp_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                            </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" ng-show="job.data.Tasks[2].Type == 'Delivery'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[2].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[2].State).class">
+                    {{job.data.Tasks[2].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[2].State).value}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-4">ETA: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Started: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[2].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Completed: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[2].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">ETA Failed: </label>                                                    
+                        <span class="col-md-8">{{ job.data.Tasks[2].ETAFailed }}</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForDelivery">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForDelivery" ng-click="job.stateUpdate(job.data.Tasks[2].id, selectedStateForDelivery, job.data.Tasks[2].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'Delivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
+                </div>
+            </div>
+
+
+
+            <div class="panel" ng-show="job.data.Tasks[3].Type == 'SecureDelivery'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[3].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[3].State).class">
+                    {{job.data.Tasks[3].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[3].State).value}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-4">ETA: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Started: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[3].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Completed: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[3].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">ETA Failed: </label>                                                    
+                        <span class="col-md-8">{{ job.data.Tasks[3].ETAFailed }}</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForSecuredelivery">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForSecuredelivery" ng-click="job.stateUpdate(job.data.Tasks[3].id, selectedStateForSecuredelivery, job.data.Tasks[3].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'SecureDelivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
+                </div>
+            </div>         
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Order Information
+                </div>
+                <div class="panel-body">
+                    <div class="row">                        
+                        <div class="col-md-6">
+                            <label>Pickup Address:</label><br>
+                            <span>{{job.data.Order.From.Address}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Delivery Address:</label><br>
+                            <span>{{job.data.Order.To.Address}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Note to Delivery Man:</label><br>
+                            <span>{{job.data.Order.NoteToDeliveryMan}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Package Description:</label><br>
+                            <span>{{job.data.Order.Description}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Payment Method:</label><br>
+                            <span>{{job.data.Order.PaymentMethod}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Required Change For:</label><br>
+                            <span>{{job.data.Order.RequiredChangeFor}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Pickup ETA:</label><br>
+                            <span>{{(job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Delivery ETA:</label><br>
+                            <span>{{(job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>
+                        <div class="col-md-4" ng-show="job.data.Tasks[3]">
+                            <label>Secure Delivery ETA:</label><br>
+                            <span>{{(job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>                        
+                    </div>                    
+                </div>                
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Item Details
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                    <th>Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in job.data.Order.OrderCart.PackageList track by $index">
+                                    <th scope="row">{{$index + 1}}</th>
+                                    <td>{{item.Item}}</td>
+                                    <td>{{item.Quantity}}</td>
+                                    <td>{{item.Price}}</td>
+                                    <td>{{item.Total}}</td>
+                                    <td>{{item.Weight}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right">Total Weight</td>
+                                    <td> {{job.data.Order.OrderCart.TotalWeight}} </td>
+                                    <td colspan="2" class="text-right">Subtotal</td>
+                                    <td> {{job.data.Order.OrderCart.SubTotal}} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Delivery Charge</td>
+                                    <td> {{job.data.Order.OrderCart.ServiceCharge}} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total</td>
+                                    <td> {{job.data.Order.OrderCart.TotalToPay}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Customer Info
+                </div>
+                <div class="panel-body">
+                    <div class="row mb-20">
+                        <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                        <h4>{{job.data.User.UserName}}</h4>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-user col-md-3" aria-hidden="true"></span>
+                        <span>{{job.data.User.Type}}</span>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-earphone col-md-3" aria-hidden="true"></span>
+                        <span>{{job.data.User.PhoneNumber}}</span>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-envelope col-md-3" aria-hidden="true"></span>
+                        <span>{{job.data.User.Email}}</span>
+                    </div>
+                </div>                
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Order Status
+                </div>
+                <div class="panel-body">                    
+                    <div class="row">
+                        <label class="col-md-6">Order Type</label>
+                        <span class="col-md-6">{{job.data.Order.Type}}</span>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Claimed By</label>
+                        <span class="col-md-6">{{job.data.JobServedBy.UserName}}</span>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Create Time</label>
+                        <span class="col-md-6">{{ job.data.CreateTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Modified Time</label>
+                        <span class="col-md-6">{{ job.data.ModifiedTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">ETA Failed</label>
+                        <span class="col-md-6">{{ job.data.ETAFailed }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Processing Start Time</label>
+                        <span class="col-md-6">{{ (job.data.InitiatinTime | date:'EEE d MMM y,h:m a') || 'Not Started Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Completion Time</label>
+                        <span class="col-md-6">{{ (job.data.CompletionTime | date:'EEE d MMM y,h:m a') || 'Not Completed Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Duration Time</label>
+                        <span class="col-md-6">{{ job.data.Duration || 'Not Completed Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">PreferredDeliveryTime</label>
+                        <span class="col-md-6">{{ (job.data.PreferredDeliveryTime | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">InvoiceId</label>
+                        <span class="col-md-6"> {{ job.data.InvoiceId || 'Not Generated Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Payment Status</label>
+                        <span class="col-md-6"> {{ job.data.PaymentStatus }} </span><br>
+                    </div>
+
+                    <div class="row" ng-show="job.data.CancellationReason">
+                        <label class="col-md-6">CancellationReason</label>
+                        <span class="col-md-6"> {{ job.data.CancellationReason }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">IsDeleted</label>
+                        <span class="col-md-6"> {{ job.data.IsDeleted }} </span><br>
+                    </dv>                
+                        
+                    </div>
+            </div>
+        </div>       
+    </div>
+
+    <div ng-show="job.data.JobServedBy" class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Map
+                </div>
+                <div id="jobMap" class="panel-body"></div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<article id="container" layout="row" layout-xs="column" layout-sm="column">     
-    <div id="asset-admin" flex>
-        <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">Asset</span>                                                
-                </md-card-title-text>
-                <div layout="column">
-                    <md-button class="md-raised" ng-click="assetAssignPopup($event)" flex="100"  flex-gt-md="auto">
-                        <span md-menu-align-target>Assign</span> 
-                    </md-button>
-                </div>   
-            </md-card-title>
-            <md-card-content>
-                <md-list>                    
-                    <md-list-item ng-repeat="asset in Assets" ng-click="locateMarkerOnMap(asset)">
-                        <!-- <img alt="{{ asset.title }}" ng-src="{{ asset.photo }}" class="md-avatar" />                             -->
-                        <p><a href="#/asset/details/{{asset.asset_id}}" target="_blank">{{ asset.title }}</a></p>
-                        <!-- <p>*****</p>     -->
-                    </md-list-item>
-                </md-list>
-            </md-card-content>
-        </md-card>
-        
-        <!-- <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">This Order is Currently Serving by</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-content>
-                <p>{{servingby.name}}</p>
-            </md-card-content>
-        </md-card>	      -->                           
-    </div>
-
-    <div id="tasks" flex>
-        <md-list>
-            <md-list-item  ng-repeat="(key, task) in jobTasks track by $index">
-                <md-card flex="95">
-                    <md-card-actions layout-align="end center">
-                        <md-card-title>
-                            <md-card-title-text layout="row" flex="100">
-                                <span class="md-title" flex="70">{{task.title}}</span>                                
-                                <div layout="column" flex="30">                            
-                                    <md-menu md-offset="0 -7">
-                                        <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)" ng-disabled="task.updateStateDisable">
-                                            <span>{{task.State()}}</span>
-                                        </md-button>
-                                        <md-menu-content width="2">
-                                            <md-menu-item ng-repeat="item in jobTaskStates">
-                                                <md-button ng-click="task.stateChanged(item)" ng-model="state.jobTaskStates"><span md-menu-align-target></span> {{item}} </md-button>
-                                            </md-menu-item>
-                                        </md-menu-content>
-                                    </md-menu>
-                                </div>
-                            </md-card-title-text>                                                  
-                        </md-card-title>
-                        <md-card-content>
-                            <div layout="row">
-                                <div flex="35">
-                                    <p class="md-body-2">Started</p>
-                                </div>
-                                <div flex="10"></div>
-                                <div>
-                                    <p class="md-body-1">{{task.startDate}}</p>
-                                    <p class="md-body-1">{{task.startTime}}</p>
-                                </div>
-                            </div>
-                            <div layout="row">
-                                <div flex="35">
-                                    <p class="md-body-2">Last Modified</p>
-                                </div>
-                                <div flex="10"></div>
-                                <div>
-                                    <p class="md-body-1">{{task.lastModifyDate}}</p>
-                                    <p class="md-body-1">{{task.lastModifyTime}}</p>
-                                </div>
-                            </div>
-                            <div layout="row" ng-show="task.haveLocation">
-                                <div flex="35">
-                                    <p class="md-body-2">Address</p>
-                                </div>
-                                <div flex="10"></div>
-                                <div><p class="md-body-1">{{task.address}}</p></div>
-                            </div>                       
-                        </md-card-content>
-                        <md-button ng-click="locateMarkerOnMap(task)" ng-show="task.haveLocation">Locate on Map</md-button>
-                    </md-card-actions>
-                </md-card>
-            </md-list-item>
-        </md-list>         
-    </div>
-
-    <div id="job-map" flex></div>					 
-</article>		

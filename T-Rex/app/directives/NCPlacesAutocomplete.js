@@ -32,6 +32,7 @@
 
       $element.on('input', function(query) {
         query = $scope.$eval($attrs.mdSearchText);
+        console.log(query)
         if (query) {
           fetch(query);
         } else {

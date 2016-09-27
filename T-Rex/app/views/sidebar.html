@@ -1,10 +1,5 @@
 <md-list>
 	<md-list-item ng-repeat="menu in menus">
-		<a href="{{menu.Href}}" style="width: 100%">
-	    	<md-button class="md-button" >
-			    <p>{{ menu.Title }}</p>
-	    	</md-button>
-		</a>
-    	<md-divider></md-divider>
+		<a href="{{menu.Href}}" style="width: 100%" target="{{menu.target}}">{{ menu.Title }}</a>    	
 	</md-list-item>
 </md-list>
