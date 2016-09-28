@@ -6,7 +6,7 @@ app.factory('queryService', ['restCall', 'ngAuthSettings', queryService])
 function queryService(restCall, ngAuthSettings){
 	
 	var getOdataQuery = function (searchParam) {
-		searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type +"/";
+		var searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type +"/";
 		var allreadyAParamIsThere = false;		
 		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null
 			|| searchParam.orderby.property != null) {
