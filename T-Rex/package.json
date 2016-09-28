@@ -31,6 +31,8 @@
     "ngclipboard": "^1.1.1"
   },
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-ngmin": "^0.3.0",
     "http-server": "^0.9.0",
     "jasmine": "^2.4.1",
     "karma": "^0.13.21",
