@@ -15,7 +15,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	vm.job.loadJob();
 	vm.invoiceUrl = function () {
 		// var url = ngAuthSettings.apiServiceBaseUri + '/api/job/'+ vm.job.data.HRID +'/invoice';
-		var url = '/invoice/invoice.html?'+ vm.job.data.HRID;
+		var url = 'app/content/invoice/invoice.html?'+ vm.job.data.HRID;
 		return url;
 	}
 	
@@ -82,8 +82,8 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 		return assetListUrl;
 	};
 
-	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
-	// var url1 = "mockdata/assets.json";
+	// var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
+	var url1 = "/app/content/mockdata/assets.json";
 	
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data.data;

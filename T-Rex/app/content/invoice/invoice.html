@@ -4,13 +4,13 @@
         <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="invoice.css">
-        <link rel="stylesheet" type="text/css" href="../app/content/component/loadinSnake/loading-snake.css">
+        <link rel="stylesheet" type="text/css" href="/app/content/component/loadinSnake/loading-snake.css">
 
 
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
-        <script src="../node_modules/angular/angular.js"></script>
-        <script src="../node_modules/angular-route/angular-route.js"></script>
+        <script src="../../../node_modules/angular/angular.js"></script>
+        <script src="../../../node_modules/angular-route/angular-route.js"></script>
         <script src="invoice.js"></script>
     </head>    
     <body>
@@ -102,6 +102,6 @@
         <div id="dialog-confirm" ng-show="!loadingJob" title="Who will pay GO! Fetch Service Charge?">
             <span>It is {{job.User.UserName}}'s Order</span>        
         </div>
-        <div ng-show="loadingJob" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>    
+        <div ng-show="loadingJob" ng-include="'/app/content/component/loadinSnake/loading-snake.html'"></div>    
     </body>
 </html>
