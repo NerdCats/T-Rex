@@ -141,19 +141,25 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				class: "cancelled"
 			}
 		}
-		if (word == "USER") {
+		else if (word == "USER") {
 			return {
 				value: "B2C",
 				class: "b2c"
 			}
 		}
-		if (word == "ENTERPRISE") {
+		else if (word == "ENTERPRISE") {
 			return {
 				value: "B2B",
 				class: "b2b"
 			}
 		}
-		if (word == "Paid") {
+		else if (word == "BIKE_MESSENGER") {
+			return {
+				value: "Asset",
+				class: "b2c"
+			}
+		}
+		else if (word == "Paid") {
 			return {
 				value: "PAID",
 				class: "completed"
