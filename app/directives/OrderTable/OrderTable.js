@@ -4,6 +4,11 @@ app.directive('orderTable', function () {
 		scope: {
 			orders: '=orders',			
 		},
-		templateUrl: '../app/directives/OrderTable/orderTable.html'
+		link: function(scope, elem, attr) {
+			console.log(scope)
+			console.log(elem)
+			console.log(attr)
+        },
+		templateUrl: 'app/directives/OrderTable/orderTable.html'
 	};
 });

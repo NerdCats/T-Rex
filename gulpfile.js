@@ -11,10 +11,11 @@ const closure = require('gulp-jsclosure')
 const p = require('path')
 
 gulp.task('dist', function () {
+	//first load the services, then the directives and then the controller
 	return gulp.src('app/**/**/*.js')			
 			.pipe(ngannotate())
 			.pipe(concat('main.js'))
-			.pipe(uglify())
+			// .pipe(uglify())
 			.pipe(rename({suffix: '.min'}))
 			.pipe(gulp.dest('dist'));
 })
