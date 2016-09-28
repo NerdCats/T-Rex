@@ -1,4 +1,4 @@
-<div ng-show="job.jobIsLoading == 'INPROGRESS'" class="mt-15-percent" ng-include="'../content/component/spinner/spinner.html'"></div>
+<div ng-show="job.jobIsLoading == 'INPROGRESS'" class="mt-15-percent" ng-include="'../app/content/component/spinner/spinner.html'"></div>
  <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED' || job.redMessage">
     {{job.redMessage}}
 </div>
@@ -68,7 +68,7 @@
                     <ul class="list-group mb-20">
                         <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
                             <div class="row">
-                                <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                                <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
                                 <div class="col-md-7">
                                     <p>{{job.data.Assets[key].UserName}}</p>
                                     <span>{{job.data.Assets[key].PhoneNumber}}</span>
@@ -303,7 +303,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row mb-20">
-                        <img class="media-object col-md-3" src="../../../content/img/ppnotfound.png">
+                        <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
                         <h4>{{job.data.User.UserName}}</h4>
                     </div>
                     <div class="row mb-20">

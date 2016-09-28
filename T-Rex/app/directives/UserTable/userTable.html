@@ -22,7 +22,7 @@
 	</tbody>
 </table>
 
-<div ng-show="users.isCompleted == 'IN_PROGRESS'" ng-include="'../content/component/loadinSnake/loading-snake.html'"></div>
+<div ng-show="users.isCompleted == 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 
 <div ng-show="users.isCompleted == 'FAILED'">
 	<p>Server error! click <button ng-click="users.loadUsers()">here</button> to refresh</p>

@@ -38,7 +38,7 @@
 			</table>	
 		</div>			
 	</div>
-	<div ng-show="workOrders.isCompleted === 'IN_PROGRESS'" ng-include="'../content/component/loadinSnake/loading-snake.html'"></div>
+	<div ng-show="workOrders.isCompleted === 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 	<div ng-show="workOrders.isCompleted == 'FAILED'" >
 	    <p>Server error! click <button ng-click="workOrders.loadOrders()">here</button> to refresh</p>
 	</div>

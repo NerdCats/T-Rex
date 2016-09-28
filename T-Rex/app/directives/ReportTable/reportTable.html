@@ -34,7 +34,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<div ng-show="report.status === 'IN_PROGRESS'" ng-include="'../content/component/loadinSnake/loading-snake.html'"></div>
+	<div ng-show="report.status === 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 	<div ng-show="report.status == 'FAILED'" >
 	    <p>Server error! click <button ng-click="report.getReport()" >here</button> to refresh</p>
 	</div>
