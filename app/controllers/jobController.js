@@ -82,8 +82,7 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 		return assetListUrl;
 	};
 
-	// var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
-	var url1 = "/app/content/mockdata/assets.json";
+	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
 	
 	$http.get(url1).then(function(response) {
 		$scope.assets = response.data.data;

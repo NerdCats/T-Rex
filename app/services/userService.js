@@ -36,8 +36,7 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 				if (userType !== "BIKE_MESSENGER") {
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				} else {
-					pageUrl = "/app/content/mockdata/assets.json";
-					// pageUrl = queryService.getOdataQuery(this.searchParam);
+					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
 				populateUsers(this, pageUrl);
 			}
