@@ -10,9 +10,16 @@ const ngannotate = require('gulp-ng-annotate')
 const closure = require('gulp-jsclosure')
 const p = require('path')
 
+const jsFilePaths = [
+	'app/*.js',
+	'app/directives/**/*.js',
+	'app/services/*.js', 
+	'app/controllers/*.js'
+];
+
 gulp.task('dist', function () {
 	//first load the services, then the directives and then the controller
-	return gulp.src(['app/*.js','app/directives/**/*.js','app/services/*.js', 'app/controllers/*.js'])			
+	return gulp.src(jsFilePaths)			
 			.pipe(ngannotate())
 			.pipe(concat('main.js'))
 			.pipe(uglify())

@@ -46,7 +46,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAu
 							PostalCode: null,
 							Floor: null,
 							HouseNumber: null,
-							AddressLine1: "",
+							AddressLine1: null,
 							AddressLine2: null,
 							Country: null,
 							City: "Dhaka",

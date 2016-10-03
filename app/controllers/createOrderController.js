@@ -144,7 +144,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 		}
 		vm.UserNameIsLoading = true;
 		var query = vm.selectedUser;
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 20;
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 50;
 		console.log(getUsersUrl)
 		restCall('GET', getUsersUrl, null, successCallback, errorCallback)		
 	};
@@ -180,9 +180,8 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 			vm.order.ETA = new Date(vm.order.ETA);			
 		}
 
-		if (vm.order.OrderLocation === null ||
-			vm.order.OrderLocation.AddressLine1 === "" || 
-			vm.order.OrderLocation.AddressLine1 === null) {
+		console.log(vm.order)
+		if (vm.order.OrderLocation && (vm.order.OrderLocation.AddressLine1 === null || vm.order.OrderLocation.AddressLine1 === "")) {
 			vm.order.OrderLocation = null;
 		}
 		
@@ -209,7 +208,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 			vm.errorMsg = error.data.Message || "Server error";
 			var i = 0;
 	        if (error.data.ModelState) {
-	            errorMsg += "\n";
+	            vm.errorMsg += "\n";
 	            if (error.data.ModelState["model.From.AddressLine1"]) {
 	                var err = error.data.ModelState["model.From.AddressLine1"][0];
 	                errorMsg += ++i + ". " + "Pickup Address is required" + "\n";

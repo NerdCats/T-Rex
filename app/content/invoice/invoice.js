@@ -9,7 +9,7 @@ function invoiceCtrl($scope, $http, $window) {
     vm.job = {};
     var prod = "http://gofetch.cloudapp.net/api/job/";
     var dev = "http://taskcatdev.azurewebsites.net/api/job/";
-    var url =  dev + id;
+    var url =  prod + id;
 
     $http({
         method: 'GET',
