@@ -29,7 +29,11 @@ function invoiceCtrl($scope, $http, $window) {
                   $( this ).dialog( "close" );
                 },
                 "Vendor Will Pay": function() {
-                    vm.job.Order.OrderCart.ServiceCharge = 0;                    
+                    
+                    if (vm.job.Order.OrderCart.TotalToPay !== "") {
+                        vm.job.Order.OrderCart.TotalToPay -= vm.job.Order.OrderCart.ServiceCharge;                        
+                    }
+                    vm.job.Order.OrderCart.ServiceCharge = 0;
                     vm.$apply();
                     $( this ).dialog( "close" );
                 }
@@ -43,6 +47,7 @@ function invoiceCtrl($scope, $http, $window) {
         if (vm.job.User.UserName === "B2C") {
             if (vm.job.Order.OrderCart.SubTotal === 0) {
                 vm.job.Order.OrderCart.SubTotal = "";
+                vm.job.Order.OrderCart.TotalToPay = "";
             }
 
             for (var i = vm.job.Order.OrderCart.PackageList.length - 1; i >= 0; i--) {
