@@ -1,138 +1,144 @@
-<h3>Your are seeing all the orders of <b>{{report.searchParam.username}}</b>, from 
-<span class="label startdate">{{report.searchParam.startdate | date:"EEE MMM d, y h:mm:ss a"}}</span> to 
-<span class="label enddate">{{report.searchParam.enddate | date:"EEE MMM d, y h:mm:ss a"}}</span></h3>
-<h4>Total Orders : {{report.total}}</h4>
-<button class="btn btn-primary" ng-click="report.importExcel()">Import As Excel</button>
-<table  class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" ng-show="report.isCompleted == 'SUCCESSFULL'">
-    <thead>
-        <tr>
-            <th>S\L</th>
-            <th>trackingNumber</th>
-			<th>DeliveryType</th>
-			<th>Status</th>
-			<th>PaymentStatus</th>
-			<th>OrderingDate</th>
-			<th>OrderingTime</th>
-			<th>CompletionETADate</th>
-			<th>CompletionETATime</th>
-			<th>CompleteDate</th>
-			<th>CompleteTime</th>
-			<th>ClientType</th>
-			<th>UserName</th>
-			<th>DeliveryPerson</th>
-			<th>PickupAddress</th>
-			<th>PickupArea</th>
-			<th>DeliveryAddress</th>
-			<th>DeliveryArea</th>
-			<th>ProductDescription</th>
-			<th>Product</th>
-			<th>Weight</th>
-			<th>TotalProductPrice</th>
-			<th>DeliveryCharge</th>
-			<th>VAT</th>
-			<th>Total</th>
-			<th>SpecialNote</th>
-			<th>PickupStatus</th>
-			<th>PickupETATime</th>
-			<th>PickupETADate</th>
-			<th>PickupStartDate</th>
-			<th>PickupStartTime</th>
-			<th>PickupCompleteDate</th>
-			<th>PickupCompleteTime</th>
-			<th>TotalPickUpTime</th>
-			<th>DeliveryStatus</th>
-			<th>DeliveryETATime</th>
-			<th>DeliveryETADate</th>
-			<th>DeliveryStartDate</th>
-			<th>DeliveryStartTime</th>
-			<th>DeliveryCompleteDate</th>
-			<th>DeliveryCompleteTime</th>
-			<th>TotalDeliveryTime</th>
-			<th>CashDeliveryStatus</th>
-			<th>CashDeliveryStartTime</th>
-			<th>CashDeliveryCompleteTime</th>
-			<th>TotalCashDeliveryTime</th>
-			<th>CashDeliveryETATime</th>
-			<th>CashDeliveryStartDate</th>
-			<th>CashDeliveryCompleteDate</th>
-			<th>VendorInvoiceNo</th>
-			<th>Commission</th>
-			<th>CashRecieved</th>
-			<th>KM</th>
-			<th>ProductType</th>
-			<th>Comment</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="e in report.data track by $index">
-            <td>{{$index + 1}}</td>
-            <td>{{ e.trackingNumber }}</td>
-			<td>{{ e.DeliveryType }}</td>
-			<td>
-				<span class="label {{getCssClass(e.Status).class}}">{{ e.Status }}</span>
-			</td>
-			<td>
-				<span class="label {{getCssClass(e.PaymentStatus).class}}">{{ e.PaymentStatus }}</span>
-			</td>
-			<td>{{ e.OrderingDate }}</td>
-			<td>{{ e.OrderingTime }}</td>
-			<td>{{ e.CompletionETADate }}</td>
-			<td>{{ e.CompletionETATime }}</td>
-			<td>{{ e.CompleteDate }}</td>
-			<td>{{ e.CompleteTime }}</td>
-			<td>{{ e.ClientType }}</td>
-			<td>{{ e.UserName }}</td>
-			<td>{{ e.DeliveryPerson }}</td>
-			<td>{{ e.PickupAddress }}</td>
-			<td>{{ e.PickupArea }}</td>
-			<td>{{ e.DeliveryAddress }}</td>
-			<td>{{ e.DeliveryArea }}</td>
-			<td>{{ e.ProductDescription }}</td>
-			<td>{{ e.Product }}</td>
-			<td>{{ e.Weight }}</td>
-			<td>{{ e.TotalProductPrice }}</td>
-			<td>{{ e.DeliveryCharge }}</td>
-			<td>{{ e.VAT }}</td>
-			<td>{{ e.Total }}</td>
-			<td>{{ e.SpecialNote }}</td>
-			<td>
-				<span class="label {{getCssClass(e.PickupStatus).class}}">{{ e.PickupStatus }}</span>
-			</td>
-			<td>{{ e.PickupETATime }}</td>
-			<td>{{ e.PickupETADate }}</td>
-			<td>{{ e.PickupStartDate }}</td>
-			<td>{{ e.PickupStartTime }}</td>
-			<td>{{ e.PickupCompleteDate }}</td>
-			<td>{{ e.PickupCompleteTime }}</td>
-			<td>{{ e.TotalPickUpTime }}</td>
-			<td>
-				<span class="label {{getCssClass(e.DeliveryStatus).class}}">{{ e.DeliveryStatus }}</span>
-			</td>
-			<td>{{ e.DeliveryETATime }}</td>
-			<td>{{ e.DeliveryETADate }}</td>
-			<td>{{ e.DeliveryStartDate }}</td>
-			<td>{{ e.DeliveryStartTime }}</td>
-			<td>{{ e.DeliveryCompleteDate }}</td>
-			<td>{{ e.DeliveryCompleteTime }}</td>
-			<td>{{ e.TotalDeliveryTime }}</td>
-			<td>
-				<span class="label {{getCssClass(e.CashDeliveryStatus).class}}">{{ e.CashDeliveryStatus }}</span>
-			</td>
-			<td>{{ e.CashDeliveryStartTime }}</td>
-			<td>{{ e.CashDeliveryCompleteTime }}</td>
-			<td>{{ e.TotalCashDeliveryTime }}</td>
-			<td>{{ e.CashDeliveryETATime }}</td>
-			<td>{{ e.CashDeliveryStartDate }}</td>
-			<td>{{ e.CashDeliveryCompleteDate }}</td>
-			<td>{{ e.VendorInvoiceNo }}</td>
-			<td>{{ e.Commission }}</td>
-			<td>{{ e.CashRecieved }}</td>
-			<td>{{ e.KM }}</td>
-			<td>{{ e.ProductType }}</td>
-			<td>{{ e.Comment }}</td>
-        </tr>
-    </tbody>
-</table>
+<h3>
+	<span ng-show="report.searchParam.username">Your are seeing all the orders of <b>{{report.searchParam.username}}</b>, from</span> 
+	<span ng-show="report.searchParam.userid">Your are seeing all the orders delivered by Delivery Man <b>{{report.data[0].DeliveryPerson}}</b>, from</span> 
+	<span class="label startdate">{{report.searchParam.startdate | date:"EEE MMM d, y h:mm:ss a"}}</span> to 
+	<span class="label enddate">{{report.searchParam.enddate | date:"EEE MMM d, y h:mm:ss a"}}</span>
+</h3>
+<h4>Total Orders : {{report.data.length}}</h4>
+<div ng-show="report.isCompleted == 'SUCCESSFULL'">
+	<button class="btn btn-primary" ng-click="report.importExcel()">Import As Excel</button>
+	<table  class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+	    <thead>
+	        <tr>
+	            <th>S\L</th>
+	            <th>trackingNumber</th>
+				<th>DeliveryType</th>
+				<th>Status</th>
+				<th>PaymentStatus</th>
+				<th>OrderingDate</th>
+				<th>OrderingTime</th>
+				<th>CompletionETADate</th>
+				<th>CompletionETATime</th>
+				<th>CompleteDate</th>
+				<th>CompleteTime</th>
+				<th>ClientType</th>
+				<th>UserName</th>
+				<th>DeliveryPerson</th>
+				<th>PickupAddress</th>
+				<th>PickupArea</th>
+				<th>DeliveryAddress</th>
+				<th>DeliveryArea</th>
+				<th>ProductDescription</th>
+				<th>Product</th>
+				<th>Weight</th>
+				<th>TotalProductPrice</th>
+				<th>DeliveryCharge</th>
+				<th>VAT</th>
+				<th>Total</th>
+				<th>SpecialNote</th>
+				<th>PickupStatus</th>
+				<th>PickupETATime</th>
+				<th>PickupETADate</th>
+				<th>PickupStartDate</th>
+				<th>PickupStartTime</th>
+				<th>PickupCompleteDate</th>
+				<th>PickupCompleteTime</th>
+				<th>TotalPickUpTime</th>
+				<th>DeliveryStatus</th>
+				<th>DeliveryETATime</th>
+				<th>DeliveryETADate</th>
+				<th>DeliveryStartDate</th>
+				<th>DeliveryStartTime</th>
+				<th>DeliveryCompleteDate</th>
+				<th>DeliveryCompleteTime</th>
+				<th>TotalDeliveryTime</th>
+				<th>CashDeliveryStatus</th>
+				<th>CashDeliveryStartTime</th>
+				<th>CashDeliveryCompleteTime</th>
+				<th>TotalCashDeliveryTime</th>
+				<th>CashDeliveryETATime</th>
+				<th>CashDeliveryStartDate</th>
+				<th>CashDeliveryCompleteDate</th>
+				<th>VendorInvoiceNo</th>
+				<th>Commission</th>
+				<th>CashRecieved</th>
+				<th>KM</th>
+				<th>ProductType</th>
+				<th>Comment</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr ng-repeat="e in report.data track by $index">
+	            <td>{{$index + 1}}</td>
+	            <td>{{ e.trackingNumber }}</td>
+				<td>{{ e.DeliveryType }}</td>
+				<td>
+					<span class="label {{getCssClass(e.Status).class}}">{{ e.Status }}</span>
+				</td>
+				<td>
+					<span class="label {{getCssClass(e.PaymentStatus).class}}">{{ e.PaymentStatus }}</span>
+				</td>
+				<td>{{ e.OrderingDate }}</td>
+				<td>{{ e.OrderingTime }}</td>
+				<td>{{ e.CompletionETADate }}</td>
+				<td>{{ e.CompletionETATime }}</td>
+				<td>{{ e.CompleteDate }}</td>
+				<td>{{ e.CompleteTime }}</td>
+				<td>{{ e.ClientType }}</td>
+				<td>{{ e.UserName }}</td>
+				<td>{{ e.DeliveryPerson }}</td>
+				<td>{{ e.PickupAddress }}</td>
+				<td>{{ e.PickupArea }}</td>
+				<td>{{ e.DeliveryAddress }}</td>
+				<td>{{ e.DeliveryArea }}</td>
+				<td>{{ e.ProductDescription }}</td>
+				<td>{{ e.Product }}</td>
+				<td>{{ e.Weight }}</td>
+				<td>{{ e.TotalProductPrice }}</td>
+				<td>{{ e.DeliveryCharge }}</td>
+				<td>{{ e.VAT }}</td>
+				<td>{{ e.Total }}</td>
+				<td>{{ e.SpecialNote }}</td>
+				<td>
+					<span class="label {{getCssClass(e.PickupStatus).class}}">{{ e.PickupStatus }}</span>
+				</td>
+				<td>{{ e.PickupETATime }}</td>
+				<td>{{ e.PickupETADate }}</td>
+				<td>{{ e.PickupStartDate }}</td>
+				<td>{{ e.PickupStartTime }}</td>
+				<td>{{ e.PickupCompleteDate }}</td>
+				<td>{{ e.PickupCompleteTime }}</td>
+				<td>{{ e.TotalPickUpTime }}</td>
+				<td>
+					<span class="label {{getCssClass(e.DeliveryStatus).class}}">{{ e.DeliveryStatus }}</span>
+				</td>
+				<td>{{ e.DeliveryETATime }}</td>
+				<td>{{ e.DeliveryETADate }}</td>
+				<td>{{ e.DeliveryStartDate }}</td>
+				<td>{{ e.DeliveryStartTime }}</td>
+				<td>{{ e.DeliveryCompleteDate }}</td>
+				<td>{{ e.DeliveryCompleteTime }}</td>
+				<td>{{ e.TotalDeliveryTime }}</td>
+				<td>
+					<span class="label {{getCssClass(e.CashDeliveryStatus).class}}">{{ e.CashDeliveryStatus }}</span>
+				</td>
+				<td>{{ e.CashDeliveryStartTime }}</td>
+				<td>{{ e.CashDeliveryCompleteTime }}</td>
+				<td>{{ e.TotalCashDeliveryTime }}</td>
+				<td>{{ e.CashDeliveryETATime }}</td>
+				<td>{{ e.CashDeliveryStartDate }}</td>
+				<td>{{ e.CashDeliveryCompleteDate }}</td>
+				<td>{{ e.VendorInvoiceNo }}</td>
+				<td>{{ e.Commission }}</td>
+				<td>{{ e.CashRecieved }}</td>
+				<td>{{ e.KM }}</td>
+				<td>{{ e.ProductType }}</td>
+				<td>{{ e.Comment }}</td>
+	        </tr>
+	    </tbody>
+	</table>
+</div>
+
 
 
 <div ng-show="report.isCompleted == 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>

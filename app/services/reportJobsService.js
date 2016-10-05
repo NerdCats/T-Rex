@@ -8,17 +8,27 @@ function reportJobsService($http, $window, reportServiceUrl){
 				startdate : null,
 				enddate : null,
 				usertype : null,
-				username : null
+				username : null,
+				userid : null
 			},
 			isCompleted: "PENDING",
-			loadReport : function () {
+			getReportUrl: function () {
 				var reportUrl = reportServiceUrl + "api/details?" + 
 								"startdate=" + this.searchParam.startdate + 
 								"&enddate=" + this.searchParam.enddate + 
-								"&usertype" + this.searchParam.usertype + 
-								"&username=" + this.searchParam.username;
+								"&usertype=" + this.searchParam.usertype;
+				if (this.searchParam.userid) {
+					reportUrl += "&userid=" + this.searchParam.userid; 
+				} else if (this.searchParam.username) {
+					reportUrl += "&username=" + this.searchParam.username;
+				}
+				return reportUrl;
+			},
+			loadReport : function () {
+				
 				var itSelf = this;
 				this.isCompleted = 'IN_PROGRESS';
+				var reportUrl = this.getReportUrl();
 				$http({
 					method: 'GET',
 					url: reportUrl
@@ -33,11 +43,7 @@ function reportJobsService($http, $window, reportServiceUrl){
 				});
 			},
 			importExcel : function () {
-				var reportUrl = reportServiceUrl + "api/details?" + 
-								"startdate=" + this.searchParam.startdate + 
-								"&enddate=" + this.searchParam.enddate + 
-								"&usertype" + this.searchParam.usertype + 
-								"&username=" + this.searchParam.username + "&generateexcel=true";
+				var reportUrl = this.getReportUrl() + "&generateexcel=true";
 				$window.open(reportUrl, '_blank');
 			}
 		}

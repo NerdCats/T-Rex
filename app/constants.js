@@ -18,8 +18,9 @@ app.constant('menus', [
 
 
 app.constant('tracking_host', "http://gofetch.cloudapp.net:1337/");
-app.constant('reportServiceUrl', "http://gobdsif.cloudapp.net/");
 app.constant('signlr_link', "http://gofetch.cloudapp.net:1001/signalr/hubs");
+app.constant('reportServiceUrl', "http://gobdsif.cloudapp.net/");
+// app.constant('reportServiceUrl', "http://127.0.0.1/");
 
 
 

@@ -47,8 +47,13 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				this.status = 'IN_PROGRESS';
 				populateReport(this, reportUrl);
 			},
-			goToReportJobs : function (user, state) {
-				$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&username=" + user + "&state=" + state, '_blank');
+			goToReportJobs : function (user) {
+				if (this.searchParam.type === "BIKE_MESSENGER") {
+					$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + 
+													"&usertype=BIKE_MESSENGER" + "&userid=" + this.data[user].UserId, '_blank');					
+				} else {
+					$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&username=" + user, '_blank');					
+				}
 			},
 			importAsExcel : function () {
 				var excelReportUrl = reportServiceUrl + "api/report?startdate="+this.searchParam.startdate+"&enddate="+this.searchParam.enddate+"&usertype="+this.searchParam.type + "&generateexcel=true";

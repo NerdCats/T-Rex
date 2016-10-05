@@ -25,8 +25,8 @@
 		<tbody>
 			<tr ng-repeat="(key, value) in report.data">
 				<td class="text-center">{{ $index + 1 }}</td>
-				<td class="text-center" ng-click="report.goToReportJobs(key, 'all')">{{ key }}</td>
-				<td class="text-center"><b ng-click="report.goToReportJobs(key, 'all')">{{ value.TotalDelivery }}</b></td>
+				<td class="text-center" ng-click="report.goToReportJobs(key)">{{ key }}</td>
+				<td class="text-center"><b>{{ value.TotalDelivery }}</b></td>
 				<td class="text-center"><span class="label pending">{{ value.TotalPending }}</span></td>
 				<td class="text-center"><span class="label in-progress">{{ value.TotalInProgress }}</span></td>
 				<td class="text-center"><span class="label completed">{{ value.TotalCompleted }}</span></td>
