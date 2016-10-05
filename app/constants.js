@@ -22,6 +22,7 @@ app.constant('reportServiceUrl', "http://gobdsif.cloudapp.net/");
 app.constant('signlr_link', "http://gofetch.cloudapp.net:1001/signalr/hubs");
 
 
+
 app.constant('templates', {
 	sidebar: 'app/views/sidebar.html',
 	availableAsset: 'app/views/detailsJob/availableAsset.html'

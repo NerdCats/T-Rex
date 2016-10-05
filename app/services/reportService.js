@@ -30,7 +30,10 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 			searchParam : {
 				startdate: null, 
 				enddate: null,
-				type: "ENTERPRISE"
+				type: "ENTERPRISE",
+				generateexcel: false,
+				userid: null,
+				username: null
 			},
 			getUrl: function () {
 				// FIXME: need to be refactored
@@ -45,9 +48,13 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				populateReport(this, reportUrl);
 			},
 			goToReportJobs : function (user, state) {
-				$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&user=" + user + "&state=" + state, '_blank');
+				$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&username=" + user + "&state=" + state, '_blank');
 			},
-			status : 'NONE',
+			importAsExcel : function () {
+				var excelReportUrl = reportServiceUrl + "api/report?startdate="+this.searchParam.startdate+"&enddate="+this.searchParam.enddate+"&usertype="+this.searchParam.type + "&generateexcel=true";
+				$window.open(excelReportUrl, '_blank');
+			},
+			status : 'NONE'
 		}
 	}
 	return {
