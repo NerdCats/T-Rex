@@ -204,7 +204,27 @@
                     Order Information
                 </div>
                 <div class="panel-body">
-                    <div class="row">                        
+                    <div class="row">
+                        <div class="col-md-6" ng-show="job.data.Order.SellerInfo">
+                            <label class="control-label">Pickup From:</label><br>
+                            <span>{{job.data.Order.SellerInfo.Name}}</span>
+                        </div>
+                        <div class="col-md-6" ng-show="job.data.Order.BuyerInfo">
+                            <label class="control-label">Delivery To:</label><br>
+                            <span>{{job.data.Order.BuyerInfo.Name}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6" ng-show="job.data.Order.SellerInfo">
+                            <label class="control-label">Pickup PhoneNumber:</label><br>
+                            <span>{{job.data.Order.SellerInfo.PhoneNumber}}</span>
+                        </div>
+                        <div class="col-md-6" ng-show="job.data.Order.BuyerInfo">
+                            <label class="control-label">Delivery PhoneNumber:</label><br>
+                            <span>{{job.data.Order.BuyerInfo.PhoneNumber}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
                         <div class="col-md-6">
                             <label>Pickup Address:</label><br>
                             <span>{{job.data.Order.From.Address}}</span>
