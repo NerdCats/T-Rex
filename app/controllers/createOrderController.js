@@ -138,11 +138,12 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 		} else if (vm.OrderType === "ClassifiedDelivery") {
 			vm.order.Type = "ClassifiedDelivery";
 			vm.order.Variant = "default";
-
+		}
+		if (vm.OrderType === "B2CDelivery" || vm.OrderType === "ClassifiedDelivery") {
 			vm.order.SellerInfo.Name = "";
 			vm.order.SellerInfo.PhoneNumber = "";
 			vm.order.SellerInfo.Address.AddressLine1 = "";
-		}		
+		}
 		console.log(vm.order.Type + "  " + vm.order.Variant );
 	}
 	vm.loadUserNames = function (){
