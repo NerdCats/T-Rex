@@ -82,11 +82,11 @@
 			<div class="form-group">
 			  	<label class="control-label col-md-2" for="">Pickup PhoneNumber</label>
 			  	<div class="col-md-6">
-					<input type="text" name="fromname" class="form-control" ng-model="order.SellerInfo.PhoneNumber" required>
+					<input type="text" name="fromname" class="form-control" ng-model="order.SellerInfo.PhoneNumber">
 				</div>
 			</div>
 
-			<div class="form-group" ng-show="!minMode">
+			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Pickup Area</label>
 			  <div class="col-md-6">
 				<select class="form-control" ng-model="order.SellerInfo.Address.Locality">
@@ -138,10 +138,10 @@
 				</div>
 			</div>
 
-			<div class="form-group" ng-show="!minMode">
+			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Delivery Area</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="order.BuyerInfo.Address.Locality" >
+				<select class="form-control" ng-model="order.BuyerInfo.Address.Locality" required>
 				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
 				</select>
 			  </div>
