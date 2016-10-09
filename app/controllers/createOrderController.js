@@ -6,7 +6,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 
 	var vm = $scope;
 
-	vm.OrderType = ["Delivery"];
+	vm.OrderType = "";
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	vm.LocalAreas = ['',
 					'Bailey Road',
@@ -86,7 +86,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
   	vm.UserNameIsLoading = false;
 
   	vm.buttonText = "Create Order";
-  	vm.minMode = false;
+  	vm.minMode = true;
 
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
@@ -131,7 +131,20 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 	vm.searchAddress = searchAddress;
 	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
+	vm.deliveryTypeChanged = function () {
+		if (vm.OrderType === "B2CDelivery" || vm.OrderType === "B2BDelivery") {
+			vm.order.Type = "ClassifiedDelivery";
+			vm.order.Variant = "Enterprise";
+		} else if (vm.OrderType === "ClassifiedDelivery") {
+			vm.order.Type = "ClassifiedDelivery";
+			vm.order.Variant = "default";
 
+			vm.order.SellerInfo.Name = "";
+			vm.order.SellerInfo.PhoneNumber = "";
+			vm.order.SellerInfo.Address.AddressLine1 = "";
+		}		
+		console.log(vm.order.Type + "  " + vm.order.Variant );
+	}
 	vm.loadUserNames = function (){
 		function successCallback(response) {
 			vm.userNames = response.data.data;
@@ -154,6 +167,11 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 	vm.onSelectUser = function ($item, $model, $label, $event) {
 		console.log($item);
 		vm.order.UserId = $item.Id;
+		vm.order.SellerInfo.Name = $item.UserName;
+		vm.order.SellerInfo.PhoneNumber = $item.PhoneNumber;
+		vm.order.SellerInfo.Address.AddressLine1 = $item.UserName;
+
+		vm.deliveryTypeChanged();
 	}
 
 
@@ -184,6 +202,9 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 		if (vm.order.OrderLocation && (vm.order.OrderLocation.AddressLine1 === null || vm.order.OrderLocation.AddressLine1 === "")) {
 			vm.order.OrderLocation = null;
 		}
+
+		vm.order.From.AddressLine1 = vm.order.SellerInfo.Name + ", \n" + vm.order.SellerInfo.PhoneNumber + " , \n"  + vm.order.SellerInfo.Address.AddressLine1;
+		vm.order.To.AddressLine1 = vm.order.BuyerInfo.Name + ", \n" + vm.order.BuyerInfo.PhoneNumber + " , \n"  + vm.order.BuyerInfo.Address.AddressLine1;
 		
 		console.log(vm.order);
 		vm.OrdersIsBeingCreated = true;

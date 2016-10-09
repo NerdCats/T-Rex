@@ -39,6 +39,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAu
 							Provider: "Default"
 					    },
 					    Type: "Delivery",
+					    Variant: "default",
 					    PayloadType: "default",
 					    UserId: "",
 					    OrderLocation: {
@@ -57,6 +58,50 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAu
 								"coordinates": null
 							},
 							Provider: "Default"
+					    },
+					    BuyerInfo: {
+					      	Name: null,
+					      	PhoneNumber: null,
+					      	UserRef: null,
+					      	Address: {
+						        Address: "",
+								PostalCode: null,
+								Floor: null,
+								HouseNumber: null,
+								AddressLine1: "",
+								AddressLine2: null,
+								Country: null,
+								City: "Dhaka",
+								State: null,
+								Locality: "",
+								Point: {
+								type: "Point",
+									"coordinates": null
+								},
+								Provider: "Default"
+						    },
+					    },
+					    SellerInfo: {
+					      	Name: null,
+					      	PhoneNumber: null,
+					      	UserRef: null,
+					      	Address: {
+						        Address: "",
+								PostalCode: null,
+								Floor: null,
+								HouseNumber: null,
+								AddressLine1: "",
+								AddressLine2: null,
+								Country: null,
+								City: "Dhaka",
+								State: null,
+								Locality: "",
+								Point: {
+								type: "Point",
+									"coordinates": null
+								},
+								Provider: "Default"
+						    },
 					    },
 					    ETA: null,
 					    ETAMinutes: null,

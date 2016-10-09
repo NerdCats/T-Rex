@@ -33,7 +33,13 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				var newOrder = {
 					Id : value.HRID,
 					Name : value.Name,					
-					Type : value.Order.Type,
+					Type :  function(){
+						if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
+							return "3rd Party Delivery";
+						} else if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise") {
+							return "B2B Delivery";
+						}
+					},
 					FromArea: value.Order.From.Locality,
 					ToArea: value.Order.To.Locality,
 					From : value.Order.From.Address,
@@ -61,7 +67,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					NoteToDeliveryMan: value.Order.NoteToDeliveryMan,
 					User : function () {
 						var user = getProperWordWithCss(value.User.Type);
-						user.value = value.User.UserName + " ("+ user.value + ")";
+						user.value = value.User.UserName;// + " ("+ user.value + ")";
 						return user;
 					},
 					Assets: function () {						
