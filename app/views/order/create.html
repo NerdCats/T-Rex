@@ -27,10 +27,10 @@
 			</div>
 
 			<!-- Select Basic -->
-			<div class="form-group">
+			<div class="form-group" ng-show="!isPutOrder">
 			  <label class="control-label col-md-2" for="">Delivery Type</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="OrderType" ng-change="deliveryTypeChanged()" required>
+				<select class="form-control" ng-model="OrderType" ng-change="deliveryTypeChanged()" ng-required="!isPutOrder">
 				  <option value="B2CDelivery">B2C</option>
 				  <option value="B2BDelivery">B2B</option>
 				  <option value="ClassifiedDelivery">ClassifiedDelivery</option>				  
@@ -75,7 +75,7 @@
 			<div class="form-group">
 			  	<label class="control-label col-md-2" for="">Pickup From</label>
 			  	<div class="col-md-6">
-					<input type="text" name="fromname" class="form-control" ng-model="order.SellerInfo.Name"  placeholder="Name of the person from whom will be picked up" required>
+					<input type="text" name="fromname" class="form-control" ng-model="order.SellerInfo.Name"  placeholder="Name of the person from whom will be picked up" ng-required="!isPutOrder">
 				</div>
 			</div>
 
@@ -89,7 +89,7 @@
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Pickup Area</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="order.SellerInfo.Address.Locality">
+				<select class="form-control" ng-model="order.From.Locality">
 				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
 				</select>
 			  </div>
@@ -100,7 +100,7 @@
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Pickup Address</label>
 			  <div class="col-md-6">                     
-				<textarea class="form-control" rows="3" ng-model="order.SellerInfo.Address.AddressLine1" required></textarea>
+				<textarea class="form-control" rows="3" ng-model="order.From.AddressLine1" ng-required="!isPutOrder"></textarea>
 			  </div>              
 			</div>
 
@@ -127,21 +127,21 @@
 			<div class="form-group">
 			  	<label class="control-label col-md-2" for="">Delivery To</label>
 			  	<div class="col-md-6">
-					<input type="text" name="fromname" class="form-control" ng-model="order.BuyerInfo.Name" placeholder="Name of the person to whom will be delivered" required>
+					<input type="text" name="fromname" class="form-control" ng-model="order.BuyerInfo.Name" placeholder="Name of the person to whom will be delivered" ng-required="!isPutOrder">
 				</div>
 			</div>
 
 			<div class="form-group">
 			  	<label class="control-label col-md-2" for="">Delivery PhoneNumber</label>
 			  	<div class="col-md-6">
-					<input type="text" name="fromname" class="form-control" ng-model="order.BuyerInfo.PhoneNumber" required>
+					<input type="text" name="fromname" class="form-control" ng-model="order.BuyerInfo.PhoneNumber" ng-required="!isPutOrder">
 				</div>
 			</div>
 
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Delivery Area</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="order.BuyerInfo.Address.Locality" required>
+				<select class="form-control" ng-model="order.To.Locality" ng-required="!isPutOrder">
 				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
 				</select>
 			  </div>
@@ -151,7 +151,7 @@
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Delivery Address</label>
 			  <div class="col-md-6">                     
-				<textarea class="form-control" rows="3" ng-model="order.BuyerInfo.Address.AddressLine1" required></textarea>
+				<textarea class="form-control" rows="3" ng-model="order.To.AddressLine1" ng-required="!isPutOrder"></textarea>
 			  </div>
 			</div>
 
@@ -249,7 +249,7 @@
 			<div class="form-group" ng-show="!minMode">
 			  <label class="control-label col-md-2" for="">Payment Method</label>
 			  <div class="col-md-6">
-				<select id="" name="" class="form-control" ng-model="order.PaymentMethod" ng-repeat="payment in PaymentMethod" required>
+				<select id="" name="" class="form-control" ng-model="order.PaymentMethod" ng-repeat="payment in PaymentMethod" ng-required="!isPutOrder">
 				  <option>{{payment}}</option>
 				</select>
 			  </div>
@@ -292,11 +292,11 @@
 			<div class="form-group" ng-repeat="item in order.OrderCart.PackageList track by $index">
 				<label class="control-label col-md-1">Item {{$index + 1}}</label>
 				<div class="col-md-3">
-					<textarea class="form-control" rows="1" type="text" placeholder="Item Name" ng-model="item.Item" required></textarea>
+					<textarea class="form-control" rows="1" type="text" placeholder="Item Name" ng-model="item.Item" ng-required="!isPutOrder"></textarea>
 					<p class="help-block">Item Name</p>
 				</div>                
 				<div class="col-md-2">
-					<input class="form-control" type="number" placeholder="Quantity" min="1" ng-model="item.Quantity" required>
+					<input class="form-control" type="number" placeholder="Quantity" min="1" ng-model="item.Quantity" ng-required="!isPutOrder">
 					<p class="help-block">Quantity</p>
 				</div>
 				<div class="col-md-2">

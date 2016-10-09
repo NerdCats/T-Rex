@@ -159,9 +159,14 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 		if (vm.order.OrderLocation && (vm.order.OrderLocation.AddressLine1 === null || vm.order.OrderLocation.AddressLine1 === "")) {
 			vm.order.OrderLocation = null;
 		}
+		
+		if (vm.order.Type === "ClassifiedDelivery") {
+			vm.order.SellerInfo.Address.AddressLine1 = vm.order.From.AddressLine1;
+			vm.order.BuyerInfo.Address.AddressLine1 = vm.order.To.AddressLine1;
 
-		vm.order.From.AddressLine1 = vm.order.SellerInfo.Name + ", \n" + vm.order.SellerInfo.PhoneNumber + " , \n"  + vm.order.SellerInfo.Address.AddressLine1;
-		vm.order.To.AddressLine1 = vm.order.BuyerInfo.Name + ", \n" + vm.order.BuyerInfo.PhoneNumber + " , \n"  + vm.order.BuyerInfo.Address.AddressLine1;
+			vm.order.From.AddressLine1 = vm.order.SellerInfo.Name + ", \n" + vm.order.SellerInfo.PhoneNumber + " , \n"  + vm.order.SellerInfo.Address.AddressLine1;
+			vm.order.To.AddressLine1 = vm.order.BuyerInfo.Name + ", \n" + vm.order.BuyerInfo.PhoneNumber + " , \n"  + vm.order.BuyerInfo.Address.AddressLine1;
+		}
 		
 		console.log(vm.order);
 		vm.OrdersIsBeingCreated = true;
