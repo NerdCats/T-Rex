@@ -69,17 +69,12 @@ app.factory('patchUpdate',['$http', 'restCall', 'ngAuthSettings', function($http
 }]);
 
 
-app.factory('restCall', ['$http', 'localStorageService', function($http, localStorageService){
-	return function (method, url, data, successCallback, errorCallback){		
-		var token = localStorageService.get('authorizationData');
+app.factory('restCall', ['$http', function($http){
+	return function (method, url, data, successCallback, errorCallback){				
 		$http({
   			method: method,
   			url : url,
-  			data: data,
-  			header: {
-  				'Content-Type' : 'application/json',
-  				'Authorization' : 'Bearer ' + token.token
-  			} 
+  			data: data  		
   		}).then(function success(response) {
   			successCallback(response);  			
   		}, function error(response) {
