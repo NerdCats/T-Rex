@@ -1,5 +1,6 @@
-<div class="container-fluid">	
-	<div class="row">
+<div class="container-fluid">
+    <div ng-show="isLoadingUser" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
+	<div class="row" ng-show="!isLoadingUser">
 		<div class="col-md-4">
 			<h1>{{User.UserName}}</h1>	
 			<span>{{User.Type}}</span>
@@ -24,8 +25,11 @@
 	  	</div>
 	</div>	
 	<div class="row">
-		<div class="form-group col-md-3">            
+		<div class="form-group col-md-3" ng-show="User.Type === 'BIKE_MESSENGER'">            
             <a class="btn btn-primary" href="#/workorder?id={{User.Id}}">Work Order</a>
+        </div>
+        <div class="form-group col-md-3" ng-show="User.Type === 'ENTERPRISE'">            
+            <a class="btn btn-primary" href="#/store/{{User.Id}}">STORE</a>
         </div>
         <div class="form-group col-md-3">
             <label>Show:</label>

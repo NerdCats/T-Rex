@@ -10,6 +10,7 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 	vm.isEnterprise = false;
 	vm.isUser = false;
 	vm.jobPerPage = 50;
+	vm.isLoadingUser = true;
 	
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
@@ -26,12 +27,13 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 			vm.isAsset = true;
 		else if (vm.User.Type == "ENTERPRISE") 
 			vm.isEnterprise = true;
-
+		vm.isLoadingUser = false;
 		console.log(vm.User.Type);
 		console.log(vm.isUser);
 	}
 	function userNotFound(error) {
 		console.log(error)
+		vm.isLoadingUser = false;
 	}
 	restCall('GET', userUrl, null, userFound, userNotFound);
 
