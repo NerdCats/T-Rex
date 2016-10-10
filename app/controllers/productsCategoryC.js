@@ -10,6 +10,15 @@ function productsCategoryC($scope, $http, $window, ngAuthSettings){
 		Description: null
 	}
 	vm.productsCategories = {};
+	vm.pageSize = 50;
+	vm.page = 0;
+	vm.envelope = true;
+	vm.pagination = [];
+
+	vm.loadByPageNumber = function (pageSize) {
+		vm.pageSize = pageSize;
+		vm.getProductsCategory();
+	}
 
 	vm.createProductsCategory = function () {
 		vm.creatingOrder = true;
@@ -31,11 +40,17 @@ function productsCategoryC($scope, $http, $window, ngAuthSettings){
 		vm.isLoading = true;
 		$http({
 			method: 'GET',
-			url: ngAuthSettings.apiServiceBaseUri + "api/ProductCategory/odata",			
+			url: ngAuthSettings.apiServiceBaseUri + "api/ProductCategory/odata?pageSize="+ vm.pageSize 
+																			+"&page="+ vm.page 
+																			+"&envelope="+ vm.envelope		
 		}).then(function success(success) {			
 			vm.isLoading = false;
-			vm.productsCategories = success.data;
-			console.log(success);
+			vm.productsCategories = success.data;			
+			for(var i=0; i<vm.productsCategories.pagination.TotalPages; i++) {
+				vm.pagination.push(i)
+			}
+
+			console.log(vm.productsCategories);
 		}, function error(error) {
 			console.log(error);
 			$window.location.href = "#/products-category";
