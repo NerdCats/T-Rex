@@ -5,15 +5,23 @@ function productsCategoryC($scope, $http, $window, ngAuthSettings){
 	var vm = $scope;
 	vm.creatingOrder = false;
 	vm.isLoading = false;
-	vm.productsCategory = {
-		Name: null,
-		Description: null
-	}
+	
+	vm.updateMode = false;
 	vm.productsCategories = {};
 	vm.pageSize = 50;
 	vm.page = 0;
 	vm.envelope = true;
 	vm.pagination = [];
+
+
+	vm.getNewProductsCategory = function () {
+		return {
+			Name: null,
+			Description: null
+		}
+	}
+
+	vm.productsCategory = vm.getNewProductsCategory();
 
 	vm.loadByPageNumber = function (pageSize) {
 		vm.pageSize = pageSize;
@@ -35,6 +43,12 @@ function productsCategoryC($scope, $http, $window, ngAuthSettings){
 		});
 	}
 
+	var populatePagination = function () {
+		vm.pagination = [];
+		for(var i=0; i<vm.productsCategories.pagination.TotalPages; i++) {
+			vm.pagination.push(i)
+		}
+	}
 
 	vm.getProductsCategory = function () {
 		vm.isLoading = true;
@@ -45,11 +59,8 @@ function productsCategoryC($scope, $http, $window, ngAuthSettings){
 																			+"&envelope="+ vm.envelope		
 		}).then(function success(success) {			
 			vm.isLoading = false;
-			vm.productsCategories = success.data;			
-			for(var i=0; i<vm.productsCategories.pagination.TotalPages; i++) {
-				vm.pagination.push(i)
-			}
-
+			vm.productsCategories = success.data;
+			populatePagination();	
 			console.log(vm.productsCategories);
 		}, function error(error) {
 			console.log(error);
@@ -57,5 +68,28 @@ function productsCategoryC($scope, $http, $window, ngAuthSettings){
 			vm.isLoading = false;
 		});
 	}
+
+	vm.updateModeOn = function (productTobeUpdated) {
+		vm.updateMode = true;
+		vm.productsCategory = productTobeUpdated;
+		console.log(productTobeUpdated)
+	}
+
+	vm.updateProductsCategory = function () {
+		vm.creatingOrder = true;
+		$http({
+			method: 'PUT',
+			url: ngAuthSettings.apiServiceBaseUri + "api/ProductCategory",
+			data: vm.productsCategory
+		}).then(function success(reponse) {
+			vm.creatingOrder = false;
+			vm.updateMode = false;
+			vm.productsCategory = vm.getNewProductsCategory();
+		}, function error(error) {
+			vm.creatingOrder = false;
+		})
+	}
+
+
 	vm.getProductsCategory();
 }
