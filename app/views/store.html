@@ -1,34 +1,34 @@
 <div class="container">
-	<form class="form-horizontal">
+	<ng-form class="form-horizontal" name="storeForm">
 		<fieldset>
-			
-			<legend>Store Form</legend>
+			<span ng-show="errmsg">{{ errmsg }}</span>
+			<legend ng-show="user">Submit new Store for {{ user.UserName }}</legend>
 			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="">Store Name</label>  
 				<div class="col-md-4">
-					<input type="text" placeholder="" class="form-control input-md" ng-required="true">
+					<input type="text" placeholder="" class="form-control input-md" ng-model="store.Name" ng-required="true">
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="">Store Url</label>  
 				<div class="col-md-6">
-					<input type="text" placeholder="" class="form-control input-md">					
+					<input type="text" placeholder="" class="form-control input-md" ng-model="store.Url">				
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="">Display Order</label>  
 				<div class="col-md-2">
-					<input type="number" placeholder="" class="form-control input-md">
+					<input type="number" placeholder="" class="form-control input-md" ng-model="store.DisplayOrder">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="">Coverpic Url</label>
 				<div class="col-md-6">
-					<input type="text" placeholder="" class="form-control input-md">
+					<input type="text" placeholder="" class="form-control input-md" ng-model="store.CoverPicUrl">
 				</div>
 			</div>
 
@@ -36,7 +36,7 @@
 				<button class="col-md-2 pull-right btn btn-default" ng-click="addProductCategories()">Add Catagories</button>
 			</div>
 
-			<table ng-show="!isLoading" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+			<table ng-show="store.ProductCategories" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 				<thead>
 					<th>S/L</th>		
 					<th>Id</th>
@@ -47,26 +47,64 @@
 					<th></th>
 				</thead>
 				<tbody>
-					<tr ng-repeat="cat in productsCategories.data track by $index">
+					<tr ng-repeat="cat in store.ProductCategories track by $index">
 						<td>{{ $index + 1 }}</td>
 						<td>{{ cat.Id }}</td>
 						<td>{{ cat.Name }}</td>
 						<td>{{ cat.Description }}</td>
 						<td>{{ cat.CreateTime }}</td>
 						<td>{{ cat.LastModified }}</td>
-						<td><button class="btn btn-default" ng-click="updateModeOn(cat)">Update</button></td>
+						<td><button class="btn btn-default" ng-click="removeCategory($index)">Remove</button></td>
 					</tr>
 				</tbody>
 			</table>
 
 			<div class="form-group">
-				<button class="btn btn-primary col-md-4 col-md-offset-4" ng-click="createProductsCategory()">
-					<span ng-show="creatingOrder" class="fa fa-refresh fa-spin"></span>
+				<button class="btn btn-primary col-md-4 col-md-offset-4" ng-click="createStore()" ng-disabled="storeForm.$invalid" ng-hide="editingMode">
+					<span ng-show="creatingStore" class="fa fa-refresh fa-spin"></span>
 					Submit Store
 				</button>
+				<button ng-show="editingMode"  class="btn btn-primary col-md-2 col-md-offset-4" ng-click="editStore()" ng-disabled="storeForm.$invalid">
+					<span ng-show="creatingStore" class="fa fa-refresh fa-spin"></span>
+					Update Store
+				</button>
+				<button ng-show="editingMode"  class="btn btn-primary col-md-2 col-md-offset-4" ng-click="clearEdit()">clear</button>
 			</div>
 
 		</fieldset>
-	</form>
+	</ng-form>
+	
 
 </div>
+<div ng-show="loadingStores" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
+<h1 ng-show="user">Existing Stores of {{ user.UserName }}</h1>
+<table ng-hide="loadingStores" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+	<thead>
+		<th>S/L</th>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Store Url</th>
+		<th>Display Order</th>
+		<th>CoverPic Url</th>
+		<th>Categories</th>
+		<th></th>
+		<th></th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="_store in stores">
+			<td>{{ $index + 1 }}</td>
+			<td>{{ _store.Id }}</td>
+			<td>{{ _store.Name }}</td>
+			<td>{{ _store.Url }}</td>
+			<td>{{ _store.DisplayOrder }}</td>
+			<td>{{ _store.CoverPicUrl }}</td>
+			<td> 
+				<ul>
+					<li ng-repeat="category in _store.ProductCategories">{{ category.Name }}</li>
+				</ul>
+			</td>
+			<td><button class="btn btn-default" ng-click="editModeOn(_store)">Edit</button></td>
+			<td><button class="btn btn-danger" ng-click="deleteStore(_store)">Delete</button></td>
+		</tr>
+	</tbody>
+</table>
