@@ -3,7 +3,7 @@ app.controller('storeC', ['$scope', '$routeParams', '$uibModal', '$http', 'ngAut
 function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 	var vm = $scope;
 	vm.title = "hello store!"
-	vm.enterpriseId = $routeParams.id;
+	vm.enterpriseId = $routeParams.enterpriseuserid;
 	vm.creatingStore = false;
 	vm.loadingStores = true;
 	vm.errmsg = null;

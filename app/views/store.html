@@ -103,6 +103,7 @@
 					<li ng-repeat="category in _store.ProductCategories">{{ category.Name }}</li>
 				</ul>
 			</td>
+			<td><a class="btn btn-primary" href="#/products/{{_store.Id}}">View Store</a></td>
 			<td><button class="btn btn-default" ng-click="editModeOn(_store)">Edit</button></td>
 			<td><button class="btn btn-danger" ng-click="deleteStore(_store)">Delete</button></td>
 		</tr>
