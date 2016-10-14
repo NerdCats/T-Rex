@@ -1,0 +1,428 @@
+<div class="container">
+	<form class="form-horizontal">
+		<fieldset>
+
+			<!-- Form Name -->
+			<legend>Add Product for {{ storename }}</legend>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="textinput">Name</label>  
+				<div class="col-md-4">
+					<input id="textinput" name="textinput" type="text" placeholder="Enter the name" class="form-control input-md" required="">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="ShortDescription">Short Description</label>  
+				<div class="col-md-4">
+					<input id="ShortDescription" name="ShortDescription" type="text" placeholder="Enter short description here" class="form-control input-md" required="">
+
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<!-- <div class="form-group">
+				<label class="col-md-4 control-label" for="StoreId">Store ID</label>  
+				<div class="col-md-4">
+					<textarea id="StoreId" name="StoreId" type="text" placeholder="Enter store ID" class="form-control input-md" required=""></textarea>
+				</div>
+			</div> -->
+
+			<!-- Textarea -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="FullDescription">Full Description</label>
+				<div class="col-md-4">                     
+					<textarea class="form-control" id="FullDescription" name="FullDescription" placeholder="Enter Details Description Here"></textarea>
+				</div>
+			</div>
+
+
+
+			<div class="form-group">
+				<div class="col-md-8">
+					<button class="pull-right btn btn-info" ng-click="addProductCategories()">Add Catagories</button>	
+				</div>			
+			</div>
+
+			<table ng-show="store.ProductCategories" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+				<thead>
+					<th>S/L</th>		
+					<th>Id</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Create Time</th>
+					<th>Last Modified</th>
+					<th></th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cat in store.ProductCategories track by $index">
+						<td>{{ $index + 1 }}</td>
+						<td>{{ cat.Id }}</td>
+						<td>{{ cat.Name }}</td>
+						<td>{{ cat.Description }}</td>
+						<td>{{ cat.CreateTime }}</td>
+						<td>{{ cat.LastModified }}</td>
+						<td><button class="btn btn-default" ng-click="removeCategory($index)">Remove</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<hr class="hr-product">
+
+			<!-- Multiple Radios -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="IsFeatured">Is Featured</label>
+				<div class="col-md-4">				 
+					<label class="radio-inline" for="IsFeatured-0">
+						<input type="radio" name="IsFeatured" id="IsFeatured-0" value="1" checked="checked">
+						True
+					</label>
+			 
+					<label class="radio-inline" for="IsFeatured-1">
+						<input type="radio" name="IsFeatured" id="IsFeatured-1" value="0">
+						False
+					</label>				 
+				</div>
+			</div>
+
+			<!-- Multiple Radios (inline) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="IsPublished">Is Published</label>
+				<div class="col-md-4"> 
+					<label class="radio-inline" for="IsPublished-0">
+						<input type="radio" name="IsPublished" id="IsPublished-0" value="true" checked="checked">
+						True
+					</label> 
+					<label class="radio-inline" for="IsPublished-1">
+						<input type="radio" name="IsPublished" id="IsPublished-1" value="false">
+						False
+					</label>
+				</div>
+			</div>
+
+
+			<!-- Multiple Radios (inline) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="IsDeleted">Is Deleted</label>
+				<div class="col-md-4"> 
+					<label class="radio-inline" for="IsDeleted-0">
+						<input type="radio" name="IsDeleted" id="IsDeleted-0" value="true" checked="checked">
+						True
+					</label> 
+					<label class="radio-inline" for="IsDeleted-1">
+						<input type="radio" name="IsDeleted" id="IsDeleted-1" value="false">
+						False
+					</label>
+				</div>
+			</div>
+
+			<!-- Multiple Radios (inline) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="NotReturnable">Not Returnable</label>
+				<div class="col-md-4"> 
+					<label class="radio-inline" for="NotReturnable-0">
+						<input type="radio" name="NotReturnable" id="NotReturnable-0" value="true" checked="checked">
+						True
+					</label> 
+					<label class="radio-inline" for="NotReturnable-1">
+						<input type="radio" name="NotReturnable" id="NotReturnable-1" value="false">
+						False
+					</label>
+				</div>
+			</div>
+
+			<!-- Multiple Radios (inline) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="IsDisabled">Is Disabled</label>
+				<div class="col-md-4"> 
+					<label class="radio-inline" for="IsDisabled-0">
+						<input type="radio" name="IsDisabled" id="IsDisabled-0" value="yes" checked="checked">
+						Yes
+					</label> 
+					<label class="radio-inline" for="IsDisabled-1">
+						<input type="radio" name="IsDisabled" id="IsDisabled-1" value="no">
+						No
+					</label>
+				</div>
+			</div>
+
+			<hr class="hr-product">
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="dimension">Product Dimension</label>  
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-balance-scale" aria-hidden="true"></i>
+								</span>
+								<input id="Weight" name="Weight" type="number" placeholder="gram" class="form-control input-md">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-arrows-v" aria-hidden="true"></i>
+								</span>
+								<input id="Length" name="Length" type="number" placeholder="legnth in cm" class="form-control input-md">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-arrows-h" aria-hidden="true"></i>
+								</span>
+								<input id="Width" name="Width" type="number" placeholder="width in cm" class="form-control input-md">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-arrow-up" aria-hidden="true"></i>
+								</span>
+								<input id="Height" name="Height" type="number" placeholder="height in cm" class="form-control input-md">
+							</div>
+						</div>
+					</div>	
+				</div>		
+			</div>
+
+
+			
+
+
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="DisplayOrder">Display Order</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+						</span>
+						<input id="DisplayOrder" name="DisplayOrder" type="number" placeholder="ex: 1, 2 etc" class="form-control input-md">
+					</div>
+				</div>
+			</div>
+
+
+			
+
+
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="PicUrl">Pic Url</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+						</span>
+						<input id="PicUrl" name="PicUrl" type="number" placeholder="ex: 1, 2 etc" class="form-control input-md">
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="Tags">Tags</label>  
+				<div class="col-md-4">
+					<input id="Tags" name="Tags" type="text" placeholder="" class="form-control input-md">
+
+				</div>
+			</div>
+
+
+
+			<hr class="hr-product">
+
+
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="OrderMinimumQuantity">Order Minimum Quantity</label>  
+				<div class="col-md-4">
+					<input id="OrderMinimumQuantity" name="OrderMinimumQuantity" type="text" placeholder="" class="form-control input-md">
+				</div>
+			</div>
+
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="OrderMaximumQuantity">Order Maximum Quantity</label>  
+				<div class="col-md-4">
+					<input id="OrderMaximumQuantity" name="OrderMaximumQuantity" type="text" placeholder="" class="form-control input-md">
+
+				</div>
+			</div>
+
+			
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="Price">Price</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">৳</span>
+						<input id="Price" name="Price" class="form-control" placeholder="Price" type="text">
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="OldPrice">Old Price</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">৳</span>
+						<input id="OldPrice" name="OldPrice" class="form-control" placeholder="Old Price" type="text">
+					</div>
+
+				</div>
+			</div>
+
+
+			<hr class="hr-product">
+
+
+			<!-- Multiple Radios (inline) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="AvailableForPreOrder">AvailableForPreOrder</label>
+				<div class="col-md-4"> 
+					<label class="radio-inline" for="AvailableForPreOrder-0">
+						<input type="radio" name="AvailableForPreOrder" id="AvailableForPreOrder-0" value="true" checked="checked">
+						True
+					</label> 
+					<label class="radio-inline" for="AvailableForPreOrder-1">
+						<input type="radio" name="AvailableForPreOrder" id="AvailableForPreOrder-1" value="false">
+						False
+					</label>
+				</div>
+			</div>
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="AvailableStartDateTimeUtc">Available Start Date</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</span>
+						<input id="AvailableStartDateTimeUtc" name="AvailableStartDateTimeUtc" class="form-control" type="date">
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="AvailableEndDateTimeUtc">Available End Date</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</span>
+						<input id="AvailableEndDateTimeUtc" name="AvailableEndDateTimeUtc" class="form-control" type="date">
+					</div>
+				</div>
+			</div>
+
+			
+			<hr class="hr-product">
+			
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="SpecialPrice">Special Price</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">৳</span>
+						<input id="SpecialPrice" name="SpecialPrice" class="form-control" placeholder="Special Price" type="text">
+					</div>
+
+				</div>
+			</div>
+
+			
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="SpecialPriceStartDateTimeUtc">Special Price Start Time</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</span>
+						<input id="SpecialPriceStartDateTimeUtc" name="SpecialPriceStartDateTimeUtc" class="form-control" type="date">
+					</div>
+				</div>
+			</div>
+
+					<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="SpecialPriceEndDateTimeUtc">Special Price End Time</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</span>
+						<input id="SpecialPriceEndDateTimeUtc" name="SpecialPriceEndDateTimeUtc" class="form-control" type="date">
+					</div>
+				</div>
+			</div>
+
+
+			<hr class="hr-product">
+
+
+			<!-- Multiple Radios (inline) -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="IsMarkedAsNew">Is Marked As New</label>
+				<div class="col-md-4"> 
+					<label class="radio-inline" for="IsMarkedAsNew-0">
+						<input type="radio" name="IsMarkedAsNew" id="IsMarkedAsNew-0" value="true" checked="checked">
+						True
+					</label> 
+					<label class="radio-inline" for="IsMarkedAsNew-1">
+						<input type="radio" name="IsMarkedAsNew" id="IsMarkedAsNew-1" value="false">
+						False
+					</label>
+				</div>
+			</div>
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="MarkAsNewStartDateTimeUtc">Mark As New Start Time</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</span>
+						<input id="MarkAsNewStartDateTimeUtc" name="MarkAsNewStartDateTimeUtc" class="form-control" type="date">
+					</div>
+				</div>
+			</div>
+
+			<!-- Prepended text-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="MarkAsNewEndDateTimeUtc">Mark As New End Time</label>
+				<div class="col-md-4">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</span>
+						<input id="MarkAsNewEndDateTimeUtc" name="MarkAsNewEndDateTimeUtc" class="form-control" type="date">
+					</div>
+				</div>
+			</div>
+
+
+			
+
+			
+		</fieldset>
+	</form>
+</div>

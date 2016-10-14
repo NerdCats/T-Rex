@@ -73,11 +73,11 @@
 
 		</fieldset>
 	</ng-form>
-	
-
 </div>
-<div ng-show="loadingStores" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
+
+
 <h1 ng-show="user">Existing Stores of {{ user.UserName }}</h1>
+<div ng-show="loadingStores" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 <table ng-hide="loadingStores" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 	<thead>
 		<th>S/L</th>
@@ -99,11 +99,11 @@
 			<td>{{ _store.DisplayOrder }}</td>
 			<td>{{ _store.CoverPicUrl }}</td>
 			<td> 
-				<ul>
+				<ol>
 					<li ng-repeat="category in _store.ProductCategories">{{ category.Name }}</li>
-				</ul>
+				</ol>
 			</td>
-			<td><a class="btn btn-primary" href="#/products/{{_store.Id}}">View Store</a></td>
+			<td><a class="btn btn-primary" href="#/products?storeid={{_store.Id}}&storename={{_store.Name}}">View Store</a></td>
 			<td><button class="btn btn-default" ng-click="editModeOn(_store)">Edit</button></td>
 			<td><button class="btn btn-danger" ng-click="deleteStore(_store)">Delete</button></td>
 		</tr>

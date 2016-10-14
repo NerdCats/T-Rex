@@ -1,7 +1,8 @@
-app.controller('productsC', ['$scope', productsC]);
+app.controller('productsC', ['$scope', '$routeParams', '$window', productsC]);
 
-function productsC($scope) {
+function productsC($scope, $routeParams, $window) {
 	var vm = $scope;
-	vm.title = "Products";
-	console.log(vm.title)
+	vm.title = "productsC";
+	vm.storename = $routeParams.storename;
+	vm.storeid = $routeParams.storeid;
 }
