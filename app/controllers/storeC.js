@@ -98,8 +98,7 @@ function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 			controller: 'categoriesModalC'
 		});
 
-		catagoriesModalInstance.result.then(function (categories) {
-			console.log(categories);
+		catagoriesModalInstance.result.then(function (categories) {			
 			vm.store.ProductCategories.push(categories);
 		}, function () {
 			console.log("discarded");

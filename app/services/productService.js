@@ -1,11 +1,11 @@
-app.factory('productServices', ['', productServices]);
+app.factory('productServices', ['$http', 'ngAuthSettings', productServices]);
 
-function productServices(){
+function productServices($http, ngAuthSettings){
 	
 	var getProduct = function () {
 		
-		return {
-			product: {
+		var product = {
+			data: {
 				Name: null,
 				ShortDescription: null,
 				FullDescription: null,
@@ -38,17 +38,63 @@ function productServices(){
 				ModifiedTime: null,
 				PicUrl: null,
 				Categories: [
-					{
-					  Name: null,
-					  Description: null,
-					  CreateTime: null,
-					  LastModified: null,
-					  Id: null
-					}
 				],
 				Id: null 
+			},
+			updateMode: false,
+			isLoading: false,
+			isCreatingOrUpdating: false,
+			create: function () {
+				this.isCreatingOrUpdating = true;
+				$http({
+					method: 'POST',
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product",
+					data: this.data
+				}).then(function (response) {
+					this.isCreatingOrUpdating = false;
+				}, function (error) {
+					this.isCreatingOrUpdating = false;
+				})
+			},
+			loadProduct: function (id) {
+				this.isLoading = true;
+				$http({
+					method: 'GET',
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product/" + id,
+					data: this.data
+				}).then(function (response) {
+					this.isLoading = false;
+				}, function (error) {
+					this.isCreatingOrUpdating = false;
+				})
+			},
+			update: function () {
+				this.isCreatingOrUpdating = true;
+				$http({
+					method: 'PUT',
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product",
+					data: this.data
+				}).then(function (response) {
+					this.isCreatingOrUpdating = false;
+				}, function (error) {
+					this.isCreatingOrUpdating = false;
+				})	
+			},
+			addCatagory: function (catagory) {
+				this.data.Categories.push(catagory);
+			},
+			removeCategory: function (index) {				
+				this.data.Categories.splice(index, 1);
+			},
+			addTag: function (tag) {
+				this.data.Tags.push(tag);
+				console.log(this.data.Tags)
+			},
+			removeTag: function (index) {
+				this.data.Tags.splice(index, 1);
 			}
 		}
+		return product;
 	}
 
 	return {
