@@ -97,7 +97,35 @@ function productServices($http, ngAuthSettings){
 		return product;
 	}
 
+	var getProducts = function () {
+		var products = {
+			data: [],
+			loadProduct: function () {
+				$http({
+					method: 'GET',
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product/odata?" + "$filter=StoreId eq '"+ vm.storeid + "'"
+				}).then(function (response) {
+					this.data = response.data.data;
+				}, function (error) {
+					console.log(error);
+				})
+			},
+			removeProduct: function (Id) {
+				$http({
+					method: 'DELETE',
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product/" + Id
+				}).then(function (response) {
+					this.data = response.data.data;
+					this.loadProduct();
+				}, function (error) {
+					console.log(error);
+				})				
+			}
+		}
+	}
+
 	return {
-		getProduct: getProduct
+		getProduct: getProduct,
+		getProducts: getProducts
 	}
 }
