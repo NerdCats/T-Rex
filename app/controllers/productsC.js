@@ -5,6 +5,7 @@ function productsC($scope, $routeParams, $window, $http, ngAuthSettings, product
 	vm.storename = $routeParams.storename;
 	vm.storeid = $routeParams.storeid;
 	vm.products = productServices.getProducts();
+	vm.products.loadProducts(vm.storeid);
 
 	if (!vm.storeid) {
 		$window.history.back();

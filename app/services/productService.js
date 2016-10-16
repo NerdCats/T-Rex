@@ -1,6 +1,6 @@
-app.factory('productServices', ['$http', 'ngAuthSettings', productServices]);
+app.factory('productServices', ['$http', '$window', 'ngAuthSettings', productServices]);
 
-function productServices($http, ngAuthSettings){
+function productServices($http, $window, ngAuthSettings){
 	
 	var getProduct = function () {
 		
@@ -39,46 +39,51 @@ function productServices($http, ngAuthSettings){
 				PicUrl: null,
 				Categories: [
 				],
-				Id: null 
+				Id: null
 			},
 			updateMode: false,
 			isLoading: false,
 			isCreatingOrUpdating: false,
 			create: function () {
 				this.isCreatingOrUpdating = true;
+				var self = this;
 				$http({
 					method: 'POST',
 					url: ngAuthSettings.apiServiceBaseUri + "api/Product",
 					data: this.data
 				}).then(function (response) {
-					this.isCreatingOrUpdating = false;
+					self.isCreatingOrUpdating = false;
+					$window.history.back();
 				}, function (error) {
-					this.isCreatingOrUpdating = false;
+					self.isCreatingOrUpdating = false;
 				})
 			},
 			loadProduct: function (id) {
 				this.isLoading = true;
+				var self = this;
 				$http({
 					method: 'GET',
-					url: ngAuthSettings.apiServiceBaseUri + "api/Product/" + id,
-					data: this.data
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product/" + id,					
 				}).then(function (response) {
-					this.isLoading = false;
+					self.isLoading = false;
+					self.data = response.data;
 				}, function (error) {
-					this.isCreatingOrUpdating = false;
+					self.isCreatingOrUpdating = false;
 				})
 			},
 			update: function () {
 				this.isCreatingOrUpdating = true;
+				var self = this;
 				$http({
 					method: 'PUT',
 					url: ngAuthSettings.apiServiceBaseUri + "api/Product",
 					data: this.data
 				}).then(function (response) {
-					this.isCreatingOrUpdating = false;
+					self.isCreatingOrUpdating = false;
+					$window.history.back();
 				}, function (error) {
-					this.isCreatingOrUpdating = false;
-				})	
+					self.isCreatingOrUpdating = false;
+				})
 			},
 			addCatagory: function (catagory) {
 				this.data.Categories.push(catagory);
@@ -100,28 +105,38 @@ function productServices($http, ngAuthSettings){
 	var getProducts = function () {
 		var products = {
 			data: [],
-			loadProduct: function () {
+			loadProducts: function (storeid) {
+				var self = this;
 				$http({
 					method: 'GET',
-					url: ngAuthSettings.apiServiceBaseUri + "api/Product/odata?" + "$filter=StoreId eq '"+ vm.storeid + "'"
+					url: ngAuthSettings.apiServiceBaseUri + "api/Product/odata?" + "$filter=StoreId eq '"+ storeid + "'"
 				}).then(function (response) {
-					this.data = response.data.data;
+					// this.data = response.data.data;
+					angular.forEach(response.data.data, function (value, index) {
+						self.data.push(value);
+					})
+					console.log(self.data)
 				}, function (error) {
 					console.log(error);
 				})
 			},
+			loadingState: null,
 			removeProduct: function (Id) {
+				this.loadingState = 'DELETING';
+				var self = this;
+				console.log(Id)
 				$http({
 					method: 'DELETE',
 					url: ngAuthSettings.apiServiceBaseUri + "api/Product/" + Id
 				}).then(function (response) {
-					this.data = response.data.data;
-					this.loadProduct();
+					self.loadingState = null;
+					self.loadProduct();
 				}, function (error) {
 					console.log(error);
-				})				
+				})
 			}
 		}
+		return products;
 	}
 
 	return {

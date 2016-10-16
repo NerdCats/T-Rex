@@ -1,4 +1,5 @@
-<div class="container">
+<div ng-show="product.isLoading" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
+<div class="container" ng-hide="product.isLoading">
 	<ng-form class="form-horizontal" name="productForm">
 		<fieldset>
 
@@ -204,12 +205,12 @@
 				<label class="col-md-4 control-label" for="IsFeatured">Is Featured</label>
 				<div class="col-md-4">				 
 					<label class="radio-inline" for="IsFeatured-0">
-						<input type="radio" name="IsFeatured" id="IsFeatured-0" value="1" checked="checked" ng-model="product.data.IsFeatured">
+						<input type="radio" name="IsFeatured" id="IsFeatured-0" ng-value="true" checked="checked" ng-model="product.data.IsFeatured">
 						True
 					</label>
 			 
 					<label class="radio-inline" for="IsFeatured-1">
-						<input type="radio" name="IsFeatured" id="IsFeatured-1" value="0" ng-model="product.data.IsFeatured">
+						<input type="radio" name="IsFeatured" id="IsFeatured-1" ng-value="false" ng-model="product.data.IsFeatured">
 						False
 					</label>				 
 				</div>
@@ -220,11 +221,11 @@
 				<label class="col-md-4 control-label" for="IsPublished">Is Published</label>
 				<div class="col-md-4"> 
 					<label class="radio-inline" for="IsPublished-0">
-						<input type="radio" name="IsPublished" id="IsPublished-0" value="true" checked="checked" ng-model="product.data.IsPublished">
+						<input type="radio" name="IsPublished" id="IsPublished-0" ng-value="true" checked="checked" ng-model="product.data.IsPublished">
 						True
 					</label> 
 					<label class="radio-inline" for="IsPublished-1">
-						<input type="radio" name="IsPublished" id="IsPublished-1" value="false" ng-model="product.data.IsPublished">
+						<input type="radio" name="IsPublished" id="IsPublished-1" ng-value="false" ng-model="product.data.IsPublished">
 						False
 					</label>
 				</div>
@@ -236,11 +237,11 @@
 				<label class="col-md-4 control-label" for="IsDeleted">Is Deleted</label>
 				<div class="col-md-4"> 
 					<label class="radio-inline" for="IsDeleted-0">
-						<input type="radio" name="IsDeleted" id="IsDeleted-0" value="true" checked="checked" ng-model="product.data.IsDeleted">
+						<input type="radio" name="IsDeleted" id="IsDeleted-0" ng-value="true" checked="checked" ng-model="product.data.IsDeleted">
 						True
 					</label> 
 					<label class="radio-inline" for="IsDeleted-1">
-						<input type="radio" name="IsDeleted" id="IsDeleted-1" value="false" ng-model="product.data.IsDeleted">
+						<input type="radio" name="IsDeleted" id="IsDeleted-1" ng-value="false" ng-model="product.data.IsDeleted">
 						False
 					</label>
 				</div>
@@ -251,11 +252,11 @@
 				<label class="col-md-4 control-label" for="NotReturnable">Not Returnable</label>
 				<div class="col-md-4"> 
 					<label class="radio-inline" for="NotReturnable-0">
-						<input type="radio" name="NotReturnable" id="NotReturnable-0" value="true" checked="checked" ng-model="product.data.NotReturnable">
+						<input type="radio" name="NotReturnable" id="NotReturnable-0" ng-value="true" checked="checked" ng-model="product.data.NotReturnable">
 						True
 					</label> 
 					<label class="radio-inline" for="NotReturnable-1">
-						<input type="radio" name="NotReturnable" id="NotReturnable-1" value="false" ng-model="product.data.NotReturnable">
+						<input type="radio" name="NotReturnable" id="NotReturnable-1" ng-value="false" ng-model="product.data.NotReturnable">
 						False
 					</label>
 				</div>
@@ -266,11 +267,11 @@
 				<label class="col-md-4 control-label" for="IsDisabled">Is Disabled</label>
 				<div class="col-md-4"> 
 					<label class="radio-inline" for="IsDisabled-0">
-						<input type="radio" name="IsDisabled" id="IsDisabled-0" value="yes" checked="checked" ng-model="product.data.IsDisabled">
+						<input type="radio" name="IsDisabled" id="IsDisabled-0" ng-value="true" checked="checked" ng-model="product.data.IsDisabled">
 						Yes
 					</label> 
 					<label class="radio-inline" for="IsDisabled-1">
-						<input type="radio" name="IsDisabled" id="IsDisabled-1" value="no" ng-model="product.data.IsDisabled">
+						<input type="radio" name="IsDisabled" id="IsDisabled-1" ng-value="false" ng-model="product.data.IsDisabled">
 						No
 					</label>
 				</div>
@@ -312,11 +313,11 @@
 				<label class="col-md-4 control-label" for="AvailableForPreOrder">AvailableForPreOrder</label>
 				<div class="col-md-4"> 
 					<label class="radio-inline" for="AvailableForPreOrder-0">
-						<input type="radio" name="AvailableForPreOrder" id="AvailableForPreOrder-0" value="true" checked="checked" ng-model="product.data.AvailableForPreOrder">
+						<input type="radio" name="AvailableForPreOrder" id="AvailableForPreOrder-0" ng-value="true" checked="checked" ng-model="product.data.AvailableForPreOrder">
 						True
 					</label> 
 					<label class="radio-inline" for="AvailableForPreOrder-1">
-						<input type="radio" name="AvailableForPreOrder" id="AvailableForPreOrder-1" value="false" ng-model="product.data.AvailableForPreOrder">
+						<input type="radio" name="AvailableForPreOrder" id="AvailableForPreOrder-1" ng-value="false" ng-model="product.data.AvailableForPreOrder">
 						False
 					</label>
 				</div>
@@ -402,11 +403,11 @@
 				<label class="col-md-4 control-label" for="IsMarkedAsNew">Is Marked As New</label>
 				<div class="col-md-4"> 
 					<label class="radio-inline" for="IsMarkedAsNew-0">
-						<input type="radio" name="IsMarkedAsNew" id="IsMarkedAsNew-0" value="true" checked="checked" ng-model="product.data.IsMarkedAsNew">
+						<input type="radio" name="IsMarkedAsNew" id="IsMarkedAsNew-0" ng-value="true" checked="checked" ng-model="product.data.IsMarkedAsNew">
 						True
 					</label> 
 					<label class="radio-inline" for="IsMarkedAsNew-1">
-						<input type="radio" name="IsMarkedAsNew" id="IsMarkedAsNew-1" value="false" ng-model="product.data.IsMarkedAsNew">
+						<input type="radio" name="IsMarkedAsNew" id="IsMarkedAsNew-1" ng-value="false" ng-model="product.data.IsMarkedAsNew">
 						False
 					</label>
 				</div>
