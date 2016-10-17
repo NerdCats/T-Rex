@@ -43,6 +43,10 @@ function storeCategoriesModalC($scope, $http, $routeParams, $window, $uibModalIn
 	var vm = $scope;
 	vm.storeid = $routeParams.storeid;
 	vm.storename = $routeParams.storename;
+	vm.userid = $routeParams.userid;
+
+	console.log(vm.userid)
+
 	vm.params = {
 		pageSize : 50,
 		page: 0,
@@ -73,7 +77,7 @@ function storeCategoriesModalC($scope, $http, $routeParams, $window, $uibModalIn
 		vm.selectedCatagory = cat;
 	}
 
-	vm.select = function () {		
+	vm.select = function () {
 		$uibModalInstance.close(vm.selectedCatagory);
 	}
 

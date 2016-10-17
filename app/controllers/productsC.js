@@ -4,6 +4,7 @@ function productsC($scope, $routeParams, $window, $http, ngAuthSettings, product
 	var vm = $scope;
 	vm.storename = $routeParams.storename;
 	vm.storeid = $routeParams.storeid;
+	vm.userid = $routeParams.userid;
 	vm.products = productServices.getProducts();
 	vm.products.loadProducts(vm.storeid);
 

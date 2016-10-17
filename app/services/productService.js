@@ -1,6 +1,6 @@
 app.factory('productServices', ['$http', '$window', 'ngAuthSettings', productServices]);
 
-function productServices($http, $window, ngAuthSettings){
+function  productServices($http, $window, ngAuthSettings){
 	
 	var getProduct = function () {
 		

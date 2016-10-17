@@ -69,7 +69,7 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/productsCategory.html',
 				controller: 'productsCategoryC'
 			}).
-			when('/store/:enterpriseuserid', {
+			when('/store', {
 				templateUrl: 'app/views/store.html',
 				controller: 'storeC'
 			}).

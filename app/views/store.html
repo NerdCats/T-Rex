@@ -2,7 +2,7 @@
 	<ng-form class="form-horizontal" name="storeForm">
 		<fieldset>
 			<span ng-show="errmsg">{{ errmsg }}</span>
-			<legend ng-show="user">Submit new Store for {{ user.UserName }}</legend>
+			<legend>Submit new Store for {{ username }}</legend>
 			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="">Store Name</label>  
@@ -76,7 +76,7 @@
 </div>
 
 
-<h1 ng-show="user">Existing Stores of {{ user.UserName }}</h1>
+<h1 ng-show="user">Existing Stores of {{ username }}</h1>
 <div ng-show="loadingStores" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 <table ng-hide="loadingStores" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 	<thead>
@@ -103,7 +103,7 @@
 					<li ng-repeat="category in _store.ProductCategories">{{ category.Name }}</li>
 				</ol>
 			</td>
-			<td><a class="btn btn-primary" href="#/products?storeid={{_store.Id}}&storename={{_store.Name}}">View Store</a></td>
+			<td><a class="btn btn-primary" href="#/products?storeid={{_store.Id}}&storename={{_store.Name}}&userid={{ userid }}">View Store</a></td>
 			<td><button class="btn btn-default" ng-click="editModeOn(_store)">Edit</button></td>
 			<td><button class="btn btn-danger" ng-click="deleteStore(_store)">Delete</button></td>
 		</tr>

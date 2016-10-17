@@ -5,7 +5,7 @@
 			<h1 class="pull-left">Products of <b>{{ storename }}</b></h1>
 		</div>
 		<div class="col-md-6">
-			<a class="btn btn-primary pull-right" href="#/product?storeid={{storeid}}&storename={{storename}}">Submit New Product</a>
+			<a class="btn btn-primary pull-right" href="#/product?storeid={{storeid}}&storename={{storename}}&userid={{userid}}">Submit New Product</a>
 		</div>
 	</div>
 	<div class="row">
@@ -41,7 +41,7 @@
 						</ol>
 					</td>
 					<td>
-						<a class="btn btn-default" href="#/product?storeid={{storeid}}&storename={{storename}}&productid={{product.Id}}">Update Product</a>
+						<a class="btn btn-default" href="#/product?storeid={{storeid}}&storename={{storename}}&productid={{product.Id}}&userid={{userid}}">Update Product</a>
 					</td>
 					<td>
 						<button class="btn btn-default" ng-click="products.removeProduct(product.Id)">

@@ -3,20 +3,21 @@ app.controller('storeC', ['$scope', '$routeParams', '$uibModal', '$http', 'ngAut
 function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 	var vm = $scope;
 	vm.title = "hello store!"
-	vm.enterpriseId = $routeParams.enterpriseuserid;
+	vm.userid = $routeParams.userid;
+	vm.username = $routeParams.username;
 	vm.creatingStore = false;
 	vm.loadingStores = true;
 	vm.errmsg = null;
 	vm.editingMode = false;
 	vm.user = null;
-	console.log(vm.enterpriseId);
+	console.log(vm.userid);
 
 	vm.getStore = function () {
 		return {
 				  Name: null,
 				  Url: null,
 				  DisplayOrder: 0,
-				  EnterpriseUserId: vm.enterpriseId,
+				  EnterpriseUserId: vm.userid,
 				  ProductCategories: [
 				    
 				  ],
@@ -24,23 +25,11 @@ function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 			}
 	}
 
-	vm.loadUser = function () {
-		$http({
-			method: 'GET',
-			url: ngAuthSettings.apiServiceBaseUri + "api/Account/Profile/" + vm.enterpriseId
-		}).then(function (response) {
-			vm.user = response.data;
-			console.log(response)
-		}, function (error) {
-			console.log(error);
-			vm.errmsg = error.Message;
-		})
-	}
 	vm.loadStores = function () {
 		vm.loadingStores = true;
 		$http({
 			method: 'GET',
-			url: ngAuthSettings.apiServiceBaseUri + "api/Store/odata?$filter=EnterpriseUserId eq '" + vm.enterpriseId + "'", //i dont think we will ever need pagination here			
+			url: ngAuthSettings.apiServiceBaseUri + "api/Store/odata?$filter=EnterpriseUserId eq '" + vm.userid + "'", //i dont think we will ever need pagination here			
 		}).then(function (response) {
 			vm.loadingStores = false;
 			vm.stores = response.data.data;
@@ -53,7 +42,6 @@ function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 
 	vm.stores = [];
 	vm.store = vm.getStore();
-	vm.loadUser();
 	vm.loadStores();
 
 	vm.editModeOn = function (_store) {
