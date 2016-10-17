@@ -26,9 +26,16 @@ function storeService($http, ngAuthSettings) {
 			loadStores: function () {
 				this.loadingStores = true;
 				var self = this;
+				var url = null;
+				if (!this.userid) {
+					url = ngAuthSettings.apiServiceBaseUri + "api/Store/odata";
+				} else {
+					//i dont think we will ever need pagination here
+					url = ngAuthSettings.apiServiceBaseUri + "api/Store/odata?$filter=EnterpriseUserId eq '" + userid + "'";
+				}
 				$http({
 					method: 'GET',
-					url: ngAuthSettings.apiServiceBaseUri + "api/Store/odata?$filter=EnterpriseUserId eq '" + userid + "'", //i dont think we will ever need pagination here			
+					url: url
 				}).then(function (response) {
 					self.loadingStores = false;
 					self.stores = response.data.data;
