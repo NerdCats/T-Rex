@@ -69,6 +69,10 @@ app.config(['$routeProvider',
 				templateUrl: 'app/views/productsCategory.html',
 				controller: 'productsCategoryC'
 			}).
+			when('/stores', {
+				templateUrl: 'app/views/stores.html',
+				controller: 'storesC'
+			}).
 			when('/store', {
 				templateUrl: 'app/views/store.html',
 				controller: 'storeC'

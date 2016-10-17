@@ -1,8 +1,7 @@
-app.controller('storeC', ['$scope', '$routeParams', '$uibModal', '$http', 'ngAuthSettings', storeC]);
+app.controller('storeC', ['$scope', '$routeParams', '$uibModal', '$http', 'ngAuthSettings', 'storeService', storeC]);
 
-function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
+function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings, storeService){
 	var vm = $scope;
-	vm.title = "hello store!"
 	vm.userid = $routeParams.userid;
 	vm.username = $routeParams.username;
 	vm.creatingStore = false;
@@ -12,72 +11,77 @@ function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 	vm.user = null;
 	console.log(vm.userid);
 
-	vm.getStore = function () {
-		return {
-				  Name: null,
-				  Url: null,
-				  DisplayOrder: 0,
-				  EnterpriseUserId: vm.userid,
-				  ProductCategories: [
+	vm.store = storeService.getStore(vm.userid);
+	console.log(vm.store);
+	vm.store.singleStore = vm.store.getNewStore();
+	vm.store.loadStores(vm.userid);
+
+	// vm.getStore = function () {
+	// 	return {
+	// 			  Name: null,
+	// 			  Url: null,
+	// 			  DisplayOrder: 0,
+	// 			  EnterpriseUserId: vm.userid,
+	// 			  ProductCategories: [
 				    
-				  ],
-				  CoverPicUrl: null			  
-			}
-	}
+	// 			  ],
+	// 			  CoverPicUrl: null			  
+	// 		}
+	// }
 
-	vm.loadStores = function () {
-		vm.loadingStores = true;
-		$http({
-			method: 'GET',
-			url: ngAuthSettings.apiServiceBaseUri + "api/Store/odata?$filter=EnterpriseUserId eq '" + vm.userid + "'", //i dont think we will ever need pagination here			
-		}).then(function (response) {
-			vm.loadingStores = false;
-			vm.stores = response.data.data;
-			console.log(vm.stores)
-		}, function (error) {
-			vm.loadingStores = false;
-			console.log(error);
-		})
-	}
+	// vm.loadStores = function () {
+	// 	vm.loadingStores = true;
+	// 	$http({
+	// 		method: 'GET',
+	// 		url: ngAuthSettings.apiServiceBaseUri + "api/Store/odata?$filter=EnterpriseUserId eq '" + vm.userid + "'", //i dont think we will ever need pagination here			
+	// 	}).then(function (response) {
+	// 		vm.loadingStores = false;
+	// 		vm.stores = response.data.data;
+	// 		console.log(vm.stores)
+	// 	}, function (error) {
+	// 		vm.loadingStores = false;
+	// 		console.log(error);
+	// 	})
+	// }
 
-	vm.stores = [];
-	vm.store = vm.getStore();
-	vm.loadStores();
+	// vm.stores = [];
+	// vm.store = vm.getStore();
+	// vm.loadStores();
 
-	vm.editModeOn = function (_store) {
-		vm.store = _store;
-		vm.editingMode = true;
-	}
+	// vm.editModeOn = function (_store) {
+	// 	vm.store = _store;
+	// 	vm.editingMode = true;
+	// }
 
-	vm.editStore = function () {
-		$http({
-			method: 'PUT',
-			url: ngAuthSettings.apiServiceBaseUri + "api/Store",
-			data: vm.store
-		}).then(function (response) {
-			vm.store = vm.getStore();
-			vm.editModeOn = false;
-			vm.loadStores();
-		}, function (error) {
-			vm.errmsg = error.Message;
-		})
-	}
+	// vm.editStore = function () {
+	// 	$http({
+	// 		method: 'PUT',
+	// 		url: ngAuthSettings.apiServiceBaseUri + "api/Store",
+	// 		data: vm.store
+	// 	}).then(function (response) {
+	// 		vm.store = vm.getStore();
+	// 		vm.editModeOn = false;
+	// 		vm.loadStores();
+	// 	}, function (error) {
+	// 		vm.errmsg = error.Message;
+	// 	})
+	// }
 
-	vm.clearEdit = function () {
-		vm.editingMode = false;
-		vm.store = vm.getStore();
-	}
+	// vm.clearEdit = function () {
+	// 	vm.editingMode = false;
+	// 	vm.store = vm.getStore();
+	// }
 
-	vm.deleteStore = function (_store) {
-		$http({
-			method: 'DELETE',
-			url: ngAuthSettings.apiServiceBaseUri + "api/Store/" + _store.Id,			
-		}).then(function (response) {			
-			vm.loadStores();
-		}, function (error) {
-			vm.errmsg = error.Message;
-		})
-	}
+	// vm.deleteStore = function (_store) {
+	// 	$http({
+	// 		method: 'DELETE',
+	// 		url: ngAuthSettings.apiServiceBaseUri + "api/Store/" + _store.Id,			
+	// 	}).then(function (response) {			
+	// 		vm.loadStores();
+	// 	}, function (error) {
+	// 		vm.errmsg = error.Message;
+	// 	})
+	// }
 
 	vm.addProductCategories = function () {
 		var catagoriesModalInstance = $uibModal.open({
@@ -86,33 +90,34 @@ function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 			controller: 'categoriesModalC'
 		});
 
-		catagoriesModalInstance.result.then(function (categories) {			
-			vm.store.ProductCategories.push(categories);
+		catagoriesModalInstance.result.then(function (categories) {	
+			console.log(vm.store.singleStore)		
+			vm.store.singleStore.ProductCategories.push(categories);
 		}, function () {
 			console.log("discarded");
 		})
 	}
 
-	vm.removeCategory = function (index) {
-		vm.store.ProductCategories.splice(index, 1);
-	}
+	// vm.removeCategory = function (index) {
+	// 	vm.store.ProductCategories.splice(index, 1);
+	// }
 
-	vm.createStore = function () {
-		vm.creatingStore = true;
-		vm.errmsg = null;
-		$http({
-			method: 'POST',
-			url: ngAuthSettings.apiServiceBaseUri + "api/Store",
-			data: vm.store
-		}).then(function (response) {
-			vm.store = vm.getStore();
-			vm.creatingStore = false;
-			vm.loadStores();
-		}, function (error) {
-			vm.errmsg = error.Message;
-			vm.creatingStore = false;
-		});
-	}
+	// vm.createStore = function () {
+	// 	vm.creatingStore = true;
+	// 	vm.errmsg = null;
+	// 	$http({
+	// 		method: 'POST',
+	// 		url: ngAuthSettings.apiServiceBaseUri + "api/Store",
+	// 		data: vm.store
+	// 	}).then(function (response) {
+	// 		vm.store = vm.getStore();
+	// 		vm.creatingStore = false;
+	// 		vm.loadStores();
+	// 	}, function (error) {
+	// 		vm.errmsg = error.Message;
+	// 		vm.creatingStore = false;
+	// 	});
+	// }
 }
 
 

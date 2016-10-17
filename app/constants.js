@@ -15,7 +15,7 @@ app.constant('menus', [
 	{ title : "Users", link: '#/users'},
 	{ title : "Tracking Map", link: '#/tracking-map', target: "_blank"},
 	{ title : "Product Category", link: '#/products-category', target: "_blank"},
-	// { title : "Store", link: '#/store'},
+	{ title : "Stores", link: '#/stores'},
 ]);
 
 
