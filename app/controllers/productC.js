@@ -23,8 +23,8 @@ function productC($scope, $routeParams, $window, $uibModal, productServices) {
 	vm.addProductCategory = function () {
 		var catagoriesModalInstance = $uibModal.open({
 			animation: $scope.animationEnabled,
-			templateUrl: 'app/views/modals/addProductCategoris.html',
-			controller: 'categoriesModalC'
+			templateUrl: 'app/views/modals/addProductCatagoriesForProduct.html',
+			controller: 'storeCategoriesModalC'
 		});
 
 		catagoriesModalInstance.result.then(function (category) {
@@ -33,4 +33,49 @@ function productC($scope, $routeParams, $window, $uibModal, productServices) {
 			console.log("discarded");
 		})
 	}
+}
+
+
+app.controller('storeCategoriesModalC', ['$scope', '$http', '$routeParams', '$window', '$uibModalInstance', 'ngAuthSettings', storeCategoriesModalC]);
+
+function storeCategoriesModalC($scope, $http, $routeParams, $window, $uibModalInstance, ngAuthSettings){
+
+	var vm = $scope;
+	vm.storeid = $routeParams.storeid;
+	vm.storename = $routeParams.storename;
+	vm.params = {
+		pageSize : 50,
+		page: 0,
+		envelope: true
+	}
+
+    vm.catagories = [];
+    vm.selectedCatagory = {};
+    vm.isLoadingCategories = true;
+    vm.searchText = "";
+
+    vm.loadCatagories = function () {
+    	vm.catagoriesUrl = ngAuthSettings.apiServiceBaseUri + "/api/Store/" + vm.storeid;
+		$http({
+			method: 'GET',
+			url: vm.catagoriesUrl
+		}).then(function success(response) {
+			vm.isLoadingCategories = false;
+			vm.catagories = response.data.ProductCategories;
+			console.log(vm.catagories)
+		}, function error(error) {
+			vm.isLoadingCategories = false;
+			console.log(error);
+		});
+    }
+
+	vm.selectCatagorie = function (cat) {
+		vm.selectedCatagory = cat;
+	}
+
+	vm.select = function () {		
+		$uibModalInstance.close(vm.selectedCatagory);
+	}
+
+	vm.loadCatagories();
 }

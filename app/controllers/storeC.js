@@ -94,7 +94,7 @@ function storeC($scope, $routeParams, $uibModal, $http, ngAuthSettings){
 	vm.addProductCategories = function () {
 		var catagoriesModalInstance = $uibModal.open({
 			animation: $scope.animationEnabled,
-			templateUrl: 'app/views/modals/addProductCategoris.html',
+			templateUrl: 'app/views/modals/addProductCategoriesForStore.html',
 			controller: 'categoriesModalC'
 		});
 
@@ -167,15 +167,9 @@ function categoriesModalC($scope, $http, $uibModalInstance, ngAuthSettings){
 		vm.selectedCatagory = cat;
 	}
 
-
-
 	vm.select = function () {		
 		$uibModalInstance.close(vm.selectedCatagory);
 	}
 
-
 	vm.loadCatagories();
-
-
-
 }

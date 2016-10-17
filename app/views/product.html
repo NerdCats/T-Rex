@@ -44,7 +44,7 @@
 				<div class="col-md-4">
 					<div class="input-group">
 						<span class="input-group-addon">৳</span>
-						<input id="Price" name="Price" class="form-control" placeholder="Price" type="text" ng-model="product.data.Price">
+						<input class="form-control" placeholder="Price" type="number" ng-model="product.data.Price">
 					</div>
 
 				</div>
@@ -56,16 +56,9 @@
 				<div class="col-md-4">
 					<div class="input-group">
 						<span class="input-group-addon">৳</span>
-						<input id="OldPrice" name="OldPrice" class="form-control" placeholder="Old Price" type="text" ng-model="product.data.OldPrice">
+						<input id="OldPrice" name="OldPrice" class="form-control" placeholder="Old Price" type="number" ng-model="product.data.OldPrice">
 					</div>
-
 				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-md-8">
-					<button class="pull-right btn btn-info" ng-click="addProductCategory()">Add Catagories</button>	
-				</div>			
 			</div>
 
 			<table ng-show="product.data.Categories" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -76,7 +69,9 @@
 					<th>Description</th>
 					<th>Create Time</th>
 					<th>Last Modified</th>
-					<th></th>
+					<th>
+						<button class="pull-right btn btn-info" ng-click="addProductCategory()">Add Catagories</button>
+					</th>
 				</thead>
 				<tbody>
 					<tr ng-repeat="cat in product.data.Categories track by $index">
@@ -136,7 +131,6 @@
 			</div>
 
 
-			
 
 
 			<div class="form-group">
@@ -160,9 +154,9 @@
 				<div class="col-md-4">
 					<div class="input-group">
 						<span class="input-group-addon">
-							<i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+							<i class="fa fa-picture-o" aria-hidden="true"></i>
 						</span>
-						<input id="PicUrl" name="PicUrl" type="number" placeholder="ex: 1, 2 etc" class="form-control input-md"  ng-model="product.data.PicUrl">
+						<input id="PicUrl" name="PicUrl" type="text" placeholder="ex: 1, 2 etc" class="form-control input-md"  ng-model="product.data.PicUrl">
 					</div>
 				</div>
 			</div>
@@ -280,15 +274,11 @@
 			<hr class="hr-product">
 
 			
-			
-
-
-
-			
+					
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="OrderMinimumQuantity">Order Minimum Quantity</label>  
 				<div class="col-md-4">
-					<input id="OrderMinimumQuantity" name="OrderMinimumQuantity" type="text" placeholder="" class="form-control input-md" ng-model="product.data.OrderMinimumQuantity">
+					<input type="number" placeholder="" class="form-control input-md" ng-model="product.data.OrderMinimumQuantity">
 				</div>
 			</div>
 
@@ -296,7 +286,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="OrderMaximumQuantity">Order Maximum Quantity</label>  
 				<div class="col-md-4">
-					<input id="OrderMaximumQuantity" name="OrderMaximumQuantity" type="text" placeholder="" class="form-control input-md" ng-model="product.data.OrderMaximumQuantity">
+					<input type="number" placeholder="" class="form-control input-md" ng-model="product.data.OrderMaximumQuantity">
 
 				</div>
 			</div>
@@ -360,7 +350,7 @@
 				<div class="col-md-4">
 					<div class="input-group">
 						<span class="input-group-addon">৳</span>
-						<input id="SpecialPrice" name="SpecialPrice" class="form-control" placeholder="Special Price" type="text" ng-model="product.data.SpecialPrice">
+						<input class="form-control" placeholder="Special Price" type="number" ng-model="product.data.SpecialPrice">
 					</div>
 
 				</div>

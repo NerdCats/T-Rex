@@ -105,22 +105,24 @@ function productServices($http, $window, ngAuthSettings){
 	var getProducts = function () {
 		var products = {
 			data: [],
+			loadingState: null,
 			loadProducts: function (storeid) {
+				this.loadingState = 'IN_PROGRESS';
 				var self = this;
 				$http({
 					method: 'GET',
 					url: ngAuthSettings.apiServiceBaseUri + "api/Product/odata?" + "$filter=StoreId eq '"+ storeid + "'"
 				}).then(function (response) {
-					// this.data = response.data.data;
+					self.loadingState = null;
 					angular.forEach(response.data.data, function (value, index) {
 						self.data.push(value);
 					})
 					console.log(self.data)
 				}, function (error) {
+					self.loadingState = null;
 					console.log(error);
 				})
 			},
-			loadingState: null,
 			removeProduct: function (Id) {
 				this.loadingState = 'DELETING';
 				var self = this;
@@ -132,6 +134,7 @@ function productServices($http, $window, ngAuthSettings){
 					self.loadingState = null;
 					self.loadProduct();
 				}, function (error) {
+					self.loadingState = null;
 					console.log(error);
 				})
 			}
