@@ -2,9 +2,9 @@
 
 app.controller('indexController', indexController);
 
-indexController.$inject = ['$scope', '$location', '$timeout', '$log','menus', 'templates', '$window', 'authService'];
+indexController.$inject = ['$scope', '$location', '$timeout', '$log','menus', 'templates', '$window', 'authService', 'jobNotification_link'];
 
-function indexController($scope, $location, $timeout, $log, menus, templates, $window, authService) {
+function indexController($scope, $location, $timeout, $log, menus, templates, $window, authService, jobNotification_link) {
 	console.log($window.location.hash);
 	var vm = $scope;
 
@@ -63,6 +63,25 @@ function indexController($scope, $location, $timeout, $log, menus, templates, $w
         }, wait || 10);
       };
     }
- 
+
+
+ 	var connection = $.hubConnection(jobNotification_link);
+	var proxy = connection.createHubProxy('broadcaster');
+	 
+	// receives broadcast messages from a hub function, called "broadcastMessage"
+	proxy.on('UpdateJobStatus', function(JobStatus) {   
+		console.log(JobStatus);
+		
+	});
+
+	// atempt connection, and handle errors
+	connection.start()
+	.done(function(){ 
+		console.log('Now connected, connection ID=' + connection.id);
+		console.log(connection);
+		console.log(proxy);
+	})
+	.fail(function(){ 
+		console.log('Could not connect'); });
 
 }
