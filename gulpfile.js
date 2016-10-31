@@ -10,6 +10,11 @@ const ngannotate = require('gulp-ng-annotate')
 const closure = require('gulp-jsclosure')
 const p = require('path')
 const runSequence = require('run-sequence');
+var cssnano = require('gulp-cssnano');
+var deleteLines = require('gulp-delete-lines');
+var useref = require('gulp-useref');
+var gulpif = require('gulp-if');
+var inject = require('gulp-inject');
 
 const jsFilePaths = [
 	'app/*.js',
@@ -39,7 +44,27 @@ const jsLibFilePaths = [
 	"node_modules/angular-signalr-hub/signalr-hub.min.js"
 ]
 
-gulp.task('dist', function () {
+const cssFilePaths = [
+	"node_modules/bootstrap/dist/css/bootstrap-theme.css",
+	"node_modules/bootstrap/dist/css/bootstrap.css",
+	"node_modules/font-awesome/css/font-awesome.css",
+	"app/content/styles/style.css",
+	"app/content/styles/sidebar.css",
+	"app/content/component/loadinSnake/loading-snake.css",
+	"app/content/component/sk-cube/sk-cube.css",
+	"app/content/component/spinner/spinner.css",
+	"node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css"
+]
+
+gulp.task('clean', function (cb) {
+	del(['dist']).then(function (paths) {
+		console.log('Deleted files and folders:\n', paths.join('\n'));
+        cb();
+	});
+});
+
+
+gulp.task('bundle', function () {
 	//first load the services, then the directives and then the controller
 	return gulp.src(jsFilePaths)			
 			.pipe(ngannotate())
@@ -49,31 +74,69 @@ gulp.task('dist', function () {
 			.pipe(gulp.dest('dist/app'));
 })
 
-gulp.task('clean', function (cb) {
-	del(['dist']).then(function (paths) {
-		console.log('Deleted files and folders:\n', paths.join('\n'));
-        cb();
-	});
+
+gulp.task('bundle-css', function(){
+	return gulp.src(cssFilePaths)
+		.pipe(cssnano())
+		.pipe(concat('style.min.css'))
+		.pipe(gulp.dest('dist/app'));
+})
+
+
+gulp.task('bundle-libs', function(){
+	return gulp.src(jsLibFilePaths)
+		.pipe(concat('lib.js'))
+		.pipe(uglify())
+		.pipe(rename({suffix: '.min'}))
+		.pipe(gulp.dest('dist/app'));
 });
+
 
 gulp.task('copy-assets', function(){
 	return gulp.src(['app/content/**/**/*'])
 			.pipe(gulp.dest('dist/app/content/'))
 });
 
-gulp.task('copy-libs', function(){
-	return gulp.src(jsLibFilePaths)
-		.pipe(concat('lib.js'))
-		.pipe(uglify())
-		.pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest('dist/app'));
+
+gulp.task('copy-templates', function(){
+	return gulp.src('app/views/**/*')
+		.pipe(gulp.dest('dist/app/views/'))
+});
+
+gulp.task('remove-js-css', function(){
+	return gulp.src('index.html')
+			.pipe(deleteLines({
+				'filters': [
+					/<script\s+type=["']text\/javascript["']\s+src=/i
+				]
+			}))
+			.pipe(deleteLines({
+				'filters': [
+					/<link\s+rel=["']/i
+				]
+			}))			
+			.pipe(gulp.dest('dist/'))
 })
 
+gulp.task('inject-index', function(){
+	var bundlesSources = gulp.src(['./dist/app/**.css', './dist/app/**.js'], {read: false});
+	
+
+	return gulp.src('/dist/index.html')
+				.pipe(inject(bundlesSources, { ignorePath: 'dist' }))							
+				.pipe(gulp.dest('dist/'));				
+});
 
 
 
-
-
-
-
+gulp.task('build', function(callback){
+	runSequence('clean', 
+				'bundle','bundle-libs', 
+				'bundle-css', 
+				'copy-assets', 
+				'copy-templates', 
+				'remove-js-css', 
+				'inject-index', 
+				callback);
+});
 

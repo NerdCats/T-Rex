@@ -42,7 +42,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
   	vm.UserNameIsLoading = false;
 
   	vm.buttonText = "Create Order";
-  	vm.minMode = true;
+  	vm.minMode = false;
 
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
