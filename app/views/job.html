@@ -1,0 +1,426 @@
+<div ng-show="job.jobIsLoading == 'INPROGRESS'" class="mt-15-percent" ng-include="'../app/content/component/spinner/spinner.html'"></div>
+ <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED' || job.redMessage">
+    {{job.redMessage}}
+</div>
+<div class="container-fluid" ng-show="job.jobIsLoading == 'COMPLETED'">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
+                    <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
+                    <!-- <h3 ng-show="!job.data.JobServedBy"> someday it should come back, when server will response fast-->
+                    <h3>
+                        You must 
+                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                            CLAIM
+                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>    
+                        </button>
+                        the Order first to start processing it
+                    </h3>
+                </div>
+                <!-- <div ng-show="job.data.JobServedBy" class="col-md-6"> someday it should come back, when server will response fast-->
+                <div class="col-md-6">
+                    <div class="row pull-right mb-20">
+                        <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
+                        <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELLED'" ng-click="job.restore()">
+                            RESTORE
+                            <span ng-show="job.modifying === 'RESTORING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELLED'" ng-click="openCancellationModal()">
+                            CANCEL
+                            <span ng-show="job.modifying === 'CANCELLING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                            RE CLAIM
+                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <button type="button" class="btn btn-info" ng-click="job.updatePaymentStatus()">
+                            UPDATE PAYMENT
+                            <span ng-show="job.modifying === 'PAYMENT_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                        <a class="btn btn-info" href="{{invoiceUrl()}}" target="_blank">INVOICE</a>                        
+                    </div>
+                    <div class="row mb-20">
+                        <div class="input-group col-md-6 pull-right">                            
+                            <input id="tracking-link" type="text" class="form-control" ng-model="trackingLink">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ngclipboard data-clipboard-target="#tracking-link"  data-toggle="tooltip" data-placement="bottom" title="Copy GO! Fetch Public Tracking Link of {{job.data.HRID}}" >
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <div ng-show="job.data.JobServedBy" class="row"> -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
+                               ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[0].State).class">
+                     {{job.data.Tasks[0].Type}}<span class="label pull-right">{{job.data.Tasks[0].State}}</span>
+                </div>
+                <div class="panel-body">                    
+                    <ul class="list-group mb-20">
+                        <li class="list-group-item" ng-repeat="(key, value) in job.data.Assets">
+                            <div class="row">
+                                <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
+                                <div class="col-md-7">
+                                    <p>{{job.data.Assets[key].UserName}}</p>
+                                    <span>{{job.data.Assets[key].PhoneNumber}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>                        
+                    <div class="row mb-20">
+                        <button class="col-md-12 btn btn-primary" ng-click="openAssetsList()" ng-disabled="job.data.Tasks[0].State === 'COMPLETED'">
+                            ASSIGN DELIVERY MAN
+                            <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForFetchAsset">
+                            <option value="PENDING">PENDING</option>
+                            <option value="IN_PROGRESS">IN PROGRESS</option>
+                            <option value="COMPLETED">COMPLETED</option>
+                        </select>                    
+                        <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForFetchAsset" ng-click="job.stateUpdate(job.data.Tasks[0].id, selectedStateForFetchAsset, job.data.Tasks[0].Type)">
+                            UPDATE STATE
+                            <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                        </button>
+                    </div>
+                </div>               
+            </div>
+            <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[1].State).class">
+                    {{job.data.Tasks[1].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-4">ETA: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Started: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[1].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Completed: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[1].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">ETA Failed: </label>                                                    
+                        <span class="col-md-8">{{ job.data.Tasks[1].ETAFailed }}</span><br>                            
+                    </div>                    
+                    <div class="row">
+                        <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
+                                <option value="PENDING">PENDING</option>
+                                <option value="IN_PROGRESS">IN PROGRESS</option>
+                                <option value="COMPLETED">COMPLETED</option>
+                            </select>                    
+                            <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForPickup" ng-click="job.stateUpdate(job.data.Tasks[1].id, selectedStateForPickup, job.data.Tasks[1].Type)">
+                                UPDATE STATE
+                                <span ng-show="job.modifying === 'PackagePickUp_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                            </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" ng-show="job.data.Tasks[2].Type == 'Delivery'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[2].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[2].State).class">
+                    {{job.data.Tasks[2].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[2].State).value}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-4">ETA: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Started: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[2].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Completed: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[2].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">ETA Failed: </label>                                                    
+                        <span class="col-md-8">{{ job.data.Tasks[2].ETAFailed }}</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForDelivery">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForDelivery" ng-click="job.stateUpdate(job.data.Tasks[2].id, selectedStateForDelivery, job.data.Tasks[2].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'Delivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
+                </div>
+            </div>
+
+
+
+            <div class="panel" ng-show="job.data.Tasks[3].Type == 'SecureDelivery'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[3].State).class+'-border'">
+                <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[3].State).class">
+                    {{job.data.Tasks[3].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[3].State).value}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="col-md-4">ETA: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Started: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[3].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Completed: </label>                                                    
+                        <span class="col-md-8">{{ (job.data.Tasks[3].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">ETA Failed: </label>                                                    
+                        <span class="col-md-8">{{ job.data.Tasks[3].ETAFailed }}</span><br>                            
+                    </div>                    
+                    <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForSecuredelivery">
+                        <option value="PENDING">PENDING</option>
+                        <option value="IN_PROGRESS">IN PROGRESS</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>                    
+                    <button class="btn btn-primary pull-right" ng-disabled="!selectedStateForSecuredelivery" ng-click="job.stateUpdate(job.data.Tasks[3].id, selectedStateForSecuredelivery, job.data.Tasks[3].Type)">
+                        UPDATE STATE
+                        <span ng-show="job.modifying === 'SecureDelivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                    </button>
+                </div>
+            </div>         
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Order Information
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6" ng-show="job.data.Order.SellerInfo">
+                            <label class="control-label">Pickup From:</label><br>
+                            <span>{{job.data.Order.SellerInfo.Name}}</span>
+                        </div>
+                        <div class="col-md-6" ng-show="job.data.Order.BuyerInfo">
+                            <label class="control-label">Delivery To:</label><br>
+                            <span>{{job.data.Order.BuyerInfo.Name}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6" ng-show="job.data.Order.SellerInfo">
+                            <label class="control-label">Pickup PhoneNumber:</label><br>
+                            <span>{{job.data.Order.SellerInfo.PhoneNumber}}</span>
+                        </div>
+                        <div class="col-md-6" ng-show="job.data.Order.BuyerInfo">
+                            <label class="control-label">Delivery PhoneNumber:</label><br>
+                            <span>{{job.data.Order.BuyerInfo.PhoneNumber}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Pickup Address:</label><br>
+                            <span>{{job.data.Order.From.Address}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Delivery Address:</label><br>
+                            <span>{{job.data.Order.To.Address}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Note to Delivery Man:</label><br>
+                            <span>{{job.data.Order.NoteToDeliveryMan}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Package Description:</label><br>
+                            <span>{{job.data.Order.Description}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Payment Method:</label><br>
+                            <span>{{job.data.Order.PaymentMethod}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Required Change For:</label><br>
+                            <span>{{job.data.Order.RequiredChangeFor}}</span>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Pickup ETA:</label><br>
+                            <span>{{(job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Delivery ETA:</label><br>
+                            <span>{{(job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>
+                        <div class="col-md-4" ng-show="job.data.Tasks[3]">
+                            <label>Secure Delivery ETA:</label><br>
+                            <span>{{(job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                        </div>                        
+                    </div>                    
+                </div>                
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Item Details
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                    <th>Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in job.data.Order.OrderCart.PackageList track by $index">
+                                    <th scope="row">{{$index + 1}}</th>
+                                    <td>{{item.Item}}</td>
+                                    <td>{{item.Quantity}}</td>
+                                    <td>{{item.Price}}</td>
+                                    <td>{{item.Total}}</td>
+                                    <td>{{item.Weight}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right">Total Weight</td>
+                                    <td> {{job.data.Order.OrderCart.TotalWeight}} </td>
+                                    <td colspan="2" class="text-right">Subtotal</td>
+                                    <td> {{job.data.Order.OrderCart.SubTotal}} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Delivery Charge</td>
+                                    <td> {{job.data.Order.OrderCart.ServiceCharge}} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total</td>
+                                    <td> {{job.data.Order.OrderCart.TotalToPay}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Customer Info
+                </div>
+                <div class="panel-body">
+                    <div class="row mb-20">
+                        <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
+                        <h4>{{job.data.User.UserName}}</h4>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-user col-md-3" aria-hidden="true"></span>
+                        <span>{{job.data.User.Type}}</span>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-earphone col-md-3" aria-hidden="true"></span>
+                        <span>{{job.data.User.PhoneNumber}}</span>
+                    </div>
+                    <div class="row mb-20">
+                        <span class="glyphicon glyphicon-envelope col-md-3" aria-hidden="true"></span>
+                        <span>{{job.data.User.Email}}</span>
+                    </div>
+                </div>                
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Order Status
+                </div>
+                <div class="panel-body">                    
+                    <div class="row">
+                        <label class="col-md-6">Order Type</label>
+                        <span class="col-md-6">{{job.data.Order.Type}}</span>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Claimed By</label>
+                        <span class="col-md-6">{{job.data.JobServedBy.UserName}}</span>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Create Time</label>
+                        <span class="col-md-6">{{ job.data.CreateTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Modified Time</label>
+                        <span class="col-md-6">{{ job.data.ModifiedTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">ETA Failed</label>
+                        <span class="col-md-6">{{ job.data.ETAFailed }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Processing Start Time</label>
+                        <span class="col-md-6">{{ (job.data.InitiatinTime | date:'EEE d MMM y,h:m a') || 'Not Started Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Completion Time</label>
+                        <span class="col-md-6">{{ (job.data.CompletionTime | date:'EEE d MMM y,h:m a') || 'Not Completed Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Duration Time</label>
+                        <span class="col-md-6">{{ job.data.Duration || 'Not Completed Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">PreferredDeliveryTime</label>
+                        <span class="col-md-6">{{ (job.data.PreferredDeliveryTime | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">InvoiceId</label>
+                        <span class="col-md-6"> {{ job.data.InvoiceId || 'Not Generated Yet' }}</span><br>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">Payment Status</label>
+                        <span class="col-md-6"> {{ job.data.PaymentStatus }} </span><br>
+                    </div>
+
+                    <div class="row" ng-show="job.data.CancellationReason">
+                        <label class="col-md-6">CancellationReason</label>
+                        <span class="col-md-6"> {{ job.data.CancellationReason }}</span><br>                        
+                    </div>
+
+                    <div class="row">
+                        <label class="col-md-6">IsDeleted</label>
+                        <span class="col-md-6"> {{ job.data.IsDeleted }} </span><br>
+                    </dv>                
+                        
+                    </div>
+            </div>
+        </div>       
+    </div>
+
+    <div ng-show="job.data.JobServedBy" class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Map
+                </div>
+                <div id="jobMap" class="panel-body"></div>
+            </div>
+        </div>
+    </div>
+</div>

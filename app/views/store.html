@@ -1,0 +1,111 @@
+<div class="container">
+	<ng-form class="form-horizontal" name="storeForm">
+		<fieldset>
+			<span ng-show="errmsg">{{ errmsg }}</span>
+			<legend>Submit new Store for {{ username }}</legend>
+			
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="">Store Name</label>  
+				<div class="col-md-4">
+					<input type="text" placeholder="" class="form-control input-md" ng-model="store.singleStore.Name" ng-required="true">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="">Store Url</label>  
+				<div class="col-md-6">
+					<input type="text" placeholder="" class="form-control input-md" ng-model="store.singleStore.Url">				
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="">Display Order</label>  
+				<div class="col-md-2">
+					<input type="number" placeholder="" class="form-control input-md" ng-model="store.singleStore.DisplayOrder">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="">Coverpic Url</label>
+				<div class="col-md-6">
+					<input type="text" placeholder="" class="form-control input-md" ng-model="store.singleStore.CoverPicUrl">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<button class="col-md-2 pull-right btn btn-default" ng-click="addProductCategories()">Add Catagories</button>
+			</div>
+
+			<table ng-show="store.singleStore.ProductCategories" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+				<thead>
+					<th>S/L</th>		
+					<th>Id</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Create Time</th>
+					<th>Last Modified</th>
+					<th></th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cat in store.singleStore.ProductCategories track by $index">
+						<td>{{ $index + 1 }}</td>
+						<td>{{ cat.Id }}</td>
+						<td>{{ cat.Name }}</td>
+						<td>{{ cat.Description }}</td>
+						<td>{{ cat.CreateTime }}</td>
+						<td>{{ cat.LastModified }}</td>
+						<td><button class="btn btn-default" ng-click="store.removeCategory($index)">Remove</button></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="form-group">
+				<button class="btn btn-primary col-md-4 col-md-offset-4" ng-click="store.createStore()" ng-disabled="storeForm.$invalid" ng-hide="store.editingMode">
+					<span ng-show="store.creatingStore" class="fa fa-refresh fa-spin"></span>
+					Submit Store
+				</button>
+				<button ng-show="store.editingMode"  class="btn btn-primary col-md-2 col-md-offset-4" ng-click="store.editStore()" ng-disabled="storeForm.$invalid">
+					<span ng-show="store.creatingStore" class="fa fa-refresh fa-spin"></span>
+					Update Store
+				</button>
+				<button ng-show="store.editingMode"  class="btn btn-primary col-md-2 col-md-offset-4" ng-click="store.clearEdit()">clear</button>
+			</div>
+
+		</fieldset>
+	</ng-form>
+</div>
+
+
+<h1 ng-show="user">Existing Stores of {{ username }}</h1>
+<div ng-show="store.loadingStores" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
+<table ng-hide="store.loadingStores" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+	<thead>
+		<th>S/L</th>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Store Url</th>
+		<th>Display Order</th>
+		<th>CoverPic Url</th>
+		<th>Categories</th>
+		<th></th>
+		<th></th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="_store in store.stores">
+			<td>{{ $index + 1 }}</td>
+			<td>{{ _store.Id }}</td>
+			<td>{{ _store.Name }}</td>
+			<td>{{ _store.Url }}</td>
+			<td>{{ _store.DisplayOrder }}</td>
+			<td>{{ _store.CoverPicUrl }}</td>
+			<td> 
+				<ol>
+					<li ng-repeat="category in _store.ProductCategories">{{ category.Name }}</li>
+				</ol>
+			</td>
+			<td><a class="btn btn-primary" href="#/products?storeid={{_store.Id}}&storename={{_store.Name}}&userid={{ userid }}">View Store</a></td>
+			<td><button class="btn btn-default" ng-click="store.editModeOn(_store)">Edit</button></td>
+			<td><button class="btn btn-danger" ng-click="store.deleteStore(_store)">Delete</button></td>
+		</tr>
+	</tbody>
+</table>
