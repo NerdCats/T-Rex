@@ -12,8 +12,10 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 		data : {},
 	 		jobIsLoading: "PENDING",
 	 		jobUpdating: false,
-	 		modifying: "",
-	 		redMessage : null,	 		
+	 		modifying: '',
+	 		commentStatus: '',
+	 		redMessage : null,
+	 		comments: [],
 	 		loadJob: function () {
 				this.jobIsLoading = "INPROGRESS";
 				console.log(this.data)
@@ -21,14 +23,15 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 				function successCallback(response) {
 					itSelf.data = response.data;
 					itSelf.jobIsLoading = "COMPLETED";					
-					console.log(itSelf);
+					console.log(itSelf);					
 				};
 				function errorCallback(error) {
 					itSelf.jobIsLoading = "FAILED";
 					console.log(error)
 					itSelf.redMessage = error.data.Message;
 				};
-				restCall('GET', ngAuthSettings.apiServiceBaseUri + "api/job/" + id, null, successCallback, errorCallback);	 			
+				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;
+				restCall('GET', jobUrl, null, successCallback, errorCallback);	 			
 	 		},	 		
 	 		claim: function () {
 	 			var itSelf = this;
@@ -125,6 +128,54 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 		},
 	 		getSantizedState: function (state) {
 	 			return dashboardFactory.getProperWordWithCss(state);
+	 		},
+	 		getComments : function (jobId) {
+	 			var itSelf = this;	 			
+	 			$http({
+	 				method: 'GET',
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/Job/' + jobId
+	 			}).then(function (response) {	 				
+	 				itSelf.comments = response.data.data.reverse();	 				
+	 				itSelf.commentStatus = '';
+	 				console.log(itSelf.comments)
+	 			}, function (error) {
+	 				itSelf.commentStatus = 'COMMENTI_LOADING_FAILED';
+	 				console.log(error);
+	 			})
+	 		},
+	 		postComment : function (comment) {
+	 			var itSelf = this;
+	 			itSelf.commentStatus = 'COMMENTI_MODIFYING';
+	 			$http({
+	 				method: 'POST',
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment',
+	 				data: {
+						RefId: itSelf.data.HRID,
+						EntityType: 'Job',
+						CommentText: comment
+					}
+	 			}).then(function (response) {
+	 				itSelf.getComments(itSelf.data.HRID);
+	 				itSelf.commentStatus = '';
+	 			}, function (error) {
+	 				itSelf.commentStatus = '';
+	 				alert("Couldn't add comment, server error!");
+	 			})
+	 		},
+	 		deleteComment : function (commentId) {
+	 			console.log(commentId)
+	 			var itSelf = this;
+	 			itSelf.commentStatus = 'COMMENTI_MODIFYING';
+	 			$http({
+	 				method: 'DELETE',
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/' + commentId,
+	 			}).then(function (response) {
+	 				itSelf.commentStatus = '';
+	 				itSelf.getComments(itSelf.data.HRID);
+	 			}, function (error) {
+	 				alert("Sorry, couldn't delete : " + error.Message);
+	 				itSelf.commentStatus = '';
+	 			})
 	 		}
 	 	}
 	 }
