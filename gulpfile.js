@@ -71,7 +71,7 @@ gulp.task('bundle', function () {
 			.pipe(concat('main.js'))
 			.pipe(uglify())
 			.pipe(rename({suffix: '.min'}))
-			.pipe(gulp.dest('dist/app'));
+			.pipe(gulp.dest('dist/'));
 })
 
 
@@ -86,8 +86,8 @@ gulp.task('bundle-css', function(){
 gulp.task('bundle-libs', function(){
 	return gulp.src(jsLibFilePaths)
 		.pipe(concat('lib.js'))
-		.pipe(uglify())
-		.pipe(rename({suffix: '.min'}))
+		// .pipe(uglify())
+		// .pipe(rename({suffix: '.min'}))
 		.pipe(gulp.dest('dist/app'));
 });
 
@@ -100,8 +100,13 @@ gulp.task('copy-assets', function(){
 
 gulp.task('copy-templates', function(){
 	return gulp.src('app/views/**/*')
-		.pipe(gulp.dest('dist/app/views/'))
+		.pipe(gulp.dest('dist/app/views/'))		
 });
+
+gulp.task('copy-directives', function(){
+	return gulp.src('app/directives/**/*.html')
+		.pipe(gulp.dest('dist/app/directives/'))
+})
 
 gulp.task('remove-js-css', function(){
 	return gulp.src('index.html')
@@ -135,6 +140,7 @@ gulp.task('build', function(callback){
 				'bundle-css', 
 				'copy-assets', 
 				'copy-templates', 
+				'copy-directives',
 				'remove-js-css', 
 				'inject-index', 
 				callback);
