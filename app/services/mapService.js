@@ -13,7 +13,7 @@ app.service('mapFactory', [function(){
 		start : "/content/img/ic_start1.png"	
 	};
 
-	var createMap = function (lat, lon, mapElement, zoom) {
+	var createMap = function (lat = 23.7968725, lon = 90.4083922, mapElement, zoom) {
 		mapServicePrivateMap = new GMaps({
 			el: '#'+ mapElement,
 			lat: lat,

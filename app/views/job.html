@@ -315,6 +315,34 @@
                     </div>
                 </div>                
             </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Extra Info
+                </div>
+                <div class="panel-body" ng-show="job.commentStatus === 'COMMENTI_LOADING_FAILED'">
+                    <div>Couldn't load comment due to server error, <button class="btn btn-info" ng-click="job.getComments()">click here</button> to try again!</div>
+                </div>
+                <div class="panel-body" ng-hide="job.commentStatus === 'COMMENTI_LOADING_FAILED'">
+                    <ol>
+                        <li ng-repeat="comment in job.comments">                            
+                                <div class="col-sm-11 col-md-11">{{comment.CommentText}}</div>
+                                <div class="col-sm-1 col-md-1"><i class="fa fa-times fa-1x" ng-click="job.deleteComment(comment.Id)"></i></div>                            
+                        </li>
+                    </ol>
+                    <div class="form-group" ng-show="!minMode">                        
+                        <div class="col-sm-12 col-md-12">
+                            <textarea row="3" type="text" class="form-control" ng-model="newComment" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'"></textarea>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <button class="btn btn-primary pull-right" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'" ng-click="job.postComment(newComment)">
+                                <span ng-show="job.commentStatus === 'COMMENTI_MODIFYING'" class="fa fa-refresh fa-spin"></span>
+                                <span>Add Comment</span>
+                            </button>    
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-3">
             <div class="panel panel-primary">
