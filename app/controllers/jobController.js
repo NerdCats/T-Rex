@@ -13,6 +13,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	vm.trackingLink = "gofetch.cloudapp.net:8000/#/track/" + id;
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
+	vm.job.getComments(id);
 	vm.invoiceUrl = function () {
 		// var url = ngAuthSettings.apiServiceBaseUri + '/api/job/'+ vm.job.data.HRID +'/invoice';
 		var url = 'app/content/invoice/invoice.html?'+ vm.job.data.HRID;
