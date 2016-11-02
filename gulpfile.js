@@ -24,6 +24,7 @@ const jsFilePaths = [
 ];
 
 const jsLibFilePaths = [
+	"node_modules/gmaps/gmaps.min.js",
 	"node_modules/jquery/dist/jquery.min.js",
 	"node_modules/jQuery.print/jQuery.print.js",
 	"node_modules/moment/min/moment.min.js",
@@ -56,6 +57,11 @@ const cssFilePaths = [
 	"node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css"
 ]
 
+const fontsPath = [
+	"node_modules/font-awesome/fonts/*",
+	"node_modules/bootstrap/dist/fonts/*"
+]
+
 gulp.task('clean', function (cb) {
 	del(['dist']).then(function (paths) {
 		console.log('Deleted files and folders:\n', paths.join('\n'));
@@ -79,7 +85,12 @@ gulp.task('bundle-css', function(){
 	return gulp.src(cssFilePaths)
 		.pipe(cssnano())
 		.pipe(concat('style.min.css'))
-		.pipe(gulp.dest('dist/app'));
+		.pipe(gulp.dest('dist/app/content/styles'));
+})
+
+gulp.task('copy-fonts', function(){
+	return gulp.src(fontsPath)
+		.pipe(gulp.dest("dist/app/content/fonts"))
 })
 
 
@@ -123,13 +134,13 @@ gulp.task('remove-js-css', function(){
 			.pipe(gulp.dest('dist/'))
 })
 
-gulp.task('inject-index', function(){
-	var bundlesSources = gulp.src(['./dist/app/**.css', './dist/app/**.js'], {read: false});
+gulp.task('inject-index', function(done){
+	var bundlesSources = gulp.src(['./dist/app/content/styles/style.min.css', './dist/app/lib.js', './dist/main.min.js'], {read: false});
 	
 
-	return gulp.src('/dist/index.html')
+	return gulp.src('./dist/index.html')
 				.pipe(inject(bundlesSources, { ignorePath: 'dist' }))							
-				.pipe(gulp.dest('dist/'));				
+				.pipe(gulp.dest('dist/'));
 });
 
 
@@ -138,6 +149,7 @@ gulp.task('build', function(callback){
 	runSequence('clean', 
 				'bundle','bundle-libs', 
 				'bundle-css', 
+				'copy-fonts',
 				'copy-assets', 
 				'copy-templates', 
 				'copy-directives',
