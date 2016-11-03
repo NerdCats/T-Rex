@@ -59,7 +59,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 
 
 	if(vm.id == "new"){
-		vm.order = orderFactory.newOrder;
+		vm.order = orderFactory.newOrder();
 	} else {		
 		var jobUrl = ngAuthSettings.apiServiceBaseUri + "/api/job/" + vm.id;
 		vm.OrderIsLoading = true;
