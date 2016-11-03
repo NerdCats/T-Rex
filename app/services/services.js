@@ -74,11 +74,11 @@ app.factory('restCall', ['$http', function($http){
 		$http({
   			method: method,
   			url : url,
-  			data: data  		
+  			data: data
   		}).then(function success(response) {
-  			successCallback(response);  			
+  			successCallback(response);
   		}, function error(response) {
-  			errorCallback(response);  		
+  			errorCallback(response);
   		});
 	};
 }]);
