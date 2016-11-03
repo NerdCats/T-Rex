@@ -7,8 +7,8 @@ function invoiceCtrl($scope, $http, $window) {
     var id = $window.location.search.substring(1);
     vm.today = new Date();
     vm.job = {};
-    var prod = "http://gofetch.cloudapp.net/api/job/";
-    var dev = "http://taskcatdev.azurewebsites.net/api/job/";
+    var prod = "http://fetchprod.gobd.co/api/job/";
+    var dev = "http://fetchdev.gobd.co/api/job/";
     var url =  prod + id;
 
     $http({
