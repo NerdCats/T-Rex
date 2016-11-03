@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/phj31o9kuaige79b/branch/master?svg=true)](https://ci.appveyor.com/project/thehoneymad/t-rex/branch/master)
+
 # T-Rex
 T-Rex is the Dashboard for TaskCat, built as an angular-1 single page application.
 The different versions of T-Rex can be found by checking git tags.
