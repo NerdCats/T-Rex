@@ -213,3 +213,8 @@ body, html {
     border: 0;
     border-top: 2px solid #d6d6d6;
 }
+
+.bulk-order-textarea {
+    border: 0;
+    padding: 15px;
+}
