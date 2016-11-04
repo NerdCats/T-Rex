@@ -26,7 +26,7 @@ function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboa
 	document.getElementById('csv').addEventListener('change', handleFile, false);
 	function handleFile (e) {		
 		var files = e.target.files;
-		for (i = 0, f = files[i]; i != files.length; ++i) {
+		for (var i = 0, f = files[i]; i != files.length; ++i) {
 			var reader = new FileReader();
 		    var name = f.name;
 		    reader.onload = function(e) {
