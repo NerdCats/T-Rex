@@ -51,7 +51,8 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 
 
 					order.From.Locality = orderInfo["Pickup Area"];
-					order.From.AddressLine1 = orderInfo["Pickup Address"];
+					order.From.AddressLine1 = itSelf.EnterpriseUser.UserName + ", \n" + itSelf.EnterpriseUser.PhoneNumber + ", \n" + 
+												orderInfo["Pickup Area"] + ", \n" +orderInfo["Pickup Address"];
 
 					order.BuyerInfo.Name = orderInfo["Recipient's Name"];
 					order.BuyerInfo.PhoneNumber = orderInfo["Recipient's PhoneNumber"];
@@ -59,7 +60,8 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 					order.BuyerInfo.Address.AddressLine1 = orderInfo["Delivery Address"];
 
 					order.To.Locality = orderInfo["Delivery Area"];
-					order.To.AddressLine1 = orderInfo["Delivery Address"];
+					order.To.AddressLine1 = order.BuyerInfo.Name + ", \n" + order.BuyerInfo.PhoneNumber + ", \n" + 
+															order.BuyerInfo.Address.Locality + ", \n" +orderInfo["Delivery Address"];
 
 					order.Type = "ClassifiedDelivery";
 					order.Variant = "Enterprise";
@@ -68,7 +70,7 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 
 					var product = "";
 					if (orderInfo["Vendor's Invoice No"]) {
-						product += "Invoice: " + orderInfo["Vendor's Invoice No"];
+						product += "Invoice: " + orderInfo["Vendor's Invoice No"] + ", \n";
 					}
 					product += 	orderInfo["Product Description"];
 					var newItem = {

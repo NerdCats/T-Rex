@@ -5,22 +5,10 @@ app.controller('bulkOrderC', ['$scope', 'bulkOrderService','ngAuthSettings', 're
 function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboardFactory) {
 	
 	var vm = $scope;
-	// vm.EnterpriseUsers = [];
 	vm.EnterpriseUser = null;
 	vm.bulkOrder = bulkOrderService.getBulkOrder();	
 
-	// vm.getUserNameList = function (type, Users) {
-	// 	function success(response) {			
-	// 		angular.forEach(response.data.data, function (value, keys) {
-	// 			Users.push(value);
-	// 		});			
-	// 	}
-	// 	function error(error) {
-	// 		console.log(error);
-	// 	}
-	// 	var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&PageSize=50";
-	// 	restCall('GET', getUsersUrl, null, success, error);
-	// }
+
 	vm.bulkOrder.getUsersList("ENTERPRISE", vm.EnterpriseUsers);
 
 	document.getElementById('csv').addEventListener('change', handleFile, false);
