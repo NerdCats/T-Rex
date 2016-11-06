@@ -6,7 +6,9 @@
             <th>Create Time</th>
             <th>User</th>
             <th>Type</th>            
+            <th>Pickup Area</th>
             <th>Pickup</th>
+            <th>Delivery Area</th>
             <th>Delivery</th>
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Pickup Status</th>   
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Delivery Status</th>   
@@ -23,18 +25,24 @@
             <td class="col-md-1">
                 <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.Id}}" target="_blank">{{order.Id}}</a>
                 <span class="label text-center {{order.JobState().class}}">{{order.JobState().value}}</span>
+                <br>                
             </td>
             <td>{{order.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
             <td><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
             <td>{{order.Type()}}</td>                            
+            <td class="col-md-2">{{order.FromArea}}</td>
             <td class="col-md-2">{{order.From}}</td>
+            <td class="col-md-2">{{order.ToArea}}</td>
             <td class="col-md-2">{{order.To}}</td>
             <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.PickUpState().class}}">{{order.PickUpState().value}}</span></td>
             <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.DeliveryState().class}}">{{order.DeliveryState().value}}</span></td>
             <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span></td>
             <td ng-show="orders.searchParam.jobState === 'CANCELLED'">{{order.CancellationReason || "No Reason Mentioned"}}</td>
             <td><span class="label {{order.PaymentStatus.class}}">{{order.PaymentStatus.value}}</span></td>                        
-            <td class="col-md-1">{{order.RequestedAgo}}</td>                                                        
+            <td class="col-md-1">{{order.RequestedAgo}}</td>
+            <td>
+                <a class="btn btn-primary" href="/app/content/invoice/invoice.html?{{order.Id}}" target="_blank">Invoice</a>
+            </td>                                                        
         </tr>
     </tbody>
 </table>
