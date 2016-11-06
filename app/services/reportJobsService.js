@@ -35,7 +35,8 @@ function reportJobsService($http, $window, reportServiceUrl){
 				}).then(function success(response) {
 					angular.forEach(response.data.data, function (value, index) {
 						itSelf.data.push(value);
-					})					
+					})
+					console.log(itSelf.data)
 					itSelf.isCompleted = 'SUCCESSFULL';
 				}, function error(error) {
 					itSelf.isCompleted = 'FAILED'
