@@ -90,6 +90,17 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
+		if (searchParam.DeliveryArea != null) {
+			var deliveryAreaParam = "Order/To/Locality eq '"+ searchParam.DeliveryArea +"'";
+			console.log(searchParam.DeliveryArea)
+			if (!allreadyAParamIsThere) {
+				searchUrl +=  deliveryAreaParam;
+				allreadyAParamIsThere = true;
+			} else {
+				searchUrl += " and (" + deliveryAreaParam + " or Order/To/Locality eq null)";
+			}
+		}
+
 		if (searchParam._t != null) {
 			var jobStateParam = "_t eq '"+ searchParam._t +"'";
 			console.log(searchParam._t)

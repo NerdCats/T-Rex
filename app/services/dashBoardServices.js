@@ -195,6 +195,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					startDate : null,
 					endDate : null,
 				},
+				DeliveryArea: null,
 				CompletionTime : {
 					startDate : null,
 					endDate : null,

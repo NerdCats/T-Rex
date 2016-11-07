@@ -1,16 +1,18 @@
 'use strict';
 
-app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'ngAuthSettings', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
+app.controller('dashBoardController', ['$scope', '$interval', '$window', 'Areas', 'ngAuthSettings', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
 
-function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, timeAgo, restCall, dashboardFactory)  {
+function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, timeAgo, restCall, dashboardFactory)  {
 
 	var vm = $scope;	
-	vm.menus = menus;	
 	vm.autoRefreshState = true;
 	vm.jobPerPage = 50;
 	vm.startDate = undefined;
 	vm.endDate = undefined;
 	vm.EnterpriseUser = null;
+	vm.DeliveryArea = null;
+
+	vm.DeliveryAreas = Areas;	
 	vm.EnterpriseUsers = [];	
 
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
@@ -70,12 +72,17 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;
-		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;	
+		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;
 		
 		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
+
+		vm.newOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.processingOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.completedOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.cancelledOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		
 		vm.newOrders.isCompleted = 'IN_PROGRESS';
 		vm.processingOrders.isCompleted = 'IN_PROGRESS';
