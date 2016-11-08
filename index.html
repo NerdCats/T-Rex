@@ -17,7 +17,15 @@
         <link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<title>Dashboard</title>
 
+        <!-- This CSS resources that we have to load from the web will be like this :
+            <link href="" rel="stylesheet">
+            because while gulp builds T-Rex, it checks index.html it clears off 
+            the css files having 'rel' attribute at the beginning 
+        -->
+
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
         <!-- inject:css -->
         <!-- endinject -->
 
@@ -29,12 +37,15 @@
         <link rel="stylesheet" type="text/css" href="app/content/component/loadinSnake/loading-snake.css">
         <link rel="stylesheet" type="text/css" href="app/content/component/sk-cube/sk-cube.css">
         <link rel="stylesheet" type="text/css" href="app/content/component/spinner/spinner.css">
-
         <link rel="stylesheet" type="text/css" href="node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css">
 
 
 
-        
+        <!-- This JavaScript resources that we have to load from the web will be like this :
+            <script src="">
+            because while gulp builds T-Rex, it checks index.html it clears off 
+            the js files having 'type="text/javascript"' attribute at the beginning 
+        -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6-oTRia-NQum_ZCOVdsX4p0Wmx1Y18o&libraries=places&sensor=false" async defer></script>
         <!-- inject:js -->
         <!-- endinject -->
@@ -130,7 +141,7 @@
                     <li ng-repeat="menu in menus">
                         <a href="{{menu.link}}" target="{{menu.target}}">
                             {{menu.title}}
-                            <span class="sub_icon glyphicon glyphicon-link"></span>
+                            <span class="sub_icon {{menu.class}}"></span>
                         </a>
                     </li>
                 </ul>

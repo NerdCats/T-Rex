@@ -1,21 +1,71 @@
 app.constant('ngAuthSettings', {
-  // apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
-  apiServiceBaseUri: "http://fetchprod.gobd.co/",
+  apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
+  // apiServiceBaseUri: "http://fetchprod.gobd.co/",
   // apiServiceBaseUri: "http://localhost:23873/",
   clientId: 'GoFetchDevWebApp'
 });
 
 app.constant('menus', [
-	{ title : "Dashboard", link: '#/'},
-	{ title : "Create Order", link: '#/order/create/new', target: "_blank"},
-	{ title : "Work Order", link: '#/workorder', target: "_blank"},
-	{ title : "Bulk Order", link: '#/bulkorder', target: "_blank"},
-	{ title : "Report", link: '#/report'},
-	{ title : "Order Types", link: '#/supportedOrder'},
-	{ title : "Users", link: '#/users'},
-	{ title : "Tracking Map", link: '#/tracking-map', target: "_blank"},
-	{ title : "Product Category", link: '#/products-category', target: "_blank"},
-	{ title : "Stores", link: '#/stores'},
+	{ 
+		title : "Dashboard", 
+		link: '#/',
+		target : "",
+		class: ""
+	},
+	{ 
+		title : "Create Order",
+		link: '#/order/create/new',
+		target: "_blank",
+		class: ""
+	},
+	{ 
+		title : "Work Order",
+		link: '#/workorder',
+		target: "_blank",
+		class: ""
+	},
+	{ 
+		title : "Bulk Order",
+		link: '#/bulkorder',
+		target: "_blank",
+		class: ""
+	},
+	{ 
+		title : "Report", 
+		link: '#/report',
+		target : "",
+		class: ""
+	},
+	{ 
+		title : "Order Types",
+		link: '#/supportedOrder',
+		target: "",
+		class: ""
+	},
+	{ 
+		title : "Users", 
+		link: '#/users',
+		target: "",
+		class: ""
+	},
+	{ 
+		title : "Tracking Map",
+		link: '#/tracking-map',
+		target: "_blank",
+		class: ""
+	},
+	{ 
+		title : "Product Category",
+		link: '#/products-category',
+		target: "_blank",
+		class: ""
+	},
+	{ 
+		title : "Stores", 
+		link: '#/stores',
+		target: "",
+		class: ""
+	},
 ]);
 
 
