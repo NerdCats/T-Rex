@@ -8,7 +8,7 @@ function queryService(restCall, ngAuthSettings){
 	var getOdataQuery = function (searchParam) {
 		console.log(searchParam);
 		var searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type;
-		queryUrl = "";
+		var queryUrl = "";
 		var allreadyAParamIsThere = false;		
 
 		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null && searchParam.UserName == null) {
