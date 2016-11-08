@@ -27,7 +27,7 @@
                 <span class="label text-center {{order.JobState().class}}">{{order.JobState().value}}</span>
                 <br>                
             </td>
-            <td>{{order.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
+            <td class="col-md-2">{{order.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
             <td><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
             <td>{{order.Type()}}</td>                            
             <td class="col-md-2">{{order.FromArea}}</td>

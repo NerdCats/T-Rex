@@ -123,6 +123,9 @@ ng-form {
     background-color: #b71c1c;
 }
 
+.all {
+    background: rebeccapurple;
+}
 .not-applicable {
     background-color: #9E9E9E;
 }
