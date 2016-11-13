@@ -13,7 +13,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 		function error(error) {
 			console.log(error);
 		}
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&PageSize=50";
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&pageSize=50";
 		restCall('GET', getUsersUrl, null, success, error);
 	}
 
