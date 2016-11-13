@@ -9,7 +9,7 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 			EnterpriseUser: null,
 			EnterpriseUsers: [],
 			getUsersList : function (type) {
-				var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&PageSize=50";
+				var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&pageSize=50";
 				var itSelf = this;
 
 				$http({
