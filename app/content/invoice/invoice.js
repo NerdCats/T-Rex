@@ -4,12 +4,13 @@ app.controller('invoiceCtrl',['$scope', '$http', '$window', invoiceCtrl]);
 function invoiceCtrl($scope, $http, $window) {
     var vm = $scope;
     vm.loadingJob = true;
-    var id = $window.location.search.substring(1);
+    var jobId = $window.location.search.substring(1);
     vm.today = new Date();
     vm.job = {};
+
     var prod = "http://fetchprod.gobd.co/api/job/";
-    var dev = "http://taskcatdev.azurewebsites.net/api/job/";
-    var url =  prod + id;
+    // var dev = "http://taskcatdev.azurewebsites.net/api/job/";
+    var url =  prod + jobId;
 
     $http({
         method: 'GET',
