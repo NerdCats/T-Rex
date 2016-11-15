@@ -37,7 +37,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		})
 	}
 
-	vm.openAssetsList = function (size) {
+	vm.openAssetsList = function (taskIndex) {
 		var modalInstance = $uibModal.open({
 			animation: $scope.animationsEnabled,
 			templateUrl: 'app/views/detailsJob/availableAsset.html',
@@ -47,7 +47,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		modalInstance.result.then(function (selectedItem) {
 				vm.selected = selectedItem;
 				console.log($scope.selected);
-				vm.job.assigningAsset(true);
+				vm.job.assigningAsset(taskIndex);
 				var success = function (response) {
 					vm.job.assigningAsset(false);					
 		  			$window.location.reload();	  			
@@ -58,7 +58,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		  			vm.job.assigningAsset(false);
 				};
 
-				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[0].id;
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[taskIndex].id;
 				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
 				// var result = patchUpdate(vm.selected.Id, "replace", 
 				// 						"/AssetRef", "api/job/", 

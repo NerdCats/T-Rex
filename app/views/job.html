@@ -59,7 +59,7 @@
     <!-- <div ng-show="job.data.JobServedBy" class="row"> -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
+            <!-- <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[0].State).class">
                      {{job.data.Tasks[0].Type}}<span class="label pull-right">{{job.data.Tasks[0].State}}</span>
@@ -77,7 +77,7 @@
                         </li>
                     </ul>                        
                     <div class="row mb-20">
-                        <button class="col-md-12 btn btn-primary" ng-click="openAssetsList()" ng-disabled="job.data.Tasks[0].State === 'COMPLETED'">
+                        <button class="col-md-12 btn btn-primary" ng-click="openAssetsList(0)" ng-disabled="job.data.Tasks[0].State === 'COMPLETED'">
                             ASSIGN DELIVERY MAN
                             <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
                         </button>
@@ -94,14 +94,32 @@
                         </button>
                     </div>
                 </div>               
-            </div>
+            </div> -->
             <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[1].State).class">
                     {{job.data.Tasks[1].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
                 </div>
                 <div class="panel-body">
+                    <div class="mb-20">
+                        <div ng-show="job.data.Tasks[1].AssetRef">
+                            <label class="mb-20">Assigned Asset: </label>
+                            <div class="row mb-20">                        
+                                <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
+                                <div class="col-md-7">
+                                    <p>{{job.data.Assets[job.data.Tasks[1].AssetRef].UserName}}</p>
+                                    <span>{{job.data.Assets[job.data.Tasks[1].AssetRef].PhoneNumber}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-20">
+                            <button class="col-md-12 btn btn-primary" ng-click="openAssetsList(1)" ng-disabled="job.data.Tasks[1].State === 'COMPLETED'">
+                                ASSIGN ASSET
+                                <span ng-show="job.modifying === 'PackagePickUp_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                            </button>
+                        </div>
+                    </div>
                     <div class="row">
-                        <label class="col-md-4">ETA: </label>                                                    
+                        <label class="col-md-4">ETA: </label>
                         <span class="col-md-8">{{ (job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
                     </div>
                     <div class="row">
@@ -135,6 +153,24 @@
                     {{job.data.Tasks[2].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[2].State).value}}</span>
                 </div>
                 <div class="panel-body">
+                    <div class="mb-20">
+                        <div ng-show="job.data.Tasks[2].AssetRef">
+                            <label class="mb-20">Assigned Asset: </label>
+                            <div class="row mb-20">
+                                <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
+                                <div class="col-md-7">
+                                    <p>{{job.data.Assets[job.data.Tasks[2].AssetRef].UserName}}</p>
+                                    <span>{{job.data.Assets[job.data.Tasks[2].AssetRef].PhoneNumber}}</span>
+                                </div>
+                            </div>    
+                        </div>                        
+                        <div class="row mb-20">
+                            <button class="col-md-12 btn btn-primary" ng-click="openAssetsList(2)" ng-disabled="job.data.Tasks[2].State === 'COMPLETED'">
+                                ASSIGN ASSET
+                                <span ng-show="job.modifying === 'Delivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                            </button>
+                        </div>
+                    </div>
                     <div class="row">
                         <label class="col-md-4">ETA: </label>                                                    
                         <span class="col-md-8">{{ (job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>
@@ -170,6 +206,24 @@
                     {{job.data.Tasks[3].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[3].State).value}}</span>
                 </div>
                 <div class="panel-body">
+                    <div class="mb-20">
+                        <div ng-show="job.data.Tasks[1].AssetRef">
+                            <label class="mb-20">Assigned Asset: </label>
+                            <div class="row mb-20">                        
+                                <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
+                                <div class="col-md-7">
+                                    <p>{{job.data.Assets[job.data.Tasks[3].AssetRef].UserName}}</p>
+                                    <span>{{job.data.Assets[job.data.Tasks[3].AssetRef].PhoneNumber}}</span>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="row mb-20">
+                            <button class="col-md-12 btn btn-primary" ng-click="openAssetsList(3)" ng-disabled="job.data.Tasks[3].State === 'COMPLETED'">
+                                ASSIGN ASSET
+                                <span ng-show="job.modifying === 'SecureDelivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                            </button>
+                        </div>
+                    </div>
                     <div class="row">
                         <label class="col-md-4">ETA: </label>                                                    
                         <span class="col-md-8">{{ (job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
@@ -423,7 +477,11 @@
 
                     <div class="row">
                         <label class="col-md-6">Payment Status</label>
-                        <span class="col-md-6"> {{ job.data.PaymentStatus }} </span><br>
+                        <div class="col-md-6"> 
+                            <span class="{{ job.getSantizedState(job.data.PaymentStatus).class }} label">
+                                {{ job.getSantizedState(job.data.PaymentStatus).value }}                             
+                            </span>
+                        </div><br>
                     </div>
 
                     <div class="row" ng-show="job.data.CancellationReason">
