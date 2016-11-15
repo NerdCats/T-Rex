@@ -79,6 +79,7 @@
             _authentication.userName = "";
             _authentication.useRefreshTokens = false;
             _authentication.userId = "";
+            $window.location.reload();
             console.log(_authentication);
         };
 
