@@ -1,6 +1,6 @@
 app.constant('ngAuthSettings', {
-  // apiServiceBaseUri: "http://fetchdev.gobd.co/",
-  apiServiceBaseUri: "http://fetchprod.gobd.co/",
+  apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
+  // apiServiceBaseUri: "http://fetchprod.gobd.co/",
   // apiServiceBaseUri: "http://localhost:23873/",
   clientId: 'GoFetchDevWebApp'
 });
@@ -94,7 +94,7 @@ app.constant('Areas', [
 	"Banani DOHS","Banasree","Bangla Motor","Baridhara","Baridhara Block-J","Baridhara Diplomatic",
 	"Baridhara DOHS","Basabo","Bashundhara","Bashundhara R/A","Bassabo","Basundhara","Cantonment",
 	"Chowdhurypara","Dhanmondi","Dhanmondi R/A","DOHS","Elephant Road","Eskaton","Farmgate","Gabtoli",
-	"Goran","Green road","Gulshan","Gulshan 1","Gulshan 2","Hatirpul Residential Area","Indira Road",
+	"Goran","Green road","Gulshan 1","Gulshan 2","Hatirpul Residential Area","Indira Road",
 	"Kakrail","Kalabagan","Khilgaon","Khilgaon-taltola","Khilkhet","Lalmatia","Kallyanpur","Malibag",
 	"Katabon","Malibagh","Mirpur","Mirpur 1","Mirpur 2","Mirpur DOHS","Mirpur 10","Mirpur 11","Mirpur 12",
 	"Mirpur 13","Mirpur 14","Mirpur 6","Mirpur 7","Pallabi","Moghbazaar","Moghbazar","Mohakhali","Mohakhali DOHS",

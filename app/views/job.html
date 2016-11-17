@@ -59,7 +59,7 @@
     <!-- <div ng-show="job.data.JobServedBy" class="row"> -->
     <div class="row">
         <div class="col-md-3">
-            <!-- <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
+            <div class="panel" ng-show="job.data.Tasks[0].Type == 'FetchDeliveryMan'" 
                                ng-class="'panel-'+job.getSantizedState(job.data.Tasks[0].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[0].State).class">
                      {{job.data.Tasks[0].Type}}<span class="label pull-right">{{job.data.Tasks[0].State}}</span>
@@ -94,7 +94,7 @@
                         </button>
                     </div>
                 </div>               
-            </div> -->
+            </div>
             <div class="panel" ng-show="job.data.Tasks[1].Type == 'PackagePickUp'" ng-class="'panel-'+job.getSantizedState(job.data.Tasks[1].State).class+'-border'">
                 <div class="panel-heading" ng-class="job.getSantizedState(job.data.Tasks[1].State).class">
                     {{job.data.Tasks[1].Type}}<span class="label pull-right">{{job.getSantizedState(job.data.Tasks[1].State).value}}</span>
