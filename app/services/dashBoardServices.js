@@ -22,7 +22,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			Orders.orders = [];
 			Orders.pages = [];
 			Orders.isCompleted = 'SUCCESSFULL';
-			var orders = response.data;			
+			var orders = response.data;
 			if (orders.data.length == 0) {
 				Orders.isCompleted = 'EMPTY';
 			}
@@ -32,7 +32,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			angular.forEach(orders.data, function(value, key){
 				var newOrder = {
 					Id : value.HRID,
-					Name : value.Name,					
+					Name : value.Name,
 					Type :  function(){
 						if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
 							return "3rd Party Delivery";
@@ -195,6 +195,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					startDate : null,
 					endDate : null,
 				},
+				DeliveryArea: null,
 				CompletionTime : {
 					startDate : null,
 					endDate : null,

@@ -42,7 +42,10 @@ const jsLibFilePaths = [
 	"node_modules/ngclipboard/dist/ngclipboard.min.js",
 	"node_modules/angular-local-storage/dist/angular-local-storage.min.js",
 	"node_modules/ms-signalr-client/jquery.signalR.min.js",
-	"node_modules/angular-signalr-hub/signalr-hub.min.js"
+	"node_modules/angular-signalr-hub/signalr-hub.min.js",
+	"node_modules/xlsx/dist/jszip.js",
+    "node_modules/xlsx/dist/xlsx.min.js",
+    "node_modules/xlsx/dist/ods.js"
 ]
 
 const cssFilePaths = [

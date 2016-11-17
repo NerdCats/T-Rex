@@ -1,18 +1,21 @@
 'use strict';
 
-app.controller('dashBoardController', ['$scope', '$interval', '$window', 'menus', 'ngAuthSettings', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
+app.controller('dashBoardController', ['$scope', '$interval', '$window', 'Areas', 'ngAuthSettings', 'timeAgo', 'restCall', 'dashboardFactory', dashBoardController]);
 
-function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, timeAgo, restCall, dashboardFactory)  {
+function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, timeAgo, restCall, dashboardFactory)  {
 
 	var vm = $scope;	
-	vm.menus = menus;	
 	vm.autoRefreshState = true;
 	vm.jobPerPage = 50;
 	vm.startDate = undefined;
 	vm.endDate = undefined;
 	vm.EnterpriseUser = null;
+	vm.DeliveryArea = null;
+
+	vm.DeliveryAreas = Areas;	
 	vm.EnterpriseUsers = [];	
 
+	vm.allOrders = dashboardFactory.orders(null);
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
 	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");	
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
@@ -39,6 +42,9 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 			endDateISO = dashboardFactory.getIsoDate(vm.endDate,23,59,59);
 			// new Date(vm.endDate.getFullYear(), vm.endDate.getMonth(), vm.endDate.getDate(), 23, 59, 59).toISOString();			
 		}
+
+		vm.allOrders.searchParam.CreateTime.startDate = startDateISO;
+		vm.allOrders.searchParam.CreateTime.endDate = endDateISO;
 
 		vm.newOrders.searchParam.CreateTime.startDate = startDateISO;
 		vm.newOrders.searchParam.CreateTime.endDate = endDateISO;
@@ -67,16 +73,26 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 
 
 	vm.activate = function () {
+		vm.allOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;
-		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;	
+		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;
 		
+		vm.allOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.newOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
+
+		vm.allOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.newOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.processingOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.completedOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+		vm.cancelledOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		
+
+		vm.allOrders.isCompleted = 'IN_PROGRESS';
 		vm.newOrders.isCompleted = 'IN_PROGRESS';
 		vm.processingOrders.isCompleted = 'IN_PROGRESS';
 		vm.completedOrders.isCompleted = 'IN_PROGRESS';
@@ -84,6 +100,7 @@ function dashBoardController($scope, $interval, $window, menus, ngAuthSettings, 
 
 		vm.setDate();
 
+		vm.allOrders.loadOrders();
 		vm.newOrders.loadOrders();
 		vm.processingOrders.loadOrders();
 		vm.completedOrders.loadOrders();

@@ -1,25 +1,14 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$http', '$window', 'ngAuthSettings', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$http', '$window', 'ngAuthSettings', 'Areas', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
 
-function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
+function createOrderController($scope, $http, $window, ngAuthSettings, Areas, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
 
 	var vm = $scope;
 
 	vm.OrderType = "";
 	vm.VehiclePreference = ["CNG","SEDAN"];
-	vm.LocalAreas = ["","Outside Dhaka","Adabor","Agargaon","Azimpur","Badda","Bailey Road","Banani",
-					"Banani DOHS","Banasree","Bangla Motor","Baridhara","Baridhara Block-J","Baridhara Diplomatic",
-					"Baridhara DOHS","Basabo","Bashundhara","Bashundhara R/A","Bassabo","Basundhara","Cantonment",
-					"Chowdhurypara","Dhanmondi","Dhanmondi R/A","DOHS","Elephant Road","Eskaton","Farmgate","Gabtoli",
-					"Goran","Green road","Gulshan","Gulshan 1","Gulshan 2","Hatirpul Residential Area","Indira Road",
-					"Kakrail","Kalabagan","Khilgaon","Khilgaon-taltola","Khilkhet","Lalmatia","Kallyanpur","Malibag",
-					"Katabon","Malibagh","Mirpur","Mirpur 1","Mirpur 2","Mirpur DOHS","Mirpur 10","Mirpur 11","Mirpur 12",
-					"Mirpur 13","Mirpur 14","Mirpur 6","Mirpur 7","Pallabi","Moghbazaar","Moghbazar","Mohakhali","Mohakhali DOHS",
-					"Mohammadpur","Motijheel","Narinda","Niketan","Nikunja","Nikunja 1","Nikunja 2","Paikpara","Paltan",
-					"Panthapath","Paribagh","Rajarbag","Ramna","Rampura","Segunbagicha","Shahbagh","Shahjadpur","Shantinagar",
-					"Shaymoli","Shegunbagicha","Shipahibag bazar","Shyamoli","Siddeshari","Siddeshwari","Sonargaon Road","Tejgaon",
-					"Tejgaon Industrial Area","Tikatuli","Tnt colony","Tongi","Uttara","Wari"];
+	vm.LocalAreas = Areas;
 
 	vm.PackagePickUp = {
 		Type: "PackagePickUp",
@@ -59,7 +48,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, UrlPath, 
 
 
 	if(vm.id == "new"){
-		vm.order = orderFactory.newOrder;
+		vm.order = orderFactory.newOrder();
 	} else {		
 		var jobUrl = ngAuthSettings.apiServiceBaseUri + "/api/job/" + vm.id;
 		vm.OrderIsLoading = true;

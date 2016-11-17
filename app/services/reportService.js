@@ -48,11 +48,13 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				populateReport(this, reportUrl);
 			},
 			goToReportJobs : function (user) {
+				console.log(user)
+				console.log(this.data)				
 				if (this.searchParam.type === "BIKE_MESSENGER") {
 					$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + 
 													"&usertype=BIKE_MESSENGER" + "&userid=" + this.data[user].UserId, '_blank');					
 				} else {
-					$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&username=" + user, '_blank');					
+					$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&usertype=" + this.searchParam.type + "&username=" + user, '_blank');
 				}
 			},
 			importAsExcel : function () {

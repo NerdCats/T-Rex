@@ -21,8 +21,7 @@ function indexController($scope, $location, $timeout, $log, menus, templates, $w
  
 	vm.logout = function () {
 		console.log("logout");
-		authService.logOut();
-		$window.location.reload();
+		authService.logOut();		
 	};
 
 

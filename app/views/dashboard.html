@@ -1,6 +1,17 @@
 <div class="container-fluid">
     <div class="row mt-50">
-        <div class="col-md-3 row">
+        <div class="col-md-4 row">
+            <div class="summary-icon-div col-md-1 all">
+                <i class="fa fa-arrows-alt fa-2x" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-4 job-state">
+                <div>
+                    <h3 class="display-4">{{allOrders.pagination.Total}}</h3>
+                </div>
+                <div>All</div>                    
+            </div>            
+        </div>
+        <div class="col-md-2 row">
             <div class="summary-icon-div pending col-md-1">
                 <i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i>
             </div>
@@ -11,7 +22,7 @@
                 <div>PENDING</div>                    
             </div>            
         </div>
-        <div class="col-md-3 row">
+        <div class="col-md-2 row">
             <div class="summary-icon-div in-progress col-md-1">
                 <i class="fa fa-play fa-2x" aria-hidden="true"></i>
             </div>                
@@ -22,7 +33,7 @@
                 <div>IN PROGRESS</div>                    
             </div>            
         </div>
-        <div class="col-md-3 row">
+        <div class="col-md-2 row">
             <div class="summary-icon-div completed col-md-1">
                 <i class="fa fa-check fa-2x" aria-hidden="true"></i>
             </div>
@@ -33,7 +44,7 @@
                 <div>COMPLETED</div>                    
             </div>            
         </div>
-        <div class="col-md-3 row">
+        <div class="col-md-2 row">
             <div class="summary-icon-div cancelled col-md-1">
                 <i class="fa fa-times fa-2x" aria-hidden="true"></i>
             </div>
@@ -88,6 +99,14 @@
                     </select>                    
                 </div>
             </div>
+            <div class="form-group col-md-3">
+                <label class="control-label col-md-6">Select Delivery Area:</label>
+                <div class="col-md-6">
+                    <select class="form-control" ng-model="DeliveryArea" ng-options="area as area for area in DeliveryAreas"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        <option></option>                
+                    </select>                    
+                </div>
+            </div>
             <div class="form-group col-md-1">
                 <button class="btn btn-primary" ng-click="activate()" >SEARCH JOBS</button>
             </div>            
@@ -96,23 +115,29 @@
     <uib-tabset  active="activeJustified" justified="true">
         <uib-tab index="0">
             <uib-tab-heading>
+                All : {{allOrders.total}}
+            </uib-tab-heading>            
+            <order-table orders="allOrders"></order-table>            
+        </uib-tab>
+        <uib-tab index="1">
+            <uib-tab-heading>
                 PENDING : {{newOrders.total}}
             </uib-tab-heading>            
             <order-table orders="newOrders"></order-table>            
         </uib-tab>
-        <uib-tab index="1">
+        <uib-tab index="2">
             <uib-tab-heading>
                 IN PROGRESS : {{processingOrders.total}}
             </uib-tab-heading>
             <order-table orders="processingOrders"></order-table>
         </uib-tab>
-        <uib-tab index="2">
+        <uib-tab index="3">
             <uib-tab-heading>
                 COMPLETED : {{completedOrders.total}}
             </uib-tab-heading>
             <order-table orders="completedOrders"></order-table>            
         </uib-tab>
-        <uib-tab index="3">
+        <uib-tab index="4">
             <uib-tab-heading>
                 CANCELED : {{cancelledOrders.total}}
             </uib-tab-heading>

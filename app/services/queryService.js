@@ -6,65 +6,73 @@ app.factory('queryService', ['restCall', 'ngAuthSettings', queryService])
 function queryService(restCall, ngAuthSettings){
 	
 	var getOdataQuery = function (searchParam) {
-		var searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type +"/";
+		console.log(searchParam);
+		var searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type;
+		var queryUrl = "";
 		var allreadyAParamIsThere = false;		
-		if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null
-			|| searchParam.orderby.property != null) {
-			searchUrl += "odata?$filter=";
-		} else {
-			searchUrl += "?page="+ searchParam.page + 
-						 "&pageSize="+ searchParam.pageSize +
-						 "&envelope="+ searchParam.envelope;
+
+		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null && searchParam.UserName == null) {
+			queryUrl = "/" + "odata?"
 		}
 		
-		if (searchParam.UserName != null && searchParam.UserName != "all") {
+		else if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null) {
+			queryUrl = "/" + "odata?$filter=";
+		}
+
+		else {
+			queryUrl = "?page="+ searchParam.page + 
+						 "&pageSize="+ searchParam.pageSize +
+						 "&envelope="+ searchParam.envelope;
+		}		
+		
+		if (searchParam.UserName != null) {
 			var UserNameParam = "User/UserName eq '"+ searchParam.UserName +"'";
 			console.log("how the hell you r coming here ??? Mr. " + searchParam.UserName)
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  UserNameParam;
+				queryUrl +=  UserNameParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + UserNameParam;
+				queryUrl += " and " + UserNameParam;
 			}
 		}
 
 		if (searchParam.CreateTime.startDate != null) {
 			var startDateParam = "CreateTime gt datetime'"+ searchParam.CreateTime.startDate +"'";
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  startDateParam;
+				queryUrl +=  startDateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + startDateParam;
+				queryUrl += " and " + startDateParam;
 			}
 		}
 
 		if (searchParam.CreateTime.endDate != null) {
 			var endDateParam = "CreateTime lt datetime'"+ searchParam.CreateTime.endDate +"'";
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  endDateParam;
+				queryUrl +=  endDateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + endDateParam;
+				queryUrl += " and " + endDateParam;
 			}
 		}
 
 		if (searchParam.CompletionTime.startDate != null) {
 			var startDateParam = "CompletionTime gt datetime'"+ searchParam.CompletionTime.startDate +"'";
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  startDateParam;
+				queryUrl +=  startDateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + startDateParam;
+				queryUrl += " and " + startDateParam;
 			}
 		}
 
 		if (searchParam.CompletionTime.endDate != null) {
 			var endDateParam = "CompletionTime lt datetime'"+ searchParam.CompletionTime.endDate +"'";
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  endDateParam;
+				queryUrl +=  endDateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + endDateParam;
+				queryUrl += " and " + endDateParam;
 			}
 		}
 
@@ -72,10 +80,10 @@ function queryService(restCall, ngAuthSettings){
 			var jobStateParam = "State eq '"+ searchParam.jobState +"'";
 			console.log(searchParam.jobState)
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  jobStateParam;
+				queryUrl +=  jobStateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + jobStateParam;
+				queryUrl += " and " + jobStateParam;
 			}
 		}
 
@@ -83,10 +91,21 @@ function queryService(restCall, ngAuthSettings){
 			var userTypeParam = "Type eq '"+ searchParam.userType +"'";
 			console.log(searchParam.userType)
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  userTypeParam;
+				queryUrl +=  userTypeParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + userTypeParam;
+				queryUrl += " and " + userTypeParam;
+			}
+		}
+
+		if (searchParam.DeliveryArea != null) {
+			var deliveryAreaParam = "Order/To/Locality eq '"+ searchParam.DeliveryArea +"'";
+			console.log(searchParam.DeliveryArea)
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  deliveryAreaParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and (" + deliveryAreaParam + " or Order/To/Locality eq null)";
 			}
 		}
 
@@ -94,10 +113,10 @@ function queryService(restCall, ngAuthSettings){
 			var jobStateParam = "_t eq '"+ searchParam._t +"'";
 			console.log(searchParam._t)
 			if (!allreadyAParamIsThere) {
-				searchUrl +=  jobStateParam;
+				queryUrl +=  jobStateParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += " and " + jobStateParam;
+				queryUrl += " and " + jobStateParam;
 			}
 		}
 
@@ -110,18 +129,19 @@ function queryService(restCall, ngAuthSettings){
 			}
 
 			if (!allreadyAParamIsThere) {
-				searchUrl += orderbyParam;
+				queryUrl += orderbyParam;
 				allreadyAParamIsThere = true;
 			} else {
-				searchUrl += "&" + orderbyParam;
+				queryUrl += "&" + orderbyParam;
 			}
 		}
 
-		searchUrl += "&page="+ searchParam.page + 
+		queryUrl += "&page="+ searchParam.page + 
 					 "&pageSize="+ searchParam.pageSize +
 					 "&envelope="+ searchParam.envelope;
-		console.log(searchUrl);
-		return searchUrl;
+
+		console.log(queryUrl);
+		return searchUrl + queryUrl;
 	}
 
 	return {

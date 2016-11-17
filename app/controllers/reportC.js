@@ -33,7 +33,7 @@ function reportC($scope, ngAuthSettings, restCall, dashboardFactory, reportServi
 	}
 
 	vm.goToReportJobs = function (user, state) {
-		$window.open("#/report/jobs?" + "startdate=" + vm.startdate + "&enddate="+ vm.enddate + "&user=" + user + "&state" + state, '_blank');
+		$window.open("#/report/jobs?" + "startdate=" + vm.startdate + "&enddate="+ vm.enddate + "&user=" + user + "&state=" + state, '_blank');
 	}
 
 	vm.Search();
