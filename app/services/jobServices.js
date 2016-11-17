@@ -1,9 +1,9 @@
 'use strict';
 
-app.factory('jobFactory', ['$http', 'tracking_host', 'ngAuthSettings', 'reportServiceUrl', 'listToString', '$window',
+app.factory('jobFactory', ['$http', 'tracking_host', 'ngAuthSettings', 'listToString', '$window',
 	'patchUpdate', 'restCall', 'dashboardFactory', jobFactory]);
 	
-function jobFactory($http, tracking_host, ngAuthSettings, reportServiceUrl, listToString, $window, 
+function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window, 
 	patchUpdate, restCall, dashboardFactory){
 	
 
@@ -17,11 +17,8 @@ function jobFactory($http, tracking_host, ngAuthSettings, reportServiceUrl, list
 	 		redMessage : null,
 	 		comments: [],
 	 		loadJob: function () {
-				this.jobIsLoading = "INPROGRESS";
-
-				// N.B. job is loaded from SpyCat for faster loading
-				var jobUrl1 = reportServiceUrl + "api/job/" + id;
-				var jobUrl2 = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;				
+				this.jobIsLoading = "INPROGRESS";				
+				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;				
 				var itSelf = this;
 				function successCallback(response) {
 					console.log(response)
@@ -30,16 +27,12 @@ function jobFactory($http, tracking_host, ngAuthSettings, reportServiceUrl, list
 					console.log(itSelf);
 				};
 				function errorCallback(error) {
-					function errorCallback2(error) {
-						itSelf.jobIsLoading = "FAILED";
-						console.log(error)
-						itSelf.redMessage = error.data.Message;						
-					}
-					// job is loaded from TaskCat in case SpyCat fails
-					restCall('GET', jobUrl2, null, successCallback, errorCallback2);
+					itSelf.jobIsLoading = "FAILED";
+					console.log(error)
+					itSelf.redMessage = error.data.Message;
 				};
 				restCall('GET', jobUrl1, null, successCallback, errorCallback);
-	 		},	 		
+	 		},
 	 		claim: function () {
 	 			var itSelf = this;
 	 			itSelf.modifying = "CLAIMING";

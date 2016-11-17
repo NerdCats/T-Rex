@@ -73,8 +73,8 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 };
 
 
-app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'ngAuthSettings', 'reportServiceUrl', ModalInstanceCtrl]);
-function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings, reportServiceUrl) {
+app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'ngAuthSettings', ModalInstanceCtrl]);
+function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 	
 	var vm = $scope;
 	vm.assets = [];
@@ -85,24 +85,15 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings, rep
 		return assetListUrl;
 	};
 
-	// N.B. Since taskcat's odata is not fast enough, on temporarily basis, loading the AssetList from SpyCat
-	var url1 = reportServiceUrl + "api/user-list?usertype=BIKE_MESSENGER";;
-	var url2 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
+	// N.B. Since taskcat's odata is not fast enough, on temporarily basis, loading the AssetList from SpyCat	
+	var url = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
 
-	$http.get(url1).then(function(response) {
+	$http.get(url).then(function(response) {
 		vm.assets = response.data.data;
-		console.log(response);
+		console.log(response)		
 		vm.loadingAssets = false;
-	}, function (error) {
-		
-		// N.B. In case we fail to load from SpyCat, the asset list will be loaded from TaskCat again
-		$http.get(url2).then(function (response) {
-			vm.assets = response.data.data;
-			console.log(response);
-			vm.loadingAssets = false;
-		}, function (error) {
-			console.log(error);
-		})
+	}, function (error) {		
+		console.log(error);		
 	});
 
 	vm.selectionChanged = function (asset) {
