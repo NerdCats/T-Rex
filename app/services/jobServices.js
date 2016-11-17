@@ -31,7 +31,7 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 					console.log(error)
 					itSelf.redMessage = error.data.Message;
 				};
-				restCall('GET', jobUrl1, null, successCallback, errorCallback);
+				restCall('GET', jobUrl, null, successCallback, errorCallback);
 	 		},
 	 		claim: function () {
 	 			var itSelf = this;

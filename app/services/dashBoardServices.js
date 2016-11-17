@@ -118,7 +118,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 
  		// Orders.orders = [];
 		// Orders.pages = [];
-		Orders.isCompleted = 'IN_PROGRESS';
+		// Orders.isCompleted = 'IN_PROGRESS';
  		restCall('GET', jobListUrl, null, successCallback, errorCallback);
 	};
 
