@@ -17,22 +17,22 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 		redMessage : null,
 	 		comments: [],
 	 		loadJob: function () {
-				this.jobIsLoading = "INPROGRESS";
-				console.log(this.data)
+				this.jobIsLoading = "INPROGRESS";				
+				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;				
 				var itSelf = this;
 				function successCallback(response) {
+					console.log(response)
 					itSelf.data = response.data;
 					itSelf.jobIsLoading = "COMPLETED";					
-					console.log(itSelf);					
+					console.log(itSelf);
 				};
 				function errorCallback(error) {
 					itSelf.jobIsLoading = "FAILED";
 					console.log(error)
 					itSelf.redMessage = error.data.Message;
 				};
-				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;
-				restCall('GET', jobUrl, null, successCallback, errorCallback);	 			
-	 		},	 		
+				restCall('GET', jobUrl, null, successCallback, errorCallback);
+	 		},
 	 		claim: function () {
 	 			var itSelf = this;
 	 			itSelf.modifying = "CLAIMING";
@@ -50,10 +50,6 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
 	 		stateUpdate: function (taskId, state, task) {
-	 			if (task === "FetchDeliveryMan") this.modifying = "FetchDeliveryMan_UPDATING";
-	 			else if (task === "PackagePickUp") this.modifying = "PackagePickUp_UPDATING";
-	 			else if (task === "Delivery") this.modifying = "Delivery_UPDATING";
-	 			else if (task === "SecureDelivery") this.modifying = "SecureDelivery_UPDATING";
 	 			var itSelf = this;
 	 			function stateUpdateSuccess(response) {
 	 				itSelf.modifying = "";
@@ -64,11 +60,45 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				itSelf.modifying = "FAILED";
 	 				itSelf.redMessage = error.data.Message;
 	 			}
-	 			patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+	 			if (task === "FetchDeliveryMan") {
+	 				this.modifying = "FetchDeliveryMan_UPDATING";
+	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+	 			}
+	 			else if (task === "PackagePickUp") {
+	 				this.modifying = "PackagePickUp_UPDATING";
+	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+	 			}
+	 			else if (task === "Delivery") {
+	 				this.modifying = "Delivery_UPDATING";
+	 				if (this.data.Tasks[3] === undefined) {
+	 					function _stateUpdateSuccess(response) {
+			 				itSelf.modifying = "";
+			 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+			 			}	 					
+	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
+	 				} else {
+	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+	 				}
+	 			}
+	 			else if (task === "SecureDelivery") {
+	 				this.modifying = "SecureDelivery_UPDATING";
+	 				function _stateUpdateSuccess(response) {
+		 				itSelf.modifying = "";
+		 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+		 			}	
+	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
+	 			}
+	 			
 	 		},
-	 		assigningAsset: function (assigning) {
-	 			if (assigning) this.modifying = "FetchDeliveryMan_UPDATING";
-	 			else this.modifying = "";
+	 		assigningAsset: function (taskIndex) {
+	 			if (taskIndex === 0) this.modifying = "FetchDeliveryMan_UPDATING";
+	 			else if (taskIndex === 1) {
+	 				this.modifying = "PackagePickUp_UPDATING";
+	 				// Whenver we are assigning asset to pick up task, this task should go to in progress state
+	 				this.stateUpdate(this.data.Tasks[1].id, "IN_PROGRESS", "PackagePickUp");
+	 			}
+	 			else if (taskIndex === 2) this.modifying = "Delivery_UPDATING";
+	 			else if (taskIndex === 3) this.modifying = "SecureDelivery_UPDATING";
 	 		},
 	 		cancel: function (reason) {	 			
 	 			this.modifying = "CANCELLING";

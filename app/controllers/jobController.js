@@ -10,6 +10,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	
 	var vm = $scope;
 	var id = $routeParams.id;	
+	vm.selectedStateForFetchAsset = vm.selectedStateForPickup = vm.selectedStateForDelivery = vm.selectedStateForSecuredelivery = 'COMPLETED';
 	vm.trackingLink = "gofetch.cloudapp.net:8000/#/track/" + id;
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
@@ -37,7 +38,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		})
 	}
 
-	vm.openAssetsList = function (size) {
+	vm.openAssetsList = function (taskIndex) {
 		var modalInstance = $uibModal.open({
 			animation: $scope.animationsEnabled,
 			templateUrl: 'app/views/detailsJob/availableAsset.html',
@@ -47,10 +48,10 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		modalInstance.result.then(function (selectedItem) {
 				vm.selected = selectedItem;
 				console.log($scope.selected);
-				vm.job.assigningAsset(true);
+				vm.job.assigningAsset(taskIndex);
 				var success = function (response) {
-					vm.job.assigningAsset(false);					
-		  			$window.location.reload();	  			
+					vm.job.assigningAsset(false);
+		  			$window.location.reload();
 				};
 				var error = function (error) {
 		  			console.log(error);
@@ -58,7 +59,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		  			vm.job.assigningAsset(false);
 				};
 
-				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[0].id;
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[taskIndex].id;				
 				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
 				// var result = patchUpdate(vm.selected.Id, "replace", 
 				// 						"/AssetRef", "api/job/", 
@@ -75,32 +76,36 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 app.controller('ModalInstanceCtrl', ['$scope', '$http', '$uibModalInstance', 'ngAuthSettings', ModalInstanceCtrl]);
 function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 	
-	$scope.assets = [];
-	$scope.loadingAssets = true;
+	var vm = $scope;
+	vm.assets = [];
+	vm.loadingAssets = true;
 	var assetListUrlMaker = function (type, envelope, page, pageSize) {
 		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
 		var assetListUrl = ngAuthSettings.apiServiceBaseUri + "/api/Account/odata?" + parameters;		
 		return assetListUrl;
 	};
 
-	var url1 = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
-	
-	$http.get(url1).then(function(response) {
-		$scope.assets = response.data.data;
+	// N.B. Since taskcat's odata is not fast enough, on temporarily basis, loading the AssetList from SpyCat	
+	var url = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
+
+	$http.get(url).then(function(response) {
+		vm.assets = response.data.data;
 		console.log(response)		
-		$scope.loadingAssets = false;
+		vm.loadingAssets = false;
+	}, function (error) {		
+		console.log(error);		
 	});
 
-	$scope.selectionChanged = function (asset) {
-		$scope.selectedAsset = asset;
+	vm.selectionChanged = function (asset) {
+		vm.selectedAsset = asset;
 	};
 
-	$scope.ok = function () {
-		console.log($scope.selectedAsset);
-		$uibModalInstance.close($scope.selectedAsset);
+	vm.ok = function () {
+		console.log(vm.selectedAsset);
+		$uibModalInstance.close(vm.selectedAsset);
 	};
 
-	$scope.cancel = function () {
+	vm.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
   	};
 }
