@@ -109,7 +109,7 @@
                     var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + ngAuthSettings.clientId;
                     localStorageService.remove('authorizationData');
 
-                    $http.post(serviceBase + 'token', data, {
+                    $http.post(serviceBase + 'api/auth/token', data, {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                             }
