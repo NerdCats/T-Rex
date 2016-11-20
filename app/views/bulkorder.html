@@ -22,6 +22,10 @@
 	<div class="row">		
 		<table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 			<thead>
+				<th class="col-md-1" colspan="2">
+					<button class="btn btn-primary" ng-click="createAll()">Create All Order</button>
+					<button class="btn btn-primary" ng-click="bulkOrder.goToInvoicePage()">Print Invoices</button>
+				</th>
 				<th class="col-md-1">S/L</th>
 				<th class="col-md-1">GO! Fetch Job ID</th>
 
@@ -40,12 +44,14 @@
 				<th class="col-md-1">Total Product Price</th>
 				<th class="col-md-1">Special Note</th>
 				<th class="col-md-1">GO! Fetch Service Charge</th>
-				<th class="col-md-1" colspan="2">
-					<button class="btn btn-primary" ng-click="createAll()">Create All Order</button>
-				</th>
+				
 			</thead>
 			<tbody>
 				<tr ng-repeat="order in bulkOrder.Orders track by $index">
+					<td class="col-md-1">
+						<button ng-hide="order.Status === 'SUCCEEDED'" class="btn btn-primary" ng-click="order.createOrder()">
+						<span ng-show="order.Status === 'POSTING'" ng-disabled="order.Status === 'POSTING'" class="fa fa-refresh fa-spin"></span>Create</button>
+					</td>
 					<td class="col-md-1">
 						{{$index}}
 					</td>
@@ -103,11 +109,6 @@
 					<td class="col-md-1">
 						<textarea class="bulk-order-textarea" ng-model="order.OrderCart.ServiceCharge"></textarea>
 					</td>
-
-					<td class="col-md-1">
-						<button ng-hide="order.Status === 'SUCCEEDED'" class="btn btn-primary" ng-click="order.createOrder()">
-						<span ng-show="order.Status === 'POSTING'" ng-disabled="order.Status === 'POSTING'" class="fa fa-refresh fa-spin"></span>Create</button>
-					</td>					
 				</tr>
 			</tbody>
 		</table>		

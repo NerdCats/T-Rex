@@ -14,6 +14,19 @@
         <script src="invoice.js"></script>
     </head>    
     <body>
+        <div ng-show="failedToLoadJobFlag">
+            <h1>Failed to load following jobs: </h1>
+            <ol>
+                <li ng-repeat="failedJob in failedToLoadJobs">
+                    <span>{{failedJob}}</span>
+                </li>
+            </ol>
+            <br><hr>
+        </div>
+        <div ng-show="loadingJob" ng-include="'/app/content/component/loadinSnake/loading-snake.html'"></div>
+        <div ng-show="loadingJob" style="margin: auto;display: block;">
+            <h1 style="text-align: center;margin-top: 10%;">Loaded {{totalLoadedJobs}} invoices out of {{totalNumberOfJobs}}</h1>
+        </div>
         <div ng-repeat="job in jobs" >
             <div class="center-block" ng-show="!loadingJob">
                 <img src="logo.png" id="logo">
@@ -101,7 +114,6 @@
                 </div>
             </div>
             <br><br>
-        </div>
-        <div ng-show="loadingJob" ng-include="'/app/content/component/loadinSnake/loading-snake.html'"></div>    
+        </div>        
     </body>
 </html>
