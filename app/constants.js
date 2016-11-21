@@ -1,7 +1,9 @@
 app.constant('ngAuthSettings', {
+<<<<<<< HEAD
   apiServiceBaseUri: "http://taskcatdev.azurewebsites.net/",
   // apiServiceBaseUri: "http://fetchprod.gobd.co/",
   // apiServiceBaseUri: "http://localhost:23873/",
+  // apiServiceBaseUri: "http://fetchdev.gobd.co/",
   clientId: 'GoFetchDevWebApp'
 });
 
