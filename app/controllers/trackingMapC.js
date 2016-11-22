@@ -9,7 +9,7 @@ function trackingMapC($scope, $http, $window, restCall, mapFactory, ngAuthSettin
 	vm.locateMarkerOnMap = mapFactory.locateMarkerOnMap;
 	vm.totalAsset = 0;
 	vm.totalOnlineAsset = 0;
-	var getAllAssetUrl = ngAuthSettings.apiServiceBaseUri + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=25"; // this is an ugly piece of code!
+	var getAllAssetUrl = ngAuthSettings.apiServiceBaseUri + "/api/account/odata?$filter=Type eq 'BIKE_MESSENGER'&envelope=true&page=0&pageSize=100"; // this is an ugly piece of code!
 
 	var _signalRAssetList = {};
 	$http.get(getAllAssetUrl).then(

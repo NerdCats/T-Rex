@@ -6,7 +6,8 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-4 col-md-2 list-group">			
-    		<button class="list-group-item asset-list-li" ng-repeat="(key, asset) in assetsList" ng-click="locateMarkerOnMap(asset)">
+    		<button class="list-group-item asset-list-li" ng-repeat="(key, asset) in assetsList track by $index" ng-click="locateMarkerOnMap(asset)">
+    			<div><span>{{$index + 1}}</span></div>
       			<div class="asset-status {{ asset.online }}"></div>
 	            <div>
 	            	<div><b>{{ asset.content }}</b></div>
