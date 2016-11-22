@@ -43,7 +43,7 @@ function reportJobsService($http, $window, reportServiceUrl){
 					console.log("error happened");
 				});
 			},
-			importExcel : function () {
+			exportExcel : function () {
 				var reportUrl = this.getReportUrl() + "&generateexcel=true";
 				$window.open(reportUrl, '_blank');
 			}

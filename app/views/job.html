@@ -10,7 +10,7 @@
                     <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
                     <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
                     <!-- <h3 ng-show="!job.data.JobServedBy"> someday it should come back, when server will response fast-->
-                    <h3>
+                    <h3 ng-show="!job.data.JobServedBy">
                         You must 
                         <button type="button" class="btn btn-danger" ng-click="job.claim()">
                             CLAIM
@@ -18,8 +18,10 @@
                         </button>
                         the Order first to start processing it
                     </h3>
+                    <div ng-show="job.data.JobServedBy">
+                        <h3>The Job is Serving by Admin <span class="label claimed-by"><strong>{{job.data.JobServedBy.UserName.toUpperCase()}}</strong></span></h3>
+                    </div>
                 </div>
-                <!-- <div ng-show="job.data.JobServedBy" class="col-md-6"> someday it should come back, when server will response fast-->
                 <div class="col-md-6">
                     <div class="row pull-right mb-20">
                         <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
@@ -124,11 +126,11 @@
                     </div>
                     <div class="row">
                         <label class="col-md-4">Started: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[1].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[1].InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Completed: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[1].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[1].CompletionTime | date:'EEE d MMM y,h,m a') || 'Not Completed' }}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">ETA Failed: </label>                                                    
@@ -177,11 +179,11 @@
                     </div>
                     <div class="row">
                         <label class="col-md-4">Started: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[2].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[2].InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Completed: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[2].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[2].CompletionTime | date:'EEE d MMM y,h,m a') || 'Not Completed' }}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">ETA Failed: </label>                                                    
@@ -230,11 +232,11 @@
                     </div>
                     <div class="row">
                         <label class="col-md-4">Started: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[3].InitiationTime.ETA | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[3].InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Completed: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[3].CompletionTime | date:'EEE d MMM y,h,m') || 'Not Completed' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[3].CompletionTime | date:'EEE d MMM y,h,m a') || 'Not Completed' }}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">ETA Failed: </label>                                                    
@@ -380,7 +382,7 @@
                     <ol>
                         <li ng-repeat="comment in job.comments">                            
                                 <div class="col-sm-11 col-md-11">{{comment.CommentText}}</div>
-                                <div class="col-sm-1 col-md-1"><i class="fa fa-times fa-1x" ng-click="job.deleteComment(comment.Id)"></i></div>                            
+                                <!-- <div class="col-sm-1 col-md-1"><i class="fa fa-times fa-1x" ng-click="job.deleteComment(comment.Id)"></i></div>                             -->
                         </li>
                     </ol>
                     <div class="form-group" ng-show="!minMode">                        
@@ -452,28 +454,28 @@
 
                     <div class="row">
                         <label class="col-md-6">Processing Start Time</label>
-                        <span class="col-md-6">{{ (job.data.InitiatinTime | date:'EEE d MMM y,h:m a') || 'Not Started Yet' }}</span><br>
+                        <span class="col-md-6">{{ (job.data.InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started Yet' }}</span><br>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <label class="col-md-6">Completion Time</label>
                         <span class="col-md-6">{{ (job.data.CompletionTime | date:'EEE d MMM y,h:m a') || 'Not Completed Yet' }}</span><br>
-                    </div>
+                    </div> -->
 
                     <div class="row">
                         <label class="col-md-6">Duration Time</label>
                         <span class="col-md-6">{{ job.data.Duration || 'Not Completed Yet' }}</span><br>
                     </div>
 
-                    <div class="row">
+<!--                     <div class="row">
                         <label class="col-md-6">PreferredDeliveryTime</label>
                         <span class="col-md-6">{{ (job.data.PreferredDeliveryTime | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                        
-                    </div>
+                    </div> -->
 
-                    <div class="row">
+<!--                     <div class="row">
                         <label class="col-md-6">InvoiceId</label>
                         <span class="col-md-6"> {{ job.data.InvoiceId || 'Not Generated Yet' }}</span><br>
-                    </div>
+                    </div> -->
 
                     <div class="row">
                         <label class="col-md-6">Payment Status</label>
@@ -488,11 +490,11 @@
                         <label class="col-md-6">CancellationReason</label>
                         <span class="col-md-6"> {{ job.data.CancellationReason }}</span><br>                        
                     </div>
-
+<!-- 
                     <div class="row">
                         <label class="col-md-6">IsDeleted</label>
                         <span class="col-md-6"> {{ job.data.IsDeleted }} </span><br>
-                    </dv>                
+                    </dv>     -->            
                         
                     </div>
             </div>

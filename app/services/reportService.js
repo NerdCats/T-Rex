@@ -57,7 +57,7 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 					$window.open("#/report/jobs?" + "startdate=" + this.searchParam.startdate + "&enddate="+ this.searchParam.enddate + "&usertype=" + this.searchParam.type + "&username=" + user, '_blank');
 				}
 			},
-			importAsExcel : function () {
+			exportExcel : function () {
 				var excelReportUrl = reportServiceUrl + "api/report?startdate="+this.searchParam.startdate+"&enddate="+this.searchParam.enddate+"&usertype="+this.searchParam.type + "&generateexcel=true";
 				$window.open(excelReportUrl, '_blank');
 			},
