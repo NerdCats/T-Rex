@@ -35,7 +35,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					Name : value.Name,
 					Type :  function(){
 						if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
-							return "3rd Party Delivery";
+							return "B2B + Cash Delivery";
 						} else if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise") {
 							return "B2B Delivery";
 						}

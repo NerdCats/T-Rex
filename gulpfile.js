@@ -15,9 +15,10 @@ var deleteLines = require('gulp-delete-lines');
 var useref = require('gulp-useref');
 var gulpif = require('gulp-if');
 var inject = require('gulp-inject');
+var git = require('git-rev');
 
 const jsFilePaths = [
-	'app/*.js',
+	'app/*.js',	
 	'app/directives/**/*.js',
 	'app/services/*.js', 
 	'app/controllers/*.js'
@@ -65,6 +66,7 @@ const fontsPath = [
 	"node_modules/bootstrap/dist/fonts/*"
 ]
 
+
 gulp.task('clean', function (cb) {
 	del(['dist']).then(function (paths) {
 		console.log('Deleted files and folders:\n', paths.join('\n'));
@@ -75,12 +77,30 @@ gulp.task('clean', function (cb) {
 
 gulp.task('bundle', function () {
 	//first load the services, then the directives and then the controller
-	return gulp.src(jsFilePaths)			
-			.pipe(ngannotate())
-			.pipe(concat('main.js'))
-			.pipe(uglify())
-			.pipe(rename({suffix: '.min'}))
-			.pipe(gulp.dest('dist/'));
+	git.branch(function (branch) {				
+		if (branch === "release") {
+			console.log("Current branch name : " + branch);
+			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
+
+			return gulp.src(jsFilePaths)
+				.pipe(ngannotate())
+				.pipe(concat('main.js'))
+				.pipe(uglify())
+				.pipe(rename({suffix: '.min'}))
+				.pipe(gulp.dest('dist/'));
+		} else {
+			console.log("Current branch name : " + branch);			
+			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
+
+			return gulp.src(jsFilePaths)
+				.pipe(ngannotate())
+				.pipe(concat('main.js'))
+				.pipe(uglify())
+				.pipe(rename({suffix: '.min'}))
+				.pipe(gulp.dest('dist/'));
+		} 
+	});	
+	
 })
 
 
@@ -137,6 +157,7 @@ gulp.task('remove-js-css', function(){
 			.pipe(gulp.dest('dist/'))
 })
 
+
 gulp.task('inject-index', function(done){
 	var bundlesSources = gulp.src(['./dist/app/content/styles/style.min.css', './dist/app/lib.js', './dist/main.min.js'], {read: false});
 	
@@ -149,7 +170,9 @@ gulp.task('inject-index', function(done){
 
 
 gulp.task('build', function(callback){
-	runSequence('clean', 
+
+	
+	runSequence('clean',
 				'bundle','bundle-libs', 
 				'bundle-css', 
 				'copy-fonts',
