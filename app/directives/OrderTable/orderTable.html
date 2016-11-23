@@ -4,6 +4,8 @@
             <th>S\L</th>
             <th>Job no</th>
             <th>Create Time</th>
+            <th ng-hide="orders.searchParam.jobState === 'COMPLETED' || orders.searchParam.jobState === 'ENQUEUED'">Last Modified</th>
+            <th ng-show="orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
             <th>User</th>
             <th>Type</th>            
             <th>Pickup Area</th>
@@ -27,17 +29,38 @@
                 <span class="label text-center {{order.JobState().class}}">{{order.JobState().value}}</span>
                 <br>                
             </td>
-            <td class="col-md-2">{{order.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
-            <td><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
+            <td class="col-md-1">
+                {{order.CreateTime | date:"EEE MMM d"}} <br>
+                {{order.CreateTime | date:"h:mm:ss a"}}
+            </td>
+            <td class="col-md-1" ng-hide="orders.searchParam.jobState === 'COMPLETED' || orders.searchParam.jobState === 'ENQUEUED'">
+                {{order.ModifiedTime | date:"EEE MMM d"}} <br>
+                {{order.ModifiedTime | date:"h:mm:ss a"}}
+            </td>
+            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'COMPLETED'">
+                {{order.CompletionTime | date:"EEE MMM d"}} <br>
+                {{order.CompletionTime | date:"h:mm:ss a"}}
+            </td>
+            <td class="col-md-1"><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
             <td>{{order.Type()}}</td>                            
-            <td class="col-md-2">{{order.FromArea}}</td>
+            <td class="col-md-1">{{order.FromArea}}</td>
             <td class="col-md-2">{{order.From}}</td>
-            <td class="col-md-2">{{order.ToArea}}</td>
+            <td class="col-md-1">{{order.ToArea}}</td>
             <td class="col-md-2">{{order.To}}</td>
-            <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.PickUpState().class}}">{{order.PickUpState().value}}</span></td>
-            <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.DeliveryState().class}}">{{order.DeliveryState().value}}</span></td>
-            <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span></td>
-            <td ng-show="orders.searchParam.jobState === 'CANCELLED'">{{order.CancellationReason || "No Reason Mentioned"}}</td>
+            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
+                <span class="label {{order.PickUpState().class}}">{{order.PickUpState().value}}</span>
+            </td>
+            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
+                <span class="label {{order.DeliveryState().class}}">
+                    {{order.DeliveryState().value}}
+                </span>
+            </td>
+            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
+                <span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span>
+            </td>
+            <td class="col-md-2" ng-show="orders.searchParam.jobState === 'CANCELLED'">
+                {{order.CancellationReason || "No Reason Mentioned"}}
+            </td>
             <td><span class="label {{order.PaymentStatus.class}}">{{order.PaymentStatus.value}}</span></td>                        
             <td class="col-md-1">{{order.RequestedAgo}}</td>
             <td>

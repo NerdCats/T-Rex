@@ -22,7 +22,10 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
 
-	dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
+	vm.getEnterpriseUsersList = function () {
+		dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
+	}
+	
 
 	vm.clearDate = function () {
 		vm.startDate = undefined;
@@ -71,8 +74,16 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		}
 	}
 
+	vm.refresh = function (order) {
+		order.isCompleted = "IN_PROGRESS";
+		order.loadOrders();
+	}
 
 	vm.activate = function () {
+
+		vm.getEnterpriseUsersList();
+
+		
 		vm.allOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.newOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
@@ -90,6 +101,13 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.processingOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		vm.completedOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		vm.cancelledOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+
+
+		vm.allOrders.searchParam.orderby.property = "ModifiedTime";
+		vm.newOrders.searchParam.orderby.property = "CreateTime";
+		vm.processingOrders.searchParam.orderby.property = "ModifiedTime";
+		vm.completedOrders.searchParam.orderby.property = "CompletionTime";
+		vm.cancelledOrders.searchParam.orderby.property = "ModifiedTime";
 		
 
 		vm.allOrders.isCompleted = 'IN_PROGRESS';

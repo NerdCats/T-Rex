@@ -5,7 +5,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 	
 	var getUserNameList = function (type, Users) {
 		function success(response) {
-			Users.push("all");
+			// Users.push("all");
 			angular.forEach(response.data.data, function (value, keys) {
 				Users.push(value.UserName);
 			});			
@@ -75,7 +75,10 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					},
 					PaymentStatus : getProperWordWithCss(value.PaymentStatus),
 					CreateTime : value.CreateTime,
+					ModifiedTime : value.ModifiedTime,
+					CompletionTime : value.CompletionTime,
 					RequestedAgo : timeAgo(value.CreateTime),
+					CancellationReason : value.CancellationReason,
 					JobState : function () {
 						return getProperWordWithCss(value.State);	
 					},
