@@ -58,61 +58,71 @@
     </div>
     <ng-form class="form-horizontal">
         <fieldset>
-            <div class="form-group">
-                <label class="control-label col-md-1">Start Date:</label>
-                <div class="col-md-4">                
-                    <input type="date" class="form-control" ng-model="startDate">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Start Date:</label>
+                    <div class="col-md-7">
+                        <input type="date" class="form-control" ng-model="startDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">End Date:</label>
+                    <div class="col-md-7">
+                        <input type="date" class="form-control" ng-model="endDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <button class="btn btn-danger pull-right" ng-click="clearDate()">CLEAR DATE</button>                    
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-md-1">End Date:</label>
-                <div class="col-md-4">
-                    <input type="date" class="form-control" ng-model="endDate">
+            <div class="col-md-4">
+                <!-- <div class="form-group">
+                    <label class="control-label col-md-2">Show per page:</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="jobPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">60</option>
+                            <option value="50">70</option>
+                            <option value="50">80</option>
+                            <option value="50">90</option>
+                            <option value="50">100</option>
+                        </select>                    
+                    </div>                
+                </div> -->
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label class="control-label pull-left">Show Vendors:</label>                        
+                    </div>
+                    <div class="col-md-7" style="padding-right: 0px !important" >
+                        <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                            <option></option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default col-md-1" ng-click="getEnterpriseUsersList()">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-5">
-                    <button class="btn btn-danger pull-right" ng-click="clearDate()">CLEAR DATE</button>                    
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label class="control-label pull-left">Select Delivery Area:</label>                        
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="DeliveryArea" ng-options="area as area for area in DeliveryAreas"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                            <option></option>                
+                        </select>                    
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-1">Show per page:</label>
-                <div class="col-md-4">
-                    <select class="form-control" ng-model="jobPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">60</option>
-                        <option value="50">70</option>
-                        <option value="50">80</option>
-                        <option value="50">90</option>
-                        <option value="50">100</option>
-                    </select>                    
-                </div>                
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-1">Show Vendors:</label>
-                <div class="col-md-4">
-                    <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                        <option></option>                
-                    </select>
-                </div>
-                <button class="" ng-click="getEnterpriseUsersList()">
-                    <i class="fa fa-refresh" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-1">Select Delivery Area:</label>
-                <div class="col-md-4">
-                    <select class="form-control" ng-model="DeliveryArea" ng-options="area as area for area in DeliveryAreas"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                        <option></option>                
-                    </select>                    
-                </div>
-            </div>
-            <div class="form-group col-md-5">
-                <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>
-            </div>            
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        
+                    </div>
+                </div> 
+            </div>           
         </fieldset>        
     </ng-form>
     <uib-tabset  active="activeJustified" justified="true">
@@ -120,7 +130,7 @@
             <uib-tab-heading>
                 All : {{allOrders.total}}
                 <br>(Order by Last Modified Time)
-                <button ng-click="refresh(allOrders)">
+                <button class="btn btn-default" ng-click="refresh(allOrders)">
                     <i class="fa fa-refresh" aria-hidden="true"></i>
                 </button>
             </uib-tab-heading>            
@@ -130,7 +140,7 @@
             <uib-tab-heading>
                 PENDING : {{newOrders.total}}
                 <br>(Order by Create Time)
-                <button ng-click="refresh(newOrders)">
+                <button class="btn btn-default" ng-click="refresh(newOrders)">
                     <i class="fa fa-refresh" aria-hidden="true"></i>
                 </button>
             </uib-tab-heading>            
@@ -140,7 +150,7 @@
             <uib-tab-heading>
                 IN PROGRESS : {{processingOrders.total}}
                 <br>(Order by Last Modified Time)
-                <button ng-click="refresh(processingOrders)">
+                <button class="btn btn-default" ng-click="refresh(processingOrders)">
                     <i class="fa fa-refresh" aria-hidden="true"></i>
                 </button>
             </uib-tab-heading>
@@ -150,7 +160,7 @@
             <uib-tab-heading>
                 COMPLETED : {{completedOrders.total}}
                 <br>(Order by Completion Time)
-                <button ng-click="refresh(completedOrders)">
+                <button class="btn btn-default" ng-click="refresh(completedOrders)">
                     <i class="fa fa-refresh" aria-hidden="true"></i>
                 </button>
             </uib-tab-heading>
@@ -160,7 +170,7 @@
             <uib-tab-heading>
                 CANCELED : {{cancelledOrders.total}}
                 <br>(Order by Last Modified Time)
-                <button ng-click="refresh(cancelledOrders)">
+                <button class="btn btn-default" ng-click="refresh(cancelledOrders)">
                     <i class="fa fa-refresh" aria-hidden="true"></i>
                 </button>
             </uib-tab-heading>

@@ -17,6 +17,25 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 		restCall('GET', getUsersUrl, null, success, error);
 	}
 
+	var getDeliveryType = function (value) {		
+		if (!value.hasOwnProperty("Order")) {			
+			return "";
+		}
+		if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
+			return "B2B + Cash Delivery";
+		} 
+		if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise" && value.User.UserName === "B2C") {
+			return "B2C Delivery"
+		} 
+		if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise") {
+			return "B2B Delivery";
+		} 
+		if (value.Order.Type === "Delivery") {			
+			return "B2B Delivery";
+		} 
+		return "Delivery"		
+	}
+
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
 			Orders.orders = [];
@@ -34,11 +53,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					Id : value.HRID,
 					Name : value.Name,
 					Type :  function(){
-						if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
-							return "3rd Party Delivery";
-						} else if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise") {
-							return "B2B Delivery";
-						}
+						return getDeliveryType(value);
 					},
 					FromArea: value.Order.From.Locality,
 					ToArea: value.Order.To.Locality,
@@ -274,7 +289,8 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 		startRefresh: startRefresh,
 		stopRefresh: stopRefresh,
 		getProperWordWithCss: getProperWordWithCss,
-		getIsoDate: getIsoDate
+		getIsoDate: getIsoDate,
+		getDeliveryType: getDeliveryType
 	};
 }
 

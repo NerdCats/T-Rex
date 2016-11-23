@@ -159,6 +159,9 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 		getSantizedState: function (state) {
 	 			return dashboardFactory.getProperWordWithCss(state);
 	 		},
+	 		getDeliveryType: function () {
+	 			return dashboardFactory.getDeliveryType(this.data);
+	 		},
 	 		getComments : function (jobId) {
 	 			var itSelf = this;	 			
 	 			$http({
