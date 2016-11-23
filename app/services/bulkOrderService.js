@@ -36,8 +36,10 @@ function bulkOrderService($http, $window, ngAuthSettings, orderFactory){
 				})
 			},
 			createAll : function () {
-				angular.forEach(this.Orders, function (value, index) {
-					value.createOrder();
+				angular.forEach(this.Orders, function (value, index) {					
+					if (value.HRID === "") {					
+						value.createOrder();
+					}				
 				});
 			},
 
@@ -120,7 +122,7 @@ function bulkOrderService($http, $window, ngAuthSettings, orderFactory){
 			    	itSelf.Orders.push(order);
 			    })
 			    // console.log(JSON.stringify(this.Orders[0]))
-			    console.log(this)
+			    // console.log(this)
 			}
 		}
 	}
