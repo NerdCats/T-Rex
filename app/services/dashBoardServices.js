@@ -187,6 +187,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			pages:[],
 			total: 0, 
 			isCompleted : '',
+			isAssignable : false,
 			searchParam : {
 				type: "Job",
 				userId : null,
@@ -196,6 +197,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					endDate : null,
 				},
 				DeliveryArea: null,
+				PickupArea: null,
 				CompletionTime : {
 					startDate : null,
 					endDate : null,
@@ -213,7 +215,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				var pageUrl;
 				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
 				if (this.searchParam.userId) {
-					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&jobStateUpto="+ this.searchParam.jobState +"&sortDirection=Descending";
+					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
 				} else {
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
@@ -239,6 +241,24 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				if (this.pagination.NextPage) {
 					populateOrdersTable(this, this.pagination.NextPage);
 				}
+			},
+			assign: {
+				pickup: false,
+				delivery: false,
+				securedelivery: false
+			},
+			assignAssetToTask: function (jobid, taskid, assetRef) {
+				var assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + jobid + "/" + taskid;
+				var value = [{value: assetRef, path: "/AssetRef",op: "replace"}];
+				$http({
+					method: "PATCH",
+					url: assetAssignUrl,
+					data: value
+				}).then(function (response) {
+					
+				}, function (error) {
+					
+				})
 			}
 		}
 	};	 

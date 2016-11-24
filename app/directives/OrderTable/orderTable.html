@@ -13,9 +13,13 @@
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Pickup Status</th>   
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Delivery Status</th>   
             <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">SecureDelivery Status</th>
+            <th ng-show="orders.assign.pickup">Pickup Asset</th>
+            <th ng-show="orders.assign.delivery">Delivery Asset</th>
+            <th ng-show="orders.assign.securedelivery">SecureDelivery Asset</th>
             <th ng-show="orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
             <th>Payment</th>
             <th>Time Elapsed</th>
+            <th></th>
             
         </tr>
     </thead>
@@ -37,6 +41,9 @@
             <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.PickUpState().class}}">{{order.PickUpState().value}}</span></td>
             <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.DeliveryState().class}}">{{order.DeliveryState().value}}</span></td>
             <td ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'"><span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span></td>
+            <td ng-show="orders.assign.pickup">Pickup Asset</td>
+            <td ng-show="orders.assign.delivery">Delivery Asset</td>
+            <td ng-show="orders.assign.securedelivery">SecureDelivery Asset</td>
             <td ng-show="orders.searchParam.jobState === 'CANCELLED'">{{order.CancellationReason || "No Reason Mentioned"}}</td>
             <td><span class="label {{order.PaymentStatus.class}}">{{order.PaymentStatus.value}}</span></td>                        
             <td class="col-md-1">{{order.RequestedAgo}}</td>

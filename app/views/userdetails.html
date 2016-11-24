@@ -4,24 +4,29 @@
 		<div class="col-md-4">
 			<h1>{{User.UserName}}</h1>	
 			<span>{{User.Type}}</span>
-			<span ng-show="isAsset">{{AverageRating}}</span><br>
+			<span ng-show="User.Type === 'BIKE_MESSENGER'">{{AverageRating}}</span><br>
 			<span>Email : {{User.Email}}</span><br>
 			<span>Phone : {{User.PhoneNumber}}</span><br>
 		</div>
-		<div class="col-md-6">
-			<h1>Profile Info</h1>					
-				<span ng-show="isAsset||isUser">First Name : {{User.Profile.FirstName}}</span><br>
-				<span ng-show="isAsset||isUser"></span><br>
-				<span ng-show="isAsset||isUser">Age : {{User.Profile.Age}}</span><br>
-				<span ng-show="isAsset||isUser">Gender : {{User.Profile.Gender}}</span><br>
-				<span>Address : {{User.Profile.Address}}</span><br>
-				<span ng-show="isAsset">NationalId : {{User.Profile.NationalId}}</span><br>
-				<span ng-show="isAsset">DriversLicenseId : {{User.Profile.DriversLicenseId}}</span><br>
-				<span ng-show="isEnterprise">CompanyName : {{User.Profile.CompanyName}}</span><br>
-				<span ng-show="isEnterprise">Website : {{User.Profile.Website}}</span><br>
-		</div>
+		<div class="col-md-6" ng-show="User.Type === 'USER' || User.Type === 'BIKE_MESSENGER'">
+            <h1>Profile Info</h1>                   
+            <span>First Name : {{User.Profile.FirstName}}</span><br>
+            <span>Last Name : {{User.Profile.LastName}}</span><br>              
+            <span>Age : {{User.Profile.Age}}</span><br>
+            <span>Gender : {{User.Profile.Gender}}</span><br>
+            <span>Address : {{User.Profile.Address}}</span><br>
+            <span ng-show="User.Type === 'BIKE_MESSENGER'">NationalId : {{User.Profile.NationalId}}</span><br>
+            <span ng-show="User.Type === 'BIKE_MESSENGER'">DriversLicenseId : {{User.Profile.DriversLicenseId}}</span><br>
+        </div>
+        <div class="col-md-6" ng-show="User.Type === 'ENTERPRISE'">
+            <h1>Profile Info</h1>                   
+                <span>Address : {{User.Profile.Address}}</span><br>                
+                <span>Contact Person : {{User.Profile.ContactPersonName}}</span><br>
+                <span>CompanyName : {{User.Profile.CompanyName}}</span><br>
+                <span>Website : {{User.Profile.Website}}</span><br>
+        </div>
 		<div class="col-md-2">
-	    	<img src="{{Profile.PicUri || '/content/img/ppnotfound.png'}}">
+	    	<img src="{{Profile.PicUri || 'app/content/img/ppnotfound.png'}}">
 	  	</div>
 	</div>	
 	<div class="row">
@@ -47,24 +52,30 @@
             <label>Orders</label>
         </div>
     </div>
-    <uib-tabset  active="activeJustified" justified="true">        
-        <uib-tab index="0">
+    <uib-tabset active="activeJustified" justified="true">
+        <uib-tab index="0" ng-show="User.Type === 'USER' || User.Type === 'ENTERPRISE'">
             <uib-tab-heading>
-                IN PROGRESS : {{processingOrders.total}}
+                Total Jobs Created by {{User.UserName}} : {{allOrders.total}}
             </uib-tab-heading>
-            <order-table orders="processingOrders"></order-table>
+            <order-table orders="allOrders"></order-table>
         </uib-tab>
-        <uib-tab index="1">
+        <uib-tab index="0" ng-show="User.Type === 'BIKE_MESSENGER'">
             <uib-tab-heading>
-                COMPLETED : {{completedOrders.total}}
+                All Pending Jobs : {{pendingOrders.total}}
             </uib-tab-heading>
-            <order-table orders="completedOrders"></order-table>            
+            <order-table orders="pendingOrders"></order-table>            
         </uib-tab>
-        <uib-tab index="2">
+        <uib-tab index="1" ng-show="User.Type === 'BIKE_MESSENGER'">
             <uib-tab-heading>
-                CANCELED : {{cancelledOrders.total}}
+                All In Progress Jobs : {{inProgressOrders.total}}
             </uib-tab-heading>
-            <order-table orders="cancelledOrders"></order-table>            
+            <order-table orders="inProgressOrders"></order-table>            
+        </uib-tab>
+        <uib-tab index="2" ng-show="User.Type === 'BIKE_MESSENGER'">
+            <uib-tab-heading>
+                All Jobs Assigned To {{User.UserName}} : {{assignedOrders.total}}
+            </uib-tab-heading>
+            <order-table orders="assignedOrders"></order-table>            
         </uib-tab>
     </uib-tabset>	
 </div>			

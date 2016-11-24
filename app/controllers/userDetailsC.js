@@ -5,31 +5,23 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 	
 	var vm = $scope;
 	vm.id = $routeParams.id;
-	vm.User = {};
-	vm.isAsset = false;
-	vm.isEnterprise = false;
-	vm.isUser = false;
-	vm.jobPerPage = 50;
+	vm.User = {};	
 	vm.isLoadingUser = true;
 	
-	vm.processingOrders = dashboardFactory.orders("IN_PROGRESS");
-	vm.completedOrders = dashboardFactory.orders("COMPLETED");
-	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");
-
+	vm.allOrders = dashboardFactory.orders(null);
+	vm.pendingOrders = dashboardFactory.orders("ENQUEUED");
+	vm.inProgressOrders = dashboardFactory.orders("IN_PROGRESS");
+	vm.assignedOrders = dashboardFactory.orders(null)
 
 	var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + vm.id;
 
 	function userFound(response) {
-		vm.User = response.data;
-		if (vm.User.Type == "USER") 
-			vm.isUser = true;
-		else if (vm.User.Type == "BIKE_MESSENGER" || vm.User.Type == "CNG_DRIVER")
-			vm.isAsset = true;
-		else if (vm.User.Type == "ENTERPRISE") 
-			vm.isEnterprise = true;
 		vm.isLoadingUser = false;
-		console.log(vm.User.Type);
-		console.log(vm.isUser);
+		vm.User = response.data;
+		if (vm.User.Type == "USER" || vm.User.Type == "ENTERPRISE")
+			vm.loadUserOrEnterpriseJobs();
+		else if (vm.User.Type == "BIKE_MESSENGER" || vm.User.Type == "CNG_DRIVER")
+			vm.load_Pending_Or_Inprogress_Jobs_For_Asset_To_Assign();		
 	}
 	function userNotFound(error) {
 		console.log(error)
@@ -37,27 +29,44 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 	}
 	restCall('GET', userUrl, null, userFound, userNotFound);
 
-	vm.activate = function () {			
-		vm.processingOrders.searchParam.pageSize = vm.jobPerPage;
-		vm.completedOrders.searchParam.pageSize = vm.jobPerPage;
-		vm.cancelledOrders.searchParam.pageSize = vm.jobPerPage;
-				
-		vm.processingOrders.isCompleted = 'IN_PROGRESS';
-		vm.completedOrders.isCompleted = 'IN_PROGRESS';
-		vm.cancelledOrders.isCompleted = 'IN_PROGRESS';
-		
-		if (vm.isAsset) {
-			vm.processingOrders.searchParam.userId = vm.id;
-			vm.completedOrders.searchParam.userId = vm.id;
-			vm.cancelledOrders.searchParam.userId = vm.id;
-		} else if (vm.isEnterprise || vm.User) {
-			vm.processingOrders.searchParam.UserName = vm.User.UserName;
-			vm.completedOrders.searchParam.UserName = vm.User.UserName;
-			vm.cancelledOrders.searchParam.UserName = vm.User.UserName;
-		}
-		vm.processingOrders.loadOrders();
-		vm.completedOrders.loadOrders();
-		vm.cancelledOrders.loadOrders();
+	vm.loadUserOrEnterpriseJobs = function () {		
+		vm.allOrders.isCompleted = 'IN_PROGRESS';
+		vm.allOrders.searchParam.UserName = vm.User.UserName;
+		vm.allOrders.searchParam.PageSize = 50;		
+		vm.allOrders.loadOrders();
 	}
-	vm.activate();
+
+	vm.load_Pending_Or_Inprogress_Jobs_For_Asset_To_Assign = function () {
+				
+		vm.pendingOrders.isCompleted = 'ENQUEUED';		
+		vm.pendingOrders.searchParam.PageSize = 50;
+		vm.pendingOrders.assign.pickup = true;
+		vm.pendingOrders.assign.delivery = true;
+		vm.pendingOrders.assign.securedelivery = true;
+		vm.pendingOrders.loadOrders();
+
+		
+		
+		vm.inProgressOrders.isCompleted = 'IN_PROGRESS';		
+		vm.pendingOrders.searchParam.PageSize = 50;
+		vm.inProgressOrders.assign.pickup = true;
+		vm.inProgressOrders.assign.delivery = true;
+		vm.inProgressOrders.assign.securedelivery = true;
+		vm.inProgressOrders.loadOrders();
+
+		
+
+		vm.assignedOrders.searchParam.userId = vm.id;
+		vm.assignedOrders.searchParam.PageSize = 50;
+		vm.assignedOrders.loadOrders();
+	}
+
+	vm.activate = function () {
+		if (vm.User.Type === "USER" || vm.User.Type === "ENTERPRISE") {
+			vm.loadUserOrEnterpriseJobs();
+		}
+		else if (vm.User.Type === "BIKE_MESSENGER") {
+			vm.load_Pending_Or_Inprogress_Jobs_For_Asset_To_Assign();
+		}
+	}
 }
