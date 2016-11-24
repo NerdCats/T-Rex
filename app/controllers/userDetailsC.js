@@ -4,7 +4,7 @@ app.controller('userDetailsC', ['$scope', '$routeParams', 'ngAuthSettings', 'res
 function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardFactory){
 	
 	var vm = $scope;
-	vm.id = $routeParams.id;
+	vm.userId = $routeParams.id;
 	vm.User = {};	
 	vm.isLoadingUser = true;
 	
@@ -13,7 +13,7 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 	vm.inProgressOrders = dashboardFactory.orders("IN_PROGRESS");
 	vm.assignedOrders = dashboardFactory.orders(null)
 
-	var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + vm.id;
+	var userUrl = ngAuthSettings.apiServiceBaseUri + "api/account/profile/" + vm.userId;
 
 	function userFound(response) {
 		vm.isLoadingUser = false;
@@ -40,23 +40,24 @@ function userDetailsC($scope, $routeParams, ngAuthSettings, restCall, dashboardF
 				
 		vm.pendingOrders.isCompleted = 'ENQUEUED';		
 		vm.pendingOrders.searchParam.PageSize = 50;
-		vm.pendingOrders.assign.pickup = true;
-		vm.pendingOrders.assign.delivery = true;
-		vm.pendingOrders.assign.securedelivery = true;
-		vm.pendingOrders.loadOrders();
 
-		
+		vm.pendingOrders.assign.showPickupAssign = true;
+		vm.pendingOrders.assign.showdeliveryAssign = true;
+		vm.pendingOrders.assign.showsecuredeliveryAssign = true;
+		vm.pendingOrders.assign.assetRef = vm.userId;
+		vm.pendingOrders.loadOrders();
 		
 		vm.inProgressOrders.isCompleted = 'IN_PROGRESS';		
 		vm.pendingOrders.searchParam.PageSize = 50;
-		vm.inProgressOrders.assign.pickup = true;
-		vm.inProgressOrders.assign.delivery = true;
-		vm.inProgressOrders.assign.securedelivery = true;
+		vm.inProgressOrders.assign.showPickupAssign = true;
+		vm.inProgressOrders.assign.showdeliveryAssign = true;
+		vm.inProgressOrders.assign.showsecuredeliveryAssign = true;
+		vm.inProgressOrders.assign.assetRef = vm.userId;
 		vm.inProgressOrders.loadOrders();
 
 		
 
-		vm.assignedOrders.searchParam.userId = vm.id;
+		vm.assignedOrders.searchParam.userId = vm.userId;
 		vm.assignedOrders.searchParam.PageSize = 50;
 		vm.assignedOrders.loadOrders();
 	}

@@ -144,6 +144,14 @@ ng-form, form {
     background-color: #9C27B0;
     color: white;
 }
+
+.asset {
+    background-color: #388E3C;
+    color: white;
+    font-size: 18px;
+}
+
+
 .panel-pending-border {
     border-color: #FF5722;   
 }
