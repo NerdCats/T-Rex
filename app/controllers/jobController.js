@@ -1,12 +1,12 @@
 'use strict';
 
 app.controller('jobController', [ '$scope', '$http', '$interval', '$uibModal','$window', '$routeParams', 'menus', 'templates', 
-	'ngAuthSettings', 'timeAgo' , 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', jobController]);
+	'ngAuthSettings', 'timeAgo' , 'jobFactory', 'mapFactory', 'restCall', 'patchUpdate', 'localStorageService', jobController]);
 
 
 
 function jobController($scope, $http, $interval, $uibModal, $window, $routeParams,	menus, 
-	templates, ngAuthSettings, timeAgo, jobFactory, mapFactory, restCall, patchUpdate) {
+	templates, ngAuthSettings, timeAgo, jobFactory, mapFactory, restCall, patchUpdate, localStorageService) {
 	
 	var vm = $scope;
 	var id = $routeParams.id;	
@@ -19,6 +19,13 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		// var url = ngAuthSettings.apiServiceBaseUri + '/api/job/'+ vm.job.data.HRID +'/invoice';
 		var url = 'app/content/invoice/invoice.html?'+ vm.job.data.HRID;
 		return url;
+	}
+
+	vm.isItbipu = function () {
+		var bipu = localStorageService.get("authorizationData");		
+		if (bipu.userName === "bipu") {
+			return true;
+		} else return false;
 	}
 	
  
