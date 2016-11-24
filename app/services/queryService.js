@@ -15,7 +15,9 @@ function queryService(restCall, ngAuthSettings){
 			queryUrl = "/" + "odata?"
 		}
 		
-		else if (searchParam.startDate != null || searchParam.endDate != null || searchParam.UserName != null || searchParam.jobState != null) {
+		else if (searchParam.startDate != null || searchParam.endDate != null || 
+			searchParam.UserName != null || searchParam.jobState != null ||
+			searchParam.userType != null) {
 			queryUrl = "/" + "odata?$filter=";
 		}
 
