@@ -39,7 +39,9 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 							return "B2B Delivery";
 						}
 					},					
-					isAssigningAsset : false,					
+					isAssigningPickUpAsset : false,
+					isAssigningDeliveryAsset : false,
+					isAssigningSecureCashDeliveryAsset : false,					
 					ETA : function () {
 						var eta = "";
 						if (value.Order.ETA) {
@@ -219,25 +221,48 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				showsecuredeliveryAssign: false,
 				assetRef: null				
 			},
-			assignAssetToTask: function (HRID, taskid, isAssigningAsset) {
-				console.log(HRID)
-				console.log(taskid)
-				var assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + HRID + "/" + taskid;
+			assignAssetToTask: function (jobid, taskid, index, orders) {
+				function isAssigningAsset(flag, taskid, index, orders) {
+					angular.forEach(orders.data[index].data.Tasks, function (task, key) {
+						if (task.id === taskid && key === 1) {
+							orders.data[index].isAssigningPickUpAsset = flag;						
+						}
+						else if (task.id === taskid && key === 2) {
+							orders.data[index].isAssigningDeliveryAsset = flag;													
+						}
+						else if (task.id === taskid && key === 3) {
+							orders.data[index].isAssigningSecureCashDeliveryAsset = flag;
+						}
+					})
+				}
+				
+				var assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + jobid + "/" + taskid;
+				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + orders.data[index].data.HRID;
 				var value = [{value: this.assign.assetRef, path: "/AssetRef", op: "replace"}, {value: "IN_PROGRESS", path: "/State", op: "replace"}];				
 				console.log(value)
-				isAssigningAsset = true;
+				isAssigningAsset(true, taskid, index, orders);
 				$http({
 					method: "PATCH",
 					url: assetAssignUrl,
 					data: value
 				}).then(function (response) {
 					console.log(response)
-					$window.location.reload();
-					isAssigningAsset = true;
+					// $window.location.reload();
+					$http({
+						method: "GET",
+						url: jobUrl
+					}).then(function (response) {
+						orders.data[index].data = response.data;			
+						isAssigningAsset(false, taskid, index, orders);
+					}, function (error) {					
+						console.log(error);
+					})
+					isAssigningAsset(false, taskid, index, orders);
 				}, function (error) {
 					console.log(error);
-					isAssigningAsset = true;
+					isAssigningAsset(false, taskid, index, orders);				
 				})
+
 			}
 		}
 	};	 
