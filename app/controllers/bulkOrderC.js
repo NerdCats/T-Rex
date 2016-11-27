@@ -6,6 +6,7 @@ function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboa
 	
 	var vm = $scope;
 	vm.EnterpriseUser = null;
+	vm.isUploaded = false;
 	vm.bulkOrder = bulkOrderService.getBulkOrder();	
 
 
@@ -26,12 +27,7 @@ function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboa
 		}
 	}
 
-	vm.createAll = function () {
-		angular.forEach(vm.bulkOrder.Orders, function (value, index) {
-			console.log(value)
-			value.createOrder();
-		})
+	vm.upload = function () {
+		vm.isUploaded = true;
 	}
-
-	vm.upload = function () {}	
 }

@@ -1,112 +1,112 @@
 body {
-                font-family: arial;
-                margin: 0;
-                font-weight: 600;
-            }
-            .jobid {
-                font-size: 18px;
-            }
-            .center-block {
-                display: block;                
-                width: 270px;
+    font-family: arial;
+    margin: 0;
+    font-weight: 600;
+}
+.jobid {
+    font-size: 18px;
+}
+.center-block {
+    display: block;                
+    width: 270px;
 /*                background-color: #F5F5F5;*/
-            }
-            .gohq {
-                text-align: center;                                             
-                font-size: 11px;
-            }
-            .gohq-div {
+}
+.gohq {
+    text-align: center;                                             
+    font-size: 11px;
+}
+.gohq-div {
 /*                width: 100px;*/
-                display: block;
-                margin: 0 auto;
-            }
-            .address {
-                word-wrap: break-word;
-                width: 270px !important;
-                font-size: 16px;
-                text-align: center;
-                font-weight: 500;
-            }
-            .address-header {
-                text-align: center;
-                margin-top: 10px;
-                margin-bottom: 5px;
-                display: block;
-                margin: 10px auto;
-            }
-            #logo {
-                width: 100px;
-                display: block;
-                margin: 10px auto;
-            }
-            .style-one {
-                border: 0;
-                height: 1px;
-                background: #333;
-                background-image: linear-gradient(to right, #ccc, #333, #ccc);
-            }
-            .tracking-help {
-                font-size: 10px;
-                display: block;
-                margin: 10px auto;                
-                text-align: center;
-            }
-            h4{
-                margin-bottom: -0px;
-            }
-            .date {            
-                font-size: 11px;
-                display: block;
-                margin: 0 auto;
-                text-align: center;
-            }
-            table {
-                width: 270px;
-                border-collapse: collapse;
-                margin-top: 10px
-            }
-            td, th {
-                font-size: 14px;
-                border: 1px solid #999;
-                padding: 2px;
-                text-align: center;
-            }
-            .signature {
-                display: flex;
-                flex-direction: row;                
-            }
-            .authorization {
-                font-size: 11px;
-                margin-top: 20px;
-            }
-            .authorization-div {
-                text-align: center;
-            }
+    display: block;
+    margin: 0 auto;
+}
+.address {
+    word-wrap: break-word;
+    width: 270px !important;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 500;
+}
+.address-header {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    margin: 10px auto;
+}
+#logo {
+    width: 100px;
+    display: block;
+    margin: 10px auto;
+}
+.style-one {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+.tracking-help {
+    font-size: 10px;
+    display: block;
+    margin: 10px auto;                
+    text-align: center;
+}
+h4{
+    margin-bottom: -0px;
+}
+.date {            
+    font-size: 11px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+table {
+    width: 270px;
+    border-collapse: collapse;
+    margin-top: 10px
+}
+td, th {
+    font-size: 14px;
+    border: 1px solid #999;
+    padding: 2px;
+    text-align: center;
+}
+.signature {
+    display: flex;
+    flex-direction: row;                
+}
+.authorization {
+    font-size: 11px;
+    margin-top: 20px;
+}
+.authorization-div {
+    text-align: center;
+}
 
-            .asset-list {
-                display: inline-block;
-                list-style: none;
-                /*margin: 0;*/
-                float: left;
-                padding-right: 5px;
-            }
-            .asset-list-ul {
-                margin: 0;
-                margin-left: -80px;
-                margin-right: 60px;
-            }
+.asset-list {
+    display: inline-block;
+    list-style: none;
+    /*margin: 0;*/
+    float: left;
+    padding-right: 5px;
+}
+.asset-list-ul {
+    margin: 0;
+    margin-left: -80px;
+    margin-right: 60px;
+}
 
-            .asset {
-                display: flex;
-                flex-flow: row;
-            }
+.asset {
+    display: flex;
+    flex-flow: row;
+}
 
-            .asset div {
-                margin: 0 auto;
-            }
+.asset div {
+    margin: 0 auto;
+}
 
 
-            .service-charge-bdt {
-                text-align: center;
-                font-size: 16px;
-            }
+.service-charge-bdt {
+    text-align: center;
+    font-size: 16px;
+}

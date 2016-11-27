@@ -66,7 +66,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		  			vm.job.assigningAsset(false);
 				};
 
-				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[taskIndex].id;				
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[taskIndex].id;
 				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
 				// var result = patchUpdate(vm.selected.Id, "replace", 
 				// 						"/AssetRef", "api/job/", 

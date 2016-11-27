@@ -34,7 +34,6 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 
 		vm.activate();
 	}
-
 	vm.setDate = function () {
 		var startDateISO = undefined;
 		var endDateISO = undefined;

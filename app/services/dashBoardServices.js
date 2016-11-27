@@ -38,7 +38,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
-			Orders.orders = [];
+			Orders.data = [];
 			Orders.pages = [];
 			Orders.isCompleted = 'SUCCESSFULL';
 			var orders = response.data;
@@ -50,15 +50,17 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 			}
 			angular.forEach(orders.data, function(value, key){
 				var newOrder = {
-					Id : value.HRID,
-					Name : value.Name,
+					data: value,					
 					Type :  function(){
-						return getDeliveryType(value);
-					},
-					FromArea: value.Order.From.Locality,
-					ToArea: value.Order.To.Locality,
-					From : value.Order.From.Address,
-					To : value.Order.To.Address,
+						if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
+							return "B2B + Cash Delivery";
+						} else if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise") {
+							return "B2B Delivery";
+						}
+					},					
+					isAssigningPickUpAsset : false,
+					isAssigningDeliveryAsset : false,
+					isAssigningSecureCashDeliveryAsset : false,					
 					ETA : function () {
 						var eta = "";
 						if (value.Order.ETA) {
@@ -77,43 +79,10 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 							description += item.Item + "\n";
 						});
 						return description;
-					},
-					TotalToPay: value.Order.OrderCart.TotalToPay,
-					NoteToDeliveryMan: value.Order.NoteToDeliveryMan,
-					User : function () {
-						var user = getProperWordWithCss(value.User.Type);
-						user.value = value.User.UserName;// + " ("+ user.value + ")";
-						return user;
-					},
-					Assets: function () {						
-						return Object.keys(value.Assets).map(function(id, index){ return value.Assets[id] } )
-					},
-					PaymentStatus : getProperWordWithCss(value.PaymentStatus),
-					CreateTime : value.CreateTime,
-					ModifiedTime : value.ModifiedTime,
-					CompletionTime : value.CompletionTime,
-					RequestedAgo : timeAgo(value.CreateTime),
-					CancellationReason : value.CancellationReason,
-					JobState : function () {
-						return getProperWordWithCss(value.State);	
-					},
-					PickUpState: function () {
-						return getProperWordWithCss(value.Tasks[1].State);
-					},
-					DeliveryState: function () {
-						return getProperWordWithCss(value.Tasks[2].State);	
-					},
-					SecureDeliveryState: function () {
-						if (value.Tasks[3]) {
-							return getProperWordWithCss(value.Tasks[3].State);
-						}
-						return {value: "N/A", class: "not-applicable"};
-					},
-					Details : function(){
-						$window.location.href = '#/job/'+ value.HRID;
-					}
+					},					
+					RequestedAgo : timeAgo(value.CreateTime)
 				};			 	
-				Orders.orders.push(newOrder);
+				Orders.data.push(newOrder);
 			});
 			if (orders.pagination.TotalPages > 1) {
 				for (var i = 0; i < orders.pagination.TotalPages ; i++) {
@@ -134,7 +103,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
  			 Orders.isCompleted = 'FAILED';
  		}
 
- 		// Orders.orders = [];
+ 		// Orders.data = [];
 		// Orders.pages = [];
 		// Orders.isCompleted = 'IN_PROGRESS';
  		restCall('GET', jobListUrl, null, successCallback, errorCallback);
@@ -189,7 +158,10 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				class: "completed"
 			}
 		}
-		return word;
+		return {
+			value: "N/A",
+			class: "not-applicable"
+		};
 	}
 
 	var loadNextPage = function(Orders, nextPageUrl){		
@@ -200,11 +172,11 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 	// these states indicates the http request's state and content of the page
 	var orders = function (jobState) {
 		return {
-			orders: [], 
+			data: [], 
 			pagination: null,
 			pages:[],
 			total: 0, 
-			isCompleted : '',
+			isCompleted : '',			
 			searchParam : {
 				type: "Job",
 				userId : null,
@@ -214,6 +186,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					endDate : null,
 				},
 				DeliveryArea: null,
+				PickupArea: null,
 				CompletionTime : {
 					startDate : null,
 					endDate : null,
@@ -227,11 +200,14 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				page: 0,
 				pageSize: 50				
 			},
+			getProperWordWithCss : function (word) {
+				return getProperWordWithCss(word);
+			},
 			loadOrders: function () {				
 				var pageUrl;
 				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
 				if (this.searchParam.userId) {
-					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&jobStateUpto="+ this.searchParam.jobState +"&sortDirection=Descending";
+					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
 				} else {
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
@@ -257,6 +233,55 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				if (this.pagination.NextPage) {
 					populateOrdersTable(this, this.pagination.NextPage);
 				}
+			},
+			assign: {
+				showPickupAssign: false,
+				showdeliveryAssign: false,
+				showsecuredeliveryAssign: false,
+				assetRef: null				
+			},
+			assignAssetToTask: function (jobid, taskid, index, orders) {
+				function isAssigningAsset(flag, taskid, index, orders) {
+					angular.forEach(orders.data[index].data.Tasks, function (task, key) {
+						if (task.id === taskid && key === 1) {
+							orders.data[index].isAssigningPickUpAsset = flag;						
+						}
+						else if (task.id === taskid && key === 2) {
+							orders.data[index].isAssigningDeliveryAsset = flag;													
+						}
+						else if (task.id === taskid && key === 3) {
+							orders.data[index].isAssigningSecureCashDeliveryAsset = flag;
+						}
+					})
+				}
+				
+				var assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + jobid + "/" + taskid;
+				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + orders.data[index].data.HRID;
+				var value = [{value: this.assign.assetRef, path: "/AssetRef", op: "replace"}, {value: "IN_PROGRESS", path: "/State", op: "replace"}];				
+				console.log(value)
+				isAssigningAsset(true, taskid, index, orders);
+				$http({
+					method: "PATCH",
+					url: assetAssignUrl,
+					data: value
+				}).then(function (response) {
+					console.log(response)
+					// $window.location.reload();
+					$http({
+						method: "GET",
+						url: jobUrl
+					}).then(function (response) {
+						orders.data[index].data = response.data;			
+						isAssigningAsset(false, taskid, index, orders);
+					}, function (error) {					
+						console.log(error);
+					})
+					isAssigningAsset(false, taskid, index, orders);
+				}, function (error) {
+					console.log(error);
+					isAssigningAsset(false, taskid, index, orders);				
+				})
+
 			}
 		}
 	};	 

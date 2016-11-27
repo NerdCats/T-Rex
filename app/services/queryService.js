@@ -16,7 +16,7 @@ function queryService(restCall, ngAuthSettings){
 		}
 		
 		else if (searchParam.startDate != null || searchParam.endDate != null || 
-			searchParam.UserName != null || searchParam.jobState != null ||
+			searchParam.UserName != null || searchParam.jobState != null || 
 			searchParam.userType != null) {
 			queryUrl = "/" + "odata?$filter=";
 		}
@@ -108,6 +108,17 @@ function queryService(restCall, ngAuthSettings){
 				allreadyAParamIsThere = true;
 			} else {
 				queryUrl += " and (" + deliveryAreaParam + " or Order/To/Locality eq null)";
+			}
+		}
+
+		if (searchParam.PickupArea != null) {
+			var PickupAreaParam = "Order/From/Locality eq '"+ searchParam.PickupArea +"'";
+			console.log(searchParam.PickupArea)
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  PickupAreaParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and (" + PickupAreaParam + " or Order/From/Locality eq null)";
 			}
 		}
 

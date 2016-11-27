@@ -1,6 +1,6 @@
-app.factory('bulkOrderService', ['$http', 'ngAuthSettings', 'orderFactory', bulkOrderService])
+app.factory('bulkOrderService', ['$http', '$window', 'ngAuthSettings', 'orderFactory', bulkOrderService])
 
-function bulkOrderService($http, ngAuthSettings, orderFactory){	
+function bulkOrderService($http, $window, ngAuthSettings, orderFactory){	
 
 	var getBulkOrder = function () {
 
@@ -8,6 +8,17 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 			Orders: [],
 			EnterpriseUser: null,
 			EnterpriseUsers: [],
+			goToInvoicePage : function () {
+				var HRIDCSVlist = "";
+				console.log(this.Orders);
+				angular.forEach(this.Orders, function (value, key) {
+					HRIDCSVlist += value.HRID + ",";
+				});
+				HRIDCSVlist = HRIDCSVlist.slice(0, -1);
+				console.log(HRIDCSVlist);
+				var invoicesUrl = "app/content/invoice/invoice.html?" + HRIDCSVlist;
+				$window.open(invoicesUrl, "_blank");
+			},
 			getUsersList : function (type) {
 				var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&pageSize=50";
 				var itSelf = this;
@@ -16,6 +27,7 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 					method: 'GET',
 					url: getUsersUrl
 				}).then(function (response) {
+					console.log(response.data.data)
 					angular.forEach(response.data.data, function (value, keys) {
 						itSelf.EnterpriseUsers.push(value);
 					});
@@ -24,8 +36,10 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 				})
 			},
 			createAll : function () {
-				angular.forEach(this.Orders, function (value, index) {
-					value.createOrder();
+				angular.forEach(this.Orders, function (value, index) {					
+					if (value.HRID === "") {					
+						value.createOrder();
+					}				
 				});
 			},
 
@@ -108,7 +122,7 @@ function bulkOrderService($http, ngAuthSettings, orderFactory){
 			    	itSelf.Orders.push(order);
 			    })
 			    // console.log(JSON.stringify(this.Orders[0]))
-			    console.log(this)
+			    // console.log(this)
 			}
 		}
 	}

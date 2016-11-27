@@ -4,64 +4,94 @@
             <th>S\L</th>
             <th>Job no</th>
             <th>Create Time</th>
-            <th ng-hide="orders.searchParam.jobState === 'COMPLETED' || orders.searchParam.jobState === 'ENQUEUED'">Last Modified</th>
-            <th ng-show="orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
+            <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Last Modified</th>
+            <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
             <th>User</th>
             <th>Type</th>            
             <th>Pickup Area</th>
             <th>Pickup</th>
             <th>Delivery Area</th>
             <th>Delivery</th>
-            <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Pickup Status</th>   
-            <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Delivery Status</th>   
-            <th ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">SecureDelivery Status</th>
-            <th ng-show="orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
+            <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Pickup Status</th>   
+            <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Delivery Status</th>   
+            <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">SecureDelivery Status</th>
+            <th ng-show="orders.assign.showPickupAssign">Pickup Asset</th>
+            <th ng-show="orders.assign.showdeliveryAssign">Delivery Asset</th>
+            <th ng-show="orders.assign.showsecuredeliveryAssign">SecureDelivery Asset</th>
+            <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
             <th>Payment</th>
             <th>Time Elapsed</th>
+            <th></th>
             
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="order in orders.orders track by $index">
+        <tr ng-repeat="order in orders.data track by $index">
             <td>{{$index + orders.pagination.Start}}</td>
             <td class="col-md-1">
-                <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.Id}}" target="_blank">{{order.Id}}</a>
-                <span class="label text-center {{order.JobState().class}}">{{order.JobState().value}}</span>
+                <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.data.HRID}}" target="_blank">{{order.data.HRID}}</a>
+                <span class="label text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{orders.getProperWordWithCss(order.data.State).value}}</span>
                 <br>                
             </td>
-            <td class="col-md-1">
-                {{order.CreateTime | date:"EEE MMM d"}} <br>
-                {{order.CreateTime | date:"h:mm:ss a"}}
+            <td class="col-md-2">{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
+            <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'" class="col-md-2">
+                {{order.data.ModifiedTime | date:"EEE MMM d, y h:mm:ss a"}}
             </td>
-            <td class="col-md-1" ng-hide="orders.searchParam.jobState === 'COMPLETED' || orders.searchParam.jobState === 'ENQUEUED'">
-                {{order.ModifiedTime | date:"EEE MMM d"}} <br>
-                {{order.ModifiedTime | date:"h:mm:ss a"}}
+            <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'" class="col-md-2">
+                {{order.data.CompletionTime | date:"EEE MMM d, y h:mm:ss a"}}
             </td>
-            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'COMPLETED'">
-                {{order.CompletionTime | date:"EEE MMM d"}} <br>
-                {{order.CompletionTime | date:"h:mm:ss a"}}
+            <td>
+                <span class="label {{orders.getProperWordWithCss(order.data.User.Type).class}}">{{order.data.User.UserName}}</span>
             </td>
-            <td class="col-md-1"><span class="label {{order.User().class}}">{{order.User().value}}</span></td>
             <td>{{order.Type()}}</td>                            
-            <td class="col-md-1">{{order.FromArea}}</td>
-            <td class="col-md-2">{{order.From}}</td>
-            <td class="col-md-1">{{order.ToArea}}</td>
-            <td class="col-md-2">{{order.To}}</td>
-            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
-                <span class="label {{order.PickUpState().class}}">{{order.PickUpState().value}}</span>
+            <td class="col-md-2">{{order.data.Order.From.Locality}}</td>
+            <td class="col-md-2">{{order.data.Order.From.Address}}</td>
+            <td class="col-md-2">{{order.data.Order.To.Locality}}</td>
+            <td class="col-md-2">{{order.data.Order.To.Address}}</td>
+            <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
+                <span class="label {{orders.getProperWordWithCss(order.data.Tasks[1].State).class}}">{{orders.getProperWordWithCss(order.data.Tasks[1].State).value}}</span>
             </td>
-            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
-                <span class="label {{order.DeliveryState().class}}">
-                    {{order.DeliveryState().value}}
-                </span>
+            <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
+                <span class="label {{orders.getProperWordWithCss(order.data.Tasks[2].State).class}}">{{orders.getProperWordWithCss(order.data.Tasks[2].State).value}}</span>
             </td>
-            <td class="col-md-1" ng-show="orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
-                <span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span>
+            <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
+                <span class="label {{orders.getProperWordWithCss(order.data.Tasks[3].State).class}}">{{orders.getProperWordWithCss(order.data.Tasks[3].State).value}}</span>
             </td>
-            <td class="col-md-2" ng-show="orders.searchParam.jobState === 'CANCELLED'">
-                {{order.CancellationReason || "No Reason Mentioned"}}
+            <td ng-show="orders.assign.showPickupAssign">
+                <span class="label asset">{{order.data.Assets[order.data.Tasks[1].AssetRef].UserName}}</span>
+                <br>
+                <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(order.data.Id, order.data.Tasks[1].id, $index, orders)">
+                    <span><i ng-show="order.isAssigningPickUpAsset" class="fa fa-refresh fa-spin"></i></span>
+                    <span ng-hide="order.PickUpAsset().Name">Assign</span>
+                    <span ng-show="order.PickUpAsset().Name">Re Assign</span>
+                </button>
             </td>
-            <td><span class="label {{order.PaymentStatus.class}}">{{order.PaymentStatus.value}}</span></td>                        
+            <td ng-show="orders.assign.showdeliveryAssign">
+                <span class="label asset">{{order.data.Assets[order.data.Tasks[2].AssetRef].UserName}}</span>
+                <br>
+                <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(order.data.Id, order.data.Tasks[2].id, $index, orders)">
+                    <span><i ng-show="order.isAssigningDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
+                    <span ng-hide="order.DeliveryAsset().Name">Assign</span>
+                    <span ng-show="order.DeliveryAsset().Name">Re Assign</span>
+                </button>
+            </td>
+            <td ng-show="orders.assign.showsecuredeliveryAssign">
+                <div ng-show="order.Type() === 'B2B + Cash Delivery'">
+                    <span class="label asset">{{order.SecureDeliveryAsset().Name}}</span>
+                    <br>
+                    <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(order.data.Id, order.data.Tasks[3].id, $index, orders)">
+                        <span><i ng-show="order.isAssigningSecureCashDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
+                        <span ng-hide="order.SecureDeliveryAsset().Name">Assign</span>
+                        <span ng-show="order.SecureDeliveryAsset().Name">Re Assign</span>
+                    </button>                    
+                </div>
+                <div ng-hide="order.Type() === 'B2B + Cash Delivery'">
+                    <span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span>
+                </div>
+            </td>
+            <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'CANCELLED'">{{order.data.CancellationReason || "No Reason Mentioned"}}</td>
+            <td><span class="label {{orders.getProperWordWithCss(order.data.PaymentStatus).class}}">{{orders.getProperWordWithCss(order.data.PaymentStatus).value}}</span></td>                        
+
             <td class="col-md-1">{{order.RequestedAgo}}</td>
             <td>
                 <a class="btn btn-primary" href="/app/content/invoice/invoice.html?{{order.Id}}" target="_blank">Invoice</a>
@@ -71,10 +101,10 @@
 </table>
 <div ng-show="orders.isCompleted == 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 <div ng-show="orders.isCompleted == 'FAILED'" >
-    <p>Server error! click <button ng-click="orders.loadOrders()" >here</button> to refresh</p>
+    <p>Server error! click <button ng-click="orders.loadorders()" >here</button> to refresh</p>
 </div>
 <div ng-show="orders.isCompleted == 'EMPTY'" >
-    <p>There is no order here! click <button ng-click="orders.loadOrders()" >here</button> to check</p>
+    <p>There is no order here! click <button ng-click="orders.loadorders()" >here</button> to check</p>
 </div>
 
 <nav class="navbar-right" ng-show="orders.isCompleted !== 'IN_PROGRESS'">
