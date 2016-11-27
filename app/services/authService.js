@@ -42,7 +42,7 @@
             var deferred = $q.defer();
 
             //FIXME: I do can keep these routes noted somewhere
-            $http.post(serviceBase + 'api/Account/token', data, {
+            $http.post(serviceBase + 'api/auth/token', data, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'                        
                     }
