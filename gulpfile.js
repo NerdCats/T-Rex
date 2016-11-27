@@ -78,7 +78,7 @@ gulp.task('clean', function (cb) {
 gulp.task('bundle', function () {
 	//first load the services, then the directives and then the controller
 	git.branch(function (branch) {				
-		if (branch === "release") {
+		if (branch === "release" || branch === "HEAD") {
 			console.log("Current branch name : " + branch);
 			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
 
