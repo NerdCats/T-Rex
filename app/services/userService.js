@@ -22,6 +22,9 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 					startDate : null,
 					endDate : null,
 				},
+				subStringOf : {
+					RecipientsPhoneNumber : null
+				},
 				CompletionTime : {
 					startDate : null,
 					endDate : null,

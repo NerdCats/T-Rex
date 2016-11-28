@@ -39,7 +39,7 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		console.log(searchParam.subStringOf.RecipientsPhoneNumber)
+		
 		if (searchParam.subStringOf.RecipientsPhoneNumber != null) {
 			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.RecipientsPhoneNumber +"',Order/To/Address)";
 			if (!allreadyAParamIsThere) {
