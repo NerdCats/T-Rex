@@ -191,6 +191,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					startDate : null,
 					endDate : null,
 				},
+				PaymentStatus: null,
 				jobState : jobState,
 				orderby : {
 					property : "CreateTime",
@@ -204,7 +205,7 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 				return getProperWordWithCss(word);
 			},
 			loadOrders: function () {				
-				var pageUrl;
+				var pageUrl = "";
 				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
 				if (this.searchParam.userId) {
 					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/" + this.searchParam.userId + "/jobs?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";

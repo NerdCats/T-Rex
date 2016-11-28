@@ -101,10 +101,10 @@
 </table>
 <div ng-show="orders.isCompleted == 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
 <div ng-show="orders.isCompleted == 'FAILED'" >
-    <p>Server error! click <button ng-click="orders.loadorders()" >here</button> to refresh</p>
+    <p>Server error! click <button ng-click="orders.loadOrders()" >here</button> to refresh</p>
 </div>
 <div ng-show="orders.isCompleted == 'EMPTY'" >
-    <p>There is no order here! click <button ng-click="orders.loadorders()" >here</button> to check</p>
+    <p>There is no order here! click <button ng-click="orders.loadOrders()" >here</button> to check</p>
 </div>
 
 <nav class="navbar-right" ng-show="orders.isCompleted !== 'IN_PROGRESS'">

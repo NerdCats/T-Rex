@@ -11,13 +11,14 @@ function queryService(restCall, ngAuthSettings){
 		var queryUrl = "";
 		var allreadyAParamIsThere = false;		
 
-		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null && searchParam.UserName == null) {
+		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null 
+			&& searchParam.UserName == null && searchParam.PaymentStatus == null) {
 			queryUrl = "/" + "odata?"
 		}
 		
 		else if (searchParam.startDate != null || searchParam.endDate != null || 
 			searchParam.UserName != null || searchParam.jobState != null || 
-			searchParam.userType != null) {
+			searchParam.userType != null || searchParam.PaymentStatus != null) {
 			queryUrl = "/" + "odata?$filter=";
 		}
 
@@ -29,7 +30,6 @@ function queryService(restCall, ngAuthSettings){
 		
 		if (searchParam.UserName != null) {
 			var UserNameParam = "User/UserName eq '"+ searchParam.UserName +"'";
-			console.log("how the hell you r coming here ??? Mr. " + searchParam.UserName)
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  UserNameParam;
 				allreadyAParamIsThere = true;
@@ -37,6 +37,7 @@ function queryService(restCall, ngAuthSettings){
 				queryUrl += " and " + UserNameParam;
 			}
 		}
+
 
 		if (searchParam.CreateTime.startDate != null) {
 			var startDateParam = "CreateTime gt datetime'"+ searchParam.CreateTime.startDate +"'";
@@ -86,6 +87,16 @@ function queryService(restCall, ngAuthSettings){
 				allreadyAParamIsThere = true;
 			} else {
 				queryUrl += " and " + jobStateParam;
+			}
+		}
+
+		if (searchParam.PaymentStatus != null) {
+			var PaymentStatusParam = "PaymentStatus eq '"+ searchParam.PaymentStatus +"'";
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  PaymentStatusParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + PaymentStatusParam;
 			}
 		}
 

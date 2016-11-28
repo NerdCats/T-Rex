@@ -11,6 +11,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.endDate = undefined;
 	vm.EnterpriseUser = null;
 	vm.DeliveryArea = null;
+	vm.PaymentStatus = null;
 
 	vm.DeliveryAreas = Areas;	
 	vm.EnterpriseUsers = [];	
@@ -30,7 +31,6 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.clearDate = function () {
 		vm.startDate = undefined;
 		vm.endDate = undefined;
-
 
 		vm.activate();
 	}
@@ -88,6 +88,12 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.processingOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.completedOrders.searchParam.UserName = vm.EnterpriseUser;
 		vm.cancelledOrders.searchParam.UserName = vm.EnterpriseUser;
+
+		vm.allOrders.searchParam.PaymentStatus = vm.PaymentStatus;
+		vm.newOrders.searchParam.PaymentStatus = vm.PaymentStatus;
+		vm.processingOrders.searchParam.PaymentStatus = vm.PaymentStatus;
+		vm.completedOrders.searchParam.PaymentStatus = vm.PaymentStatus;
+		vm.cancelledOrders.searchParam.PaymentStatus = vm.PaymentStatus;
 		
 		vm.allOrders.searchParam.pageSize = vm.jobPerPage;
 		vm.newOrders.searchParam.pageSize = vm.jobPerPage;

@@ -98,7 +98,7 @@
                     <div class="col-md-4">
                         <label class="control-label pull-left">Show Vendors:</label>                        
                     </div>
-                    <div class="col-md-7" style="padding-right: 0px !important" >
+                    <div class="col-md-5" style="padding-right: 0px !important" >
                         <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                             <option></option>
                         </select>
@@ -111,18 +111,33 @@
                     <div class="col-md-4">
                         <label class="control-label pull-left">Select Delivery Area:</label>                        
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <select class="form-control" ng-model="DeliveryArea" ng-options="area as area for area in DeliveryAreas"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                             <option></option>                
                         </select>                    
                     </div>
                 </div>
+                 
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        
+                    <div class="col-md-4">
+                        <label class="control-label pull-left">Select Payment Status:</label>                        
                     </div>
-                </div> 
-            </div>           
+                    <div class="col-md-4">
+                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                            <option value=""></option>
+                            <option value="Paid">Paid</option>
+                            <option value="Pending">Pending</option>
+                        </select>                    
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-11">
+                    <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        
+                </div>
+            </div>      
         </fieldset>        
     </ng-form>
     <uib-tabset  active="activeJustified" justified="true">
