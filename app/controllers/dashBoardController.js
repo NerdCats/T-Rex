@@ -28,11 +28,14 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
 	}
 	
-
 	vm.clearDate = function () {
-		vm.startDate = undefined;
+		vm.startDate = undefined;		
 		vm.endDate = undefined;
+		vm.activate();
+	}
 
+	vm.removePhoneNumber = function () {
+		vm.PhoneNumber = null;
 		vm.activate();
 	}
 	vm.setDate = function () {

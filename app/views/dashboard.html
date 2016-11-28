@@ -62,18 +62,27 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Start Date:</label>
                     <div class="col-md-7">
-                        <input type="date" class="form-control" ng-model="startDate">
+                        <span class="input-group-btn">
+                            <input type="date" class="form-control" ng-model="startDate">
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" ng-click="clearDate()">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </button>                            
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">End Date:</label>
                     <div class="col-md-7">
-                        <input type="date" class="form-control" ng-model="endDate">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <button class="btn btn-danger pull-right" ng-click="clearDate()">CLEAR DATE</button>                    
+                        <span class="input-group-btn">
+                            <input type="date" class="form-control" ng-model="endDate">
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" ng-click="clearDate()">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </button>                            
+                        </span>
                     </div>
                 </div>
             </div>
@@ -137,14 +146,14 @@
                         <label class="control-label pull-left">Search PhoneNumber:</label>                        
                     </div>
                     <div class="col-md-8">
-                        <!-- <span class="input-group-btn"> -->
-                            <input type="text" class="form-control" ng-model="PhoneNumber" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
-                        <!-- </span>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" ng-click="saerchByPhoneNumber(PhoneNumber)" ng-disabled="jobSearchForm.$invalid">
-                                <i class="fa fa-search" aria-hidden="true"></i>
+                            <input type="text" class="form-control" ng-model="PhoneNumber" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone">                            
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" ng-click="removePhoneNumber()">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
                             </button>                            
-                        </span> -->
+                        </span>
                     </div>
                 </div>
             </div>
