@@ -197,6 +197,9 @@ function dashboardFactory($http, $window, $interval, timeAgo, restCall, querySer
 					property : "CreateTime",
 					orderbyCondition : "desc"
 				},
+				subStringOf : {
+					RecipientsPhoneNumber : null
+				},
 				envelope: true,
 				page: 0,
 				pageSize: 50				

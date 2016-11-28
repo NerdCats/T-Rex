@@ -12,13 +12,14 @@ function queryService(restCall, ngAuthSettings){
 		var allreadyAParamIsThere = false;		
 
 		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null 
-			&& searchParam.UserName == null && searchParam.PaymentStatus == null) {
+			&& searchParam.UserName == null && searchParam.PaymentStatus == null && searchParam.subStringOf.RecipientsPhoneNumber == null) {
 			queryUrl = "/" + "odata?"
 		}
 		
 		else if (searchParam.startDate != null || searchParam.endDate != null || 
 			searchParam.UserName != null || searchParam.jobState != null || 
-			searchParam.userType != null || searchParam.PaymentStatus != null) {
+			searchParam.userType != null || searchParam.PaymentStatus != null ||
+			searchParam.subStringOf.RecipientsPhoneNumber != null) {
 			queryUrl = "/" + "odata?$filter=";
 		}
 
@@ -35,6 +36,17 @@ function queryService(restCall, ngAuthSettings){
 				allreadyAParamIsThere = true;
 			} else {
 				queryUrl += " and " + UserNameParam;
+			}
+		}
+
+		console.log(searchParam.subStringOf.RecipientsPhoneNumber)
+		if (searchParam.subStringOf.RecipientsPhoneNumber != null) {
+			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.RecipientsPhoneNumber +"',Order/To/Address)";
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  RecipientsPhoneNumberParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + RecipientsPhoneNumberParam;
 			}
 		}
 

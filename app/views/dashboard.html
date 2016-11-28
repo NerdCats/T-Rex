@@ -132,6 +132,21 @@
                         </select>                    
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label class="control-label pull-left">Search PhoneNumber:</label>                        
+                    </div>
+                    <div class="col-md-8">
+                        <!-- <span class="input-group-btn"> -->
+                            <input type="text" class="form-control" ng-model="PhoneNumber" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
+                        <!-- </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" ng-click="saerchByPhoneNumber(PhoneNumber)" ng-disabled="jobSearchForm.$invalid">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>                            
+                        </span> -->
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <div class="col-md-11">

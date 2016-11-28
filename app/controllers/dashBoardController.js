@@ -12,6 +12,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.EnterpriseUser = null;
 	vm.DeliveryArea = null;
 	vm.PaymentStatus = null;
+	vm.PhoneNumber = null;
 
 	vm.DeliveryAreas = Areas;	
 	vm.EnterpriseUsers = [];	
@@ -78,6 +79,14 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		order.loadOrders();
 	}
 
+	vm.saerchByPhoneNumber = function () {
+		vm.allOrders.resetSearchParams();
+		vm.newOrders.resetSearchParams();
+		vm.processingOrders.resetSearchParams();
+		vm.completedOrders.resetSearchParams();
+		vm.cancelledOrders.resetSearchParams();
+	}
+
 	vm.activate = function () {
 
 		vm.getEnterpriseUsersList();
@@ -106,6 +115,12 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.processingOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		vm.completedOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		vm.cancelledOrders.searchParam.DeliveryArea = vm.DeliveryArea;
+
+		vm.allOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
+		vm.newOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
+		vm.processingOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
+		vm.completedOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
+		vm.cancelledOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
 
 
 		vm.allOrders.searchParam.orderby.property = "ModifiedTime";
