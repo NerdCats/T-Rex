@@ -9,8 +9,8 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				report.status = 'EMPTY'
 			} else {
 				report.status = 'SUCCESS';
-				report.data = response.data.data;
-				report.total = Object.keys(report.data).length;
+				report.data = response.data.data;				
+				report.getTotal();
 				console.log(report);
 			}
 		}
@@ -25,8 +25,7 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 
 	var getReport = function () {
 		return { 
-			data: {},
-			total: 0,
+			data: {},			
 			searchParam : {
 				startdate: null, 
 				enddate: null,
@@ -34,6 +33,30 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				generateexcel: false,
 				userid: null,
 				username: null
+			},
+			total : {
+				totalVendor: 0,
+				totalDelivery: 0,
+				totalPending: 0,
+				totalInProgress: 0,
+				totalCompleted: 0,
+				totalCancelled: 0,
+				totalProductPrice: 0,
+				totalDeliveryCharge: 0
+			},
+			getTotal: function () {
+				var itSelf = this;				
+				angular.forEach(this.data, function (value, key) {
+					itSelf.total.totalVendor += 1;
+					itSelf.total.totalDelivery += value.TotalDelivery;
+					itSelf.total.totalPending += value.TotalPending;
+					itSelf.total.totalInProgress += value.TotalInProgress;
+					itSelf.total.totalCompleted += value.TotalCompleted;
+					itSelf.total.totalCancelled += value.TotalCancelled;
+					itSelf.total.totalProductPrice += value.TotalProductPrice;
+					itSelf.total.totalDeliveryCharge += value.TotalDeliveryCharge;
+				});
+				console.log(this.total)
 			},
 			getUrl: function () {
 				// FIXME: need to be refactored

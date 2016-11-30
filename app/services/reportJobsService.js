@@ -10,7 +10,7 @@ function reportJobsService($http, $window, reportServiceUrl){
 				usertype : null,
 				username : null,
 				userid : null
-			},
+			},			
 			isCompleted: "PENDING",
 			getReportUrl: function () {
 				var reportUrl = reportServiceUrl + "api/details?" + 
@@ -35,7 +35,7 @@ function reportJobsService($http, $window, reportServiceUrl){
 				}).then(function success(response) {
 					angular.forEach(response.data.data, function (value, index) {
 						itSelf.data.push(value);
-					})
+					})					
 					console.log(itSelf.data)
 					itSelf.isCompleted = 'SUCCESSFULL';
 				}, function error(error) {
