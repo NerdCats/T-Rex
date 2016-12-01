@@ -60,7 +60,7 @@
             <td ng-show="orders.assign.showPickupAssign">
                 <span class="label asset">{{order.data.Assets[order.data.Tasks[1].AssetRef].UserName}}</span>
                 <br>
-                <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(order.data.Id, order.data.Tasks[1].id, $index, orders)">
+                <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(orders, $index, 1)">
                     <span><i ng-show="order.isAssigningPickUpAsset" class="fa fa-refresh fa-spin"></i></span>
                     <span ng-hide="order.PickUpAsset().Name">Assign</span>
                     <span ng-show="order.PickUpAsset().Name">Re Assign</span>
@@ -69,7 +69,7 @@
             <td ng-show="orders.assign.showdeliveryAssign">
                 <span class="label asset">{{order.data.Assets[order.data.Tasks[2].AssetRef].UserName}}</span>
                 <br>
-                <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(order.data.Id, order.data.Tasks[2].id, $index, orders)">
+                <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(orders, $index, 2)">
                     <span><i ng-show="order.isAssigningDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                     <span ng-hide="order.DeliveryAsset().Name">Assign</span>
                     <span ng-show="order.DeliveryAsset().Name">Re Assign</span>
@@ -79,7 +79,7 @@
                 <div ng-show="order.Type() === 'B2B + Cash Delivery'">
                     <span class="label asset">{{order.SecureDeliveryAsset().Name}}</span>
                     <br>
-                    <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(order.data.Id, order.data.Tasks[3].id, $index, orders)">
+                    <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask(orders, $index, 3)">
                         <span><i ng-show="order.isAssigningSecureCashDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                         <span ng-hide="order.SecureDeliveryAsset().Name">Assign</span>
                         <span ng-show="order.SecureDeliveryAsset().Name">Re Assign</span>
