@@ -53,6 +53,12 @@ app.constant('menus', [
 		target: "",
 		class: "fa fa-map-signs"
 	},
+	{ 
+		title : "Job Activity", 
+		link: '#/jobactivity',
+		target: "",
+		class: "fa fa-tasks"
+	},
 ]);
 
 

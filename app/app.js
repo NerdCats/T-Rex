@@ -84,6 +84,9 @@ app.config(['$routeProvider',
 			when('/products', {
 				templateUrl: 'app/views/products.html',
 				controller: 'productsC'				
+			}).
+			when('/jobactivity', {
+				templateUrl: 'app/views/jobActivity.html'				
 			})
 			// when('/supportedOrder',{
 			// 	templateUrl: 'app/views/supportedOrders.html',
