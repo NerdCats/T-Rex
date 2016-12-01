@@ -41,17 +41,6 @@
                 <div>BIKE MESSENGERS</div>                    
             </div>            
         </div>
-<!--         <div class="col-md-3 row">
-            <div class="summary-icon-div cancelled col-md-1">
-                <i class="fa fa-anchor fa-2x" aria-hidden="true"></i>
-            </div>
-            <div class="col-md-4 job-state">
-                <div>
-                    <h3 class="display-4">{{}}</h3>
-                </div>
-                <div>ADMINS</div>                    
-            </div>            
-        </div> -->
     </div>
     <div class="row">        
         <div class="form-group col-md-3">
@@ -73,9 +62,9 @@
     <uib-tabset active="activeJustified" justified="true">
         <uib-tab index="0">
             <uib-tab-heading>
-                USERS : {{user.total}}
-            </uib-tab-heading>        
-            <user-table users="user"></user-table>            
+                ASSETS : {{assets.total}}
+            </uib-tab-heading>
+            <user-table users="assets"></user-table>              
         </uib-tab>
         <uib-tab index="1">
             <uib-tab-heading>
@@ -85,9 +74,9 @@
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                ASSETS : {{assets.total}}
-            </uib-tab-heading>
-            <user-table users="assets"></user-table>            
+                USERS : {{user.total}}
+            </uib-tab-heading>        
+            <user-table users="user"></user-table>            
         </uib-tab>
     </uib-tabset>    
 </div>          

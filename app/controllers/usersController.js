@@ -2,7 +2,7 @@
 app.controller('userController', ['$scope', '$http', '$window', 'userService', function($scope, $http, $window, userService){
 	
 	var vm = $scope;
-	vm.userPerPage = 50;
+	vm.userPerPage = 100;
 	vm.user = userService.users("USER");
 	vm.enterprise = userService.users("ENTERPRISE");
 	vm.assets = userService.users("BIKE_MESSENGER");

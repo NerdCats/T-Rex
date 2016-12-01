@@ -42,7 +42,11 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
 				populateUsers(this, pageUrl);
-			}
+			},
+			loadPage: function (pageNo) {
+				this.searchParam.page = pageNo;
+				this.loadUsers();
+			},
 		}
 	}
 
@@ -109,10 +113,18 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 			Users.pagination = response.data.pagination;
 			Users.total = response.data.pagination.Total;
 			
-			for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
-				Users.pages.push(i);
-			};
-			console.log(Users);
+			if (response.data.pagination.TotalPages > 1) {
+				for (var i = 0; i < response.data.pagination.TotalPages ; i++) {
+					var page = {
+						pageNo: i,
+						isCurrentPage: ''
+					}
+					if (Users.searchParam.page === i) {
+						page.isCurrentPage = "selected-page";
+					}
+					Users.pages.push(page);
+				};				
+			}
 		}
 		function errorCallback(error) {
 			Users.isCompleted = 'FAILED';

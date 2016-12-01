@@ -38,8 +38,8 @@
 		<li>
 			<a ng-click="users.loadPrevPage()" ng-hide="users.pagination.PrevPage === undefined"> << </a>
 		</li>
-		<li>
-			<a ng-repeat="page in users.pages" ng-click="users.loadPage(page.pageNo)"></a>
+		<li ng-repeat="page in users.pages track by $index" ng-click="users.loadPage(page.pageNo)">
+			<a class="{{page.isCurrentPage}}">{{page.pageNo + 1}}</a>
 		</li>
 		<li>
 			<a ng-click="users.loadNextPage()" ng-hide="users.pagination.NextPage === undefined"> >> </a>
