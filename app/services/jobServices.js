@@ -13,8 +13,9 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 		jobIsLoading: "PENDING",
 	 		jobUpdating: false,
 	 		modifying: '',
-	 		commentStatus: '',
 	 		redMessage : null,
+	 		commentStatus: '',
+	 		CommentText: "",
 	 		comments: [],
 	 		loadJob: function () {
 				this.jobIsLoading = "INPROGRESS";				
@@ -176,7 +177,7 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				console.log(error);
 	 			})
 	 		},
-	 		postComment : function (comment) {
+	 		postComment : function () {
 	 			var itSelf = this;
 	 			itSelf.commentStatus = 'COMMENTI_MODIFYING';
 	 			$http({
@@ -185,11 +186,12 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				data: {
 						RefId: itSelf.data.HRID,
 						EntityType: 'Job',
-						CommentText: comment
+						CommentText: itSelf.CommentText
 					}
 	 			}).then(function (response) {
 	 				itSelf.getComments(itSelf.data.HRID);
 	 				itSelf.commentStatus = '';
+	 				itSelf.CommentText = "";
 	 			}, function (error) {
 	 				itSelf.commentStatus = '';
 	 				alert("Couldn't add comment, server error!");
