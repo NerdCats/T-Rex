@@ -72,9 +72,9 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, Ur
 
 	vm.createNewOrder = createNewOrder;
 	vm.currentMarkerLocation = {lat:0,lng:0};
-	mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
+	// mapFactory.createMap(23.790888, 90.391430, 'orderCreateMap', 14);
 	vm.searchAddress = searchAddress;
-	mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
+	// mapFactory.mapContextMenuForCreateOrder(setFromLocationCallback, setToLocationCallback);
 
 	vm.deliveryTypeChanged = function () {
 		if (vm.OrderType === "B2CDelivery" || vm.OrderType === "B2BDelivery") {
