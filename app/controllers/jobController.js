@@ -68,10 +68,6 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 
 				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[taskIndex].id;
 				var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
-				// var result = patchUpdate(vm.selected.Id, "replace", 
-				// 						"/AssetRef", "api/job/", 
-				// 						vm.job.data.Id, vm.job.data.Tasks[0].id, 
-				// 						success, error);
 				var result = restCall("PATCH", url, assetRefUpdateData, success, error);
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
@@ -85,6 +81,7 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 	
 	var vm = $scope;
 	vm.assets = [];
+	vm.pagination = [];
 	vm.loadingAssets = true;
 	var assetListUrlMaker = function (type, envelope, page, pageSize) {
 		var parameters =  "$filter=Type eq 'BIKE_MESSENGER'" + "&envelope=" + envelope + "&page=" + page + "&pageSize=" + pageSize;		
@@ -93,16 +90,31 @@ function ModalInstanceCtrl($scope, $http, $uibModalInstance, ngAuthSettings) {
 	};
 
 	// N.B. Since taskcat's odata is not fast enough, on temporarily basis, loading the AssetList from SpyCat	
-	var url = assetListUrlMaker("BIKE_MESSENGER", true, 0, 50);
+	
 
-	$http.get(url).then(function(response) {
-		vm.assets = response.data.data;
-		console.log(response)		
-		vm.loadingAssets = false;
-	}, function (error) {		
-		console.log(error);		
-	});
+	vm.getAssetsList = function (pageNo) {
+		var url = assetListUrlMaker("BIKE_MESSENGER", true, pageNo, 50);
+		$http.get(url).then(function(response) {
+			vm.assets = response.data.data;
+			vm.pagination = [];
+			for(var i =0; i <response.data.pagination.TotalPages; i++) {
+				var page = {};
+				if (i === pageNo) {
+					page = { pageNo:i, isCurrentPage: "selected-page"};
+				} else {
+					page = { pageNo:i, isCurrentPage: ""};
+				}
+				vm.pagination.push(page);
+			}
+			vm.loadingAssets = false;
+		}, function (error) {		
+			console.log(error);		
+		});
+	}
 
+	vm.getAssetsList(0);
+
+	
 	vm.selectionChanged = function (asset) {
 		vm.selectedAsset = asset;
 	};

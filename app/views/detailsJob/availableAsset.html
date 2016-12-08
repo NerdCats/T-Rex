@@ -11,7 +11,16 @@
 			  	<button class="col-md-5 list-group-item asset-list-item" type="button" ng-click="selectionChanged(asset)">{{ asset.UserName }}</button>    		
 	    	</div>
 		</div>
-	    Selected: <b>{{ selectedAsset.UserName }}</b>
+		Selected: <b>{{ selectedAsset.UserName }}</b>
+		<br>
+		<nav class="navbar-right" ng-show="orders.isCompleted !== 'IN_PROGRESS'">
+		    <ul class="pagination">		         
+		        <li ng-repeat="page in pagination" ng-click="getAssetsList(page.pageNo)">
+		            <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+		        </li>		      
+		    </ul>                
+		</nav>
+		<br><br>	    
 	</div>
 	<div class="modal-footer">
 	    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
