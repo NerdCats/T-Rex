@@ -1,20 +1,18 @@
-app.factory('dashboardFactory', ['$http', '$window', '$interval', 'timeAgo', 'restCall', 'queryService', 'ngAuthSettings', dashboardFactory]);
+app.factory('dashboardFactory', ['$http', '$q', '$window', '$interval', 'timeAgo', 'restCall', 'queryService', 'ngAuthSettings', dashboardFactory]);
 
 
-function dashboardFactory($http, $window, $interval, timeAgo, restCall, queryService, ngAuthSettings){
+function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, queryService, ngAuthSettings){
 	
-	var getUserNameList = function (type, Users) {
-		function success(response) {
-			// Users.push("all");
-			angular.forEach(response.data.data, function (value, keys) {
-				Users.push(value.UserName);
-			});			
-		}
-		function error(error) {
-			console.log(error);
-		}
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&pageSize=50&$select=UserName";
-		restCall('GET', getUsersUrl, null, success, error);
+	var getUserNameList = function (type) {
+		var deferred = $q.defer();
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&$orderby=UserName&pageSize=50&$select=UserName";		
+		$http.get(getUsersUrl).success(function (response) {
+			console.log(response)
+			deferred.resolve(response);
+		}).error(function (error) {
+			deferred.reject(error);
+		});
+		return deferred.promise;
 	}
 
 	var getDeliveryType = function (value) {		

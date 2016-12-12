@@ -107,23 +107,43 @@
                     <div class="col-md-4">
                         <label class="control-label pull-left">Show Vendors:</label>                        
                     </div>
-                    <div class="col-md-5" style="padding-right: 0px !important" >
-                        <select class="form-control" ng-model="EnterpriseUser" ng-options="user as user for user in EnterpriseUsers"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                            <option></option>
-                        </select>
+                    <div class="col-md-6" style="padding-right: 0px !important">
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="EnterpriseUser" list="EnterpriseUsersList">
+                            <span class="input-group-btn">                                    
+                                <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-default" ng-click="EnterpriseUser = ''" ng-show="EnterpriseUsers.length !== 0">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                            <datalist id="EnterpriseUsersList" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                                <select class="form-control" ng-model="EnterpriseUser" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                                    
+                                    <option ng-repeat="user in EnterpriseUsers" value="{{user.UserName}}">{{user.UserName}}</option>
+                                </select>
+                            </datalist>
+                        </div>
                     </div>
-                    <button class="btn btn-default col-md-1" ng-click="getEnterpriseUsersList()">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </button>
                 </div>
                 <div class="form-group">
                     <div class="col-md-4">
                         <label class="control-label pull-left">Select Delivery Area:</label>                        
                     </div>
                     <div class="col-md-6">
-                        <select class="form-control" ng-model="DeliveryArea" ng-options="area as area for area in DeliveryAreas"  ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                            <option></option>                
-                        </select>                    
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="DeliveryArea" list="DeliveryAreaList">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="DeliveryArea = ''" ng-show="DeliveryAreas.length !== 0">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                            <datalist id="DeliveryAreaList" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                                <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                                    <option ng-repeat="area in DeliveryAreas" value="{{area}}">{{area}}</option>
+                                </select>
+                            </datalist>
+                        </div>    
                     </div>
                 </div>
                  

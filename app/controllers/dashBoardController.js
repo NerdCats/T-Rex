@@ -15,7 +15,8 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.PhoneNumber = null;
 
 	vm.DeliveryAreas = Areas;	
-	vm.EnterpriseUsers = [];	
+	vm.EnterpriseUsers = [];
+	vm.showEnterpriseUsers = false;	
 
 	vm.allOrders = dashboardFactory.orders(null);
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
@@ -25,9 +26,21 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	
 
 	vm.getEnterpriseUsersList = function () {
-		dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
-	}
-	
+		console.log("EnterpriseUsers");
+		dashboardFactory.getUserNameList("ENTERPRISE").then(function (response) {
+			vm.EnterpriseUsers = [];
+			vm.EnterpriseUsers.push({ UserName : null });
+			vm.EnterpriseUsers.push({ UserName : "All" });
+			angular.forEach(response.data, function (value, index) {
+				vm.EnterpriseUsers.push(value);
+			})
+			
+			console.log(vm.EnterpriseUsers)
+		}, function (error) {
+			console.log(error);
+		});
+	}	
+
 	vm.clearDate = function () {
 		vm.startDate = undefined;		
 		vm.endDate = undefined;
@@ -67,6 +80,10 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.cancelledOrders.searchParam.CreateTime.endDate = endDateISO;		
 	}
 
+	vm.select = function (user) {
+		vm.EnterpriseUser = user;
+		vm.showEnterpriseUsers = false;
+	}
 	
 
 	vm.AutoRefreshChanged = function () {

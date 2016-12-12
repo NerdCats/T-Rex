@@ -83,7 +83,7 @@ app.constant('COLOR', {
 
 
 app.constant('Areas', [
-	"","Outside Dhaka","Adabor","Agargaon","Azimpur","Badda","Bailey Road","Banani",
+	"All","Outside Dhaka","Adabor","Agargaon","Azimpur","Badda","Bailey Road","Banani",
 	"Banani DOHS","Banasree","Bangla Motor","Baridhara","Baridhara Block-J","Baridhara Diplomatic",
 	"Baridhara DOHS","Basabo","Bashundhara","Bashundhara R/A","Bassabo","Basundhara","Cantonment",
 	"Chowdhurypara","Dhanmondi","Dhanmondi R/A","DOHS","Elephant Road","Eskaton","Farmgate","Gabtoli",
