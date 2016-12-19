@@ -82,8 +82,7 @@ gulp.task('bundle', function () {
 			.pipe(concat('main.js'))
 			.pipe(uglify())
 			.pipe(rename({suffix: '.min'}))
-			.pipe(gulp.dest('dist/'));
-	} 
+			.pipe(gulp.dest('dist/'));	
 });	
 
 
