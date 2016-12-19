@@ -75,32 +75,16 @@ gulp.task('clean', function (cb) {
 });
 
 
-gulp.task('bundle', function () {
-	//first load the services, then the directives and then the controller
-	git.branch(function (branch) {				
-		if (branch === "release" || branch === "HEAD") {
-			console.log("Current branch name : " + branch);
-			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
+gulp.task('bundle', function () {	
+	git.branch(function (branch) {		
+		jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
 
-			return gulp.src(jsFilePaths)
-				.pipe(ngannotate())
-				.pipe(concat('main.js'))
-				.pipe(uglify())
-				.pipe(rename({suffix: '.min'}))
-				.pipe(gulp.dest('dist/'));
-		} else {
-			console.log("Current branch name : " + branch);			
-			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
-
-			return gulp.src(jsFilePaths)
-				.pipe(ngannotate())
-				.pipe(concat('main.js'))
-				.pipe(uglify())
-				.pipe(rename({suffix: '.min'}))
-				.pipe(gulp.dest('dist/'));
-		} 
-	});	
-	
+		return gulp.src(jsFilePaths)
+			.pipe(ngannotate())
+			.pipe(concat('main.js'))
+			.pipe(uglify())
+			.pipe(rename({suffix: '.min'}))
+			.pipe(gulp.dest('dist/'));	 
 })
 
 
