@@ -15,6 +15,7 @@ var deleteLines = require('gulp-delete-lines');
 var useref = require('gulp-useref');
 var gulpif = require('gulp-if');
 var inject = require('gulp-inject');
+var git = require('git-rev');
 
 const jsFilePaths = [
 	'app/*.js',	
@@ -73,19 +74,22 @@ gulp.task('clean', function (cb) {
 	});
 });
 
+gulp.task('setProdServiceURI', function () {
+	jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
+});
 
-gulp.task('bundle', function () {
-		jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
+gulp.task('setDevServiceURI', function () {
+	jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
+});
 
+gulp.task('bundle', function () {		
 		return gulp.src(jsFilePaths)
 			.pipe(ngannotate())
 			.pipe(concat('main.js'))
 			.pipe(uglify())
 			.pipe(rename({suffix: '.min'}))
-			.pipe(gulp.dest('dist/'));	
-});	
-
-
+			.pipe(gulp.dest('dist/'));	 
+});
 
 gulp.task('bundle-css', function(){
 	return gulp.src(cssFilePaths)
@@ -152,10 +156,9 @@ gulp.task('inject-index', function(done){
 
 
 
-gulp.task('build', function(callback){
+gulp.task('build:prod', function(callback){
 
-	
-	runSequence('clean',
+	runSequence('clean', 'setProdServiceURI',
 				'bundle','bundle-libs', 
 				'bundle-css', 
 				'copy-fonts',
@@ -167,3 +170,16 @@ gulp.task('build', function(callback){
 				callback);
 });
 
+gulp.task('build:dev', function(callback){
+	
+	runSequence('clean', 'setDevServiceURI',
+				'bundle','bundle-libs', 
+				'bundle-css', 
+				'copy-fonts',
+				'copy-assets', 
+				'copy-templates', 
+				'copy-directives',
+				'remove-js-css', 
+				'inject-index', 
+				callback);
+});
