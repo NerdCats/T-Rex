@@ -75,8 +75,7 @@ gulp.task('clean', function (cb) {
 });
 
 
-gulp.task('bundle', function () {	
-	git.branch(function (branch) {		
+gulp.task('bundle', function () {
 		jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
 
 		return gulp.src(jsFilePaths)
@@ -85,7 +84,7 @@ gulp.task('bundle', function () {
 			.pipe(uglify())
 			.pipe(rename({suffix: '.min'}))
 			.pipe(gulp.dest('dist/'));	 
-})
+});
 
 
 gulp.task('bundle-css', function(){
