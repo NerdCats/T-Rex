@@ -15,7 +15,6 @@ var deleteLines = require('gulp-delete-lines');
 var useref = require('gulp-useref');
 var gulpif = require('gulp-if');
 var inject = require('gulp-inject');
-var git = require('git-rev');
 
 const jsFilePaths = [
 	'app/*.js',	
@@ -76,32 +75,17 @@ gulp.task('clean', function (cb) {
 
 
 gulp.task('bundle', function () {
-	//first load the services, then the directives and then the controller
-	git.branch(function (branch) {				
-		if (branch === "release" || branch === "HEAD") {
-			console.log("Current branch name : " + branch);
-			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
+		jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
 
-			return gulp.src(jsFilePaths)
-				.pipe(ngannotate())
-				.pipe(concat('main.js'))
-				.pipe(uglify())
-				.pipe(rename({suffix: '.min'}))
-				.pipe(gulp.dest('dist/'));
-		} else {
-			console.log("Current branch name : " + branch);			
-			jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
+		return gulp.src(jsFilePaths)
+			.pipe(ngannotate())
+			.pipe(concat('main.js'))
+			.pipe(uglify())
+			.pipe(rename({suffix: '.min'}))
+			.pipe(gulp.dest('dist/'));
+	} 
+});	
 
-			return gulp.src(jsFilePaths)
-				.pipe(ngannotate())
-				.pipe(concat('main.js'))
-				.pipe(uglify())
-				.pipe(rename({suffix: '.min'}))
-				.pipe(gulp.dest('dist/'));
-		} 
-	});	
-	
-})
 
 
 gulp.task('bundle-css', function(){
