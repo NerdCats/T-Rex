@@ -47,8 +47,9 @@ function queryService(restCall, ngAuthSettings){
 		}
 
 		
-		if (searchParam.subStringOf.RecipientsPhoneNumber != null) {
-			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.RecipientsPhoneNumber +"',Order/To/Address)";
+		if (searchParam.subStringOf.SearchKey != null) {
+			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.SearchKey +
+											"',Order/To/Address) or substringof('"+ searchParam.subStringOf.SearchKey +"',HRID)";
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  RecipientsPhoneNumberParam;
 				allreadyAParamIsThere = true;
@@ -109,7 +110,7 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		if (searchParam.PaymentStatus != null) {
+		if (searchParam.PaymentStatus != null && searchParam.PaymentStatus != '') {
 			var PaymentStatusParam = "PaymentStatus eq '"+ searchParam.PaymentStatus +"'";
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  PaymentStatusParam;

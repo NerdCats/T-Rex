@@ -3,9 +3,8 @@ app.factory('dashboardFactory', ['$http', '$q', '$window', '$interval', 'timeAgo
 
 function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, queryService, ngAuthSettings){
 	
-	var getUserNameList = function (type) {
-		var deferred = $q.defer();
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq '"+ type +"'&$orderby=UserName&pageSize=50&$select=UserName";		
+	var getUserNameList = function (getUsersUrl) {
+		var deferred = $q.defer();		
 		$http.get(getUsersUrl).success(function (response) {
 			console.log(response)
 			deferred.resolve(response);
@@ -199,7 +198,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 					orderbyCondition : "desc"
 				},
 				subStringOf : {
-					RecipientsPhoneNumber : null
+					SearchKey : null,					
 				},
 				envelope: true,
 				page: 0,
