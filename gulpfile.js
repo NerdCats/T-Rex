@@ -74,10 +74,15 @@ gulp.task('clean', function (cb) {
 	});
 });
 
+gulp.task('setProdServiceURI', function () {
+	jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
+});
 
-gulp.task('bundle', function () {
-		jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceProdUri.js');
+gulp.task('setDevServiceURI', function () {
+	jsFilePaths.splice(1, 0, 'app/apiServiceUri/apiServiceDevUri.js');
+});
 
+gulp.task('bundle', function () {		
 		return gulp.src(jsFilePaths)
 			.pipe(ngannotate())
 			.pipe(concat('main.js'))
@@ -85,7 +90,6 @@ gulp.task('bundle', function () {
 			.pipe(rename({suffix: '.min'}))
 			.pipe(gulp.dest('dist/'));	 
 });
-
 
 gulp.task('bundle-css', function(){
 	return gulp.src(cssFilePaths)
@@ -152,10 +156,23 @@ gulp.task('inject-index', function(done){
 
 
 
-gulp.task('build', function(callback){
+gulp.task('build:prod', function(callback){
 
+	runSequence('clean', 'setProdServiceURI',
+				'bundle','bundle-libs', 
+				'bundle-css', 
+				'copy-fonts',
+				'copy-assets', 
+				'copy-templates', 
+				'copy-directives',
+				'remove-js-css', 
+				'inject-index', 
+				callback);
+});
+
+gulp.task('build:dev', function(callback){
 	
-	runSequence('clean',
+	runSequence('clean', 'setDevServiceURI',
 				'bundle','bundle-libs', 
 				'bundle-css', 
 				'copy-fonts',
