@@ -27,7 +27,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 
 	vm.getEnterpriseUsersList = function (page) {
 		console.log("EnterpriseUsers");
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=10&$select=UserName";
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=50&$select=UserName";
 		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
 			if (page === 0) {
 				vm.EnterpriseUsers = [];
