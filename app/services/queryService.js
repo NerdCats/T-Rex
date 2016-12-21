@@ -48,8 +48,8 @@ function queryService(restCall, ngAuthSettings){
 
 		
 		if (searchParam.subStringOf.SearchKey != null) {
-			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.SearchKey +
-											"',Order/To/Address) or substringof('"+ searchParam.subStringOf.SearchKey +"',HRID)";
+			var RecipientsPhoneNumberParam = "(substringof('"+ searchParam.subStringOf.SearchKey +
+											"',Order/To/Address) or substringof('"+ searchParam.subStringOf.SearchKey +"',HRID))";
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  RecipientsPhoneNumberParam;
 				allreadyAParamIsThere = true;
