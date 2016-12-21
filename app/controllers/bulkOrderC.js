@@ -5,12 +5,34 @@ app.controller('bulkOrderC', ['$scope', 'bulkOrderService','ngAuthSettings', 're
 function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboardFactory) {
 	
 	var vm = $scope;
-	vm.EnterpriseUser = null;
+	// vm.EnterpriseUser = null;
+	vm.EnterpriseUsers = [];
 	vm.isUploaded = false;
 	vm.bulkOrder = bulkOrderService.getBulkOrder();	
 
 
-	vm.bulkOrder.getUsersList("ENTERPRISE", vm.EnterpriseUsers);
+	// vm.bulkOrder.getUsersList("ENTERPRISE", );
+
+	vm.getEnterpriseUsersList = function (page) {
+		console.log("EnterpriseUsers");
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=50";
+		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
+			if (page === 0) {
+				vm.EnterpriseUsers = [];
+				vm.EnterpriseUsers.push({ UserName : "All" });			
+			}
+			angular.forEach(response.data, function (value, index) {
+				vm.EnterpriseUsers.push(value);
+			})
+			if (response.pagination.TotalPages > page) {
+				vm.getEnterpriseUsersList(page + 1);
+			}			
+		}, function (error) {
+			console.log(error);
+		});
+	}
+
+	vm.getEnterpriseUsersList();
 
 	document.getElementById('csv').addEventListener('change', handleFile, false);
 	function handleFile (e) {		
