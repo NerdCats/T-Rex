@@ -56,12 +56,21 @@
 					<div ng-show="noResults">
 						<i class="glyphicon glyphicon-remove"></i> No Results Found
 					</div> -->
-					<input type="text" 
+					<span class="input-group-btn">
+						<input type="text" 
 				    		ng-model="selectedUser" 
 				    		uib-typeahead="user.UserName for user in userNames | filter:$viewValue | limitTo:20" 
 				    		typeahead-on-select="onSelectUser($item, $model, $label, $event)"
-				    		class="form-control">
-					<i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
+				    		class="form-control" ng-required="!isPutOrder" ng-disabled="UserNameIsLoading">
+					</span>
+					<span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="loadUserNames(0)" ng-hide="UserNameIsLoading">
+	                        <i class="fa fa-refresh"></i>	                        
+	                    </button>
+	                    <button class="btn btn-default" ng-show="UserNameIsLoading">	                        
+	                        <i ng-show="UserNameIsLoading" class="fa fa-refresh fa-spin"></i>
+	                    </button>
+					</span>
 					<div ng-show="noResults">
 						<i class="glyphicon glyphicon-remove"></i> No Results Found
 					</div>
@@ -141,7 +150,7 @@
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Delivery Area</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="order.to.Locality" ng-required="!isPutOrder">
+				<select class="form-control" ng-model="order.To.Locality" ng-required="!isPutOrder">
 				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
 				</select>
 			  </div>
@@ -239,7 +248,7 @@
 			  <label class="control-label col-md-2" for="">Service Charge</label>
 			  <div class="col-md-6">
 				<div class="input-group ">
-					<input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" ng-model="order.OrderCart.ServiceCharge">
+					<input id="" name="" type="number" placeholder="ex: 500" class="form-control" aria-describedby="BDT" min="0" ng-model="order.OrderCart.ServiceCharge">
 					<span class="input-group-addon" id="BDT">BDT</span>
 				</div>
 			  </div>
@@ -283,6 +292,13 @@
 			  </div>
 			</div>
 
+			<div class="form-group">
+			  <label class="control-label col-md-2">Reference Invoice no</label>
+			  <div class="col-md-6">                     
+				<input type="text" class="form-control" rows="3" ng-model="order.ReferenceInvoiceId">
+			  </div>
+			</div>
+
 			<legend>Order Cart</legend>
 			<div class="col-md-2" ng-show="order.OrderCart.PackageList.length===0">
 				<button class="btn btn-default" ng-click="AddItem()">
@@ -300,12 +316,12 @@
 					<p class="help-block">Quantity</p>
 				</div>
 				<div class="col-md-2">
-					<input class="form-control" type="number" placeholder="Unit Price" ng-model="item.Price">
-					<p class="help-block">Unit Price</p>
+					<input class="form-control" type="number" placeholder="Unit Price" min="0" ng-model="item.Price">
+					<p class="help-block">Unit Price in BDT</p>
 				</div>
 				<div class="col-md-2">
-					<input class="form-control" type="number" placeholder="Weight" ng-model="item.Weight">
-					<p class="help-block">Weight</p>
+					<input class="form-control" type="number" placeholder="Weight" min="0" max="100" ng-model="item.Weight">
+					<p class="help-block">Weight in KG</p>
 				</div>
 				<div class="col-md-2">
 					<button class="btn btn-default" ng-click="AddItem()">
