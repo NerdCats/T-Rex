@@ -12,10 +12,11 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.EnterpriseUser = null;
 	vm.DeliveryArea = null;
 	vm.PaymentStatus = null;
-	vm.PhoneNumber = null;
+	vm.searchKey = null;
 
 	vm.DeliveryAreas = Areas;	
-	vm.EnterpriseUsers = [];	
+	vm.EnterpriseUsers = [];
+	vm.showEnterpriseUsers = false;	
 
 	vm.allOrders = dashboardFactory.orders(null);
 	vm.newOrders = dashboardFactory.orders("ENQUEUED");
@@ -24,10 +25,25 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
 
-	vm.getEnterpriseUsersList = function () {
-		dashboardFactory.getUserNameList("ENTERPRISE", vm.EnterpriseUsers);
-	}
-	
+	vm.getEnterpriseUsersList = function (page) {
+		console.log("EnterpriseUsers");
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=10&$select=UserName";
+		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
+			if (page === 0) {
+				vm.EnterpriseUsers = [];
+				vm.EnterpriseUsers.push({ UserName : "All" });			
+			}
+			angular.forEach(response.data, function (value, index) {
+				vm.EnterpriseUsers.push(value);
+			})
+			if (response.pagination.TotalPages > page) {
+				vm.getEnterpriseUsersList(page + 1);
+			}			
+		}, function (error) {
+			console.log(error);
+		});
+	}	
+
 	vm.clearDate = function () {
 		vm.startDate = undefined;		
 		vm.endDate = undefined;
@@ -35,7 +51,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	}
 
 	vm.removePhoneNumber = function () {
-		vm.PhoneNumber = null;
+		vm.searchKey = null;
 		vm.activate();
 	}
 	vm.setDate = function () {
@@ -67,6 +83,10 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.cancelledOrders.searchParam.CreateTime.endDate = endDateISO;		
 	}
 
+	vm.select = function (user) {
+		vm.EnterpriseUser = user;
+		vm.showEnterpriseUsers = false;
+	}
 	
 
 	vm.AutoRefreshChanged = function () {
@@ -92,7 +112,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 
 	vm.activate = function () {
 
-		vm.getEnterpriseUsersList();
+		vm.getEnterpriseUsersList(0);
 
 		
 		vm.allOrders.searchParam.UserName = vm.EnterpriseUser;
@@ -119,12 +139,11 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.completedOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 		vm.cancelledOrders.searchParam.DeliveryArea = vm.DeliveryArea;
 
-		vm.allOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
-		vm.newOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
-		vm.processingOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
-		vm.completedOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
-		vm.cancelledOrders.searchParam.subStringOf.RecipientsPhoneNumber = vm.PhoneNumber;
-
+		vm.allOrders.searchParam.subStringOf.SearchKey = vm.searchKey;
+		vm.newOrders.searchParam.subStringOf.SearchKey = vm.searchKey;
+		vm.processingOrders.searchParam.subStringOf.SearchKey = vm.searchKey;
+		vm.completedOrders.searchParam.subStringOf.SearchKey = vm.searchKey;
+		vm.cancelledOrders.searchParam.subStringOf.SearchKey = vm.searchKey;
 
 		vm.allOrders.searchParam.orderby.property = "ModifiedTime";
 		vm.newOrders.searchParam.orderby.property = "CreateTime";

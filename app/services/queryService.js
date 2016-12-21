@@ -9,7 +9,14 @@ function queryService(restCall, ngAuthSettings){
 		console.log(searchParam);
 		var searchUrl = ngAuthSettings.apiServiceBaseUri + "api/"+ searchParam.type;
 		var queryUrl = "";
-		var allreadyAParamIsThere = false;		
+		var allreadyAParamIsThere = false;
+
+		if (searchParam.UserName === "All") {
+			searchParam.UserName = null;			
+		}
+		if (searchParam.DeliveryArea === "All") {
+			searchParam.DeliveryArea = null;
+		}
 
 		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null 
 			&& searchParam.UserName == null && searchParam.PaymentStatus == null && searchParam.subStringOf.RecipientsPhoneNumber == null) {
@@ -40,8 +47,9 @@ function queryService(restCall, ngAuthSettings){
 		}
 
 		
-		if (searchParam.subStringOf.RecipientsPhoneNumber != null) {
-			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.RecipientsPhoneNumber +"',Order/To/Address)";
+		if (searchParam.subStringOf.SearchKey != null) {
+			var RecipientsPhoneNumberParam = "substringof('"+ searchParam.subStringOf.SearchKey +
+											"',Order/To/Address) or substringof('"+ searchParam.subStringOf.SearchKey +"',HRID)";
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  RecipientsPhoneNumberParam;
 				allreadyAParamIsThere = true;
@@ -102,7 +110,7 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		if (searchParam.PaymentStatus != null) {
+		if (searchParam.PaymentStatus != null && searchParam.PaymentStatus != '') {
 			var PaymentStatusParam = "PaymentStatus eq '"+ searchParam.PaymentStatus +"'";
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  PaymentStatusParam;
