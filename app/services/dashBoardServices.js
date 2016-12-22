@@ -33,6 +33,45 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 		return "Delivery"		
 	}
 
+	var addSingleJobOnList = function (job) {
+		return {
+			data: job,					
+			Type :  function(){
+				if (job.Order.Type === "ClassifiedDelivery" && job.Order.Variant === "default") {
+					return "B2B + Cash Delivery";
+				} else if (job.Order.Type === "ClassifiedDelivery" && job.Order.Variant === "Enterprise") {
+					return "B2B Delivery";
+				}
+			},					
+			isAssigningPickUpAsset : false,
+			isAssigningDeliveryAsset : false,
+			isAssigningSecureCashDeliveryAsset : false,
+			isCompletingPickUpAsset : false,
+			isCompletingDeliveryAsset : false,
+			isCompletingSecureCashDeliveryAsset : false,				
+			ETA : function () {
+				var eta = "";
+				if (job.Order.ETA) {
+					eta += "ETA : " + new Date(job.Order.ETA).toUTCString("EEE MMM d, y h:mm:ss a") + " *** ";
+				}
+				if (job.Order.JobTaskETAPreference) {
+					angular.forEach(job.Order.JobTaskETAPreference, function (etaTime, index) {								
+						eta += etaTime.Type + " : " + new Date(etaTime.ETA).toUTCString("EEE MMM d, y h:mm:ss a") + " *** ";
+					});
+				}
+				return eta;
+			},
+			PackageDescription: function () {
+				var description = "";
+				angular.forEach(job.Order.OrderCart.PackageList, function (item, index) {
+					description += item.Item + "\n";
+				});
+				return description;
+			},					
+			RequestedAgo : timeAgo(job.CreateTime)
+		}
+	}
+
 	var populateOrdersTable = function(Orders, jobListUrl){
 		function successCallback(response){
 			Orders.data = [];
@@ -46,42 +85,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				Orders.pagination = response.data.pagination;
 			}
 			angular.forEach(orders.data, function(value, key){
-				var newOrder = {
-					data: value,					
-					Type :  function(){
-						if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "default") {
-							return "B2B + Cash Delivery";
-						} else if (value.Order.Type === "ClassifiedDelivery" && value.Order.Variant === "Enterprise") {
-							return "B2B Delivery";
-						}
-					},					
-					isAssigningPickUpAsset : false,
-					isAssigningDeliveryAsset : false,
-					isAssigningSecureCashDeliveryAsset : false,
-					isCompletingPickUpAsset : false,
-					isCompletingDeliveryAsset : false,
-					isCompletingSecureCashDeliveryAsset : false,				
-					ETA : function () {
-						var eta = "";
-						if (value.Order.ETA) {
-							eta += "ETA : " + new Date(value.Order.ETA).toUTCString("EEE MMM d, y h:mm:ss a") + " *** ";
-						}
-						if (value.Order.JobTaskETAPreference) {
-							angular.forEach(value.Order.JobTaskETAPreference, function (etaTime, index) {								
-								eta += etaTime.Type + " : " + new Date(etaTime.ETA).toUTCString("EEE MMM d, y h:mm:ss a") + " *** ";
-							});
-						}
-						return eta;
-					},
-					PackageDescription: function () {
-						var description = "";
-						angular.forEach(value.Order.OrderCart.PackageList, function (item, index) {
-							description += item.Item + "\n";
-						});
-						return description;
-					},					
-					RequestedAgo : timeAgo(value.CreateTime)
-				};			 	
+				var newOrder = addSingleJobOnList(value);
 				Orders.data.push(newOrder);
 			});
 			if (orders.pagination.TotalPages > 1) {
@@ -172,7 +176,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 	// these states indicates the http request's state and content of the page
 	var orders = function (jobState) {
 		return {
-			data: [], 
+			data: [],
 			pagination: null,
 			pages:[],
 			total: 0, 
@@ -204,6 +208,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				page: 0,
 				pageSize: 50				
 			},
+			errMsg: null,
 			getProperWordWithCss : function (word) {
 				return getProperWordWithCss(word);
 			},
@@ -216,6 +221,29 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}
 				populateOrdersTable(this, pageUrl);
+			},
+			loadListOfOrders: function (HRIDList) {
+				this.data = [];
+				var itSelf = this;
+				angular.forEach(HRIDList, function (HRID, key) {
+					itSelf.loadSingleOrder(HRID);
+				})	
+			},
+			loadSingleOrder: function (HRID) {
+				this.isCompleted = 'IN_PROGRESS';
+				var itSelf = this;
+				$http({
+					method: 'GET',
+					url: ngAuthSettings.apiServiceBaseUri + "api/Job/" + HRID
+				}).then(function (response) {
+					var newOrder = addSingleJobOnList(response.data);
+					itSelf.data.push(newOrder);
+					itSelf.isCompleted = 'SUCCESSFULL';
+				}, function (error) {
+					itSelf.isCompleted = 'FAILED';
+					// TODO: not sure how to handle this
+					// itSelf.errMsg += ""
+				})
 			},
 			loadPage: function (pageNo) {
 				this.isCompleted = 'IN_PROGRESS';		

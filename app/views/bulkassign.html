@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<div class="row mt-50">
-		<div class="form-group">
+		<div class="form-group">			
 			<chips ng-model="listOfHRID">
 	            <chip-tmpl>
 	                <div class="default-chip">
@@ -10,11 +10,7 @@
 	            </chip-tmpl>
 	            <input chip-control></input>
 	        </chips>
-	        <!-- Printing controller value -->
-	        <div class="printvalue">
-	            <b>Controller:</b>
-	            <div>inputdemo.companies = {{listOfHRID}}</div>
-	        </div>
+            <order-table orders="Orders"></order-table>	        
 		</div>
 	</div>
 </div>
