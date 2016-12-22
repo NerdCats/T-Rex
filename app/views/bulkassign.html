@@ -1,0 +1,20 @@
+<div class="container-fluid">
+	<div class="row mt-50">
+		<div class="form-group">
+			<chips ng-model="listOfHRID">
+	            <chip-tmpl>
+	                <div class="default-chip">
+	                    {{chip}}
+	                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+	                </div>
+	            </chip-tmpl>
+	            <input chip-control></input>
+	        </chips>
+	        <!-- Printing controller value -->
+	        <div class="printvalue">
+	            <b>Controller:</b>
+	            <div>inputdemo.companies = {{listOfHRID}}</div>
+	        </div>
+		</div>
+	</div>
+</div>
