@@ -9,7 +9,10 @@ body, html {
     padding-left: 15px;
 }
 .mt-50 {
-    margin: 20px 0px;
+    margin-top: 20px;
+}
+.mr-50 {
+    margin-right: 50px;
 }
 .mb-20{
     margin-bottom: 20px;

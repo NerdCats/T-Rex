@@ -1,16 +1,40 @@
-<div class="container-fluid">
-	<div class="row mt-50">
-		<div class="form-group">			
-			<chips ng-model="listOfHRID">
-	            <chip-tmpl>
-	                <div class="default-chip">
-	                    {{chip}}
-	                    <span class="glyphicon glyphicon-remove" remove-chip></span>
-	                </div>
-	            </chip-tmpl>
-	            <input chip-control></input>
-	        </chips>
-            <order-table orders="Orders"></order-table>	        
-		</div>
+<div class="container">
+	<div class="row mt-50 mr-50">
+		<ng-form class="form-horizontal">
+			<div class="form-group">
+                <div class="col-md-2">
+                    <label class="control-label pull-left">Select Asset:</label>                        
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">                        
+                        <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                            <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
+                        </select>
+                        <span class="input-group-btn">                                    
+                            <button class="btn btn-default" ng-click="getAssetsList()" ng-show="EnterpriseUsers.length === 0">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>                            
+                        </span>
+                    </div>
+                </div>
+            </div>
+			<div class="form-group">
+				<div class="col-md-2">
+					<label class="control-label">GO! Fetch Job Ids</label>
+				</div>
+				<div class="col-md-10">
+					<chips ng-model="listOfHRID">
+			            <chip-tmpl>
+			                <div class="default-chip">
+			                    {{chip}}
+			                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+			                </div>
+			            </chip-tmpl>
+			            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS' || !selectedAssetId" chip-control></input>
+			        </chips>
+		       </div>
+			</div>			
+		</ng-form>
 	</div>
 </div>
+<order-table orders="Orders"></order-table>	        
