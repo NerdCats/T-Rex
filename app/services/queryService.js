@@ -18,22 +18,20 @@ function queryService(restCall, ngAuthSettings){
 			searchParam.DeliveryArea = null;
 		}
 
-		if (searchParam.jobState === null && searchParam.startDate == null && searchParam.endDate == null 
-			&& searchParam.UserName == null && searchParam.PaymentStatus == null && searchParam.subStringOf.RecipientsPhoneNumber == null) {
-			queryUrl = "/" + "odata?"
+		if (searchParam.jobState === null && searchParam.CreateTime.startDate === null && searchParam.CreateTime.endDate === null && searchParam.subStringOf.SearchKey === null
+			&& searchParam.UserName === null && searchParam.PaymentStatus === null && searchParam.subStringOf.RecipientsPhoneNumber === null && searchParam.orderby.property === null) {
+			queryUrl = "/" + "odata?";			
 		}
 		
-		else if (searchParam.startDate != null || searchParam.endDate != null || 
+		else if (searchParam.CreateTime.startDate != null || searchParam.CreateTime.endDate != null || searchParam.subStringOf.SearchKey !== null ||
 			searchParam.UserName != null || searchParam.jobState != null || 
 			searchParam.userType != null || searchParam.PaymentStatus != null ||
-			searchParam.subStringOf.RecipientsPhoneNumber != null) {
-			queryUrl = "/" + "odata?$filter=";
+			searchParam.subStringOf.RecipientsPhoneNumber != null && searchParam.orderby.property !== null) {
+			queryUrl = "/" + "odata?$filter=";			
 		}
 
 		else {
-			queryUrl = "?page="+ searchParam.page + 
-						 "&pageSize="+ searchParam.pageSize +
-						 "&envelope="+ searchParam.envelope;
+			queryUrl = "?";
 		}		
 		
 		if (searchParam.UserName != null) {

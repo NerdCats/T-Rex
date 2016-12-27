@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th>S\L</th>
-            <th>Job no</th>
+            <th>Job Id</th>
             <th>Create Time</th>
             <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Last Modified</th>
             <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
@@ -29,9 +29,12 @@
         <tr ng-repeat="order in orders.data track by $index">
             <td>{{$index + orders.pagination.Start}}</td>
             <td class="col-md-1">
-                <a style="font-size: 16px;font-weight: 600;color:black" href="#/job/{{order.data.HRID}}" target="_blank">{{order.data.HRID}}</a>
-                <span class="label text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{orders.getProperWordWithCss(order.data.State).value}}</span>
-                <br>                
+                <div>
+                    <span style="font-size: 16px;font-weight: 600;color:black">{{order.data.HRID}}</span>
+                    <span class="label text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{orders.getProperWordWithCss(order.data.State).value}}</span>
+                </div>
+                <br>
+                <a class="btn btn-info" style="font-size: 16px;font-weight: 600;color:black; line-height: 15px" href="#/job/{{order.data.HRID}}" target="_blank">Details</a>
             </td>
             <td class="col-md-2">{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
             <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'" class="col-md-2">
