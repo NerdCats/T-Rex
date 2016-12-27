@@ -5,8 +5,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 	
 	var getUserNameList = function (getUsersUrl) {
 		var deferred = $q.defer();		
-		$http.get(getUsersUrl).success(function (response) {
-			console.log(response)
+		$http.get(getUsersUrl).success(function (response) {			
 			deferred.resolve(response);
 		}).error(function (error) {
 			deferred.reject(error);
@@ -208,15 +207,17 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				page: 0,
 				pageSize: 50				
 			},
-			errMsg: null,
+			errMsg: null,			
 			getProperWordWithCss : function (word) {
 				return getProperWordWithCss(word);
 			},
 			loadOrders: function () {				
 				var pageUrl = "";
-				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset
+				// if there is an searchParam.userId, it means We need to load assigned jobs of an asset				
 				if (this.searchParam.userId) {
-					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/job/jobsbyasset/" + this.searchParam.userId + "?pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
+					pageUrl = ngAuthSettings.apiServiceBaseUri + "api/job/jobsbyasset/" + this.searchParam.userId + 
+							"?$filter="+ "State eq '" + this.searchParam.jobState + "'" +
+							"&pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
 				} else {
 					pageUrl = queryService.getOdataQuery(this.searchParam);
 				}

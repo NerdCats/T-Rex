@@ -4,7 +4,7 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	var vm = $scope;
 	vm.listOfHRID = [];
 	vm.Assets = [];
-	vm.selectedAssetId = null;
+	vm.selectedAssetId = null;	
 	vm.EnterpriseUser = null;
 	vm.PaymentStatus = null;	
 	vm.DeliveryArea = null;
@@ -21,8 +21,7 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	vm.assetChanged = function () {		
 		vm.Orders.assign.showPickupAssign = true;
 		vm.Orders.assign.showdeliveryAssign = true;
-		vm.Orders.assign.showsecuredeliveryAssign = true;
-		
+		vm.Orders.assign.showsecuredeliveryAssign = true;		
 		vm.Orders.assign.assetRef = vm.selectedAssetId;
 	}
 
@@ -49,8 +48,7 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'BIKE_MESSENGER'&$orderby=UserName&page="+ page +"&pageSize=50";
 		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
 			if (page === 0) {
-				vm.Assets = [];
-				vm.Assets.push(null);
+				vm.Assets = [];				
 			}
 			angular.forEach(response.data, function (value, index) {
 				vm.Assets.push(value);
