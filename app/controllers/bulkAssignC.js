@@ -32,6 +32,10 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		})
 	}
 
+	vm.assignAssetToTask = function (orderIndex, taskIndex, patchType) {
+		vm.Orders.assignAssetToTask(orderIndex)
+	}
+
 	vm.getEnterpriseUsersList = function (page) {
 		console.log("EnterpriseUsers");
 		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=50&$select=UserName";

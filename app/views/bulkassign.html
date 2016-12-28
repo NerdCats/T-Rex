@@ -9,9 +9,9 @@
     ">	
 	<div class="form-group">                
         <h3>Select Asset</h3>
-        <div>
+        <div class="row">
             <div class="input-group">                        
-                <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'">
                     <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
                 </select>
                 <span class="input-group-btn">                                    
@@ -20,6 +20,17 @@
                     </button>
                 </span>			                        
             </div>
+        </div><br>
+        <div class="row">
+        	<label>Assign {{Object.keys(selectedJobsIndexes).length}} selected Jobs For </label>        	
+        	<select class="form-control">
+        		<option></option>
+        		<option value="pickup">pickup</option>
+        		<option value="delivery">delivery</option>
+        		<option value="cash delivery">cash delivery</option>
+        	</select>
+        	<br>
+        	<button class="col-md-12 btn btn-primary" ng-show="Orders.selectedAssetName" ng-click="assignAll()">Assign</button>
         </div>
     </div>	
 </div>
@@ -142,5 +153,17 @@
 	        </fieldset>        
 	    </ng-form>
 	</div>
+	<div class="row">
+		<h3>Selected Job Ids : </h3>
+		<ul class="list-inline">
+			<li ng-repeat="(index, jobid) in Orders.selectedJobsIndexes">
+				<div class="default-chip">
+					{{" " + jobid}}
+					<span class="glyphicon glyphicon-remove" ng-click="Orders.selectJob(index)"></span>
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>
+
 <order-table orders="Orders"></order-table>	        

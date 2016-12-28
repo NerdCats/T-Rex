@@ -41,7 +41,8 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				} else if (job.Order.Type === "ClassifiedDelivery" && job.Order.Variant === "Enterprise") {
 					return "B2B Delivery";
 				}
-			},					
+			},
+			selected: false,			
 			isAssigningPickUpAsset : false,
 			isAssigningDeliveryAsset : false,
 			isAssigningSecureCashDeliveryAsset : false,
@@ -209,6 +210,16 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 			},
 			errMsg: null,
 			selectedAssetName: null,
+			selectedJobsIndexes: {},
+			selectJob: function (index) {				
+				if (this.selectedJobsIndexes[index]) {					
+					delete this.selectedJobsIndexes[index];
+					this.data[index].selected = false;
+				} else {
+					this.selectedJobsIndexes[index] = this.data[index].data.HRID;
+					this.data[index].selected = true;
+				}
+			},
 			getProperWordWithCss : function (word) {
 				return getProperWordWithCss(word);
 			},
