@@ -21,7 +21,7 @@
             <div class="col-md-2">
             	<div class="form-group">
 	                <button class="btn btn-info pull-right" ng-click="printWorkOrder()" >PRINT WORK ORDER</button>
-	                <button ng-click="deliveryTask()">Click meh</button>
+	                <!-- <button ng-click="deliveryTask()">Click meh</button> -->
 	            </div>
 	        </div>
     	</fieldset>
@@ -33,15 +33,10 @@
 				<thead>
 					<th width="2%">S/L</th>
 					<th width="2%">Vendor Name</th>
-					<th width="2%">JobId</th>
-					<th width="20%">Pickup Address</th>
-					<!-- <th width="">Pickup State</th> -->
-					<th width="20%">Delivery Address</th>
-					<!-- <th width="">Delivery State</th> -->
+					<th width="2%">JobId</th>					
+					<th width="20%">Customer Address</th>
 					<th width="20%">Package</th>
-					<th width="5%">Package Price</th>
-					<th width="5%">Service Charge</th>
-					<th width="5%">Total Weight</th>
+					<th width="5%">Price</th>					
 					<th width="20%">Special Note</th>					
 					<th width="5%">Complete Time</th>
 					<th width="10%">Comment</th>
@@ -51,32 +46,15 @@
 						<td width="2%">{{ $index + 1 }}</td>
 						<td width="2%" class="col-md-1">{{ order.data.User.UserName }}</td>
 						<td width="2%" class="col-md-1">{{ order.data.HRID }}</td>
-						<td width="20%" class="col-md-2">{{ order.data.Order.From.Address }}</td>
-						<!-- <td width="">Picku class="col-md-1">{{ order.data.Tasks[1].State }}</td> -->
-						<td width="20%" class="col-md-2">{{ order.data.Order.To.Address }}</td>
-						<!-- <td width="">Deliver class="col-md-1">{{ order.data.Tasks[2].State }}</td> -->
+						<td width="20%" class="col-md-2">{{ order.data.Order.To.Address }}</td>						
 						<td width="20%" class="col-md-2">{{ order.PackageDescription() }}</td>
-						<td width="5%">{{ order.data.Order.OrderCart.SubTotal }}</td>
-						<td width="5%">{{ order.data.Order.OrderCart.ServiceCharge }}</td>
-						<td width="5%">{{ order.data.Order.OrderCart.TotalWeight }}</td>
+						<td width="5%">{{ order.data.Order.OrderCart.TotalToPay }}</td>						
 						<td width="20%" class="col-md-2">{{ order.data.Order.NoteToDeliveryMan }}</td>
 						<td width="5%" class="col-md-1">{{order.data.Assets[order.data.Tasks[2].AssetRef].UserName}}</td>
 						<td width="10%" class="col-md-1"></td>
-					</tr>
+					</tr>					
 					<tr>
-						<td colspan="6">
-							<span class="pull-right">Total Package Price</span>
-						</td>
-						<td>{{totalSubTotal}}</td>
-					</tr>
-					<tr>
-						<td colspan="7">
-							<span class="pull-right">Total Service Charge</span>
-						</td>
-						<td>{{totalServiceCharge}}</td>
-					</tr>
-					<tr>
-						<td colspan="8">
+						<td colspan="5">
 							<span class="pull-right">Total Recievable</span>
 						</td>
 						<td>{{totalPayable}}</td>
