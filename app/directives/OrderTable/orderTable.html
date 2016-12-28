@@ -65,8 +65,8 @@
                 <br>
                 <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask($index, 1, 'AssetAssign')">
                     <span><i ng-show="order.isAssigningPickUpAsset" class="fa fa-refresh fa-spin"></i></span>
-                    <span ng-hide="order.PickUpAsset().Name">Assign</span>
-                    <span ng-show="order.PickUpAsset().Name">Re Assign</span>
+                    <span ng-hide="order.PickUpAsset().Name">{{ 'Assign to ' + orders.selectedAssetName}}</span>
+                    <span ng-show="order.PickUpAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                 </button>
                 <br>
                 <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask($index, 1, 'PackagePickUp')" ng-disabled="order.data.Tasks[1].State === 'COMPLETED'">
@@ -79,8 +79,8 @@
                 <br>
                 <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask($index, 2, 'AssetAssign')">
                     <span><i ng-show="order.isAssigningDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
-                    <span ng-hide="order.DeliveryAsset().Name">Assign</span>
-                    <span ng-show="order.DeliveryAsset().Name">Re Assign</span>
+                    <span ng-hide="order.DeliveryAsset().Name">{{ 'Assign to ' + orders.selectedAssetName}}</span>
+                    <span ng-show="order.DeliveryAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                 </button>
                 <br>
                 <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask($index, 2, 'Delivery')" ng-disabled="order.data.Tasks[1].State === 'PENDING' || order.data.Tasks[1].State === 'IN_PROGRESS' || order.data.Tasks[2].State === 'COMPLETED' ">
@@ -94,8 +94,8 @@
                     <br>
                     <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask($index, 3, 'AssetAssign')">
                         <span><i ng-show="order.isAssigningSecureCashDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
-                        <span ng-hide="order.SecureDeliveryAsset().Name">Assign</span>
-                        <span ng-show="order.SecureDeliveryAsset().Name">Re Assign</span>
+                        <span ng-hide="order.SecureDeliveryAsset().Name">{{ 'Assign to ' + orders.selectedAssetName}}</span>
+                        <span ng-show="order.SecureDeliveryAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                     </button>
                     <br>
                     <button class="btn btn-primary" style="margin-top: 25%;" ng-click="orders.assignAssetToTask($index, 3, 'SecureDelivery')" ng-disabled="order.data.Tasks[2].State === 'PENDING' || order.data.Tasks[2].State === 'IN_PROGRESS' || order.data.Tasks[3].State === 'COMPLETED' ">

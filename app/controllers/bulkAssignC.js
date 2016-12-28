@@ -23,6 +23,13 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		vm.Orders.assign.showdeliveryAssign = true;
 		vm.Orders.assign.showsecuredeliveryAssign = true;		
 		vm.Orders.assign.assetRef = vm.selectedAssetId;
+
+		angular.forEach(vm.Assets, function (asset, index) {
+			if (asset.Id === vm.selectedAssetId) {
+				vm.Orders.selectedAssetName = asset.UserName;
+				console.log(vm.Orders.selectedAssetName)
+			}
+		})
 	}
 
 	vm.getEnterpriseUsersList = function (page) {

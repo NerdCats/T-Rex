@@ -207,7 +207,8 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				page: 0,
 				pageSize: 50				
 			},
-			errMsg: null,			
+			errMsg: null,
+			selectedAssetName: null,
 			getProperWordWithCss : function (word) {
 				return getProperWordWithCss(word);
 			},
