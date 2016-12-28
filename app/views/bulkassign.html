@@ -1,30 +1,38 @@
+<div style="    
+    position: fixed;
+    background: white;
+    top: 50px;
+    right: 0;
+    z-index: 5;
+    padding: 10px;
+    border: 1px solid black;
+    ">	
+	<div class="form-group">                
+        <h3>Select Asset</h3>
+        <div>
+            <div class="input-group">                        
+                <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                    <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
+                </select>
+                <span class="input-group-btn">                                    
+                    <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                </span>			                        
+            </div>
+        </div>
+    </div>	
+</div>
 <div class="container-fluid">
 	<div class="row">
-		<ng-form class="form-horizontal">
-			<h3>Select Asset and Write Job IDs to load jobs</h3><br>
+		<ng-form class="form-horizontal">	        
+	        <h3>Job Search Fields</h3><br>
 	        <fieldset>
 	        	<div class="row">
-	        		<div class="col-md-2">
-	        			<div class="form-group">                
-			                <label class="control-label col-md-6">Select Asset:</label>                
-			                <div class="col-md-6">
-			                    <div class="input-group">                        
-			                        <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-			                            <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
-			                        </select>
-			                        <span class="input-group-btn">                                    
-			                            <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
-			                                <i class="fa fa-refresh" aria-hidden="true"></i>
-			                            </button>
-			                        </span>			                        
-			                    </div>
-			                </div>
-			            </div>
-	        		</div>	        	
-					<div class="col-md-8">						
+	        		<div class="col-md-12">						
 						<div class="form-group">				
-							<label class="col-md-2 control-label">GO! Fetch Job Ids:</label>
-							<div class="col-md-10">
+							<label class="col-md-1 control-label">GO! Fetch Job Ids:</label>
+							<div class="col-md-8">
 								<chips ng-model="listOfHRID">
 						            <chip-tmpl>
 						                <div class="default-chip">
@@ -36,13 +44,7 @@
 						        </chips>
 					       </div>
 						</div>						
-		        	</div>	        		
-	        	</div>
-	        </fieldset>
-	        <br><hr>
-	        <h3>Job Search Fields</h3><br>
-	        <fieldset>
-	        	<div class="row">
+		        	</div>
 		            <div class="col-md-4">
 		                <div class="form-group">
 		                    <label class="control-label col-md-3">Start Date:</label>
