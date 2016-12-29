@@ -221,8 +221,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 					this.selectedJobsIndexes[index] = this.data[index].data.HRID;
 					this.data[index].selected = true;
 				}
-				this.selectedJobsCount = Object.keys(this.selectedJobsIndexes).length;
-				console.log(this.selectedJobsCount)
+				this.selectedJobsCount = Object.keys(this.selectedJobsIndexes).length;				
 			},
 			clearSelectedJobs : function () {
 				var itSelf = this;

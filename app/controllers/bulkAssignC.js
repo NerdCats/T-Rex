@@ -1,4 +1,4 @@
-app.controller('bulkAssignC', bulkAssignC);
+app.controller('bulkAssignC', [ '$scope', '$http', 'ngAuthSettings', 'Areas', 'dashboardFactory', bulkAssignC]);
 
 function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	var vm = $scope;
