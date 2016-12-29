@@ -6,6 +6,7 @@
             </th>
             <th>S\L</th>
             <th>Job Id</th>
+            <th>Invoice</th>
             <th>Create Time</th>
             <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Last Modified</th>
             <th ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
@@ -44,6 +45,7 @@
                 <br>
                 <a class="btn btn-info" style="font-size: 16px;font-weight: 600;color:black; line-height: 15px" href="#/job/{{order.data.HRID}}" target="_blank">Details</a>
             </td>
+            <td class="col-md-1">{{order.data.Order.ReferenceInvoiceId}}</td>
             <td class="col-md-2">{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
             <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'" class="col-md-2">
                 {{order.data.ModifiedTime | date:"EEE MMM d, y h:mm:ss a"}}

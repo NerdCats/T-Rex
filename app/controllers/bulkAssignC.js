@@ -116,6 +116,9 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		vm.Orders.searchParam.orderby.property = "ModifiedTime";
 		vm.Orders.isCompleted = 'IN_PROGRESS';
 		vm.Orders.loadOrders();
+
+		
+
 	}
 
 	vm.$watch(function () {
