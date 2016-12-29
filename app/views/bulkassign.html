@@ -4,7 +4,7 @@
     top: 50px;
     right: 0;
     z-index: 5;
-    padding: 10px;
+    padding: 0px 20px;
     border: 1px solid black;
     ">	
 	<div class="form-group">                
@@ -23,14 +23,14 @@
         </div><br>
         <div class="row">
         	<label>Assign {{Object.keys(selectedJobsIndexes).length}} selected Jobs For </label>        	
-        	<select class="form-control">
+        	<select class="form-control" ng-model="selectedTaskIndex">
         		<option></option>
-        		<option value="pickup">pickup</option>
-        		<option value="delivery">delivery</option>
-        		<option value="cash delivery">cash delivery</option>
+        		<option value="1">pickup</option>
+        		<option value="2">delivery</option>
+        		<option value="3">cash delivery</option>
         	</select>
         	<br>
-        	<button class="col-md-12 btn btn-primary" ng-show="Orders.selectedAssetName" ng-click="assignAll()">Assign</button>
+        	<button class="col-md-12 btn btn-primary" ng-show="Orders.selectedAssetName" ng-click="assignAssetToTask(selectedTaskIndex)">Assign</button>
         </div>
     </div>	
 </div>
@@ -144,6 +144,20 @@
 		                    </div>
 		                </div>
 		            </div>
+		            <div class="col-md-4">
+		                <div class="form-group">		                    
+	                        <label class="col-md-4 control-label">Select Job State:</label>		                    
+		                    <div class="col-md-4">
+		                        <select class="form-control" ng-model="JobState" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+		                        	<option></option>
+		                            <option value="ENQUEUED">PENDING</option>
+		                            <option value="IN_PROGRESS">IN PROGRESS</option>
+		                            <option value="COMPLETED">COMPLETED</option>
+		                            <option value="CANCELLED">CANCELLED</option>
+		                        </select>                    
+		                    </div>
+		                </div>
+	                </div>
 		            <div class="form-group">
 		                <div class="col-md-11">
 		                    <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        

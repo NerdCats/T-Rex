@@ -12,6 +12,7 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	vm.startDate = undefined;
 	vm.endDate = undefined;
 	vm.searchKey = null;
+	vm.JobState = null;
 	vm.Orders = dashboardFactory.orders(null);
 
 	vm.Orders.searchParam.jobState === 'IN_PROGRESS';
@@ -32,8 +33,12 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		})
 	}
 
-	vm.assignAssetToTask = function (orderIndex, taskIndex, patchType) {
-		vm.Orders.assignAssetToTask(orderIndex)
+	vm.assignAssetToTask = function (taskIndex) {
+
+		angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {			
+			console.log(HRID + " " + index + " " + taskIndex);
+			vm.Orders.assignAssetToTask(index, taskIndex, "AssetAssign");
+		})
 	}
 
 	vm.getEnterpriseUsersList = function (page) {
@@ -96,6 +101,11 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	}
 
 	vm.activate = function () {
+		if (vm.JobState) {
+			vm.Orders.searchParam.jobState = vm.JobState;
+		} else {
+			vm.Orders.searchParam.jobState = null;
+		}
 		vm.setDate();
 		vm.Orders.searchParam.UserName = vm.EnterpriseUser;
 		vm.Orders.searchParam.PaymentStatus = vm.PaymentStatus;
@@ -103,8 +113,10 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		vm.Orders.searchParam.DeliveryArea = vm.DeliveryArea;
 		vm.Orders.searchParam.subStringOf.SearchKey = vm.searchKey;
 		vm.Orders.searchParam.orderby.property = "ModifiedTime";
-		vm.Orders.isCompleted = 'IN_PROGRESS';			
+		vm.Orders.isCompleted = 'IN_PROGRESS';
 		vm.Orders.loadOrders();
+
+		console.log(vm.JobState)
 	}
 
 	vm.$watch(function () {
