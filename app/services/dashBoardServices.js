@@ -211,6 +211,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 			errMsg: null,
 			selectedAssetName: null,
 			selectedJobsIndexes: {},
+			selectAll: false,
 			selectJob: function (index) {				
 				if (this.selectedJobsIndexes[index]) {					
 					delete this.selectedJobsIndexes[index];
@@ -218,6 +219,33 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				} else {
 					this.selectedJobsIndexes[index] = this.data[index].data.HRID;
 					this.data[index].selected = true;
+				}
+			},
+			clearSelectedJobs : function () {
+				var itSelf = this;
+				var tempHRIDlist = itSelf.selectedJobsIndexes;
+				angular.forEach(tempHRIDlist, function (HRID, index) {
+					itSelf.selectJob(index);
+				})
+				console.log(itSelf.selectAll)
+				itSelf.selectAll = false;
+			},			
+			selectAllJobs : function () {
+				var itSelf = this;
+				if (itSelf.selectAll) {
+					if(!angular.equals({}, itSelf.selectedJobsIndexes)){
+						angular.forEach(itSelf.data, function (data, index) {
+							if (!itSelf.selectedJobsIndexes[index]) {
+								itSelf.selectJob(index);							
+							}
+						})					
+					} else {
+						angular.forEach(itSelf.data, function (data, index) {
+							itSelf.selectJob(index);
+						});
+					}					
+				} else {
+					itSelf.clearSelectedJobs();
 				}
 			},
 			getProperWordWithCss : function (word) {

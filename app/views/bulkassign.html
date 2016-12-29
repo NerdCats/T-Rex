@@ -49,7 +49,7 @@
 	        	<div class="row">
 	        		<div class="col-md-12">						
 						<div class="form-group">				
-							<label class="col-md-1 control-label">GO! Fetch Job Ids:</label>
+							<label class="col-md-1 control-label">Fetch Job Ids:</label>
 							<div class="col-md-8">
 								<chips ng-model="listOfHRID">
 						            <chip-tmpl>
@@ -153,7 +153,7 @@
 		            </div>
 		            <div class="col-md-4">
 		                <div class="form-group">		                    
-	                        <label class="col-md-4 control-label">Select Job State:</label>		                    
+	                        <label class="col-md-3 control-label">Select Job State:</label>		                    
 		                    <div class="col-md-4">
 		                        <select class="form-control" ng-model="JobState" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
 		                        	<option></option>
@@ -175,7 +175,7 @@
 	    </ng-form>
 	</div>
 	<div class="row">
-		<h3>Selected Job Ids : </h3>
+		<h3>Selected Job Ids: </h3>
 		<ul class="list-inline">
 			<li ng-repeat="(index, jobid) in Orders.selectedJobsIndexes">
 				<div class="default-chip">
@@ -184,7 +184,9 @@
 				</div>
 			</li>
 		</ul>
+		<button class="btn btn-danger" ng-click="Orders.clearSelectedJobs()">Clear Selected Job Ids</button>
 	</div>
+	<br>
 </div>
 
 <order-table orders="Orders"></order-table>	        

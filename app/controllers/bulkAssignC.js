@@ -99,6 +99,7 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		vm.endDate = undefined;
 		vm.activate();
 	}
+	
 
 	vm.activate = function () {
 		if (vm.JobState) {
@@ -115,8 +116,6 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		vm.Orders.searchParam.orderby.property = "ModifiedTime";
 		vm.Orders.isCompleted = 'IN_PROGRESS';
 		vm.Orders.loadOrders();
-
-		console.log(vm.JobState)
 	}
 
 	vm.$watch(function () {

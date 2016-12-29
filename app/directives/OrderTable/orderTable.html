@@ -1,7 +1,9 @@
 <table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" ng-show="orders.isCompleted == 'SUCCESSFULL'">
     <thead>
         <tr>
-            <th></th>
+            <th>
+                <input style="width: 20px; height: 20px;" type="checkbox" ng-model="orders.selectAll" ng-click="orders.selectAllJobs()">
+            </th>
             <th>S\L</th>
             <th>Job Id</th>
             <th>Create Time</th>
@@ -29,7 +31,7 @@
     <tbody>
         <tr ng-repeat="order in orders.data track by $index">
             <td ng-click="orders.selectJob($index)">
-                <input style="width: 20px; height: 20px;" type="checkbox" ng-model="order.selected">                
+                <input style="width: 20px; height: 20px;" ng-model="order.selected" type="checkbox">
             </td>
             <td ng-click="orders.selectJob($index)">                
                 <label style="font-size: 18px;">{{$index + orders.pagination.Start}}</label>                
