@@ -37,7 +37,7 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 
 		angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {			
 			console.log(HRID + " " + index + " " + taskIndex);
-			vm.Orders.assignAssetToTask(index, taskIndex, "AssetAssign");
+			vm.Orders.assignAssetToTask(index, parseInt(taskIndex) , "AssetAssign");
 		})
 	}
 

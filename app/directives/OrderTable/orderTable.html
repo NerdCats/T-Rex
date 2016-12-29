@@ -28,10 +28,10 @@
     </thead>
     <tbody>
         <tr ng-repeat="order in orders.data track by $index">
-            <td>
-                <input style="width: 20px; height: 20px;" type="checkbox" ng-model="order.selected" ng-click="orders.selectJob($index)">                
+            <td ng-click="orders.selectJob($index)">
+                <input style="width: 20px; height: 20px;" type="checkbox" ng-model="order.selected">                
             </td>
-            <td>                
+            <td ng-click="orders.selectJob($index)">                
                 <label style="font-size: 18px;">{{$index + orders.pagination.Start}}</label>                
             </td>
             <td class="col-md-1">
