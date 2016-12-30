@@ -1,0 +1,193 @@
+<div style="    
+    position: fixed;
+    background: white;
+    top: 50px;
+    right: 0;
+    z-index: 5;
+    padding: 10px 0px 15px 0px;
+    border: 1px solid black;
+    width: 25%;
+    ">	
+	<div class="form-group" draggable="true">                
+        <div class="col-md-4">
+	        <label>Select Asset</label>
+            <div class="input-group">                        
+                <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'">
+                    <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
+                </select>
+                <span class="input-group-btn">                                    
+                    <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </button>
+                </span>			                        
+            </div>
+        </div>
+        <div class="col-md-8">
+        	<div class="row">
+	        	<div class="col-md-8">
+		        	<label>Assign selected Jobs For </label>
+	        		<select class="form-control" ng-model="selectedTaskIndex">
+		        		<option></option>
+		        		<option value="1">pickup</option>
+		        		<option value="2">delivery</option>
+		        		<option value="3">cash delivery</option>
+		        	</select>       
+	        	</div>
+	        	<div class="col-md-4">
+		        	<br>
+			    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskIndex" ng-click="assignAssetToTask(selectedTaskIndex)">Assign</button>
+	        	</div>
+        	</div>
+        </div>
+    </div>	
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<ng-form class="form-horizontal">	        
+	        <h3>Job Search Fields</h3><br>
+	        <fieldset>
+	        	<div class="row">
+	        		<div class="col-md-12">						
+						<div class="form-group">				
+							<label class="col-md-1 control-label">Fetch Job Ids:</label>
+							<div class="col-md-8">
+								<chips ng-model="listOfHRID">
+						            <chip-tmpl>
+						                <div class="default-chip">
+						                    {{chip}}
+						                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+						                </div>
+						            </chip-tmpl>
+						            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
+						        </chips>
+					       </div>
+						</div>						
+		        	</div>
+		            <div class="col-md-4">
+		                <div class="form-group">
+		                    <label class="control-label col-md-3">Start Date:</label>
+		                    <div class="col-md-7">
+		                        <span class="input-group-btn">
+		                            <input type="date" class="form-control" ng-model="startDate">
+		                        </span>
+		                        <span class="input-group-btn">
+		                            <button class="btn btn-danger" ng-click="clearDate()">
+		                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+		                            </button>                            
+		                        </span>
+		                    </div>
+		                </div>
+		                <div class="form-group">
+		                    <label class="control-label col-md-3">End Date:</label>
+		                    <div class="col-md-7">
+		                        <span class="input-group-btn">
+		                            <input type="date" class="form-control" ng-model="endDate">
+		                        </span>
+		                        <span class="input-group-btn">
+		                            <button class="btn btn-danger" ng-click="clearDate()">
+		                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+		                            </button>                            
+		                        </span>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-md-4">
+		                <div class="form-group">		                    
+	                        <label class="col-md-4 control-label">Select Vendors:</label>		                    
+		                    <div class="col-md-6">
+		                        <div class="input-group">
+		                            <select class="form-control" ng-model="EnterpriseUser" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">                                  
+		                                <option ng-repeat="user in EnterpriseUsers" value="{{user.UserName}}">{{user.UserName}}</option>
+		                            </select>
+		                            <span class="input-group-btn">                                    
+		                                <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
+		                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+		                                </button>
+		                                <button class="btn btn-default" ng-click="EnterpriseUser = ''" ng-show="EnterpriseUsers.length !== 0">
+		                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+		                                </button>
+		                            </span>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="form-group">		                    
+	                        <label class="col-md-4 control-label">Select Delivery Area:</label>		                    
+		                    <div class="col-md-6">
+		                        <div class="input-group">                            
+		                            <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+		                                <option ng-repeat="area in DeliveryAreas" value="{{area}}">{{area}}</option>
+		                            </select>
+		                            <span class="input-group-btn">
+		                                <button class="btn btn-default" ng-click="DeliveryArea = ''" ng-show="DeliveryAreas.length !== 0">
+		                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+		                                </button>
+		                            </span>
+		                        </div>    
+		                    </div>
+		                </div>	                 
+		            </div>
+		            <div class="col-md-4">
+		                <div class="form-group">		                    
+	                        <label class="col-md-4 control-label">Select Payment Status:</label>		                    
+		                    <div class="col-md-4">
+		                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+		                            <option value=""></option>
+		                            <option value="Paid">Paid</option>
+		                            <option value="Pending">Pending</option>
+		                        </select>                    
+		                    </div>
+		                </div>
+		                <div class="form-group">		                    
+	                        <label class="col-md-2 control-label">Search :</label>		                    
+		                    <div class="col-md-8">
+		                        <span class="input-group-btn" style="width: 20%">
+		                            <input type="text" class="form-control" ng-model="searchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0" >                            
+		                        </span>
+		                        <span class="input-group-btn">
+		                            <button class="btn btn-danger" ng-click="removePhoneNumber()">
+		                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+		                            </button>                            
+		                        </span>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="col-md-4">
+		                <div class="form-group">		                    
+	                        <label class="col-md-3 control-label">Select Job State:</label>		                    
+		                    <div class="col-md-4">
+		                        <select class="form-control" ng-model="JobState" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+		                        	<option></option>
+		                            <option value="ENQUEUED">PENDING</option>
+		                            <option value="IN_PROGRESS">IN PROGRESS</option>
+		                            <option value="COMPLETED">COMPLETED</option>
+		                            <option value="CANCELLED">CANCELLED</option>
+		                        </select>                    
+		                    </div>
+		                </div>
+	                </div>
+		            <div class="form-group">
+		                <div class="col-md-11">
+		                    <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        
+		                </div>
+		            </div>      
+	            </div>
+	        </fieldset>        
+	    </ng-form>
+	</div>
+	<div class="row">
+		<h3>Selected Job Ids: </h3>
+		<span>Total {{ Orders.selectedJobsCount }} jobs selected</span>
+		<ul class="list-inline">
+			<li ng-repeat="(index, jobid) in Orders.selectedJobsIndexes">
+				<div class="default-chip">
+					{{" " + jobid}}
+					<span class="glyphicon glyphicon-remove" ng-click="Orders.selectJob(index)"></span>
+				</div>
+			</li>
+		</ul>
+		<button class="btn btn-danger" ng-click="Orders.clearSelectedJobs()">Clear Selected Job Ids</button>
+	</div>
+	<br>
+</div>
+
+<order-table orders="Orders"></order-table>	        

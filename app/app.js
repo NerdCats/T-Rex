@@ -11,7 +11,8 @@ var app = angular.module('app', [
 	'angularFileUpload',	
 	'ngclipboard',
 	'SignalR',
-	'datetimepicker'
+	'datetimepicker',
+	'angular.chips'
 ]);
 
 app.config(['$routeProvider',
@@ -59,7 +60,11 @@ app.config(['$routeProvider',
 			}).
 			when('/bulkorder', {
 				templateUrl: 'app/views/bulkorder.html',
-				controller: 'bulkOrderC'			
+				controller: 'bulkOrderC'
+			}).
+			when('/bulkassign', {
+				templateUrl: 'app/views/bulkassign.html',
+				controller: 'bulkAssignC'
 			}).
 			when('/workorder', {
 				templateUrl: 'app/views/workorder.html',
