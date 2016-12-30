@@ -95,9 +95,11 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 						isCurrentPage : ""
 					}
 					if (orders.pagination.Page == i) {
-						page.isCurrentPage = "selected-page" // current page css class set on pagination list item
+						page.isCurrentPage = "selected-page"; // current page css class set on pagination list item
 					}
-					Orders.pages.push(page);
+					if (i > (orders.pagination.Page - 5) && i < (orders.pagination.Page + 5)) {
+						Orders.pages.push(page);	
+					}					
 				};	
 			}
 			
