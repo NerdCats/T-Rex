@@ -251,7 +251,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, da
 
 
 	vm.AddItem = function (item) {		
-		if (item) {
+		if (item === undefined) {
 			item = {
 	    		"Item": "",
 				"Quantity": 1,
@@ -261,8 +261,10 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, da
 				"VATAmount": 0,
 				"TotalPlusVAT": 0,
 				"Weight": 0
-	    	};		
+	    	};
+	    	console.log(item)
 		}
+
 		vm.order.OrderCart.PackageList.push(item);
 	}
 
