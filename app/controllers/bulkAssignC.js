@@ -12,19 +12,20 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	vm.startDate = undefined;
 	vm.endDate = undefined;
 	vm.searchKey = null;
-	vm.JobState = null;
+	vm.JobState = "ENQUEUED";
 	vm.Orders = dashboardFactory.orders(null);
 
 	vm.Orders.searchParam.jobState === 'IN_PROGRESS';
 
 	vm.DeliveryAreas = Areas;
 
-	vm.assetChanged = function () {		
-		vm.Orders.assign.showPickupAssign = true;
-		vm.Orders.assign.showdeliveryAssign = true;
-		vm.Orders.assign.showsecuredeliveryAssign = true;		
-		vm.Orders.assign.assetRef = vm.selectedAssetId;
+	vm.Orders.assign.showPickupAssign = true;
+	vm.Orders.assign.showdeliveryAssign = true;
+	vm.Orders.assign.showsecuredeliveryAssign = true;	
 
+	vm.assetChanged = function () {		
+			
+		vm.Orders.assign.assetRef = vm.selectedAssetId;
 		angular.forEach(vm.Assets, function (asset, index) {
 			if (asset.Id === vm.selectedAssetId) {
 				vm.Orders.selectedAssetName = asset.UserName;
