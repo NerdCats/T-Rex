@@ -250,10 +250,9 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, da
 	};	
 
 
-	vm.AddItem = function (item = null) {
-		var newItem = item;
-		if (item === null) {
-			newItem = {
+	vm.AddItem = function (item) {		
+		if (item) {
+			item = {
 	    		"Item": "",
 				"Quantity": 1,
 				"Price": 0,
@@ -264,7 +263,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, da
 				"Weight": 0
 	    	};		
 		}
-		vm.order.OrderCart.PackageList.push(newItem);		
+		vm.order.OrderCart.PackageList.push(item);
 	}
 
 	vm.RemoveItem = function (itemIndex) {
