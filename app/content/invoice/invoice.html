@@ -1,5 +1,6 @@
 <html ng-app="invoiceApp" ng-controller="invoiceCtrl">
     <head>
+        <title>Invoice</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -36,15 +37,13 @@
             
                 <hr class="style-one">
                 <div class="date">
-                    <div class="jobid">Job ID: {{job.HRID}}</div>
+                    <div class="jobid">Tracking No : {{job.HRID}}</div>
+                    <div class="jobid" ng-show="job.Order.ReferenceInvoiceId">Invoice No: {{job.Order.ReferenceInvoiceId}}</div>
                     <div>Date: {{ today | date:'EEEE, MMMM d, y' }}</div>
-                    <div>Payment Method: {{job.PaymentMethod}}</div>
-                    <div class="asset">
-                        <div>Delivery Man:</div>
-                        <ul class="asset-list-ul">
-                           <li class="asset-list" ng-repeat="(key, value) in job.Assets"> {{value.UserName}} </li>
-                        </ul>
-                    </div>
+                    <div>Payment Method: {{job.PaymentMethod}}</div>                    
+                    <div>Pickup By: {{job.Assets[job.Tasks[1].AssetRef].UserName}}</div>
+                    <div>Delivery By: {{job.Assets[job.Tasks[2].AssetRef].UserName}}</div>
+                    <div ng-show="job.Tasks[3]">Cash Delivery By: {{job.Assets[job.Tasks[3].AssetRef].UserName}}</div>
                 </div>
                 <hr class="style-one">
                 <div>
@@ -110,7 +109,13 @@
                     <span class="tracking-help">track this job from <br>www.gofetch.com/#/track/<strong>{{job.HRID}}</strong></span>
                 </div> -->
                 <div>
-                    <span class="tracking-help">For Complain and Queries Call: +88 01735952047</span>
+                    <span class="tracking-help">For Complaints and Queries Call: +88 01735952047</span>
+                </div>
+                <br>
+                <div ng-show="job.Order.NoteToDeliveryMan">
+                    <h3>****************************************</h3>
+                    <h3 class="address-header">Special Note to Delivery Man</h3>                
+                    <div class="address">{{job.Order.NoteToDeliveryMan}}</div>                    
                 </div>
             </div>
             <br><br>

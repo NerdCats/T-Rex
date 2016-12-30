@@ -108,6 +108,7 @@ app.factory('orderFactory', ['$http', '$window', 'restCall', 'mapFactory', 'ngAu
 		    ETAMinutes: null,
 		    PaymentMethod: "CashOnDelivery",
 		    Description: null,
+		    ReferenceInvoiceId: null,
 		    OrderCart: {
 		      PackageList: [],
 		      TotalVATAmount: 0.0,

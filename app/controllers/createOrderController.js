@@ -1,14 +1,17 @@
 'use strict';
 
-app.controller('createOrderController', ['$scope', '$http', '$window', 'ngAuthSettings', 'Areas', 'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
+app.controller('createOrderController', ['$scope', '$http', '$window', 'ngAuthSettings', 'Areas', 'dashboardFactory',
+										'UrlPath', 'restCall', '$rootScope',  '$routeParams', 'orderFactory', 'mapFactory', createOrderController]);
 
-function createOrderController($scope, $http, $window, ngAuthSettings, Areas, UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
+function createOrderController($scope, $http, $window, ngAuthSettings, Areas, dashboardFactory,
+							UrlPath, restCall, $rootScope, $routeParams, orderFactory, mapFactory){
 
 	var vm = $scope;
 
 	vm.OrderType = "";
 	vm.VehiclePreference = ["CNG","SEDAN"];
 	vm.LocalAreas = Areas;
+	vm.LocalAreas.splice(0,1);
 
 	vm.PackagePickUp = {
 		Type: "PackagePickUp",
@@ -31,7 +34,7 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, Ur
   	vm.UserNameIsLoading = false;
 
   	vm.buttonText = "Create Order";
-  	vm.minMode = false;
+  	vm.minMode = true;
 
 	vm.FromLabel = "From";
 	vm.ToLabel = "To";
@@ -91,39 +94,55 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, Ur
 		}
 		console.log(vm.order.Type + "  " + vm.order.Variant );
 	}
-	vm.loadUserNames = function (){
-		function successCallback(response) {
-			vm.userNames = response.data.data;
+
+	vm.loadUserNames = function (page) {
+		vm.UserNameIsLoading = true;		
+		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=50";
+		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
+			if (page === 0) {
+				vm.userNames = [];					
+			}
+			angular.forEach(response.data, function (value, index) {
+				vm.userNames.push(value);
+			})
+			if (response.pagination.TotalPages > page) {
+				vm.loadUserNames(page + 1);
+			}
 			vm.UserNameIsLoading = false;
-			console.log(vm.userNames)
-		}
-		function errorCallback(error) {
+		}, function (error) {
+			vm.UserNameIsLoading = false;
 			console.log(error);
-			vm.UserNameIsLoading = false;
-		}
-		vm.UserNameIsLoading = true;
-		var query = vm.selectedUser;
-		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/account/odata?" + "$filter=Type eq 'ENTERPRISE'" + "&envelope=" + true + "&page=" + 0 + "&pageSize=" + 50;
-		console.log(getUsersUrl)
-		restCall('GET', getUsersUrl, null, successCallback, errorCallback)		
+		});	
 	};
 
-	vm.loadUserNames();
+	vm.loadUserNames(0);
 
 	vm.onSelectUser = function ($item, $model, $label, $event) {
-		console.log($item);
 		vm.order.UserId = $item.Id;
 		vm.order.SellerInfo.Name = $item.UserName;
 		vm.order.SellerInfo.PhoneNumber = $item.PhoneNumber;
 		vm.order.SellerInfo.Address.AddressLine1 = $item.UserName;
-
 		vm.deliveryTypeChanged();
+		console.log($item);
 	}
 
 
 	
 	function createNewOrder() {
-		
+
+		if (vm.order.ReferenceInvoiceId) {			
+			var newItem = {
+	    		"Item": "Invoice No : " + vm.order.ReferenceInvoiceId,
+				"Quantity": 1,
+				"Price": 0,
+				"VAT": 0,
+				"Total": 0,
+				"VATAmount": 0,
+				"TotalPlusVAT": 0,
+				"Weight": 0
+	    	};
+	    	vm.AddItem(newItem);
+		}		
 		if (vm.PackagePickUp.ETA) {
 			var ETA = {				
 				Type: "PackagePickUp",
@@ -155,6 +174,9 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, Ur
 
 			vm.order.From.AddressLine1 = vm.order.SellerInfo.Name + ", \n" + vm.order.SellerInfo.PhoneNumber + " , \n"  + vm.order.SellerInfo.Address.AddressLine1;
 			vm.order.To.AddressLine1 = vm.order.BuyerInfo.Name + ", \n" + vm.order.BuyerInfo.PhoneNumber + " , \n"  + vm.order.BuyerInfo.Address.AddressLine1;
+
+			console.log(vm.order.From.AddressLine1)
+			console.log(vm.order.To.AddressLine1)
 		}
 		
 		console.log(vm.order);
@@ -172,38 +194,41 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, Ur
 
 		var errorCallback = function error(error) {
 			vm.OrderFailed = true;
+			vm.OrdersIsBeingCreated = false;
 			console.log("error : ");
 			console.log(error);
 			vm.order.JobTaskETAPreference = [];
-			vm.OrdersIsBeingCreated = false;
-
 			vm.errorMsg = error.data.Message || "Server error";
 			var i = 0;
 	        if (error.data.ModelState) {
 	            vm.errorMsg += "\n";
 	            if (error.data.ModelState["model.From.AddressLine1"]) {
 	                var err = error.data.ModelState["model.From.AddressLine1"][0];
-	                errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
+	                vm.errorMsg += ++i + ". " + "Pickup Address is required" + "\n";
 	            }
 	            if (error.data.ModelState["model.To.AddressLine1"]) {
 	                var err = error.data.ModelState["model.To.AddressLine1"][0];
-	                errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
+	                vm.errorMsg += ++i + ". " + "Delivery Address is required" + "\n";
 	            }
 	            if (error.data.ModelState["model.OrderCart.PackageList[0].Item"]) {
 	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Item"][0];
-	                errorMsg += ++i + ". " + err + "\n";
+	                vm.errorMsg += ++i + ". " + err + "\n";
 	            }
 	            if (error.data.ModelState["model.OrderCart.PackageList[0].Quantity"]) {
 	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Quantity"][0];
-	                errorMsg += ++i + ". " + err + "\n";
+	                vm.errorMsg += ++i + ". " + err + "\n";
 	            }
 	            if (error.data.ModelState["model.OrderCart.PackageList[0].Weight"]) {
 	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Weight"][0];
-	                errorMsg += ++i + ". " + err + "\n";
+	                vm.errorMsg += ++i + ". " + err + "\n";
+	            }
+	            if (error.data.ModelState["model.OrderCart.PackageList[0].Price"]) {
+	                var err = error.data.ModelState["model.OrderCart.PackageList[0].Price"][0];
+	                vm.errorMsg += ++i + ". " + err + "\n";
 	            }
 	            if (error.data.ModelState["model.PaymentMethod"]) {
 	                var err = error.data.ModelState["model.PaymentMethod"][0];
-	                errorMsg += ++i + ". " + err + "\n";
+	                vm.errorMsg += ++i + ". " + err + "\n";
 	            }
 	        }
 	        
@@ -220,61 +245,31 @@ function createOrderController($scope, $http, $window, ngAuthSettings, Areas, Ur
 			var requestMethod = "POST";
 			var orderUrl = ngAuthSettings.apiServiceBaseUri + "api/Order/";
 			restCall(requestMethod, orderUrl, vm.order, successCallback, errorCallback);
-			console.log(vm.order);			
+			console.log(JSON.stringify(vm.order));			
 		}
-	};
-	
-	loadPaymentMethods();
+	};	
 
-	vm.AddItem = AddItem;
-	vm.RemoveItem = RemoveItem;
 
-	function AddItem() {
-		var newItem = {
-    		"Item": "",
-			"Quantity": 1,
-			"Price": 0,
-			"VAT": 0,
-			"Total": 0,
-			"VATAmount": 0,
-			"TotalPlusVAT": 0,
-			"Weight": 0
-    	};
-
-		vm.order.OrderCart.PackageList.push(newItem);		
+	vm.AddItem = function (item) {		
+		if (item) {
+			item = {
+	    		"Item": "",
+				"Quantity": 1,
+				"Price": 0,
+				"VAT": 0,
+				"Total": 0,
+				"VATAmount": 0,
+				"TotalPlusVAT": 0,
+				"Weight": 0
+	    	};		
+		}
+		vm.order.OrderCart.PackageList.push(item);
 	}
 
-	function RemoveItem(itemIndex) {
+	vm.RemoveItem = function (itemIndex) {
 		console.log(itemIndex);
 		vm.order.OrderCart.PackageList.splice(itemIndex, 1);		
 	}
-
-
-	
-
-	function loadPaymentMethods() {
-		// function successCallback(response) {
-		// 	var paymentMethod = response.data;
-		// 	angular.forEach(paymentMethod, function (value, key) {
-		// 		 vm.PaymentMethod.push(value.Key);
-		// 	})
-
-		// 	console.log(vm.PaymentMethod)
-		// }
-		// function errorCallback(error) {
-		// 	console.log(error);
-		// }
-		// restCall('GET', ngAuthSettings.apiServiceBaseUri + "/api/Payment", null, successCallback, errorCallback)
-		vm.PaymentMethod.push("CashOnDelivery");
-	};
-
-
- 
-	
-
-
-
- 
 
 	function getCurrentMarkerLocationCallback(lat, lng) {
 		vm.currentMarkerLocation.lat = lat;
