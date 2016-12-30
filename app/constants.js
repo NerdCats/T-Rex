@@ -24,6 +24,12 @@ app.constant('menus', [
 		class: "fa fa-list-alt"
 	},
 	{ 
+		title : "Bulk Assign",
+		link: '#/bulkassign',
+		target: "_blank",
+		class: "fa fa-list-alt"
+	},
+	{ 
 		title : "Report", 
 		link: '#/report',
 		target : "",
