@@ -79,8 +79,9 @@
     /*@ngInject*/
     function Chips($compile, $timeout, DomUtil) {
         /*@ngInject*/
-        linkFun.$inject = ["scope", "iElement", "iAttrs", "ngModelCtrl", "transcludefn"];
-        function linkFun(scope, iElement, iAttrs, ngModelCtrl, transcludefn) {
+        linkFun.$inject = ["$scope", "iElement", "iAttrs", "ngModelCtrl", "transcludefn"];
+        function linkFun($scope, iElement, iAttrs, ngModelCtrl, transcludefn) {
+            var error;
             if ((error = validation(iElement)) !== '') {
                 throw error;
             }
@@ -90,23 +91,23 @@
             var functionParam = getParamKey(iAttrs.render);
 
             /*
-             *  @scope.chips.addChip should be called by chipControl directive or custom XXXcontrol directive developed by end user
-             *  @scope.chips.deleteChip will be called by removeChip directive
+             *  @$scope.chips.addChip should be called by chipControl directive or custom XXXcontrol directive developed by end user
+             *  @$scope.chips.deleteChip will be called by removeChip directive
              *
              */
 
             /*
              * ngModel values are copies here
              */
-            scope.chips.list;
+            $scope.chips.list;
 
-            scope.chips.addChip = function(data) {
+            $scope.chips.addChip = function(data) {
                 var updatedData, paramObj;
 
-                if (scope.render !== undefined && functionParam !== '') {
+                if ($scope.render !== undefined && functionParam !== '') {
                     paramObj = {};
                     paramObj[functionParam] = data;
-                    updatedData = scope.render(paramObj);
+                    updatedData = $scope.render(paramObj);
                 } else { updatedData = data }
 
                 if (!updatedData) {
@@ -117,25 +118,25 @@
                     updatedData.then(function(response) {
                         model.add(response);
                     });
-                    scope.chips.list.push(new DeferChip(data, updatedData));
-                    scope.$apply();
+                    $scope.chips.list.push(new DeferChip(data, updatedData));
+                    $scope.$apply();
                 } else {
                     update(updatedData);
                 }
 
                 function update(data) {
                     // "Job-" +  added manually
-                    scope.chips.list.push("Job-" + data);
+                    $scope.chips.list.push("Job-" + data);
                     model.add(data);
                 }
 
                 return true;
             };
 
-            scope.chips.deleteChip = function(index) {
-                var deletedChip = scope.chips.list.splice(index, 1)[0];
+            $scope.chips.deleteChip = function(index) {
+                var deletedChip = $scope.chips.list.splice(index, 1)[0];
                 if (deletedChip.isFailed) {
-                    scope.$apply();
+                    $scope.$apply();
                     return;
                 }
 
@@ -152,9 +153,9 @@
                         // list.push(ngModelCtrl.$modelValue[index]);
                         list.push(new DeferChip(ngModelCtrl.$modelValue[index]))
                     }
-                    scope.chips.list = list;
+                    $scope.chips.list = list;
                 } else {
-                    scope.chips.list = angular.copy(ngModelCtrl.$modelValue) || [];
+                    $scope.chips.list = angular.copy(ngModelCtrl.$modelValue) || [];
                 }
 
             }
@@ -167,12 +168,12 @@
             function chipNavigator(index) {
                 return function(direction) {
                     direction === 37 ? index-- : index++;
-                    index = index < 0 ? scope.chips.list.length - 1 : index > scope.chips.list.length - 1 ? 0 : index;
+                    index = index < 0 ? $scope.chips.list.length - 1 : index > $scope.chips.list.length - 1 ? 0 : index;
                     return index;
                 }
             }
 
-            /*Extract the chip-tmpl and compile inside the chips directive scope*/
+            /*Extract the chip-tmpl and compile inside the chips directive $scope*/
             var rootDiv = angular.element('<div></div>');
             var tmplStr = iElement.html();
             tmplStr = tmplStr.substr(tmplStr.indexOf('<chip-tmpl'),tmplStr.indexOf('</chip-tmpl>')-('</chip-tmpl>').length);
@@ -184,7 +185,7 @@
             tmpl.attr('tabindex', '-1')
             tmpl.attr('index', '{{$index+1}}')
             rootDiv.append(tmpl);
-            var node = $compile(rootDiv)(scope);
+            var node = $compile(rootDiv)($scope);
             iElement.prepend(node);
 
 
@@ -198,7 +199,7 @@
                 chipNavigate = null;
             });
             /*this method will handle 'delete or Backspace' and left, right key press*/
-            scope.chips.handleKeyDown = function(event) {
+            $scope.chips.handleKeyDown = function(event) {
                 if (event.target.nodeName !== 'INPUT' && event.target.nodeName !== 'CHIP-TMPL' || (iElement.find('chip-tmpl').length === 0 && event.target.value === ''))
                     return;
 
@@ -232,14 +233,14 @@
                 }
             };
 
-            iElement.on('keydown', scope.chips.handleKeyDown);
+            iElement.on('keydown', $scope.chips.handleKeyDown);
 
             DomUtil(iElement).addClass('chip-out-focus');
         }
 
         return {
             restrict: 'E',
-            scope: {
+            $scope: {
                 /*
                  * optional callback, this will be called before rendering the data,
                  * user can modify the data before it's rendered
@@ -284,13 +285,13 @@
         return {
             restrict: 'E',
             transclude: true,
-            link: function(scope, iElement, iAttrs, contrl, transcludefn) {
-                transcludefn(scope, function(clonedTranscludedContent) {
+            link: function($scope, iElement, iAttrs, contrl, transcludefn) {
+                transcludefn($scope, function(clonedTranscludedContent) {
                     iElement.append(clonedTranscludedContent);
                 });
                 iElement.on('keydown', function(event) {
                     if (event.keyCode === 8) {
-                        scope.$broadcast('chip:delete');
+                        $scope.$broadcast('chip:delete');
                         event.preventDefault();
                     }
                 });
@@ -311,9 +312,9 @@
         return {
             restrict: 'A',
             require: '^?chips',
-            link: function(scope, iElement, iAttrs, chipsCtrl) {
+            link: function($scope, iElement, iAttrs, chipsCtrl) {
 
-                function getCallBack(scope, prop) {
+                function getCallBack($scope, prop) {
                     var target;
                     if (prop.search('\\(') > 0) {
                         prop = prop.substr(0, prop.search('\\('));
@@ -321,46 +322,46 @@
                     if (prop !== undefined) {
                         if (prop.split('.').length > 1) {
                             var levels = prop.split('.');
-                            target = scope;
+                            target = $scope;
                             for (var index = 0; index < levels.length; index++) {
                                 target = target[levels[index]];
                             }
                         } else {
-                            target = scope[prop];
+                            target = $scope[prop];
                         }
                     }
                     return target;
                 };
 
                 /*
-                 * traverse scope hierarchy and find the scope
+                 * traverse $scope hierarchy and find the $scope
                  */
-                function findScope(scope, prop) {
+                function find$Scope($scope, prop) {
                     var funStr = prop.indexOf('.') !== -1 ? prop.split('.')[0] : prop.split('(')[0];
-                    if (!scope.hasOwnProperty(funStr)) {
-                        return findScope(scope.$parent, prop)
+                    if (!$scope.hasOwnProperty(funStr)) {
+                        return find$Scope($scope.$parent, prop)
                     }
-                    return scope;
+                    return $scope;
                 };
 
                 function deleteChip() {
                     // don't delete the chip which is loading
-                    if (typeof scope.chip !== 'string' && scope.chip.isLoading)
+                    if (typeof $scope.chip !== 'string' && $scope.chip.isLoading)
                         return;
                     var callBack, deleteIt = true;
                     if (iAttrs.hasOwnProperty('removeChip') && iAttrs.removeChip !== '') {
-                        callBack = getCallBack(findScope(scope, iAttrs.removeChip), iAttrs.removeChip);
-                        deleteIt = callBack(scope.chip);
+                        callBack = getCallBack(find$Scope($scope, iAttrs.removeChip), iAttrs.removeChip);
+                        deleteIt = callBack($scope.chip);
                     }
                     if (deleteIt)
-                        chipsCtrl.removeChip(scope.chip, scope.$index);
+                        chipsCtrl.removeChip($scope.chip, $scope.$index);
                 };
 
                 iElement.on('click', function() {
                     deleteChip();
                 });
 
-                scope.$on('chip:delete', function() {
+                $scope.$on('chip:delete', function() {
                     deleteChip();
                 });
 
@@ -379,7 +380,7 @@
         /*
          * addclass will append class to the given element
          * ng-class will do the same functionality, in our case
-         * we don't have access to scope so we are using this util methods
+         * we don't have access to $scope so we are using this util methods
          */
         var utilObj = {};
 
@@ -404,7 +405,7 @@
 })();
 
 (function() {
-    ChipControlLinkFun.$inject = ["scope", "iElement", "iAttrs", "chipsCtrl"];
+    ChipControlLinkFun.$inject = ["$scope", "iElement", "iAttrs", "chipsCtrl"];
     angular.module('angular.chips')
         .directive('chipControl', ChipControl);
 
@@ -420,7 +421,7 @@
         }
     };
     /*@ngInject*/
-    function ChipControlLinkFun(scope, iElement, iAttrs, chipsCtrl) {
+    function ChipControlLinkFun($scope, iElement, iAttrs, chipsCtrl) {
         iElement.on('keypress', function(event) {
             if (event.keyCode === 13 && event.target.value !== '') {
                 if (chipsCtrl.addChip(event.target.value)) {
@@ -451,7 +452,7 @@
         return {
             restrict: 'A',
             require: ['ngModel', '^chips'],
-            link: function(scope, iElement, iAttrs, controller) {
+            link: function($scope, iElement, iAttrs, controller) {
                 var ngModelCtrl = controller[0],
                     chipsCtrl = controller[1];
                 ngModelCtrl.$render = function(event) {

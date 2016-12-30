@@ -55,10 +55,8 @@ const cssFilePaths = [
 	"node_modules/font-awesome/css/font-awesome.css",
 	"app/content/styles/style.css",
 	"app/content/styles/sidebar.css",
-	"app/content/component/loadinSnake/loading-snake.css",
-	"app/content/component/sk-cube/sk-cube.css",
-	"app/content/component/spinner/spinner.css",
-	"node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css"
+	"node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css",
+	"app/directives/Chips/angular-chips.css"
 ]
 
 const fontsPath = [
