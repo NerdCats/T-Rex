@@ -157,7 +157,6 @@ gulp.task('inject-index', function(done){
 
 
 gulp.task('build:prod', function(callback){
-<<<<<<< HEAD
 
 	runSequence('clean', 'setProdServiceURI',
 				'bundle','bundle-libs', 
