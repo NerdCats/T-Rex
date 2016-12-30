@@ -18,7 +18,7 @@ install:
   - npm install -g gulp
   - ps: $env:path = $env:appdata + "\npm;" + $env:path
   - npm install
-  - gulp build:dev
+  - gulp build:prod
 
 artifacts:
   - path: dist
