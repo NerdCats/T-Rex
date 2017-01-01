@@ -7,37 +7,52 @@
     padding: 10px 0px 15px 0px;
     border: 1px solid black;
     width: 25%;
-    ">	
-	<div class="form-group" draggable="true">                
-        <div class="col-md-4">
-	        <label>Select Asset</label>
-            <div class="input-group">                        
-                <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'">
-                    <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
-                </select>
-                <span class="input-group-btn">                                    
-                    <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </button>
-                </span>			                        
-            </div>
+    " ng-hide="Orders.selectedJobsCount === 0">	
+	<div class="form-group">                
+        <div class="row">
+        	<div class="col-md-4">
+		        <label>Select Asset</label>
+	            <div class="input-group">                        
+	                <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'">
+	                    <option ng-repeat="user in Assets" value="{{user.Id}}">{{user.UserName}}</option>
+	                </select>
+	                <span class="input-group-btn">                                    
+	                    <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
+	                        <i class="fa fa-refresh" aria-hidden="true"></i>
+	                    </button>
+	                </span>
+	            </div>
+	        </div>
+	        <div class="col-md-8">
+	        	<div class="row">
+		        	<div class="col-md-8">
+			        	<label>Assign selected Jobs For </label>
+		        		<select class="form-control" ng-model="selectedTaskIndexForAssign">		        		
+			        		<option value="1">pickup</option>
+			        		<option value="2">delivery</option>
+			        		<option value="3">cash delivery</option>
+			        	</select>       
+		        	</div>
+		        	<div class="col-md-4">
+			        	<br>
+				    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskIndexForAssign" ng-click="assignAssetToTask(selectedTaskIndexForAssign)">Assign</button>
+		        	</div>
+	        	</div>
+	        </div>
         </div>
-        <div class="col-md-8">
-        	<div class="row">
-	        	<div class="col-md-8">
-		        	<label>Assign selected Jobs For </label>
-	        		<select class="form-control" ng-model="selectedTaskIndex">
-		        		<option></option>
-		        		<option value="1">pickup</option>
-		        		<option value="2">delivery</option>
-		        		<option value="3">cash delivery</option>
-		        	</select>       
-	        	</div>
-	        	<div class="col-md-4">
-		        	<br>
-			    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskIndex" ng-click="assignAssetToTask(selectedTaskIndex)">Assign</button>
-	        	</div>
-        	</div>
+        <br>
+        <div class="row">        	
+    		<label class="col-md-12 control-label">Select Task for Completion of {{Orders.selectedJobsCount}} selected Jobs</label>
+    		<div class="col-md-8">
+        		<select class="form-control" ng-model="selectedTaskIndexForComplete">		        		
+	        		<option value="1">pickup</option>
+	        		<option value="2">delivery</option>
+	        		<option value="3">cash delivery</option>
+	        	</select>
+    		</div>
+        	<div class="col-md-4">		    	
+		    	<button class="btn btn-primary" ng-disabled="!selectedTaskIndexForComplete" ng-click="completeTask(selectedTaskIndexForComplete)">Complete</button>
+			</div>
         </div>
     </div>	
 </div>
@@ -63,6 +78,8 @@
 					       </div>
 						</div>						
 		        	</div>
+		        </div>
+		        <div class="row">
 		            <div class="col-md-4">
 		                <div class="form-group">
 		                    <label class="control-label col-md-3">Start Date:</label>
@@ -90,7 +107,7 @@
 		                        </span>
 		                    </div>
 		                </div>
-		            </div>
+		            </div>		            
 		            <div class="col-md-4">
 		                <div class="form-group">		                    
 	                        <label class="col-md-4 control-label">Select Vendors:</label>		                    
@@ -126,31 +143,8 @@
 		                    </div>
 		                </div>	                 
 		            </div>
-		            <div class="col-md-4">
-		                <div class="form-group">		                    
-	                        <label class="col-md-4 control-label">Select Payment Status:</label>		                    
-		                    <div class="col-md-4">
-		                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
-		                            <option value=""></option>
-		                            <option value="Paid">Paid</option>
-		                            <option value="Pending">Pending</option>
-		                        </select>                    
-		                    </div>
-		                </div>
-		                <div class="form-group">		                    
-	                        <label class="col-md-2 control-label">Search :</label>		                    
-		                    <div class="col-md-8">
-		                        <span class="input-group-btn" style="width: 20%">
-		                            <input type="text" class="form-control" ng-model="searchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0" >                            
-		                        </span>
-		                        <span class="input-group-btn">
-		                            <button class="btn btn-danger" ng-click="removePhoneNumber()">
-		                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
-		                            </button>                            
-		                        </span>
-		                    </div>
-		                </div>
-		            </div>
+	           </div>
+	           <div class="row">
 		            <div class="col-md-4">
 		                <div class="form-group">		                    
 	                        <label class="col-md-3 control-label">Select Job State:</label>		                    
@@ -165,6 +159,35 @@
 		                    </div>
 		                </div>
 	                </div>
+		            <div class="col-md-4">
+		                <div class="form-group">		                    
+	                        <label class="col-md-4 control-label">Select Payment Status:</label>		                    
+		                    <div class="col-md-4">
+		                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+		                            <option value=""></option>
+		                            <option value="Paid">Paid</option>
+		                            <option value="Pending">Pending</option>
+		                        </select>                    
+		                    </div>
+		                </div>
+	              	</div>		            
+	                <div class="col-md-4">
+		                <div class="form-group">		                    
+	                        <label class="col-md-4 control-label">Search :</label>		                    
+		                    <div class="col-md-8">
+		                        <span class="input-group-btn" style="width: 20%">
+		                            <input type="text" class="form-control" ng-model="searchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0" >                            
+		                        </span>
+		                        <span class="input-group-btn">
+		                            <button class="btn btn-danger" ng-click="removePhoneNumber()">
+		                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+		                            </button>                            
+		                        </span>
+		                    </div>
+		                </div>
+		            </div>
+               	</div>
+               	<div class="row">
 		            <div class="form-group">
 		                <div class="col-md-11">
 		                    <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        

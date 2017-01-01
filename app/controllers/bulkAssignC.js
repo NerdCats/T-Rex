@@ -4,7 +4,9 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 	var vm = $scope;
 	vm.listOfHRID = [];
 	vm.Assets = [];
-	vm.selectedAssetId = null;	
+	vm.selectedAssetId = null;
+	vm.selectedTaskIndexForAssign = null;
+	vm.selectedTaskIndexForComplete = null;
 	vm.EnterpriseUser = null;
 	vm.PaymentStatus = null;	
 	vm.DeliveryArea = null;
@@ -28,22 +30,37 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		vm.Orders.assign.assetRef = vm.selectedAssetId;
 		angular.forEach(vm.Assets, function (asset, index) {
 			if (asset.Id === vm.selectedAssetId) {
-				vm.Orders.selectedAssetName = asset.UserName;
-				console.log(vm.Orders.selectedAssetName)
+				vm.Orders.selectedAssetName = asset.UserName;				
 			}
 		})
 	}
 
 	vm.assignAssetToTask = function (taskIndex) {
-
-		angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {			
-			console.log(HRID + " " + index + " " + taskIndex);
+		angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {						
 			vm.Orders.assignAssetToTask(index, parseInt(taskIndex) , "AssetAssign");
 		})
 	}
 
+	vm.completeTask = function (selectedTaskIndexForComplete) {
+		angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {			
+			switch(selectedTaskIndexForComplete) {
+				case "1":
+					vm.Orders.assignAssetToTask(index, parseInt(selectedTaskIndexForComplete) , "PackagePickUp");
+					break;
+				case "2":
+					vm.Orders.assignAssetToTask(index, parseInt(selectedTaskIndexForComplete) , "Delivery");
+					break;
+				case "3":
+					vm.Orders.assignAssetToTask(index, parseInt(selectedTaskIndexForComplete) , "SecureDelivery");
+					break;
+				default:
+					break;
+			}
+			
+		})
+	}
+
 	vm.getEnterpriseUsersList = function (page) {
-		console.log("EnterpriseUsers");
 		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=50&$select=UserName";
 		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
 			if (page === 0) {
