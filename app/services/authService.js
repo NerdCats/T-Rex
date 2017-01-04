@@ -47,27 +47,24 @@
                 })
                 .success(function(response) {                    
                     var authorizationData = {};
-                    var decoded_token = jwt_decode(response.access_token);                    
-                    if (decoded_token.iss === "TaskCat.Auth") {
-                        if (decoded_token.role.indexOf("BackOfficeAdmin") !== -1 || decoded_token.role.indexOf("Administrator") !== -1) {
-                            authorizationData.token = response.access_token;
-                            authorizationData.userName = response.userName;
-                            authorizationData.userId = response.userId;
+                    var decoded_token = jwt_decode(response.access_token);                                        
+                    if (decoded_token.role.indexOf("BackOfficeAdmin") !== -1 || decoded_token.role.indexOf("Administrator") !== -1) {
+                        authorizationData.token = response.access_token;
+                        authorizationData.userName = response.userName;
+                        authorizationData.userId = response.userId;
 
-                            if (!authorizationData.useRefreshTokens) {
-                                authorizationData.refreshToken = response.refresh_token;
-                                authorizationData.useRefreshTokens = true;
-                            } else {
-                                authorizationData.refreshToken = "";
-                                authorizationData.useRefreshTokens = false;
-                            }
+                        if (!authorizationData.useRefreshTokens) {
+                            authorizationData.refreshToken = response.refresh_token;
+                            authorizationData.useRefreshTokens = true;
+                        } else {
+                            authorizationData.refreshToken = "";
+                            authorizationData.useRefreshTokens = false;
+                        }
 
-                            localStorageService.set('authorizationData', authorizationData);
-                            deferred.resolve(response);                        
-                        }                        
-                        deferred.reject({error_description: "You are not authorized to Access the Dashboard, contact with Operation Team."});
-                    }
-                    deferred.reject({error_description: "Credentials now valid!"});
+                        localStorageService.set('authorizationData', authorizationData);
+                        deferred.resolve(response);                        
+                    }                        
+                    deferred.reject({error_description: "You are not authorized to Access the Dashboard, contact with Operation Team."});                    
                 }).error(function(err, status) {
                     _logOut();
                     deferred.reject(err);
