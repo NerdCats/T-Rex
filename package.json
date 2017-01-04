@@ -27,6 +27,7 @@
     "gmaps": "^0.4.24",
     "jQuery.print": "^1.4.1",
     "jquery": "^2.2.2",
+    "jwt-decode": "^2.1.0",
     "mdPickers": "^0.7.2",
     "moment": "^2.13.0",
     "ms-signalr-client": "^2.2.2",
