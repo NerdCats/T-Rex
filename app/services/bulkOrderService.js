@@ -87,7 +87,11 @@ function bulkOrderService($http, $window, ngAuthSettings, orderFactory){
 						order.ReferenceInvoiceId = orderInfo["Vendor's Invoice No"];
 						product += "Invoice: " + orderInfo["Vendor's Invoice No"];
 					}
-					product += 	orderInfo["Product Description"];
+					
+					if (orderInfo["Product Description"]) {
+						product += 	" , " + orderInfo["Product Description"];						
+					}
+
 					var newItem = {
 					    		"Item": product,
 								"Quantity": 1,
