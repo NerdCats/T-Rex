@@ -11,7 +11,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	var vm = $scope;
 	var id = $routeParams.id;	
 	vm.selectedStateForFetchAsset = vm.selectedStateForPickup = vm.selectedStateForDelivery = vm.selectedStateForSecuredelivery = 'COMPLETED';
-	vm.trackingLink = "gofetch.cloudapp.net:8000/#/track/" + id;
+	vm.trackingLink = "fetchprod.gobd.co/#/track/" + id;
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
 	vm.job.getComments(id);
