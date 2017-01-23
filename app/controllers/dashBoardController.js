@@ -41,8 +41,14 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 			}			
 		}, function (error) {
 			console.log(error);
+			console.log(vm.EnterpriseUsers)
 		});
 	}	
+
+	vm.onSelectUser = function ($item, $model, $label, $event){		
+		vm.EnterpriseUser = $item.UserName;		
+		console.log($item);
+	}
 
 	vm.clearDate = function () {
 		vm.startDate = undefined;		

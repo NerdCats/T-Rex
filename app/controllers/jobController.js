@@ -22,8 +22,16 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	}
 
 	vm.isItbipu = function () {
-		var bipu = localStorageService.get("authorizationData");		
-		if (bipu.userName === "bipu") {
+		var commentDeleter = localStorageService.get("authorizationData");		
+		if (commentDeleter.userName === "bipu" ||
+			commentDeleter.userName === "sharif" ||
+			commentDeleter.userName === "kazi" ||
+			commentDeleter.userName === "sakeef" ||
+			commentDeleter.userName === "emon" ||
+			commentDeleter.userName === "tutul" ||
+			commentDeleter.userName === "aasif" ||
+			commentDeleter.userName === "qasim" ||
+			commentDeleter.userName === "farhan") {
 			return true;
 		} else return false;
 	}
