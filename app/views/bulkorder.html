@@ -6,9 +6,25 @@
 		<div class="form-group col-md-10" ng-hide="isUploaded">
 	        <label class="control-label col-md-1">Select Vendor:</label>
 	        <div class="col-md-4">
-	            <select class="form-control" ng-model="bulkOrder.EnterpriseUser" ng-options="user as user.UserName for user in EnterpriseUsers">
+	        	<div class="input-group">
+	        		<input type="text" 
+                        ng-model="bulkOrder.EnterpriseUser" 
+                        uib-typeahead="user.UserName for user in EnterpriseUsers | filter:$viewValue | limitTo:20"
+                        typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+                        class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        
+                    <span class="input-group-btn">                                    
+                        <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-default" ng-click="bulkOrder.EnterpriseUser = null" ng-show="EnterpriseUsers.length !== 0">
+                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div>
+	            <!-- <select class="form-control" ng-model="bulkOrder.EnterpriseUser" ng-options="user as user.UserName for user in EnterpriseUsers">
 	                <option></option>                
-	            </select>
+	            </select> -->
 	        </div>
 	    </div>
 		<div class="form-group col-md-10" ng-hide="isUploaded">

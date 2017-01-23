@@ -78,6 +78,11 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 		});
 	}	
 
+	vm.onSelectEnterprise = function ($item, $model, $label, $event){		
+		vm.EnterpriseUser = $item.UserName;		
+		console.log($item);
+	}
+
 	vm.getAssetsList = function (page) {		
 		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'BIKE_MESSENGER'&$orderby=UserName&page="+ page +"&pageSize=50";
 		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
@@ -94,6 +99,13 @@ function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
 			console.log(error);
 		});
 	};
+
+	vm.onSelectAsset = function ($item, $model, $label, $event){		
+		vm.selectedAssetId = $item.Id;		
+		console.log($item);
+	}
+
+	
 
 	vm.getAssetsList(0);
 	vm.getEnterpriseUsersList(0);

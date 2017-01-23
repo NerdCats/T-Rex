@@ -56,8 +56,8 @@ function bulkOrderService($http, $window, ngAuthSettings, orderFactory){
 				var orderInfos = result.OrderInfo;	   
 			    angular.forEach(orderInfos, function (orderInfo, keys) {
 			    	var order = orderFactory.newOrder();
-			    	order.UserId = itSelf.EnterpriseUser.Id;
-			    	
+
+			    	order.UserId = itSelf.EnterpriseUser.Id;			    	
 					order.SellerInfo.Name = itSelf.EnterpriseUser.UserName;
 					order.SellerInfo.PhoneNumber = itSelf.EnterpriseUser.PhoneNumber;
 					order.SellerInfo.Address.Locality = orderInfo["Pickup Area"];

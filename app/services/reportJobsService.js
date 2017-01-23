@@ -13,7 +13,7 @@ function reportJobsService($http, $window, reportServiceUrl){
 			},			
 			isCompleted: "PENDING",
 			getReportUrl: function () {
-				var reportUrl = reportServiceUrl + "api/details?" + 
+				var reportUrl = reportServiceUrl + "api/detailssummary?" + 
 								"startdate=" + this.searchParam.startdate + 
 								"&enddate=" + this.searchParam.enddate + 
 								"&usertype=" + this.searchParam.usertype;

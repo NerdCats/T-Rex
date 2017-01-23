@@ -122,20 +122,20 @@
                     </div>
                     <div class="row">
                         <label class="col-md-4">ETA: </label>
-                        <span class="col-md-8">{{ (job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
+                        <span class="col-md-8">{{ (job.data.Tasks[1].ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned' }}</span><br>                            
                     </div>
                     <div class="row">
                         <label class="col-md-4">Started: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[1].InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[1].InitiationTime | date:'EEE d MMM y, hh:mm a') || 'Not Started'}}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Completed: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[1].CompletionTime | date:'EEE d MMM y,h,m a') || 'Not Completed' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[1].ModifiedTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed' }}</span><br>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <label class="col-md-4">ETA Failed: </label>                                                    
                         <span class="col-md-8">{{ job.data.Tasks[1].ETAFailed }}</span><br>                            
-                    </div>                    
+                    </div>                     -->
                     <div class="row">
                         <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForPickup">
                                 <option value="PENDING">PENDING</option>
@@ -175,20 +175,20 @@
                     </div>
                     <div class="row">
                         <label class="col-md-4">ETA: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[2].ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned' }}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Started: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[2].InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[2].InitiationTime | date:'EEE d MMM y, hh:mm a') || 'Not Started'}}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Completed: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[2].CompletionTime | date:'EEE d MMM y,h,m a') || 'Not Completed' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[2].ModifiedTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed' }}</span><br>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <label class="col-md-4">ETA Failed: </label>                                                    
                         <span class="col-md-8">{{ job.data.Tasks[2].ETAFailed }}</span><br>                            
-                    </div>                    
+                    </div>                     -->
                     <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForDelivery">
                         <option value="PENDING">PENDING</option>
                         <option value="IN_PROGRESS">IN PROGRESS</option>
@@ -220,7 +220,7 @@
                             </div>
                         </div>                        
                         <div class="row mb-20">
-                            <button class="col-md-12 btn btn-primary" ng-click="openAssetsList(3)" ng-disabled="job.data.Tasks[3].State === 'COMPLETED'">
+                            <button class="col-md-12 btn b                                                            tn-primary" ng-click="openAssetsList(3)" ng-disabled="job.data.Tasks[3].State === 'COMPLETED'">
                                 ASSIGN ASSET
                                 <span ng-show="job.modifying === 'SecureDelivery_UPDATING'" class="fa fa-refresh fa-spin"></span>
                             </button>
@@ -228,20 +228,20 @@
                     </div>
                     <div class="row">
                         <label class="col-md-4">ETA: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                            
+                        <span class="col-md-8">{{ (job.data.Tasks[3].ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned' }}</span><br>                            
                     </div>
                     <div class="row">
                         <label class="col-md-4">Started: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[3].InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started'}}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[3].InitiationTime | date:'EEE d MMM y, hh:mm a') || 'Not Started'}}</span><br>
                     </div>
                     <div class="row">
                         <label class="col-md-4">Completed: </label>                                                    
-                        <span class="col-md-8">{{ (job.data.Tasks[3].CompletionTime | date:'EEE d MMM y,h,m a') || 'Not Completed' }}</span><br>
+                        <span class="col-md-8">{{ (job.data.Tasks[3].ModifiedTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed' }}</span><br>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <label class="col-md-4">ETA Failed: </label>                                                    
                         <span class="col-md-8">{{ job.data.Tasks[3].ETAFailed }}</span><br>                            
-                    </div>                    
+                    </div>                     -->
                     <select class="row form-control mb-20 task-state-update-select" ng-model="selectedStateForSecuredelivery">
                         <option value="PENDING">PENDING</option>
                         <option value="IN_PROGRESS">IN PROGRESS</option>
@@ -313,15 +313,15 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label>Pickup ETA:</label><br>
-                            <span>{{(job.data.Tasks[1].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                            <span>{{(job.data.Tasks[1].ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned'}}</span>
                         </div>
                         <div class="col-md-4">
                             <label>Delivery ETA:</label><br>
-                            <span>{{(job.data.Tasks[2].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                            <span>{{(job.data.Tasks[2].ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned'}}</span>
                         </div>
                         <div class="col-md-4" ng-show="job.data.Tasks[3]">
                             <label>Secure Delivery ETA:</label><br>
-                            <span>{{(job.data.Tasks[3].ETA | date:'EEE d MMM y,h:m a') || 'Not Mentioned'}}</span>
+                            <span>{{(job.data.Tasks[3].ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned'}}</span>
                         </div>                        
                     </div>                    
                 </div>                
@@ -447,12 +447,12 @@
                     </div>
                     <div class="row">
                         <label class="col-md-6">Create Time</label>
-                        <span class="col-md-6">{{ job.data.CreateTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
+                        <span class="col-md-6">{{ job.data.CreateTime | date:'EEE d MMM y, h:m a' }}</span><br>                        
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">Modified Time</label>
-                        <span class="col-md-6">{{ job.data.ModifiedTime | date:'EEE d MMM y,h:m a' }}</span><br>                        
+                        <span class="col-md-6">{{ job.data.ModifiedTime | date:'EEE d MMM y, h:m a' }}</span><br>                        
                     </div>
 
                     <div class="row">
@@ -462,22 +462,22 @@
 
                     <div class="row">
                         <label class="col-md-6">Processing Start Time</label>
-                        <span class="col-md-6">{{ (job.data.InitiationTime | date:'EEE d MMM y,h:m a') || 'Not Started Yet' }}</span><br>
+                        <span class="col-md-6">{{ (job.data.InitiationTime | date:'EEE d MMM y, hh:mm a') || 'Not Started Yet' }}</span><br>
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">Completion Time</label>
-                        <span class="col-md-6">{{ (job.data.CompletionTime | date:'EEE d MMM y,h:m a') || 'Not Completed Yet' }}</span><br>
+                        <span class="col-md-6">{{ (job.data.CompletionTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed Yet' }}</span><br>
                     </div>
 
                     <div class="row">
                         <label class="col-md-6">Duration Time</label>
-                        <span class="col-md-6">{{ job.data.Duration || 'Not Completed Yet' }}</span><br>
+                        <span class="col-md-6">{{ (job.data.Duration | date:'hh:mm a') || 'Not Completed Yet' }}</span><br>
                     </div>
 
 <!--                     <div class="row">
                         <label class="col-md-6">PreferredDeliveryTime</label>
-                        <span class="col-md-6">{{ (job.data.PreferredDeliveryTime | date:'EEE d MMM y,h:m a') || 'Not Mentioned' }}</span><br>                        
+                        <span class="col-md-6">{{ (job.data.PreferredDeliveryTime | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned' }}</span><br>                        
                     </div> -->
 
 <!--                     <div class="row">

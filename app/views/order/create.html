@@ -42,20 +42,6 @@
 			<div class="form-group" ng-hide="isPutOrder">
 				<label class="control-label col-md-2" for="">User Name</label>
 				<div class="col-md-6">
-<!-- 					 <input type="text" 
-						 ng-model="selectedUser"
-						 placeholder="Type user's name and select from the autocomplete"
-						 ng-change="loadUserNames()"
-						 uib-typeahead="user.UserName for user in userNames"
-						 typeahead-loading="UserNameIsLoading" 
-						 typeahead-no-results="noResults"
-						 typeahead-wait-ms=100
-						 typeahead-on-select="onSelectUser($item, $model, $label, $event)"
-						 class="form-control">
-					<i ng-show="UserNameIsLoading" class="glyphicon glyphicon-refresh"></i>
-					<div ng-show="noResults">
-						<i class="glyphicon glyphicon-remove"></i> No Results Found
-					</div> -->
 					<span class="input-group-btn">
 						<input type="text" 
 				    		ng-model="selectedUser" 
@@ -98,9 +84,14 @@
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Pickup Area</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="order.From.Locality">
-				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
-				</select>
+<!-- 				<select class="form-control" ng-model="order.From.Locality">
+				  <option value="Outside Dhaka">Outside Dhaka</option>
+				  <option ng-repeat="area in LocalAreas">{{area}}</option>
+				</select> -->
+			  	<input type="text" 
+				    		ng-model="order.From.Locality" 
+				    		uib-typeahead="area for area in LocalAreas | filter:$viewValue | limitTo:20"
+				    		class="form-control" ng-required="!isPutOrder">     
 			  </div>
 			</div>
 
@@ -108,7 +99,7 @@
 			<!-- Textarea -->
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Pickup Address</label>
-			  <div class="col-md-6">                     
+			  <div class="col-md-6">                
 				<textarea class="form-control" rows="3" ng-model="order.From.AddressLine1" ng-required="!isPutOrder"></textarea>
 			  </div>              
 			</div>
@@ -150,9 +141,14 @@
 			<div class="form-group">
 			  <label class="control-label col-md-2" for="">Delivery Area</label>
 			  <div class="col-md-6">
-				<select class="form-control" ng-model="order.To.Locality" ng-required="!isPutOrder">
+			  	<input type="text" 
+				    		ng-model="order.To.Locality" 
+				    		uib-typeahead="area for area in LocalAreas | filter:$viewValue | limitTo:20"
+				    		class="form-control" ng-required="!isPutOrder">    
+				<!-- <select class="form-control" ng-model="order.To.Locality" ng-required="!isPutOrder">
+				  <option value="Outside Dhaka">Outside Dhaka</option>
 				  <option ng-repeat="area in LocalAreas">{{area}}</option>                  
-				</select>
+				</select> -->
 			  </div>
 			</div>
 

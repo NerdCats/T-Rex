@@ -11,7 +11,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	var vm = $scope;
 	var id = $routeParams.id;	
 	vm.selectedStateForFetchAsset = vm.selectedStateForPickup = vm.selectedStateForDelivery = vm.selectedStateForSecuredelivery = 'COMPLETED';
-	vm.trackingLink = "gofetch.cloudapp.net:8000/#/track/" + id;
+	vm.trackingLink = "fetchprod.gobd.co/#/track/" + id;
 	vm.job = jobFactory.job(id);
 	vm.job.loadJob();
 	vm.job.getComments(id);
@@ -22,8 +22,16 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	}
 
 	vm.isItbipu = function () {
-		var bipu = localStorageService.get("authorizationData");		
-		if (bipu.userName === "bipu") {
+		var commentDeleter = localStorageService.get("authorizationData");		
+		if (commentDeleter.userName === "bipu" ||
+			commentDeleter.userName === "sharif" ||
+			commentDeleter.userName === "kazi" ||
+			commentDeleter.userName === "sakeef" ||
+			commentDeleter.userName === "emon" ||
+			commentDeleter.userName === "tutul" ||
+			commentDeleter.userName === "aasif" ||
+			commentDeleter.userName === "qasim" ||
+			commentDeleter.userName === "farhan") {
 			return true;
 		} else return false;
 	}

@@ -4,17 +4,12 @@ app.controller('bulkOrderC', ['$scope', 'bulkOrderService','ngAuthSettings', 're
 
 function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboardFactory) {
 	
-	var vm = $scope;
-	// vm.EnterpriseUser = null;
+	var vm = $scope;	
 	vm.EnterpriseUsers = [];
 	vm.isUploaded = false;
-	vm.bulkOrder = bulkOrderService.getBulkOrder();	
+	vm.bulkOrder = bulkOrderService.getBulkOrder();		
 
-
-	// vm.bulkOrder.getUsersList("ENTERPRISE", );
-
-	vm.getEnterpriseUsersList = function (page) {
-		console.log("EnterpriseUsers");
+	vm.getEnterpriseUsersList = function (page) {		
 		var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'ENTERPRISE'&$orderby=UserName&page="+ page +"&pageSize=50";
 		dashboardFactory.getUserNameList(getUsersUrl).then(function (response) {
 			if (page === 0) {
@@ -32,7 +27,11 @@ function bulkOrderC ($scope, bulkOrderService, ngAuthSettings, restCall, dashboa
 		});
 	}
 
-	vm.getEnterpriseUsersList();
+	vm.getEnterpriseUsersList(0);
+
+	vm.onSelectUser = function ($item, $model, $label, $event){		
+		vm.bulkOrder.EnterpriseUser = $item;		
+	}
 
 	document.getElementById('csv').addEventListener('change', handleFile, false);
 	function handleFile (e) {		

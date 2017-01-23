@@ -105,19 +105,24 @@
                 </div> -->
                 <div class="form-group">
                     <div class="col-md-4">
-                        <label class="control-label pull-left">Show Vendors:</label>                        
+                        <label class="control-label pull-left">Select Enterprise Users:</label>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px !important">
                         <div class="input-group">
+                            <input type="text" 
+                                ng-model="selectedUser" 
+                                uib-typeahead="user.UserName for user in EnterpriseUsers | filter:$viewValue | limitTo:20" 
+                                typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                             <!-- <input class="form-control" type="text" ng-model="EnterpriseUser" list="EnterpriseUsersList"> -->
-                            <select class="form-control" ng-model="EnterpriseUser" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                                  
+                            <!-- <select class="form-control" ng-model="EnterpriseUser" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                                  
                                 <option ng-repeat="user in EnterpriseUsers" value="{{user.UserName}}">{{user.UserName}}</option>
-                            </select>
+                            </select> -->
                             <span class="input-group-btn">                                    
                                 <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </button>
-                                <button class="btn btn-default" ng-click="EnterpriseUser = ''" ng-show="EnterpriseUsers.length !== 0">
+                                <button class="btn btn-default" ng-click="EnterpriseUser = null; selectedUser = null; activate()" ng-show="EnterpriseUsers.length !== 0">
                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                 </button>
                             </span>
@@ -129,12 +134,17 @@
                         <label class="control-label pull-left">Select Delivery Area:</label>                        
                     </div>
                     <div class="col-md-6">
-                        <div class="input-group">                            
-                            <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        <div class="input-group">
+                            <input type="text" 
+                                ng-model="DeliveryArea" 
+                                uib-typeahead="area for area in DeliveryAreas | filter:$viewValue | limitTo:20"
+                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">    
+                           <!--  <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                           
+                                <option value="All">All</option>                                
                                 <option ng-repeat="area in DeliveryAreas" value="{{area}}">{{area}}</option>
-                            </select>
+                            </select> -->
                             <span class="input-group-btn">
-                                <button class="btn btn-default" ng-click="DeliveryArea = ''" ng-show="DeliveryAreas.length !== 0">
+                                <button class="btn btn-default" ng-click="DeliveryArea = null; activate()" ng-show="DeliveryAreas.length !== 0">
                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                 </button>
                             </span>
