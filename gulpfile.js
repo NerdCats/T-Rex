@@ -65,6 +65,11 @@ const fontsPath = [
 	"node_modules/bootstrap/dist/fonts/*"
 ]
 
+const otherFilePaths = [
+	"robots.txt",
+	"favicon.ico",
+	"404.html"
+]
 
 gulp.task('clean', function (cb) {
 	del(['dist']).then(function (paths) {
@@ -102,12 +107,15 @@ gulp.task('copy-fonts', function(){
 		.pipe(gulp.dest("dist/app/content/fonts"))
 })
 
+gulp.task('copy-other-files', function(){
+	return gulp.src(otherFilePaths)
+		.pipe(gulp.dest("dist/"))
+})
+
 
 gulp.task('bundle-libs', function(){
 	return gulp.src(jsLibFilePaths)
-		.pipe(concat('lib.js'))
-		// .pipe(uglify())
-		// .pipe(rename({suffix: '.min'}))
+		.pipe(concat('lib.js'))		
 		.pipe(gulp.dest('dist/app'));
 });
 
@@ -161,6 +169,7 @@ gulp.task('build:prod', function(callback){
 				'bundle','bundle-libs', 
 				'bundle-css', 
 				'copy-fonts',
+				'copy-other-files',
 				'copy-assets', 
 				'copy-templates', 
 				'copy-directives',
@@ -175,6 +184,7 @@ gulp.task('build:dev', function(callback){
 				'bundle','bundle-libs', 
 				'bundle-css', 
 				'copy-fonts',
+				'copy-other-files',
 				'copy-assets', 
 				'copy-templates', 
 				'copy-directives',
