@@ -45,7 +45,15 @@ function reportService($http, $window, $interval, timeAgo, restCall, queryServic
 				totalDeliveryCharge: 0
 			},
 			getTotal: function () {
-				var itSelf = this;				
+				var itSelf = this;
+				itSelf.total.totalVendor = 0;
+				itSelf.total.totalDelivery = 0;
+				itSelf.total.totalPending = 0;
+				itSelf.total.totalInProgress = 0;
+				itSelf.total.totalCompleted = 0;
+				itSelf.total.totalCancelled = 0;
+				itSelf.total.totalProductPrice = 0;
+				itSelf.total.totalDeliveryCharge = 0;
 				angular.forEach(this.data, function (value, key) {
 					itSelf.total.totalVendor += 1;
 					itSelf.total.totalDelivery += value.TotalDelivery;
