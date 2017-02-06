@@ -386,7 +386,7 @@
                     <ol>
                         <li ng-repeat="comment in job.comments">                            
                                 <span>{{comment.CommentText}}</span>
-                                <span class="pull-right" ng-show="isAdmin()"><i class="fa fa-times fa-1x" ng-click="job.deleteComment(comment.Id)"></i></span>
+                                <span class="pull-right" ng-show="isAdmin()"><i class="fa fa-times fa-1x" ng-click="confirmDeleteComment(comment)"></i></span>
                                 <br>
                                 <span style="color: grey;">by <b style="color: black;">{{comment.User.DisplayName}}</b> at {{comment.CreateTime | date:"EEE MMM d, y h:mm a"}}</span>
                                 <br><br>

@@ -24,8 +24,7 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	vm.isAdmin = function () {
 		var access_token = localStorageService.get("authorizationData");
 		var decoded_token = jwt_decode(access_token.token);
-
-		if (decoded_token.role.indexOf("Administrator") === 1) {
+		if (decoded_token.role.indexOf("Administrator") === 1 || decoded_token.role === "Administrator") {			
 			return true;			
 		} else return false;
 	}
@@ -44,6 +43,20 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 			vm.job.cancel(reason);
 		}, function () {
 			console.log("discarded")
+		})
+	}
+
+	vm.confirmDeleteComment = function (comment) {
+		var modalInstance = $uibModal.open({
+			animation: $scope.animationsEnabled,
+			templateUrl: 'app/views/detailsJob/confirmDeleteComment.html',
+			controller: 'commentDeleteCtrl'
+		});		
+		modalInstance.result.then(function () {
+			console.log(comment);
+			vm.job.deleteComment(comment.Id);
+		}, function (discarded) {
+			console.log("Decided not to delete comment");
 		})
 	}
 
@@ -137,6 +150,17 @@ function JobCancellationCtrl($scope, $uibModalInstance) {
 
 	$scope.cancel = function () {
 		$uibModalInstance.close($scope.reason);
+	}
+	$scope.discard = function () {
+		$uibModalInstance.dismiss("cancel");
+	}
+}
+
+
+app.controller('commentDeleteCtrl', ['$scope', '$uibModalInstance', commentDeleteCtrl]);
+function commentDeleteCtrl($scope, $uibModalInstance) {
+	$scope.delete = function () {
+		$uibModalInstance.close();
 	}
 	$scope.discard = function () {
 		$uibModalInstance.dismiss("cancel");
