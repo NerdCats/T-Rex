@@ -211,6 +211,24 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				alert("Sorry, couldn't delete : " + error.Message);
 	 				itSelf.commentStatus = '';
 	 			})
+	 		},
+	 		CommentTobeUpdated: null,
+	 		isUpdatingComment: false,
+	 		updateComment : function (comment) {
+	 			console.log(comment)
+	 			var itSelf = this;
+	 			itSelf.commentStatus = 'COMMENTI_MODIFYING';
+	 			$http({
+	 				method: 'PUT',
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/',
+	 				data: comment
+	 			}).then(function (response) {
+	 				itSelf.commentStatus = '';
+	 				itSelf.getComments(itSelf.data.HRID);
+	 			}, function (error) {
+	 				alert("Sorry, couldn't delete : " + error.Message);
+	 				itSelf.commentStatus = '';
+	 			})	
 	 		}
 	 	}
 	 }
