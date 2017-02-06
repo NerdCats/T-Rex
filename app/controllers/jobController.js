@@ -21,18 +21,12 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		return url;
 	}
 
-	vm.isItbipu = function () {
-		var commentDeleter = localStorageService.get("authorizationData");		
-		if (commentDeleter.userName === "bipu" ||
-			commentDeleter.userName === "sharif" ||
-			commentDeleter.userName === "kazi" ||
-			commentDeleter.userName === "sakeef" ||
-			commentDeleter.userName === "emon" ||
-			commentDeleter.userName === "tutul" ||
-			commentDeleter.userName === "aasif" ||
-			commentDeleter.userName === "qasim" ||
-			commentDeleter.userName === "farhan") {
-			return true;
+	vm.isAdmin = function () {
+		var access_token = localStorageService.get("authorizationData");
+		var decoded_token = jwt_decode(access_token.token);
+
+		if (decoded_token.role.indexOf("Administrator") === 1) {
+			return true;			
 		} else return false;
 	}
 	
