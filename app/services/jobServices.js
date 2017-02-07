@@ -211,8 +211,7 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				alert("Sorry, couldn't delete : " + error.Message);
 	 				itSelf.commentStatus = '';
 	 			})
-	 		},
-	 		CommentTobeUpdated: null,
+	 		},	 		
 	 		isUpdatingComment: false,
 	 		updateComment : function (comment) {
 	 			console.log(comment)
@@ -224,16 +223,16 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				data: comment
 	 			}).then(function (response) {
 	 				itSelf.commentStatus = '';
+	 				itSelf.isUpdatingComment = false; 
 	 				itSelf.getComments(itSelf.data.HRID);
 	 			}, function (error) {
-	 				alert("Sorry, couldn't delete : " + error.Message);
 	 				itSelf.commentStatus = '';
+	 				itSelf.redMessage = error.Message;
 	 			})	
 	 		}
 	 	}
 	 }
-
-
+	 
 	return {		 		
 		job: job
 	}

@@ -385,22 +385,21 @@
                 <div class="panel-body" ng-hide="job.commentStatus === 'COMMENTI_LOADING_FAILED'">
                     <ol>
                         <li ng-repeat="comment in job.comments">                            
-                                <span>{{comment.CommentText}}</span>
-                                <div class="pull-right">
-                                    <span style="margin: 5px" ng-click="job.CommentTobeUpdated = comment; job.isUpdatingComment = true"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>                                    
-                                    <span class="pull-right" ng-show="isAdmin()"><i class="fa fa-times fa-1x" ng-click="confirmDeleteComment(comment)"></i></span>
-                                </div>
-                                <br>
-                                <span style="color: grey;">by <b style="color: black;">{{comment.User.DisplayName}}</b> at {{comment.CreateTime | date:"EEE MMM d, y h:mm a"}}</span>
-                                <br><br>
+                            <span>{{comment.CommentText}}</span>
+                            <div class="pull-right">
+                                <span style="margin: 5px" ng-click="editComment(comment)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>                                    
+                                <span class="pull-right"><i class="fa fa-times fa-1x" ng-click="confirmDeleteComment(comment)"></i></span>
+                            </div>
+                            <br>
+                            <span style="color: grey;">by <b style="color: black;">{{comment.User.DisplayName}}</b> at {{comment.CreateTime | date:"EEE MMM d, y h:mm a"}}</span>
+                            <br><br>
                         </li>
                     </ol>
                     <div class="form-group" ng-show="!job.isUpdatingComment">                        
-                        <div class="col-sm-12 col-md-12">
+                        <div class="row">
                             <textarea row="3" type="text" class="form-control" ng-model="job.CommentText" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'"></textarea>
-                        </div>
-                        <br><br><br>
-                        <div class="col-sm-12 col-md-12" >
+                        </div><br>
+                        <div class="row">
                             <button class="btn btn-primary pull-right" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'" ng-click="job.postComment()">
                                 <span ng-show="job.commentStatus === 'COMMENTI_MODIFYING'" class="fa fa-refresh fa-spin"></span>
                                 <span>Add Comment</span>
@@ -408,15 +407,22 @@
                         </div>                        
                     </div>
                     <div class="form-group" ng-show="job.isUpdatingComment">
-                        <div class="col-sm-12 col-md-12">
-                            <textarea row="3" type="text" class="form-control" ng-model="job.CommentTobeUpdated.CommentText" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'"></textarea>
-                        </div>
-                        <br><br><br>
-                        <div class="col-sm-12 col-md-12" ">
-                            <button class="btn btn-primary pull-right" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'" ng-click="job.isUpdatingComment = false; job.updateComment(job.CommentTobeUpdated)">
-                                <span ng-show="job.commentStatus === 'COMMENTI_MODIFYING'" class="fa fa-refresh fa-spin"></span>
-                                <span>Update Comment</span>
-                            </button>    
+                        <div class="row">
+                            <textarea row="3" type="text" class="form-control" ng-model="CommentTobeUpdated.CommentText" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'"></textarea>
+                        </div><br>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <button class="btn btn-default pull-left" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'" ng-click="job.isUpdatingComment = false; CommentTobeUpdated = null">
+                                    <span ng-show="job.commentStatus === 'COMMENTI_MODIFYING'" class="fa fa-refresh fa-spin"></span>
+                                    <span>Discard Update</span>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-warning pull-right" ng-disabled="job.commentStatus === 'COMMENTI_MODIFYING'" ng-click="job.updateComment(CommentTobeUpdated)">
+                                    <span ng-show="job.commentStatus === 'COMMENTI_MODIFYING'" class="fa fa-refresh fa-spin"></span>
+                                    <span>Update Comment</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
