@@ -50,6 +50,28 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			console.log("claim")
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
+	 		taskTitle: function (taskType, variant) {
+	 			console.log(taskType + "  " + variant);
+	 			if (taskType === "Delivery") {
+	 				switch(variant){
+	 					case "default":
+	 						return  taskType + " to " + "Recipient";
+	 						break;
+	 					case "retry":
+	 						return  "Retry" + " " + taskType + " to " + "Recipient";
+	 						break;
+	 					case "return":
+	 						return  "Return" + " " + taskType + " to " + "Owner";
+	 						break;
+	 					default:
+	 						return  taskType;
+	 						break;
+	 				}
+	 			}
+	 			else {
+	 				return taskType;
+	 			}
+	 		},
 	 		stateUpdate: function (taskId, state, task) {
 	 			var itSelf = this;
 	 			function stateUpdateSuccess(response) {
@@ -91,15 +113,19 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			}
 	 			
 	 		},
-	 		assigningAsset: function (taskIndex) {
-	 			if (taskIndex === 0) this.modifying = "FetchDeliveryMan_UPDATING";
-	 			else if (taskIndex === 1) {
-	 				this.modifying = "PackagePickUp_UPDATING";
-	 				// Whenver we are assigning asset to pick up task, this task should go to in progress state
-	 				this.stateUpdate(this.data.Tasks[1].id, "IN_PROGRESS", "PackagePickUp");
-	 			}
-	 			else if (taskIndex === 2) this.modifying = "Delivery_UPDATING";
-	 			else if (taskIndex === 3) this.modifying = "SecureDelivery_UPDATING";
+	 		assigningAsset: function (taskId, assetId) {
+	 			var itSelf = this;
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + this.data.Id + "/" + taskId;
+				var assetRefUpdateData = [{value: assetId, path: "/AssetRef",op: "replace"}];				
+				$http({
+					method: 'PATCH',
+					url: url,
+					data: assetRefUpdateData
+				}).then(function (response) {
+					$window.location.reload();
+				}, function (error) {
+					itSelf.redMessage = error.Message;
+				})	 			
 	 		},
 	 		cancel: function (reason) {	 			
 	 			this.modifying = "CANCELLING";

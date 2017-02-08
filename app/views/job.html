@@ -2,119 +2,122 @@
  <div class="alert alert-danger" role="alert" ng-show="job.jobIsLoading == 'FAILED' || job.redMessage">
     {{job.redMessage}}
 </div>
-<div class="container-fluid" ng-show="job.jobIsLoading == 'COMPLETED'">
+<div class="container-fluid" ng-show="job.jobIsLoading == 'COMPLETED'">    
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
-                    <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
-                    <!-- <h3 ng-show="!job.data.JobServedBy"> someday it should come back, when server will response fast-->
-                    <h3 ng-show="!job.data.JobServedBy">
-                        You must 
-                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
-                            CLAIM
-                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>    
+        <div class="col-md-6">
+            <h1>{{job.data.HRID}} <span class="label pull-right" ng-class="job.getSantizedState(job.data.State).class">{{job.getSantizedState(job.data.State).value}}</span></h1>
+            <div class="alert alert-danger pull-right" role="alert" ng-show="job.data.State === 'CANCELLED'">{{job.data.CancellationReason}}</div>
+            <!-- <h3 ng-show="!job.data.JobServedBy"> someday it should come back, when server will response fast-->
+            <h3 ng-show="!job.data.JobServedBy">
+                You must 
+                <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                    CLAIM
+                    <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>    
+                </button>
+                the Order first to start processing it
+            </h3>
+            <div ng-show="job.data.JobServedBy">
+                <h3>The Job is being served by Admin <span class="label claimed-by"><strong>{{job.data.JobServedBy.UserName.toUpperCase()}}</strong></span></h3>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row pull-right mb-20">
+                <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
+                <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELLED'" ng-click="job.restore()">
+                    RESTORE
+                    <span ng-show="job.modifying === 'RESTORING'" class="fa fa-refresh fa-spin"></span>
+                </button>
+                <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELLED'" ng-click="openCancellationModal()">
+                    CANCEL
+                    <span ng-show="job.modifying === 'CANCELLING'" class="fa fa-refresh fa-spin"></span>
+                </button>
+                <button type="button" class="btn btn-danger" ng-click="job.claim()">
+                    RE CLAIM
+                    <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>
+                </button>
+                <button type="button" class="btn btn-info" ng-click="job.updatePaymentStatus()">
+                    UPDATE PAYMENT
+                    <span ng-show="job.modifying === 'PAYMENT_UPDATING'" class="fa fa-refresh fa-spin"></span>
+                </button>
+                <a class="btn btn-info" href="{{invoiceUrl()}}" target="_blank">INVOICE</a>                        
+            </div>
+            <div class="row mb-20">
+                <div class="input-group col-md-6 pull-right">                            
+                    <input id="tracking-link" type="text" class="form-control" ng-model="trackingLink">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ngclipboard data-clipboard-target="#tracking-link"  data-toggle="tooltip" data-placement="bottom" title="Copy GO! Fetch Public Tracking Link of {{job.data.HRID}}" >
+                            <i class="fa fa-clipboard" aria-hidden="true"></i>
                         </button>
-                        the Order first to start processing it
-                    </h3>
-                    <div ng-show="job.data.JobServedBy">
-                        <h3>The Job is being served by Admin <span class="label claimed-by"><strong>{{job.data.JobServedBy.UserName.toUpperCase()}}</strong></span></h3>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row pull-right mb-20">
-                        <button type="button" class="btn btn-info" ng-click="job.edit()">EDIT</button>
-                        <button type="button" class="btn btn-success" ng-show="job.data.State === 'CANCELLED'" ng-click="job.restore()">
-                            RESTORE
-                            <span ng-show="job.modifying === 'RESTORING'" class="fa fa-refresh fa-spin"></span>
-                        </button>
-                        <button type="button" class="btn btn-danger" ng-show="job.data.State !== 'CANCELLED'" ng-click="openCancellationModal()">
-                            CANCEL
-                            <span ng-show="job.modifying === 'CANCELLING'" class="fa fa-refresh fa-spin"></span>
-                        </button>
-                        <button type="button" class="btn btn-danger" ng-click="job.claim()">
-                            RE CLAIM
-                            <span ng-show="job.modifying === 'CLAIMING'" class="fa fa-refresh fa-spin"></span>
-                        </button>
-                        <button type="button" class="btn btn-info" ng-click="job.updatePaymentStatus()">
-                            UPDATE PAYMENT
-                            <span ng-show="job.modifying === 'PAYMENT_UPDATING'" class="fa fa-refresh fa-spin"></span>
-                        </button>
-                        <a class="btn btn-info" href="{{invoiceUrl()}}" target="_blank">INVOICE</a>                        
-                    </div>
-                    <div class="row mb-20">
-                        <div class="input-group col-md-6 pull-right">                            
-                            <input id="tracking-link" type="text" class="form-control" ng-model="trackingLink">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" ngclipboard data-clipboard-target="#tracking-link"  data-toggle="tooltip" data-placement="bottom" title="Copy GO! Fetch Public Tracking Link of {{job.data.HRID}}" >
-                                    <i class="fa fa-clipboard" aria-hidden="true"></i>
-                                </button>
-                            </span>
-                        </div>                        
-                    </div>
-                </div>
+                    </span>
+                </div>                        
             </div>
         </div>
     </div>
         
     <div class="row">
+        <!-- Tasks -->
         <div class="col-md-3">
         	<div ng-repeat="task in job.data.Tasks">
 	            <div class="panel" ng-class="'panel-'+job.getSantizedState(task.State).class+'-border'">
 	                <div class="panel-heading" ng-class="job.getSantizedState(task.State).class">
-	                     {{task.Type}}<span class="label pull-right">{{task.State}}</span>
+	                     {{job.taskTitle(task.Type, task.Variant)}}<span class="label pull-right">{{task.State}}</span>
 	                </div>
 	                <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-5 col-sm-12 col-xs-12">
+                            <div class="row col-sm-12 col-xs-12">
                                 <div ng-show="task.AssetRef">
-                                    <label class="mb-20">Assigned Asset: </label>
-                                    <div class="row mb-20">                        
-                                        <img class="media-object col-md-3" src="../../../app/content/img/ppnotfound.png">
-                                        <div class="col-md-7">
+                                    <label>Assigned Asset: </label>
+                                    <div>
+                                        <img class="media-object col-md-4" src="../../../app/content/img/ppnotfound.png">
+                                        <div class="col-md-8">
                                             <p>{{job.data.Assets[task.AssetRef].UserName}}</p>
                                             <span>{{job.data.Assets[task.AssetRef].PhoneNumber}}</span>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
-                            <div class="col-md-7 col-sm-12 col-xs-12">
-                                                  
+                            <div class="row col-sm-12 col-xs-12">
                                 <div class="row">
                                     <label class="col-md-4">ETA: </label>
-                                    <span class="col-md-8">{{ (task.ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned' }}</span><br>                            
+                                    <span class="col-md-8">{{ (task.ETA | date:'EEE d MMM y, hh:mm a') || 'Not Mentioned' }}</span><br>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-4">Started: </label>                                                    
+                                    <label class="col-md-4">Started: </label>
                                     <span class="col-md-8">{{ (task.InitiationTime | date:'EEE d MMM y, hh:mm a') || 'Not Started'}}</span><br>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-4">Completed: </label>                                                    
+                                    <label class="col-md-4">Completed: </label>
                                     <span class="col-md-8">{{ (task.ModifiedTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed' }}</span><br>
-                                </div>                                
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <button class="col-md-12 btn btn-primary" ng-click="openAssetsList(0)" ng-disabled="task.State === 'COMPLETED'">
-                                        ASSIGN DELIVERY MAN
-                                        <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
-                                    </button>
                                 </div>
-                                <div class="btn-group" uib-dropdown>
-                                    <button id="split-button" type="button" class="btn btn-primary">Update State</button>
-                                    <button type="button" class="btn btn-primary" uib-dropdown-toggle>
-                                        <span class="caret"></span>                         
-                                    </button>
-                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'PENDING', task.Type)">PENDING</a></li>
-                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'IN_PROGRESS', task.Type)">IN PROGRESS</a></li>
-                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'COMPLETED', task.Type)">COMPLETED</a></li>
-                                        <li class="divider"></li>
-                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'FAILED', task.Type)">FAILED</a></li>
-                                        <li class="divider"></li>
-                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'RETURNED', task.Type)">RETURNED</a></li>
-                                    </ul>
+                            </div>
+                            <div class="row">
+                                <div class="form-group input-group">
+                                	<select class="form-control col-md-8" ng-model="selectedAssetid">
+                                		<option></option>
+                                		<option ng-repeat="asset in BikeMessengers" value="{{asset.Id}}">{{asset.UserName}}</option>
+                                	</select>
+                                	<span class="input-group-btn">
+	                                    <button class="btn btn-primary" ng-click="job.assigningAsset(task.id, selectedAssetid)" ng-disabled="task.State === 'COMPLETED'">
+	                                        ASSIGN
+	                                        <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
+	                                    </button>                                		
+                                	</span>
+                                </div>
+                                <div class="form-group">
+                                	<div class="pull-right btn-group" uib-dropdown>
+	                                    <button id="split-button" type="button" class="btn btn-primary" uib-dropdown-toggle>Update State	                                    
+	                                        <span class="caret"></span>                         
+	                                    </button>
+	                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'PENDING', task.Type)">PENDING</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'IN_PROGRESS', task.Type)">IN PROGRESS</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'COMPLETED', task.Type)">COMPLETED</a></li>
+	                                        <li class="divider"></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'FAILED', task.Type)">FAILED</a></li>
+	                                        <li class="divider"></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'RETURNED', task.Type)">RETURNED</a></li>
+	                                    </ul>
+	                                </div>
                                 </div>
                             </div>
                         </div>	                    
@@ -122,6 +125,9 @@
 	            </div>
             </div>
         </div>
+        <!-- Tasks End -->
+
+        <!-- Order Information -->
         <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -276,6 +282,9 @@
                 </div>
             </div>
         </div>
+        <!-- Order Information End-->
+
+        <!-- OrderCart Information -->
         <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -358,7 +367,8 @@
                     </div>                        
                 </div>
             </div>
-        </div>       
+        </div>
+        <!-- OrderCart Information End-->
     </div>
 
     <div ng-show="job.data.JobServedBy" class="row">
