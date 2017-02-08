@@ -171,6 +171,9 @@ ng-form, form {
 .panel-cancelled-border {
     border-color: #b71c1c;   
 }
+.panel-not-applicable-border{
+    border-color: #9E9E9E;
+}
 
 .asset-list {
     overflow-y: auto;
