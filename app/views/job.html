@@ -113,13 +113,13 @@
 	                                        <span class="caret"></span>                         
 	                                    </button>
 	                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'PENDING')">PENDING</a></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'IN_PROGRESS')">IN PROGRESS</a></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'COMPLETED')">COMPLETED</a></li>
+	                                        <li role="menuitem"><a ng-click="stateUpdate(task, 'PENDING')">PENDING</a></li>
+	                                        <li role="menuitem"><a ng-click="stateUpdate(task, 'IN_PROGRESS')">IN PROGRESS</a></li>
+	                                        <li role="menuitem"><a ng-click="stateUpdate(task, 'COMPLETED')">COMPLETED</a></li>
 	                                        <li class="divider"></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'FAILED')">FAILED</a></li>
+	                                        <li role="menuitem" ng-show="task.Type === 'Delivery'"><a ng-click="stateUpdate(task, 'FAILED')">FAILED</a></li>
 	                                        <li class="divider"></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'RETURNED')">RETURNED</a></li>
+	                                        <li role="menuitem" ng-show="task.Type === 'Delivery'"><a ng-click="stateUpdate(task, 'RETURNED')">RETURNED</a></li>
 	                                    </ul>
 	                                </div>
                                 </div>

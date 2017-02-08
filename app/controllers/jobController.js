@@ -54,6 +54,28 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 		});
 	}
 	vm.getAssetsList(0);
+
+
+	vm.stateUpdate = function (task, state) {
+		console.log(task)
+		console.log(state)
+		if ((task.State === "FAILED" || task.State === "RETURNED") && state === "IN_PROGRESS") {
+			var modalInstance = $uibModal.open({
+				animation: $scope.animationsEnabled,
+				templateUrl: 'app/views/detailsJob/TaskUpdateAlert.html',
+				controller: 'TaskUpdateAlertCtrl'
+			});
+
+			modalInstance.result.then(function (reason) {
+				vm.job.stateUpdate(task, state);
+				console.log(reason);
+			}, function () {
+				console.log("discarded");
+			})
+		} else {
+			vm.job.stateUpdate(task, state);
+		}
+	}
  
 	vm.openCancellationModal = function (size) {
 		var modalInstance = $uibModal.open({
@@ -82,5 +104,17 @@ function JobCancellationCtrl($scope, $uibModalInstance) {
 	}
 	$scope.discard = function () {
 		$uibModalInstance.dismiss("cancel");
+	}
+}
+
+app.controller('TaskUpdateAlertCtrl', ['$scope', '$uibModalInstance', TaskUpdateAlertCtrl]);
+function TaskUpdateAlertCtrl($scope, $uibModalInstance) {
+	$scope.stateUpdateMessage = "Are you sure you want to Update the Task status from FAILED/RETURNED to something else?";
+	$scope.confirm = function () {
+		console.log("confirm update it!")
+		$uibModalInstance.close("");
+	}
+	$scope.discard = function () {
+		$uibModalInstance.dismiss();
 	}
 }
