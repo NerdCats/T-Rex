@@ -71,46 +71,26 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				return taskType;
 	 			}
 	 		},
-	 		stateUpdate: function (taskId, state, task) {
+	 		stateUpdate: function (task, state) {
 	 			var itSelf = this;
-	 			function stateUpdateSuccess(response) {
-	 				itSelf.modifying = "";
+	 			var taskUpdate = [
+				    {
+						value: state,
+						path: "/State",
+						op: "replace"
+				    }
+				];				
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + this.data.Id + "/" + task.id;
+	 			$http({
+	 				method: 'PATCH',
+	 				url: url,
+	 				data: taskUpdate
+	 			}).then(function (success) {
 	 				$window.location.reload();
-	 			}
-	 			function stateUpdateError(error) {
-	 				console.log(error)
-	 				itSelf.modifying = "FAILED";
-	 				itSelf.redMessage = error.data.Message;
-	 			}
-	 			if (task === "FetchDeliveryMan") {
-	 				this.modifying = "FetchDeliveryMan_UPDATING";
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			else if (task === "PackagePickUp") {
-	 				this.modifying = "PackagePickUp_UPDATING";
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			else if (task === "Delivery") {
-	 				this.modifying = "Delivery_UPDATING";
-	 				if (this.data.Tasks[3] === undefined) {
-	 					function _stateUpdateSuccess(response) {
-			 				itSelf.modifying = "";
-			 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-			 			}	 					
-	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
-	 				} else {
-	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 				}
-	 			}
-	 			else if (task === "SecureDelivery") {
-	 				this.modifying = "SecureDelivery_UPDATING";
-	 				function _stateUpdateSuccess(response) {
-		 				itSelf.modifying = "";
-		 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-		 			}	
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			
+	 			}, function (error) {
+	 				console.log(error);
+	 				itSelf.redMessage = error.Message;
+	 			});
 	 		},
 	 		assigningAsset: function (taskId, assetId) {
 	 			var itSelf = this;

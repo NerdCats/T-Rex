@@ -86,8 +86,12 @@
                                     <span class="col-md-8">{{ (task.InitiationTime | date:'EEE d MMM y, hh:mm a') || 'Not Started'}}</span><br>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-4">Completed: </label>
+                                    <label class="col-md-4">Last Modified: </label>
                                     <span class="col-md-8">{{ (task.ModifiedTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed' }}</span><br>
+                                </div>
+                                <div class="row" ng-show="task.CompletionTime">
+                                    <label class="col-md-4">Completed: </label>
+                                    <span class="col-md-8">{{ (task.CompletionTime | date:'EEE d MMM y, hh:mm a') || 'Not Completed' }}</span><br>
                                 </div>
                             </div>
                             <div class="row">
@@ -109,13 +113,13 @@
 	                                        <span class="caret"></span>                         
 	                                    </button>
 	                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'PENDING', task.Type)">PENDING</a></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'IN_PROGRESS', task.Type)">IN PROGRESS</a></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'COMPLETED', task.Type)">COMPLETED</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'PENDING')">PENDING</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'IN_PROGRESS')">IN PROGRESS</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'COMPLETED')">COMPLETED</a></li>
 	                                        <li class="divider"></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'FAILED', task.Type)">FAILED</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'FAILED')">FAILED</a></li>
 	                                        <li class="divider"></li>
-	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task.id, 'RETURNED', task.Type)">RETURNED</a></li>
+	                                        <li role="menuitem"><a ng-click="job.stateUpdate(task, 'RETURNED')">RETURNED</a></li>
 	                                    </ul>
 	                                </div>
                                 </div>

@@ -16,8 +16,6 @@ var useref = require('gulp-useref');
 var gulpif = require('gulp-if');
 var inject = require('gulp-inject');
 var git = require('git-rev');
-var browserSync = require('browser-sync').create();
-var watch = require('gulp-watch');
 
 
 const jsFilePaths = [
@@ -73,26 +71,6 @@ const otherFilePaths = [
 	"favicon.ico",
 	"404.html"
 ]
-
-
-gulp.task('watch', function () {
-	var watchingFilePaths = ['app/*.js',	
-					'app/directives/**/*.js',
-					'app/services/*.js', 
-					'app/controllers/*.js',
-					"app/content/styles/style.css",
-					"app/content/styles/sidebar.css",
-					"app/**/*.html"];	
-    
-     return watch("app/content/styles/style.css", { ignoreInitial: false })
-        .pipe(browserSync.reload());
-});
-
-// gulp.task('js-watch', ['js'], function (done) {
-//     browserSync.reload();
-//     done();
-// });
-
 
 gulp.task('clean', function (cb) {
 	del(['dist']).then(function (paths) {
