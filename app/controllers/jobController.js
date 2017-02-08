@@ -50,10 +50,9 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 				vm.getAssetsList(page + 1);
 			}			
 		}, function (error) {
-			console.log(error);
-			console.log(vm.BikeMessengers)
+			console.log(error);			
 		});
-	}	
+	}
 	vm.getAssetsList(0);
  
 	vm.openCancellationModal = function (size) {

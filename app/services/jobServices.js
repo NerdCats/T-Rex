@@ -50,8 +50,7 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			console.log("claim")
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
-	 		taskTitle: function (taskType, variant) {
-	 			console.log(taskType + "  " + variant);
+	 		taskTitle: function (taskType, variant) {	 			
 	 			if (taskType === "Delivery") {
 	 				switch(variant){
 	 					case "default":

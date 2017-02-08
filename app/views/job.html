@@ -284,7 +284,7 @@
         </div>
         <!-- Order Information End-->
 
-        <!-- OrderCart Information -->
+        <!-- Customer Info, Order Status Information -->
         <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -364,11 +364,15 @@
                     <div class="row" ng-show="job.data.CancellationReason">
                         <label class="col-md-6">CancellationReason</label>
                         <span class="col-md-6"> {{ job.data.CancellationReason }}</span><br>                        
-                    </div>                        
+                    </div>
+                    <div class="row">
+                        <label class="col-md-6">Delivery Attempted</label>
+                        <span class="col-md-6"><b>{{ job.data.AttemptCount }}</b></span><br>
+                    </div>                      
                 </div>
             </div>
         </div>
-        <!-- OrderCart Information End-->
+        <!-- Customer Info, Order Status Information End-->
     </div>
 
     <div ng-show="job.data.JobServedBy" class="row">
