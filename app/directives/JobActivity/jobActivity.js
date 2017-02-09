@@ -16,12 +16,12 @@
             var vm = $scope;
             vm.url = "";
             function init() {
-                if (vm.taskcatbase === undefined) {
+                if (vm.hrid === undefined) {
                     vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
                 } else {
-                    vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ vm.taskcatbase +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
+                    vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ vm.hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
                 }
-                console.log(vm.taskcatbase)
+                console.log(vm.hrid)
                 console.log(vm.url);
                 $http({
                     method: 'GET',
@@ -40,7 +40,7 @@
             controller: jobAcitivityDirectiveController,            
             restrict: 'E',
             scope: {
-                taskcatbase: '=taskcatbase'
+                hrid: '=hrid'
             },
             templateUrl: 'app/directives/JobActivity/jobActivity.html'
         };
