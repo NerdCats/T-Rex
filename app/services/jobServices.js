@@ -50,56 +50,61 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			console.log("claim")
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
-	 		stateUpdate: function (taskId, state, task) {
-	 			var itSelf = this;
-	 			function stateUpdateSuccess(response) {
-	 				itSelf.modifying = "";
-	 				$window.location.reload();
-	 			}
-	 			function stateUpdateError(error) {
-	 				console.log(error)
-	 				itSelf.modifying = "FAILED";
-	 				itSelf.redMessage = error.data.Message;
-	 			}
-	 			if (task === "FetchDeliveryMan") {
-	 				this.modifying = "FetchDeliveryMan_UPDATING";
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			else if (task === "PackagePickUp") {
-	 				this.modifying = "PackagePickUp_UPDATING";
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			else if (task === "Delivery") {
-	 				this.modifying = "Delivery_UPDATING";
-	 				if (this.data.Tasks[3] === undefined) {
-	 					function _stateUpdateSuccess(response) {
-			 				itSelf.modifying = "";
-			 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-			 			}	 					
-	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
-	 				} else {
-	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+	 		taskTitle: function (taskType, variant) {	 			 		
+	 			if (taskType === "Delivery") {
+	 				switch(variant){
+	 					case "default":
+	 						return  taskType + " to " + "Recipient";
+	 						break;
+	 					case "retry":
+	 						return  "Retry" + " " + taskType + " to " + "Recipient";
+	 						break;
+	 					case "return":
+	 						return  "Return" + " " + taskType + " to " + "Owner";
+	 						break;
+	 					default:
+	 						return  taskType;
+	 						break;
 	 				}
 	 			}
-	 			else if (task === "SecureDelivery") {
-	 				this.modifying = "SecureDelivery_UPDATING";
-	 				function _stateUpdateSuccess(response) {
-		 				itSelf.modifying = "";
-		 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-		 			}	
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
+	 			else {
+	 				return taskType;
 	 			}
-	 			
 	 		},
-	 		assigningAsset: function (taskIndex) {
-	 			if (taskIndex === 0) this.modifying = "FetchDeliveryMan_UPDATING";
-	 			else if (taskIndex === 1) {
-	 				this.modifying = "PackagePickUp_UPDATING";
-	 				// Whenver we are assigning asset to pick up task, this task should go to in progress state
-	 				this.stateUpdate(this.data.Tasks[1].id, "IN_PROGRESS", "PackagePickUp");
-	 			}
-	 			else if (taskIndex === 2) this.modifying = "Delivery_UPDATING";
-	 			else if (taskIndex === 3) this.modifying = "SecureDelivery_UPDATING";
+	 		stateUpdate: function (task, state) {
+	 			var itSelf = this;
+	 			var taskUpdate = [
+				    {
+						value: state,
+						path: "/State",
+						op: "replace"
+				    }
+				];				
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + this.data.Id + "/" + task.id;
+	 			$http({
+	 				method: 'PATCH',
+	 				url: url,
+	 				data: taskUpdate
+	 			}).then(function (success) {
+	 				$window.location.reload();
+	 			}, function (error) {
+	 				console.log(error);
+	 				itSelf.redMessage = error.Message;
+	 			});
+	 		},
+	 		assigningAsset: function (taskId, assetId) {
+	 			var itSelf = this;
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + this.data.Id + "/" + taskId;
+				var assetRefUpdateData = [{value: assetId, path: "/AssetRef",op: "replace"}];				
+				$http({
+					method: 'PATCH',
+					url: url,
+					data: assetRefUpdateData
+				}).then(function (response) {
+					$window.location.reload();
+				}, function (error) {
+					itSelf.redMessage = error.Message;
+				})	 			
 	 		},
 	 		cancel: function (reason) {	 			
 	 			this.modifying = "CANCELLING";

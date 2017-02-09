@@ -17,6 +17,7 @@ var gulpif = require('gulp-if');
 var inject = require('gulp-inject');
 var git = require('git-rev');
 
+
 const jsFilePaths = [
 	'app/*.js',	
 	'app/directives/**/*.js',

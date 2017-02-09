@@ -4,6 +4,7 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 body, html {
   height: 100%;
   width: 100%;
+  font-size: 12px;
 }
 
 th {
@@ -169,6 +170,9 @@ ng-form, form {
 }
 .panel-cancelled-border {
     border-color: #b71c1c;   
+}
+.panel-not-applicable-border{
+    border-color: #9E9E9E;
 }
 
 .asset-list {
