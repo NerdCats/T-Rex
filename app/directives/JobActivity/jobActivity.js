@@ -12,14 +12,20 @@
         //
 
         /* @ngInject */
-        var jobAcitivityDirectiveController = ['$http', function ($http) {
-            var vm = this;
+        var jobAcitivityDirectiveController = ['$scope', '$http', 'ngAuthSettings', function ($scope, $http, ngAuthSettings) {
+            var vm = $scope;
+            vm.url = "";
             function init() {
-                vm.text = "done!";
-
+                if (vm.taskcatbase === undefined) {
+                    vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
+                } else {
+                    vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ vm.taskcatbase +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
+                }
+                console.log(vm.taskcatbase)
+                console.log(vm.url);
                 $http({
                     method: 'GET',
-                    url: vm.taskcatbase + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp"
+                    url: vm.url
                 }).then(function (response) {
                     vm.data = response.data.data;
                 }, function (error) {
@@ -30,13 +36,11 @@
             init();
         }];
 
-        var directive = {
-            bindToController: true,
-            controller: jobAcitivityDirectiveController,
-            controllerAs: 'vm',
+        var directive = {            
+            controller: jobAcitivityDirectiveController,            
             restrict: 'E',
             scope: {
-                taskcatbase: '@'
+                taskcatbase: '=taskcatbase'
             },
             templateUrl: 'app/directives/JobActivity/jobActivity.html'
         };

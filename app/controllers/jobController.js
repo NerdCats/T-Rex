@@ -9,13 +9,13 @@ function jobController($scope, $http, $interval, $uibModal, $window, $routeParam
 	templates, ngAuthSettings, timeAgo, jobFactory, dashboardFactory, mapFactory, restCall, patchUpdate, localStorageService) {
 	
 	var vm = $scope;
-	var id = $routeParams.id;	
+	vm.HRID = $routeParams.id;	
 	vm.selectedStateForFetchAsset = vm.selectedStateForPickup = vm.selectedStateForDelivery = vm.selectedStateForSecuredelivery = 'COMPLETED';
-	vm.trackingLink = "fetchprod.gobd.co/#/track/" + id;
+	vm.trackingLink = "fetchprod.gobd.co/#/track/" + vm.HRID;
 	vm.CommentTobeUpdated = null;
-	vm.job = jobFactory.job(id);
+	vm.job = jobFactory.job(vm.HRID);
 	vm.job.loadJob();
-	vm.job.getComments(id);
+	vm.job.getComments(vm.HRID);
 	vm.invoiceUrl = function () {
 		// var url = ngAuthSettings.apiServiceBaseUri + '/api/job/'+ vm.job.data.HRID +'/invoice';
 		var url = 'app/content/invoice/invoice.html?'+ vm.job.data.HRID;
