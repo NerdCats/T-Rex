@@ -404,6 +404,25 @@
                     </div>                      
                 </div>
             </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Assets List
+                </div>
+                <div class="panel-body">
+                    <div ng-repeat="(key, asset) in job.data.Assets">
+                        <a href="#/users/{{asset.Id}}" target="_blank">                            
+                            <div class="row">
+                                <img class="media-object col-md-4" src="../../../app/content/img/ppnotfound.png">
+                                <div class="col-md-8">
+                                    <p>{{asset.UserName}}</p>
+                                    <span>{{asset.PhoneNumber}}</span>
+                                </div>
+                            </div>
+                            <hr>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Customer Info, Order Status Information End-->
     </div>
@@ -419,4 +438,15 @@
         </div>
     </div>
  -->
+</div>
+<div ng-show="job.loadingPage" style="
+    opacity: 0.4;
+    background-color: #fff9f9;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;">
+    
 </div>
