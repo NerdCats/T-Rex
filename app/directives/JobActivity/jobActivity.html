@@ -1,8 +1,21 @@
-<div>    
-    <div class="activity-feed" ng-repeat="item in data">
-        <div class="feed-item">
-            <div class="date">{{item.TimeStamp}}</div>
-            <div class="text">{{item.ActionText}}</div>
-        </div>
+<div class="activity-feed" ng-repeat="item in data">
+    <div class="feed-item">
+        <div class="date">{{item.TimeStamp}}</div>
+        <div class="text">{{item.ActionText}}</div>
     </div>
+</div>
+<div class="col-md-12">    	
+    <nav class="navbar-right" ng-show="orders.isCompleted !== 'IN_PROGRESS'">
+	    <ul class="pagination">
+	        <li>
+	            <a ng-click="orders.loadPrevPage()" ng-hide="orders.pagination.PrevPage === undefined" href=""> << </a>
+	        </li>
+	        <li ng-repeat="page in pagination" ng-click="loadActivity(hrid, page.pageNo)">
+	            <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+	        </li>
+	        <li>
+	            <a ng-click="orders.loadNextPage()" ng-hide="orders.pagination.NextPage === undefined" href=""> >> </a>
+	        </li>
+	    </ul>
+	</nav>
 </div>

@@ -94,7 +94,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 						pageNo : i,
 						isCurrentPage : ""
 					}
-					if (orders.pagination.Page == i) {
+					if (orders.pagination.Page === i) {
 						page.isCurrentPage = "selected-page"; // current page css class set on pagination list item
 					}
 					if (i > (orders.pagination.Page - 5) && i < (orders.pagination.Page + 5)) {

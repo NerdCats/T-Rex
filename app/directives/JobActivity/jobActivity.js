@@ -13,27 +13,43 @@
 
         /* @ngInject */
         var jobAcitivityDirectiveController = ['$scope', '$http', 'ngAuthSettings', function ($scope, $http, ngAuthSettings) {
+            
             var vm = $scope;
-            vm.url = "";
-            function init() {
-                if (vm.hrid === undefined) {
-                    vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
+            
+            vm.loadActivity = function (hrid, page, pageSize) {
+                var activityUrl = "";
+                if (hrid === undefined) {
+                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
                 } else {
-                    vm.url = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ vm.hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp";
+                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
                 }
-                console.log(vm.hrid)
-                console.log(vm.url);
                 $http({
                     method: 'GET',
-                    url: vm.url
+                    url: activityUrl
                 }).then(function (response) {
                     vm.data = response.data.data;
+                    vm.pagination = [];
+                    var Pagination = response.data.pagination;
+
+                    for (var i = 0; i < Pagination.TotalPages; i++) {
+                        var page = {
+                            pageNo: i,
+                            isCurrentPage : ""
+                        }
+                        if (Pagination.Page === i) {
+                            page.isCurrentPage = "selected-page";
+                        }
+                        if (i > (Pagination.Page - 5) && i < (Pagination.Page + 5)) {
+                            vm.pagination.push(page);
+                        }
+                    }
                 }, function (error) {
                     // TODO: Use proper error reporting here
                 });
             }
 
-            init();
+            vm.page = 0;
+            vm.loadActivity(vm.hrid, vm.page);
         }];
 
         var directive = {            
