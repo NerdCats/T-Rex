@@ -15,7 +15,7 @@
         var jobAcitivityDirectiveController = ['$scope', '$http', 'ngAuthSettings', function ($scope, $http, ngAuthSettings) {
             
             var vm = $scope;
-            
+            vm.JobActivityState = "";
             vm.loadActivity = function (hrid, page, pageSize) {
                 var activityUrl = "";
                 if (hrid === undefined) {
@@ -23,14 +23,15 @@
                 } else {
                     activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
                 }
+                vm.JobActivityState = "IN_PROGRESS";
                 $http({
                     method: 'GET',
                     url: activityUrl
                 }).then(function (response) {
                     vm.data = response.data.data;
                     vm.pagination = [];
+                    vm.JobActivityState = "SUCCESS";
                     var Pagination = response.data.pagination;
-
                     for (var i = 0; i < Pagination.TotalPages; i++) {
                         var page = {
                             pageNo: i,
@@ -44,7 +45,7 @@
                         }
                     }
                 }, function (error) {
-                    // TODO: Use proper error reporting here
+                    vm.JobActivityState = "ERROR";
                 });
             }
 
