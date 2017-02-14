@@ -12,6 +12,7 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular-route.min.js"></script>
+        <script src="barcode.js"></script>
         <script src="invoice.js"></script>
     </head>    
     <body>
@@ -112,13 +113,15 @@
                     <span class="tracking-help">For Complaints and Queries Call: +88 0197 001 0083</span>
                 </div>
                 <br>
+                <angular-barcode class="center-block" ng-model="job.HRID.substr(4)" bc-options="bc" bc-class="barcode" bc-type="svg"></angular-barcode>
+                <br>
                 <div ng-show="job.Order.NoteToDeliveryMan">
                     <h3>****************************************</h3>
                     <h3 class="address-header">Special Note to Delivery Man</h3>                
                     <div class="address">{{job.Order.NoteToDeliveryMan}}</div>                    
                 </div>
             </div>
-            <br><br>
+            <br><br>            
         </div>        
     </body>
 </html>

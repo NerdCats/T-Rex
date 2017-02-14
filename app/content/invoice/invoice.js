@@ -1,7 +1,8 @@
-var app = angular.module('invoiceApp', ['ngRoute']);
+var app = angular.module('invoiceApp', ['ngRoute', 'angular-barcode']);
 app.controller('invoiceCtrl',['$scope', '$http', '$window', invoiceCtrl]);
 
 function invoiceCtrl($scope, $http, $window) {
+
     var vm = $scope;    
     vm.jobId = $window.location.search.substring(1).split(",");
     vm.today = new Date();
@@ -13,15 +14,36 @@ function invoiceCtrl($scope, $http, $window) {
     vm.failedToLoadJobs = [];
     vm.failedToLoadJobFlag = false;
 
-    vm.checkifAllCallsAreFinished = function () {
-        if (vm.totalNumberOfJobs === (vm.totalLoadedJobs + vm.failedToLoadJobs.length)) {
-            vm.loadingJob = false;                
+    vm.bc = {
+        format: 'CODE39',
+        lineColor: '#000000',
+        width: 1,
+        height: 29,
+        displayValue: true,
+        fontOptions: '',
+        font: 'monospace',
+        textAlign: 'center',
+        textPosition: 'bottom',
+        textMargin: 2,
+        fontSize: 14,
+        background: '#ffffff',
+        margin: 0,
+        marginTop: undefined,
+        marginBottom: undefined,
+        marginLeft: 50,
+        marginRight: undefined,
+        valid: function (valid) {
         }
     }
 
+    vm.checkifAllCallsAreFinished = function () {
+        if (vm.totalNumberOfJobs === (vm.totalLoadedJobs + vm.failedToLoadJobs.length)) {
+            vm.loadingJob = false;
+        }
+    }
     angular.forEach(vm.jobId, function (value, key) {
         console.log(key + " : " + value)         
-        var url =  "http://fetchprod.gobd.co/api/job/" + value;        
+        var url =  "http://fetchprod.gobd.co/api/job/" + value;
         // var url =  "http://fetchdev.gobd.co/api/job/" + value;
         vm.loadingJob = true;
         $http({
@@ -29,6 +51,7 @@ function invoiceCtrl($scope, $http, $window) {
             url: url,
         }).then(function success(response){
             var job = response.data;
+
             console.log(response)
             vm.totalLoadedJobs += 1;
             if (job.User.UserName === "B2C") {
@@ -53,11 +76,10 @@ function invoiceCtrl($scope, $http, $window) {
             }
             vm.jobs.push(job);
             console.log(job);
-            vm.checkifAllCallsAreFinished();
+            vm.checkifAllCallsAreFinished();            
         }, function error(error) {
             vm.failedToLoadJobFlag = true;
-            vm.failedToLoadJobs.push(value);
-            console.log(vm.failedToLoadJobs);
+            vm.failedToLoadJobs.push(value);            
             vm.checkifAllCallsAreFinished();
         })      
     })
