@@ -24,6 +24,12 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.completedOrders = dashboardFactory.orders("COMPLETED");
 	vm.cancelledOrders = dashboardFactory.orders("CANCELLED");	
 	
+	vm.datePicker = {startDate: null, endDate: null};
+
+	vm.dateSelect = function () {
+		console.log(vm.datePicker.startDate._d.toISOString());
+		console.log(vm.datePicker.endDate._d.toISOString());
+	}
 
 	vm.getEnterpriseUsersList = function (page) {
 		console.log("EnterpriseUsers");

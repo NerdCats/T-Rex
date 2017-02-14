@@ -12,7 +12,8 @@ var app = angular.module('app', [
 	'ngclipboard',
 	'SignalR',
 	'datetimepicker',
-	'angular.chips'
+	'angular.chips',
+	'daterangepicker'
 ]);
 
 app.config(['$routeProvider',
