@@ -1,194 +1,172 @@
 <div class="container-fluid">
-    <div class="row mt-50">
-        <div class="col-md-2">
-            <div class="summary-icon-div col-md-1 all">
-                <i class="fa fa-arrows-alt fa-2x" aria-hidden="true"></i>
+    <div class="row">
+        <div class="all col-md-2">
+            <div class="global-status-block">
+                <span>Total {{allOrders.pagination.Total}}</span>
             </div>
-            <div class="col-md-4 job-state">
-                <div>
-                    <h3 class="display-4">{{allOrders.pagination.Total}}</h3>
-                </div>
-                <div>All</div>                    
-            </div>            
         </div>
-        <div class="col-md-2">
-            <div class="summary-icon-div pending col-md-1">
-                <i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i>
+        <div class="pending col-md-2">            
+            <div class="global-status-block">
+                <span>PENDING {{newOrders.pagination.Total}}</span>
             </div>
-            <div class="col-md-11 4b-state">
-                <div>
-                    <h3 class="display-4">{{newOrders.pagination.Total}}</h3>
-                </div>
-                <div>PENDING</div>                    
-            </div>            
         </div>
-        <div class="col-md-2">
-            <div class="summary-icon-div in-progress col-md-1">
-                <i class="fa fa-play fa-2x" aria-hidden="true"></i>
-            </div>                
-            <div class="col-md-4 job-state">
-                <div>
-                    <h3 class="display-4">{{processingOrders.pagination.Total}}</h3>
+        <div class="in-progress col-md-2">            
+            <div class="global-status-block">
+                <span>IN PROGRESS {{processingOrders.pagination.Total}}</span>
             </div>
-                <div>IN PROGRESS</div>                    
-            </div>            
         </div>
-        <div class="col-md-2">
-            <div class="summary-icon-div completed col-md-1">
-                <i class="fa fa-check fa-2x" aria-hidden="true"></i>
+        <div class="completed col-md-2">            
+            <div class="global-status-block">
+                <span>COMPLETED {{completedOrders.pagination.Total}}</span>
             </div>
-            <div class="col-md-4 job-state">
-                <div>
-                    <h3 class="display-4">{{completedOrders.pagination.Total}}</h3>
-                </div>
-                <div>COMPLETED</div>                    
-            </div>            
         </div>
-        <div class="col-md-2">
-            <div class="summary-icon-div cancelled col-md-1">
-                <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+        <div class="returned col-md-2">            
+            <div class="global-status-block">
+                <span>RETURNED {{cancelledOrders.pagination.Total}}</span>
             </div>
-            <div class="col-md-4 job-state">
-                <div>
-                    <h3 class="display-4">{{cancelledOrders.pagination.Total}}</h3>
-                </div>
-                <div>CANCELED</div>                    
-            </div>            
+        </div>
+        <div class="cancelled col-md-2">            
+            <div class="global-status-block">
+                <span>CANCELED {{cancelledOrders.pagination.Total}}</span>
+            </div>
         </div>
     </div>
-    <ng-form class="form-horizontal">
-        <fieldset>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="control-label col-md-3">Start Date:</label>
-                    <div class="col-md-7">
-                        <span class="input-group-btn">
-                            <input type="date" class="form-control" ng-model="startDate">
-                        </span>
-                        <span class="input-group-btn">
-                            <button class="btn btn-danger" ng-click="clearDate()">
-                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            </button>                            
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">End Date:</label>
-                    <div class="col-md-7">
-                        <span class="input-group-btn">
-                            <input type="date" class="form-control" ng-model="endDate">
-                        </span>
-                        <span class="input-group-btn">
-                            <button class="btn btn-danger" ng-click="clearDate()">
-                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            </button>                            
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <!-- <div class="form-group">
-                    <label class="control-label col-md-2">Show per page:</label>
-                    <div class="col-md-8">
-                        <select class="form-control" ng-model="jobPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                            <option value="50">60</option>
-                            <option value="50">70</option>
-                            <option value="50">80</option>
-                            <option value="50">90</option>
-                            <option value="50">100</option>
-                        </select>                    
-                    </div>                
-                </div> -->
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="control-label pull-left">Select Enterprise Users:</label>
-                    </div>
-                    <div class="col-md-6" style="padding-right: 0px !important">
-                        <div class="input-group">
-                            <input type="text" 
-                                ng-model="selectedUser" 
-                                uib-typeahead="user.UserName for user in EnterpriseUsers | filter:$viewValue | limitTo:20" 
-                                typeahead-on-select="onSelectUser($item, $model, $label, $event)"
-                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                            <!-- <input class="form-control" type="text" ng-model="EnterpriseUser" list="EnterpriseUsersList"> -->
-                            <!-- <select class="form-control" ng-model="EnterpriseUser" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                                  
-                                <option ng-repeat="user in EnterpriseUsers" value="{{user.UserName}}">{{user.UserName}}</option>
-                            </select> -->
-                            <span class="input-group-btn">                                    
-                                <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
-                                    <i class="fa fa-refresh" aria-hidden="true"></i>
-                                </button>
-                                <button class="btn btn-default" ng-click="EnterpriseUser = null; selectedUser = null; activate()" ng-show="EnterpriseUsers.length !== 0">
+    <br>
+    <div class="row">
+        <ng-form class="form-horizontal">
+            <fieldset>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Start Date:</label>
+                        <div class="col-md-7">
+                            <span class="input-group-btn">
+                                <input type="date" class="form-control" ng-model="startDate">
+                            </span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-danger" ng-click="clearDate()">
                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                                </button>
+                                </button>                            
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">End Date:</label>
+                        <div class="col-md-7">
+                            <span class="input-group-btn">
+                                <input type="date" class="form-control" ng-model="endDate">
+                            </span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-danger" ng-click="clearDate()">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </button>                            
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!-- <div class="form-group">
+                        <label class="control-label col-md-2">Show per page:</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="jobPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">60</option>
+                                <option value="50">70</option>
+                                <option value="50">80</option>
+                                <option value="50">90</option>
+                                <option value="50">100</option>
+                            </select>                    
+                        </div>                
+                    </div> -->
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label pull-left">Select Enterprise Users:</label>
+                        </div>
+                        <div class="col-md-6" style="padding-right: 0px !important">
+                            <div class="input-group">
+                                <input type="text" 
+                                    ng-model="selectedUser" 
+                                    uib-typeahead="user.UserName for user in EnterpriseUsers | filter:$viewValue | limitTo:20" 
+                                    typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+                                    class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                                <!-- <input class="form-control" type="text" ng-model="EnterpriseUser" list="EnterpriseUsersList"> -->
+                                <!-- <select class="form-control" ng-model="EnterpriseUser" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                                  
+                                    <option ng-repeat="user in EnterpriseUsers" value="{{user.UserName}}">{{user.UserName}}</option>
+                                </select> -->
+                                <span class="input-group-btn">                                    
+                                    <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-default" ng-click="EnterpriseUser = null; selectedUser = null; activate()" ng-show="EnterpriseUsers.length !== 0">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label pull-left">Select Delivery Area:</label>                        
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" 
+                                    ng-model="DeliveryArea" 
+                                    uib-typeahead="area for area in DeliveryAreas | filter:$viewValue | limitTo:20"
+                                    class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">    
+                               <!--  <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                           
+                                    <option value="All">All</option>                                
+                                    <option ng-repeat="area in DeliveryAreas" value="{{area}}">{{area}}</option>
+                                </select> -->
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" ng-click="DeliveryArea = null; activate()" ng-show="DeliveryAreas.length !== 0">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>    
+                        </div>
+                    </div>
+                     
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label pull-left">Select Payment Status:</label>                        
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                                <option value=""></option>
+                                <option value="Paid">Paid</option>
+                                <option value="Pending">Pending</option>
+                            </select>                    
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label pull-left">Search :</label>                        
+                        </div>
+                        <div class="col-md-8">
+                            <span class="input-group-btn" style="width: 20%">
+                                <input type="text" class="form-control" ng-model="searchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0" >                            
+                            </span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-danger" ng-click="removePhoneNumber()">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </button>                            
                             </span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="control-label pull-left">Select Delivery Area:</label>                        
+                    <div class="col-md-11">
+                        <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <input type="text" 
-                                ng-model="DeliveryArea" 
-                                uib-typeahead="area for area in DeliveryAreas | filter:$viewValue | limitTo:20"
-                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">    
-                           <!--  <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                           
-                                <option value="All">All</option>                                
-                                <option ng-repeat="area in DeliveryAreas" value="{{area}}">{{area}}</option>
-                            </select> -->
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" ng-click="DeliveryArea = null; activate()" ng-show="DeliveryAreas.length !== 0">
-                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                                </button>
-                            </span>
-                        </div>    
-                    </div>
-                </div>
-                 
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="control-label pull-left">Select Payment Status:</label>                        
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-                            <option value=""></option>
-                            <option value="Paid">Paid</option>
-                            <option value="Pending">Pending</option>
-                        </select>                    
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="control-label pull-left">Search :</label>                        
-                    </div>
-                    <div class="col-md-8">
-                        <span class="input-group-btn" style="width: 20%">
-                            <input type="text" class="form-control" ng-model="searchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0" >                            
-                        </span>
-                        <span class="input-group-btn">
-                            <button class="btn btn-danger" ng-click="removePhoneNumber()">
-                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            </button>                            
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-11">
-                    <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>                        
-                </div>
-            </div>      
-        </fieldset>        
-    </ng-form>
+                </div>      
+            </fieldset>        
+        </ng-form>        
+    </div>
     <uib-tabset  active="activeJustified" justified="true">
         <uib-tab index="0">
             <uib-tab-heading>

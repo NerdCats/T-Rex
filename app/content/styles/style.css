@@ -111,6 +111,10 @@ ng-form, form {
     background-color: #33691E;
     color: white;
 }
+.all {
+    background-color: bisque;
+    color: black;
+}
 .pending {
     background-color: #FF5722;  
     color: white;
@@ -126,12 +130,17 @@ ng-form, form {
     background-color: #4CAF50;
     color: white;
 }
+.returned {
+    background-color: dodgerblue;
+    color: white;
+}
 .cancelled {
     background-color: #b71c1c;
+    color: white;
 }
-
-.all {
-    background: rebeccapurple;
+.global-status-block {
+    font-size: 24px;
+    padding: 24px;
 }
 .not-applicable {
     background-color: #9E9E9E;
