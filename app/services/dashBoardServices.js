@@ -191,12 +191,16 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 					startDate : null,
 					endDate : null,
 				},
-				DeliveryArea: null,
-				PickupArea: null,
 				CompletionTime : {
 					startDate : null,
 					endDate : null,
 				},
+				ModifiedTime : {
+					startDate : null,
+					endDate : null,
+				},
+				DeliveryArea: null,
+				PickupArea: null,
 				PaymentStatus: null,
 				jobState : jobState,
 				orderby : {

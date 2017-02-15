@@ -18,15 +18,39 @@ function queryService(restCall, ngAuthSettings){
 			searchParam.DeliveryArea = null;
 		}
 
-		if (searchParam.jobState === null && searchParam.CreateTime.startDate === null && searchParam.CreateTime.endDate === null && searchParam.subStringOf.SearchKey === null
-			&& searchParam.UserName === null && searchParam.PaymentStatus === null && searchParam.subStringOf.RecipientsPhoneNumber === null && searchParam.orderby.property === null) {
+		if (
+			!searchParam.jobState && 
+			!searchParam.CreateTime.startDate && 
+			!searchParam.CreateTime.endDate && 
+			!searchParam.ModifiedTime.startDate && 
+			!searchParam.ModifiedTime.endDate && 
+			!searchParam.CompletionTime.startDate && 
+			!searchParam.CompletionTime.endDate && 
+			!searchParam.subStringOf.SearchKey&& 
+			!searchParam.UserName && 
+			!searchParam.userType &&
+			!searchParam.DeliveryArea &&
+			!searchParam.PaymentStatus &&
+			!searchParam.subStringOf.RecipientsPhoneNumber
+			) {
 			queryUrl = "/" + "odata?";			
 		}
 		
-		else if (searchParam.CreateTime.startDate != null || searchParam.CreateTime.endDate != null || searchParam.subStringOf.SearchKey !== null ||
-			searchParam.UserName != null || searchParam.jobState != null || 
-			searchParam.userType != null || searchParam.PaymentStatus != null ||
-			searchParam.subStringOf.RecipientsPhoneNumber != null && searchParam.orderby.property !== null) {
+		else if (
+				searchParam.jobState || 
+				searchParam.CreateTime.startDate || 
+				searchParam.CreateTime.endDate ||
+				searchParam.ModifiedTime.startDate ||
+				searchParam.ModifiedTime.endDate ||
+				searchParam.CompletionTime.startDate ||
+				searchParam.CompletionTime.endDate  ||
+				searchParam.subStringOf.SearchKey ||
+				searchParam.UserName || 
+				searchParam.userType ||
+				searchParam.DeliveryArea ||
+				searchParam.PaymentStatus ||
+				searchParam.subStringOf.RecipientsPhoneNumber
+				) {
 			queryUrl = "/" + "odata?$filter=";			
 		}
 
@@ -70,6 +94,26 @@ function queryService(restCall, ngAuthSettings){
 
 		if (searchParam.CreateTime.endDate != null) {
 			var endDateParam = "CreateTime lt datetime'"+ searchParam.CreateTime.endDate +"'";
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  endDateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + endDateParam;
+			}
+		}
+
+		if (searchParam.ModifiedTime.startDate != null) {
+			var startDateParam = "ModifiedTime gt datetime'"+ searchParam.ModifiedTime.startDate +"'";
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  startDateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + startDateParam;
+			}
+		}
+
+		if (searchParam.ModifiedTime.endDate != null) {
+			var endDateParam = "ModifiedTime lt datetime'"+ searchParam.ModifiedTime.endDate +"'";
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  endDateParam;
 				allreadyAParamIsThere = true;
