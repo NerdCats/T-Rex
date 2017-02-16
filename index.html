@@ -138,7 +138,7 @@
         
     </head>
     <body>
-        <div ng-app="app" id="wrapper" class="active" ng-controller="indexController">
+        <div ng-app="app" id="wrapper" class="" ng-controller="indexController">
             <div id="sidebar-wrapper" ng-show="sidebarVisible">
                 <ul id="sidebar_menu" class="sidebar-nav">
                     <li class="sidebar-brand">
@@ -190,10 +190,13 @@
         </div>
 
         <script type="text/javascript">
-            $("#menu-toggle").click(function(e) {
+            $("#sidebar-wrapper").mouseenter(function(e) {
                     e.preventDefault();
-                    $("#wrapper").toggleClass("active");
-                    console.log("toggleClass")
+                    $("#wrapper").toggleClass("active");                    
+            });
+            $("#sidebar-wrapper").mouseleave(function(e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("active");                    
             });
         </script>
        
