@@ -68,11 +68,23 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 					break;
 			}
 		} else {
-			
+			vm.Orders.searchParam.ModifiedTime.startDate = null;
+			vm.Orders.searchParam.ModifiedTime.endDate = null;
+			vm.Orders.searchParam.CreateTime.startDate = null;
+			vm.Orders.searchParam.CreateTime.endDate = null;
+			vm.Orders.searchParam.CompletionTime.startDate = null;
+			vm.Orders.searchParam.CompletionTime.endDate = null;		
 		}
 		vm.activate();
 	}
 
+	vm.removeDateRange = function () {
+		vm.SelectDateRange.startDate = null;
+		vm.SelectDateRange.endDate = null; 
+		vm.SelectedOrderByProperty = null;
+		vm.selectDateRange();
+		vm.activate()
+	}
 
 	vm.SelectOrderBy = function () {
 		
@@ -135,7 +147,6 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	}	
 
 	vm.activate = function () {
-		vm.getEnterpriseUsersList(0);
 		vm.Orders.searchParam.jobState = vm.SelectedState;
 		vm.Orders.searchParam.UserName = vm.EnterpriseUser;
 		vm.Orders.searchParam.PaymentStatus = vm.PaymentStatus;
@@ -169,6 +180,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.Orders.loadOrders();
 	}
 
+	vm.getEnterpriseUsersList(0);
 	vm.activate();
 
 

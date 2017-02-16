@@ -273,3 +273,14 @@ ng-form, form {
     border: 0;
     padding: 15px;
 }
+
+.bulk-assign-div {
+    position: fixed;
+    background: white;
+    top: 50px;
+    right: 0;
+    z-index: 5;
+    padding: 10px 0px 15px 0px;
+    border: 1px solid black;
+    width: 25%;
+}

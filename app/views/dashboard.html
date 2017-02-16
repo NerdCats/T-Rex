@@ -65,17 +65,24 @@
                             <option value="CANCELLED">CANCELLED</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3">                        
                         <label>Select Date Range:</label>
-                        <div>                            
-                            <input class="form-control date-picker col-md-6" date-range-picker placeholder="select date" type="text" ng-model="SelectDateRange" style="float: left;width: 60%"/>
-                            <select class="form-control" ng-model="SelectedTimeProperty" style="width: 40%" ng-change="selectDateRange()">
-                                <option value=""></option>
-                                <option value="CreateTime">Create Time</option>
-                                <option value="CompletionTime">Completion Time</option>
-                                <option value="ModifiedTime">Modified Time</option>
-                            </select>
-                        </div>
+                            <div>
+                                <span class="input-group-btn" style="float: left;width: 50%">
+                                    <input class="form-control date-picker" date-range-picker placeholder="select date" type="text" ng-model="SelectDateRange"/>
+                                </span>
+                                <span class="input-group-btn" style="float: left;width: 10%">
+                                    <button class="btn btn-default" ng-click="removeDateRange()">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                                <select class="form-control" ng-model="SelectedTimeProperty" style="width: 40%" ng-change="selectDateRange()">
+                                    <option value=""></option>
+                                    <option value="CreateTime">Create Time</option>
+                                    <option value="CompletionTime">Completion Time</option>
+                                    <option value="ModifiedTime">Modified Time</option>
+                                </select>
+                            </div>
                     </div>
                     <div class="col-md-3">
                         <label>Order By:</label>

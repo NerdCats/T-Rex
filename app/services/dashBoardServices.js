@@ -210,7 +210,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				subStringOf : {
 					SearchKey : null,					
 				},
-				AttemptCount: 1,
+				AttemptCount: null,
 				envelope: true,
 				page: 0,
 				pageSize: 50				
