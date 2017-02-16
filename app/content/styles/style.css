@@ -144,7 +144,7 @@ ng-form, form {
 }
 
 .global-status-block-count {
-    font-size: 18px;
+    font-size: 23px;
     padding: 10px;
 }
 
@@ -154,7 +154,7 @@ ng-form, form {
 
 .b2b {
     background-color: #2196F3;
-    font-size: 14px;
+    color: white;
 }
 
 .b2c {

@@ -34,8 +34,7 @@
             </td>
             <td>
                 <div>
-                    <span style="font-size: 16px;font-weight: 600;color:black">{{order.data.HRID}}</span>
-                    <!-- <span class="label text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{orders.getProperWordWithCss(order.data.State).value}}</span> -->
+                    <span style="font-size: 16px;font-weight: 600;color:black">{{order.data.HRID}}</span>                    
                 </div>
                 <br>
                 <a class="small-button small-button-color" href="#/job/{{order.data.HRID}}" target="_blank">Details</a>
@@ -43,6 +42,7 @@
             </td>
             <td>
                 <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{order.data.HRState}}</span>
+                <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}" ng-show="order.data.AttemptCount > 1">Attempted {{order.data.AttemptCount}} Time</span>
             </td>
             <td>{{order.data.Order.ReferenceInvoiceId}}</td>
             <td>{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
@@ -53,7 +53,7 @@
                 {{order.data.CompletionTime | date:"EEE MMM d, y h:mm:ss a"}}
             </td>
             <td>
-                <span class="label {{orders.getProperWordWithCss(order.data.User.Type).class}}">{{order.data.User.UserName}}</span>
+                <span class="small-button {{orders.getProperWordWithCss(order.data.User.Type).class}}">{{order.data.User.UserName}}</span>
             </td>
             <td>{{order.data.Order.From.Locality}}</td>
             <td>{{order.data.Order.From.Address}}</td>

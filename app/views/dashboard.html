@@ -137,7 +137,7 @@
                             </span>
                         </div>                        
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label>Select Payment Status:</label>                        
                         <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                             <option value=""></option>
@@ -146,6 +146,22 @@
                         </select>                        
                     </div>
                     <div class="col-md-2">
+                        <label>Select Delivery Attempt Time:</label>                        
+                        <select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
+                            <option value="Any">Any</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>                        
+                    </div>
+                    <div class="col-md-1">
                         <label>Show per page:</label>                        
                         <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
                             <option value="10">10</option>

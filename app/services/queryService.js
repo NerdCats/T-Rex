@@ -31,6 +31,7 @@ function queryService(restCall, ngAuthSettings){
 			!searchParam.userType &&
 			!searchParam.DeliveryArea &&
 			!searchParam.PaymentStatus &&
+			!searchParam.AttemptCount &&
 			!searchParam.subStringOf.RecipientsPhoneNumber
 			) {
 			queryUrl = "/" + "odata?";			
@@ -49,6 +50,7 @@ function queryService(restCall, ngAuthSettings){
 				searchParam.userType ||
 				searchParam.DeliveryArea ||
 				searchParam.PaymentStatus ||
+				searchParam.AttemptCount ||
 				searchParam.subStringOf.RecipientsPhoneNumber
 				) {
 			queryUrl = "/" + "odata?$filter=";			
@@ -150,6 +152,17 @@ function queryService(restCall, ngAuthSettings){
 				allreadyAParamIsThere = true;
 			} else {
 				queryUrl += " and " + jobStateParam;
+			}
+		}
+
+		if (searchParam.AttemptCount != null && searchParam.AttemptCount  != 'all') {
+			var AttemptCountParam = "AttemptCount eq " + searchParam.AttemptCount;
+			console.log(searchParam.AttemptCount)
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  AttemptCountParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + AttemptCountParam;
 			}
 		}
 

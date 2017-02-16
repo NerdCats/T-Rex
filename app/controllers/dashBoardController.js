@@ -17,6 +17,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.EnterpriseUser = null;
 	vm.DeliveryArea = null;
 	vm.PaymentStatus = null;
+	vm.AttemptCount = null;
 	vm.JobsPerPage = 50;
 	vm.OrderByProperty = "ModifiedTime";
 	vm.OrderByPropertyDirection = "desc";
@@ -144,6 +145,8 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		vm.Orders.searchParam.orderby.property = vm.OrderByProperty;
 		vm.Orders.searchParam.orderby.orderbyCondition = vm.OrderByPropertyDirection;
 		vm.Orders.isCompleted = 'IN_PROGRESS';
+		vm.Orders.searchParam.AttemptCount = vm.AttemptCount;
+		console.log("AttemptCount : " + vm.AttemptCount)
 		
 		if (vm.Orders.searchParam.jobState === "All") {
 			vm.Orders.searchParam.jobState = null;
@@ -157,6 +160,11 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		} else if (vm.Orders.searchParam.jobState === "PENDING") {
 			vm.Orders.searchParam.jobState = "ENQUEUED";
 		}
+
+		if (vm.Orders.searchParam.AttemptCount === "Any") {
+			vm.Orders.searchParam.AttemptCount = null;
+		}
+
 		
 		vm.Orders.loadOrders();
 	}
