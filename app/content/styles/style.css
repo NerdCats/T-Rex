@@ -140,8 +140,14 @@ ng-form, form {
 }
 .global-status-block {
     font-size: 24px;
-    padding: 24px;
+    padding: 10px;
 }
+
+.global-status-block-count {
+    font-size: 18px;
+    padding: 10px;
+}
+
 .not-applicable {
     background-color: #9E9E9E;
 }

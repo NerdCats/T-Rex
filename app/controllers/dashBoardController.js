@@ -162,4 +162,14 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	}
 
 	vm.activate();
+
+
+	vm.EnqueuedOrders = dashboardFactory.orders(null);
+	vm.EnqueuedOrders.loadOrders();
+	vm.InProgressOrders = dashboardFactory.orders(null);
+	vm.InProgressOrders.loadOrders();
+	vm.CompletedOrders = dashboardFactory.orders(null);
+	vm.CompletedOrders.loadOrders();
+	vm.CancelledOrders = dashboardFactory.orders(null);
+	vm.CancelledOrders.loadOrders();
 }

@@ -2,32 +2,50 @@
     <div class="row">
         <div class="all col-md-2">
             <div class="global-status-block">
-                <span>Total {{allOrders.pagination.Total}}</span>
+                <span>Total</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{Orders.pagination.Total}}</div>
             </div>
         </div>
         <div class="pending col-md-2">            
             <div class="global-status-block">
-                <span>PENDING {{newOrders.pagination.Total}}</span>
+                <span>PENDING</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{EnqueuedOrders.pagination.Total}}</div>
             </div>
         </div>
         <div class="in-progress col-md-2">            
             <div class="global-status-block">
-                <span>IN PROGRESS {{processingOrders.pagination.Total}}</span>
+                <span>IN PROGRESS</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{InProgressOrders.pagination.Total}}</div>
             </div>
         </div>
         <div class="completed col-md-2">            
             <div class="global-status-block">
-                <span>COMPLETED {{completedOrders.pagination.Total}}</span>
+                <span>COMPLETED</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{CompletedOrders.pagination.Total}}</div>
             </div>
         </div>
         <div class="returned col-md-2">            
             <div class="global-status-block">
-                <span>RETURNED {{cancelledOrders.pagination.Total}}</span>
+                <span>RETURNED</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{CancelledOrders.pagination.Total}}</div>
             </div>
         </div>
         <div class="cancelled col-md-2">            
             <div class="global-status-block">
-                <span>CANCELED {{cancelledOrders.pagination.Total}}</span>
+                <span>CANCELED</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{CancelledOrders.pagination.Total}}</div>
             </div>
         </div>
     </div>
