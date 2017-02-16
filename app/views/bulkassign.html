@@ -135,14 +135,10 @@
 		                <div class="form-group">		                    
 	                        <label class="col-md-4 control-label">Select Delivery Area:</label>		                    
 		                    <div class="col-md-6">
-		                        <div class="input-group">                            
-<!-- 		                            <select class="form-control" ng-model="DeliveryArea" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
-		                                <option ng-repeat="area in DeliveryAreas" value="{{area}}">{{area}}</option>
-		                            </select> -->
-		                            <input type="text" 
+		                        <div class="input-group">
+		                            <input type="text"
 		                                ng-model="DeliveryArea" 
-		                                uib-typeahead="area for area in DeliveryAreas | filter:$viewValue | limitTo:20" 
-		                                typeahead-on-select="onSelectEnterprise($item, $model, $label, $event)"
+		                                uib-typeahead="area for area in DeliveryAreas | filter:$viewValue | limitTo:20"		                                
 		                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 		                            <span class="input-group-btn">
 		                                <button class="btn btn-default" ng-click="DeliveryArea = null; activate()" ng-show="DeliveryAreas.length !== 0">

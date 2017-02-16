@@ -7,7 +7,7 @@ body, html {
   font-size: 12px;
 }
 
-th {
+th, td {
     text-align: center;
 }
 .pdl-15 {
@@ -154,12 +154,26 @@ ng-form, form {
 
 .b2b {
     background-color: #2196F3;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .b2c {
     background-color: #3F51B5;
-    font-size: 18px;
+    font-size: 14px;
+}
+.small-button {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 14px;
+    line-height: 1;    
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+.small-button-color {
+    background-color: #2196F3;    
+    color: #fff;
 }
 
 .claimed-by {
