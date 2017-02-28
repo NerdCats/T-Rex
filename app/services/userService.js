@@ -22,6 +22,14 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 					startDate : null,
 					endDate : null,
 				},
+				CompletionTime : {
+					startDate : null,
+					endDate : null,
+				},
+				ModifiedTime : {
+					startDate : null,
+					endDate : null,
+				},
 				subStringOf : {
 					RecipientsPhoneNumber : null
 				},
@@ -62,7 +70,7 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 				Type : "USER",
 				FirstName : "",
 				LastName : "",
-				Age : 0,
+				Age : 18,
 				Gender : "MALE",
 				Address : "",      
 				NationalId : "",
@@ -88,18 +96,19 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 			register: function () {
 				var user = this;
 				user.status = 'IN_PROGRESS';
-				var successCallback = function (response) {		  			
-		  			user.status = 'SUCCESSFULL';		  			
+				var registerNewUserUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Register";				
+				$http({
+					method: 'POST',
+					url: registerNewUserUrl,
+					data: user.data
+				}).then(function (response) {
+					user.status = 'SUCCESSFULL';		  			
 		  			console.log(response);
-		  			$window.location.href = '#/users';
-		  		};
-		  		
-		  		var errorCallback = function error(response) {		  			
-		  			user.status = 'FAILED';		  			
+		  			$window.location.href = '#/users/' + response.data.Id;
+				}, function (error) {
+					user.status = 'FAILED';		  			
 		  			console.log(response);
-		  		};
-				var registerNewUserUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/Register";
-				restCall('POST', registerNewUserUrl, this.data, successCallback, errorCallback)  	
+				})
 			}
 		}
 	}

@@ -1,4 +1,4 @@
 app.constant('ngAuthSettings', {
-	apiServiceBaseUri: "http://fetchdev.gobd.co/",
+	apiServiceBaseUri: "http://localhost:8167/",
 	clientId: 'GoFetchDevWebApp'
 });

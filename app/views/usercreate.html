@@ -19,45 +19,54 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-2 control-label" for="textinput">UserName</label>  
-                <div class="col-md-4">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.UserName" required>
-
+                <div ng-class="{ 'has-error': userCreateForm.username.$invalid && !userCreateForm.username.$pristine }">
+                    <label class="col-md-2 control-label" for="textinput">UserName</label>  
+                    <div class="col-md-4">
+                        <input name="username" type="text" class="form-control input-md" pattern="^[a-zA-Z0-9_]*$" ng-model="user.data.UserName" check-availability property="username" required>
+                        <p ng-show="userCreateForm.username.$pending.checkAvailability">checking....</p>
+                        <p ng-show="userCreateForm.username.$error.checkAvailability">Username is not available!</p>
+                        <p ng-show="!userCreateForm.username.$error.checkAvailability && userCreateForm.username.$invalid && !userCreateForm.username.$pristine" class="help-block">User name can only contain alphabets, numbers and _</p>
+                    </div>                    
                 </div>
             </div>
 
             <!-- Password input-->
             <div class="form-group">
-                <label class="col-md-2 control-label" for="passwordinput">Password</label>
-                <div class="col-md-2">
-                    <input id="passwordinput" name="passwordinput" type="password" placeholder="Must be 6 charecter" class="form-control input-md" ng-model="user.data.Password" required>    
+                <div>
+                    <label class="col-md-2 control-label" for="passwordinput">Password</label>
+                    <div class="col-md-2">
+                        <input name="password" type="password" ng-minlength="6" placeholder="Must be 6 charecter" class="form-control input-md" ng-model="user.data.Password" required>    
+                    </div>
                 </div>
 
-                <label class="col-md-2 control-label" for="passwordinput">Confirm Password</label>
-                <div class="col-md-2">
-                    <input id="passwordinput" name="passwordinput" type="password" placeholder="Type Password again" class="form-control input-md" ng-model="user.data.ConfirmPassword" required>    
+                <div ng-class="{ 'has-error': userCreateForm.confirmPassword.$invalid && !userCreateForm.confirmPassword.$pristine }">
+                    <label class="col-md-2 control-label" for="passwordinput">Confirm Password</label>
+                    <div class="col-md-2">
+                        <input name="confirmPassword" type="password" ng-minlength="6" placeholder="Type Password again" class="form-control input-md" ng-model="user.data.ConfirmPassword" confirm-password="user.data.Password" required>
+                        <p ng-show="userCreateForm.confirmPassword.$invalid && !userCreateForm.confirmPassword.$pristine" class="help-block">Confirm Password doesn't match</p>
+                    </div>                    
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-2 control-label" for="textinput">Email</label>  
-                <div class="col-md-2">
-                    <input id="textinput" name="textinput" type="text" placeholder="ex: alim@gobd.co" class="form-control input-md" ng-model="user.data.Email" required>  
+                <div ng-class="{ 'has-error': userCreateForm.email.$invalid && !userCreateForm.email.$pristine }">
+                    <label class="col-md-2 control-label" for="textinput">Email</label>  
+                    <div class="col-md-2">
+                        <input name="email" type="email" placeholder="ex: alim@gobd.co" class="form-control input-md" ng-model="user.data.Email" check-availability property="email" required>
+                        <p ng-show="userCreateForm.email.$pending.checkAvailability">checking....</p>
+                        <p ng-show="userCreateForm.email.$error.checkAvailability">Email is not available!</p>
+                        <p ng-show="!userCreateForm.email.$error.checkAvailability && userCreateForm.email.$invalid && !userCreateForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                    </div>                    
                 </div>
-
-                <label class="col-md-2 control-label" for="textinput">Phone Number</label>  
-                <div class="col-md-2">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.PhoneNumber" required>    
-                </div>
-            </div>
-
-
-            <!-- Textarea -->
-            <div class="form-group">
-                <label class="col-md-2 control-label" for="textarea">Address</label>
-                <div class="col-md-4">                     
-                    <textarea class="form-control" id="textarea" name="textarea" ng-model="user.data.Address"></textarea>
+                <div ng-class="{ 'has-error': userCreateForm.phonenumber.$invalid && !userCreateForm.phonenumber.$pristine }">
+                    <label class="col-md-2 control-label" for="phonenumber">Phone Number</label>
+                    <div class="col-md-2">
+                        <input name="phonenumber" type="text" class="form-control input-md" ng-model="user.data.PhoneNumber" check-availability property="phonenumber" required>
+                        <p ng-show="userCreateForm.phonenumber.$pending.checkAvailability">checking....</p>
+                        <p ng-show="userCreateForm.phonenumber.$error.checkAvailability">Phonenumber is not available!</p>
+                        <p ng-show="!userCreateForm.phonenumber.$error.checkAvailability && userCreateForm.phonenumber.$invalid && !userCreateForm.phonenumber.$pristine" class="help-block">Enter a valid BD phone number.</p>
+                    </div>                    
                 </div>
             </div>
 
@@ -65,26 +74,30 @@
             <div class="form-group" ng-show="user.data.Type === 'USER' || user.data.Type === 'BIKE_MESSENGER'">
                 <label class="col-md-2 control-label" for="textinput">First Name</label>  
                 <div class="col-md-2">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="uset.FirstName">
+                    <input type="text" class="form-control input-md" ng-model="uset.FirstName">
                 </div>
                 <label class="col-md-2 control-label" for="textinput">Last Name</label>  
                 <div class="col-md-2">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="uset.LastName">
+                    <input type="text" class="form-control input-md" ng-model="uset.LastName">
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group" ng-show="user.data.Type === 'USER' || user.data.Type === 'BIKE_MESSENGER'">
-                <label class="col-md-2 control-label" for="textinput">Age</label>  
-                <div class="col-md-1">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.Age">
+                <div>
+                    <label class="col-md-2 control-label" for="textinput">Age</label>  
+                    <div class="col-md-2">
+                        <input type="number" class="form-control input-md" ng-model="user.data.Age" min="18" max="60">
+                    </div>
                 </div>
-                <label class="col-md-2 control-label" for="selectbasic">Gender</label>
-                <div class="col-md-1">
-                    <select id="selectbasic" name="selectbasic" class="form-control" ng-model="user.data.Gender">
-                        <option value="MALE">MALE</option>
-                        <option value="FEMALE">FEMALE</option>
-                    </select>
+                <div>
+                    <label class="col-md-2 control-label" for="selectbasic">Gender</label>
+                    <div class="col-md-2">
+                        <select id="selectbasic" name="selectbasic" class="form-control" ng-model="user.data.Gender">
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                        </select>
+                    </div>                    
                 </div>
             </div>
 
@@ -92,7 +105,7 @@
             <div class="form-group" ng-show="user.data.Type === 'BIKE_MESSENGER'">
                 <label class="col-md-2 control-label" for="textinput">NationalId</label>  
                 <div class="col-md-4">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.NationalId">
+                    <input type="text" class="form-control input-md" ng-model="user.data.NationalId">
                 </div>
             </div>
 
@@ -100,7 +113,7 @@
             <div class="form-group" ng-show="user.data.Type === 'BIKE_MESSENGER'">
                 <label class="col-md-2 control-label" for="textinput">DrivingLicenceId</label>  
                 <div class="col-md-4">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.DrivingLicenceId">
+                    <input type="text" class="form-control input-md" ng-model="user.data.DrivingLicenceId">
                 </div>
             </div>
 
@@ -108,7 +121,7 @@
             <div class="form-group" ng-show="user.data.Type === 'ENTERPRISE'">
                 <label class="col-md-2 control-label" for="textinput">ContactPersonName</label>  
                 <div class="col-md-4">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.ContactPersonName">
+                    <input type="text" class="form-control input-md" ng-model="user.data.ContactPersonName">
                 </div>
             </div>
 
@@ -116,7 +129,7 @@
             <div class="form-group" ng-show="user.data.Type === 'ENTERPRISE'">
                 <label class="col-md-2 control-label" for="textinput">Website</label>  
                 <div class="col-md-4">
-                    <input id="textinput" name="textinput" type="text" class="form-control input-md" ng-model="user.data.Website">
+                    <input type="text" class="form-control input-md" ng-model="user.data.Website">
                 </div>
             </div>
 
@@ -125,7 +138,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="filebutton">Upload Picture</label>
                 <div class="col-md-4">
-                    <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    <input id="filebutton" name="filebutton" class="input-file form-control" type="file">
                 </div>
             </div>
 
