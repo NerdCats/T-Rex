@@ -189,7 +189,9 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.InProgressOrders = dashboardFactory.orders("IN_PROGRESS");
 	vm.InProgressOrders.loadOrders();
 	vm.CompletedOrders = dashboardFactory.orders("COMPLETED");
-	vm.CompletedOrders.loadOrders();
+	vm.CompletedOrders.loadOrders();	
+	vm.ReturnedOrders = dashboardFactory.orders("RETURNED_DELIVERY_COMPLETED");
+	vm.ReturnedOrders.loadOrders();
 	vm.CancelledOrders = dashboardFactory.orders("CANCELLED");
 	vm.CancelledOrders.loadOrders();
 }
