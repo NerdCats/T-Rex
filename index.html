@@ -32,6 +32,7 @@
         <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap-theme.css">
         <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap-daterangepicker/daterangepicker.css">
         <link rel="stylesheet" type="text/css" href="app/content/styles/style.css">
         <link rel="stylesheet" type="text/css" href="app/content/styles/sidebar.css">
         <link rel="stylesheet" type="text/css" href="app/directives/jobActivity/jobActivity.css">
@@ -74,8 +75,11 @@
 
         <script type="text/javascript" src="node_modules/xlsx/dist/jszip.js"></script>
         <script type="text/javascript" src="node_modules/xlsx/dist/xlsx.min.js"></script>
-        <script type="text/javascript" src="node_modules/xlsx/dist/ods.js"></script>          
+        <script type="text/javascript" src="node_modules/xlsx/dist/ods.js"></script>
         <script type="text/javascript" src="node_modules/jwt-decode/build/jwt-decode.min.js"></script>
+        <script type="text/javascript" src="node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script type="text/javascript" src="node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js"></script>
+
 
         <script type="text/javascript" src="app/app.js"></script>
         <script type="text/javascript" src="app/constants.js"></script>
@@ -130,11 +134,13 @@
         <script type="text/javascript" src="app/directives/UserTable/UserTable.js"></script>
         <script type="text/javascript" src="app/directives/JobActivity/jobActivity.js"></script>
         <script type="text/javascript" src="app/directives/dateTimePicker.js"></script>
-        <script type="text/javascript" src="app/directives/Chips/angular-chips.js"></script> 
+        <script type="text/javascript" src="app/directives/Chips/angular-chips.js"></script>
+        <script type="text/javascript" src="app/directives/ConfirmPassword/confirmPassword.js"></script>
+        <script type="text/javascript" src="app/directives/CheckAvailability/checkAvailability.js"></script>
         
     </head>
     <body>
-        <div ng-app="app" id="wrapper" class="active" ng-controller="indexController">
+        <div ng-app="app" id="wrapper" class="" ng-controller="indexController">
             <div id="sidebar-wrapper" ng-show="sidebarVisible">
                 <ul id="sidebar_menu" class="sidebar-nav">
                     <li class="sidebar-brand">
@@ -186,10 +192,13 @@
         </div>
 
         <script type="text/javascript">
-            $("#menu-toggle").click(function(e) {
+            $("#sidebar-wrapper").mouseenter(function(e) {
                     e.preventDefault();
-                    $("#wrapper").toggleClass("active");
-                    console.log("toggleClass")
+                    $("#wrapper").toggleClass("active");                    
+            });
+            $("#sidebar-wrapper").mouseleave(function(e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("active");                    
             });
         </script>
        

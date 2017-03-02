@@ -94,7 +94,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 						pageNo : i,
 						isCurrentPage : ""
 					}
-					if (orders.pagination.Page == i) {
+					if (orders.pagination.Page === i) {
 						page.isCurrentPage = "selected-page"; // current page css class set on pagination list item
 					}
 					if (i > (orders.pagination.Page - 5) && i < (orders.pagination.Page + 5)) {
@@ -191,12 +191,16 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 					startDate : null,
 					endDate : null,
 				},
-				DeliveryArea: null,
-				PickupArea: null,
 				CompletionTime : {
 					startDate : null,
 					endDate : null,
 				},
+				ModifiedTime : {
+					startDate : null,
+					endDate : null,
+				},
+				DeliveryArea: null,
+				PickupArea: null,
 				PaymentStatus: null,
 				jobState : jobState,
 				orderby : {
@@ -206,6 +210,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				subStringOf : {
 					SearchKey : null,					
 				},
+				AttemptCount: null,
 				envelope: true,
 				page: 0,
 				pageSize: 50				

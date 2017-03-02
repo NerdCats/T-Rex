@@ -20,7 +20,7 @@
             add: function(val) {
                 var modelCopy = angular.copy(modelCtrl.$modelValue) || [];
                 // "Job-" + added manually
-                modelCopy.push("Job-" + val)
+                modelCopy.push("Job-" + val.trim());
                 modelCtrl.$setViewValue(modelCopy);
             },
             delete: function(index) {
@@ -125,8 +125,8 @@
                 }
 
                 function update(data) {
-                    // "Job-" +  added manually
-                    $scope.chips.list.push("Job-" + data);
+                    // "Job-" +  added manually                    
+                    $scope.chips.list.push("Job-" + data.trim());
                     model.add(data);
                 }
 

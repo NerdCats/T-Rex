@@ -1,9 +1,36 @@
-<div>
-    <h2>Job Activity Feed</h2>
-    <div class="activity-feed" ng-repeat="item in vm.data">
-        <div class="feed-item">
-            <div class="date">{{item.TimeStamp}}</div>
-            <div class="text">{{item.ActionText}}</div>
-        </div>
-    </div>
+<div ng-show="JobActivityState === 'IN_PROGRESS'" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
+<div ng-show="JobActivityState === 'ERROR'">
+	<span>Server Error, click <button class="btn btn-primary" ng-click="loadActivity(hrid, page, 10)">Here</button> to Refresh</span>
+</div>
+<div class="row" ng-show="JobActivityState === 'SUCCESS'">
+	<div class="col-md-10">
+		<div class="activity-feed" ng-repeat="item in data">
+		    <div class="feed-item">
+		    	<a href="#/job/{{item.HRID}}">
+			        <div class="date">{{item.TimeStamp | date:"EEE MMM d, y h:mm:ss a"}}</div>
+			        <div class="text">{{item.ActionText}}</div>    		
+		    	</a>
+		    </div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="pull-right">
+			<button class="btn btn-primary" ng-click="loadActivity(hrid, page, 10)">Refresh</button>
+		</div>
+	</div>
+	<div class="col-md-12">	
+	    <nav class="navbar-right" ng-show="orders.isCompleted !== 'IN_PROGRESS'">
+		    <ul class="pagination">
+		        <li>
+		            <a ng-click="orders.loadPrevPage()" ng-hide="orders.pagination.PrevPage === undefined" href=""> << </a>
+		        </li>
+		        <li ng-repeat="page in pagination" ng-click="loadActivity(hrid, page.pageNo)">
+		            <a class="{{page.isCurrentPage}}" href="">{{page.pageNo+1}}</a>
+		        </li>
+		        <li>
+		            <a ng-click="orders.loadNextPage()" ng-hide="orders.pagination.NextPage === undefined" href=""> >> </a>
+		        </li>
+		    </ul>
+		</nav>
+	</div>
 </div>

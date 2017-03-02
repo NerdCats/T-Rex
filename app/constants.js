@@ -1,6 +1,6 @@
 app.constant('menus', [
 	{ 
-		title : "Dashboard", 
+		title : "Job Feed", 
 		link: '#/',
 		target : "",
 		class: "fa fa-tachometer"

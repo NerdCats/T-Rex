@@ -18,15 +18,41 @@ function queryService(restCall, ngAuthSettings){
 			searchParam.DeliveryArea = null;
 		}
 
-		if (searchParam.jobState === null && searchParam.CreateTime.startDate === null && searchParam.CreateTime.endDate === null && searchParam.subStringOf.SearchKey === null
-			&& searchParam.UserName === null && searchParam.PaymentStatus === null && searchParam.subStringOf.RecipientsPhoneNumber === null && searchParam.orderby.property === null) {
+		if (
+			!searchParam.jobState && 
+			!searchParam.CreateTime.startDate && 
+			!searchParam.CreateTime.endDate && 
+			!searchParam.ModifiedTime.startDate && 
+			!searchParam.ModifiedTime.endDate && 
+			!searchParam.CompletionTime.startDate && 
+			!searchParam.CompletionTime.endDate && 
+			!searchParam.subStringOf.SearchKey&& 
+			!searchParam.UserName && 
+			!searchParam.userType &&
+			!searchParam.DeliveryArea &&
+			!searchParam.PaymentStatus &&
+			!searchParam.AttemptCount &&
+			!searchParam.subStringOf.RecipientsPhoneNumber
+			) {
 			queryUrl = "/" + "odata?";			
 		}
 		
-		else if (searchParam.CreateTime.startDate != null || searchParam.CreateTime.endDate != null || searchParam.subStringOf.SearchKey !== null ||
-			searchParam.UserName != null || searchParam.jobState != null || 
-			searchParam.userType != null || searchParam.PaymentStatus != null ||
-			searchParam.subStringOf.RecipientsPhoneNumber != null && searchParam.orderby.property !== null) {
+		else if (
+				searchParam.jobState || 
+				searchParam.CreateTime.startDate || 
+				searchParam.CreateTime.endDate ||
+				searchParam.ModifiedTime.startDate ||
+				searchParam.ModifiedTime.endDate ||
+				searchParam.CompletionTime.startDate ||
+				searchParam.CompletionTime.endDate  ||
+				searchParam.subStringOf.SearchKey ||
+				searchParam.UserName || 
+				searchParam.userType ||
+				searchParam.DeliveryArea ||
+				searchParam.PaymentStatus ||
+				searchParam.AttemptCount ||
+				searchParam.subStringOf.RecipientsPhoneNumber
+				) {
 			queryUrl = "/" + "odata?$filter=";			
 		}
 
@@ -78,6 +104,26 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
+		if (searchParam.ModifiedTime.startDate != null) {
+			var startDateParam = "ModifiedTime gt datetime'"+ searchParam.ModifiedTime.startDate +"'";
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  startDateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + startDateParam;
+			}
+		}
+
+		if (searchParam.ModifiedTime.endDate != null) {
+			var endDateParam = "ModifiedTime lt datetime'"+ searchParam.ModifiedTime.endDate +"'";
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  endDateParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + endDateParam;
+			}
+		}
+
 		if (searchParam.CompletionTime.startDate != null) {
 			var startDateParam = "CompletionTime gt datetime'"+ searchParam.CompletionTime.startDate +"'";
 			if (!allreadyAParamIsThere) {
@@ -98,14 +144,80 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
+		// if (searchParam.jobState != null && searchParam.jobState  != 'all') {
+		// 	var jobStateParam = "State eq '"+ searchParam.jobState +"'";
+		// 	console.log(searchParam.jobState)
+		// 	if (!allreadyAParamIsThere) {
+		// 		queryUrl +=  jobStateParam;
+		// 		allreadyAParamIsThere = true;
+		// 	} else {
+		// 		queryUrl += " and " + jobStateParam;
+		// 	}
+		// }
+
 		if (searchParam.jobState != null && searchParam.jobState  != 'all') {
-			var jobStateParam = "State eq '"+ searchParam.jobState +"'";
+			var jobStateParam = null;
+
+			switch(searchParam.jobState){
+				case 'ENQUEUED':					
+				case 'COMPLETED':					
+				case 'IN_PROGRESS':					
+				case 'CANCELLED':
+					jobStateParam = "State eq '"+ searchParam.jobState +"'";
+					break;
+
+				case 'PICKUP_IN_PROGRESS':
+					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'PackagePickUp')";
+					break;
+				case 'DELIVERY_IN_PROGRESS':
+					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'Delivery')";
+					break;
+				case 'CASH_DELIVERY_IN_PROGRESS':
+					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'SecureCashDelivery')";
+					break;
+				case 'RETURN_DELIVERY_IN_PROGRESS':
+					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')";
+					break;
+				case 'RETRY_DELIVERY_IN_PROGRESS':
+					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')";
+					break;
+
+					
+				case 'PICKUP_COMPLETED':
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'PackagePickUp')";
+					break;
+				case 'DELIVERY_COMPLETED':
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')";
+					break;
+				case 'CASH_DELIVERY_COMPLETED':
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'SecureCashDelivery')";
+					break;
+				case 'RETRY_DELIVERY_COMPLETED':
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'retry' and task/Type eq 'Delivery')";
+					break;
+				case 'RETURNED_DELIVERY_COMPLETED':
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'return' and task/Type eq 'Delivery')";
+					break;
+			}
+
+
 			console.log(searchParam.jobState)
 			if (!allreadyAParamIsThere) {
 				queryUrl +=  jobStateParam;
 				allreadyAParamIsThere = true;
 			} else {
 				queryUrl += " and " + jobStateParam;
+			}
+		}
+
+		if (searchParam.AttemptCount != null && searchParam.AttemptCount  != 'all') {
+			var AttemptCountParam = "AttemptCount eq " + searchParam.AttemptCount;
+			console.log(searchParam.AttemptCount)
+			if (!allreadyAParamIsThere) {
+				queryUrl +=  AttemptCountParam;
+				allreadyAParamIsThere = true;
+			} else {
+				queryUrl += " and " + AttemptCountParam;
 			}
 		}
 

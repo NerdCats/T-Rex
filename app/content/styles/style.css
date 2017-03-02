@@ -4,10 +4,12 @@ html,h1,h2,h3,h4,h5,h6,p,div,label,td,tr,input {
 body, html {
   height: 100%;
   width: 100%;
+  font-size: 12px;
 }
 
-th {
+th, td {
     text-align: center;
+    padding: 10px 0px;
 }
 .pdl-15 {
     padding-left: 15px;
@@ -110,6 +112,10 @@ ng-form, form {
     background-color: #33691E;
     color: white;
 }
+.all {
+    background-color: bisque;
+    color: black;
+}
 .pending {
     background-color: #FF5722;  
     color: white;
@@ -125,25 +131,50 @@ ng-form, form {
     background-color: #4CAF50;
     color: white;
 }
+.returned {
+    background-color: dodgerblue;
+    color: white;
+}
 .cancelled {
     background-color: #b71c1c;
+    color: white;
+}
+.global-status-block {
+    font-size: 24px;
+    padding: 10px;
 }
 
-.all {
-    background: rebeccapurple;
+.global-status-block-count {
+    font-size: 23px;
+    padding: 10px;
 }
+
 .not-applicable {
     background-color: #9E9E9E;
 }
 
 .b2b {
     background-color: #2196F3;
-    font-size: 18px;
+    color: white;
 }
 
 .b2c {
     background-color: #3F51B5;
-    font-size: 18px;
+    font-size: 14px;
+}
+.small-button {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 14px;
+    line-height: 1;    
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+.small-button-color {
+    background-color: #2196F3;    
+    color: #fff;
 }
 
 .claimed-by {
@@ -169,6 +200,9 @@ ng-form, form {
 }
 .panel-cancelled-border {
     border-color: #b71c1c;   
+}
+.panel-not-applicable-border{
+    border-color: #9E9E9E;
 }
 
 .asset-list {
@@ -238,4 +272,15 @@ ng-form, form {
 .bulk-order-textarea {
     border: 0;
     padding: 15px;
+}
+
+.bulk-assign-div {
+    position: fixed;
+    background: white;
+    top: 50px;
+    right: 0;
+    z-index: 5;
+    padding: 10px 0px 15px 0px;
+    border: 1px solid black;
+    width: 25%;
 }

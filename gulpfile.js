@@ -17,6 +17,7 @@ var gulpif = require('gulp-if');
 var inject = require('gulp-inject');
 var git = require('git-rev');
 
+
 const jsFilePaths = [
 	'app/*.js',	
 	'app/directives/**/*.js',
@@ -47,17 +48,21 @@ const jsLibFilePaths = [
 	"node_modules/xlsx/dist/jszip.js",
     "node_modules/xlsx/dist/xlsx.min.js",
     "node_modules/xlsx/dist/ods.js",
-    "node_modules/jwt-decode/build/jwt-decode.min.js"
+    "node_modules/jwt-decode/build/jwt-decode.min.js",
+    "node_modules/bootstrap-daterangepicker/daterangepicker.js",
+    "node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js"
 ]
 
 const cssFilePaths = [
 	"node_modules/bootstrap/dist/css/bootstrap-theme.css",
 	"node_modules/bootstrap/dist/css/bootstrap.css",
 	"node_modules/font-awesome/css/font-awesome.css",
+	"node_modules/bootstrap-daterangepicker/daterangepicker.css",
 	"app/content/styles/style.css",
 	"app/content/styles/sidebar.css",
 	"node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css",
-	"app/directives/Chips/angular-chips.css"
+	"app/directives/Chips/angular-chips.css",
+	"app/directives/JobActivity/jobActivity.css"
 ]
 
 const fontsPath = [

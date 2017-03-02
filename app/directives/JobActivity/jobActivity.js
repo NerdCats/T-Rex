@@ -12,31 +12,52 @@
         //
 
         /* @ngInject */
-        var jobAcitivityDirectiveController = ['$http', function ($http) {
-            var vm = this;
-            function init() {
-                vm.text = "done!";
-
+        var jobAcitivityDirectiveController = ['$scope', '$http', 'ngAuthSettings', function ($scope, $http, ngAuthSettings) {
+            
+            var vm = $scope;
+            vm.JobActivityState = "";
+            vm.loadActivity = function (hrid, page, pageSize) {
+                var activityUrl = "";
+                if (hrid === undefined) {
+                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
+                } else {
+                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
+                }
+                vm.JobActivityState = "IN_PROGRESS";
                 $http({
                     method: 'GET',
-                    url: vm.taskcatbase + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp"
+                    url: activityUrl
                 }).then(function (response) {
                     vm.data = response.data.data;
+                    vm.pagination = [];
+                    vm.JobActivityState = "SUCCESS";
+                    var Pagination = response.data.pagination;
+                    for (var i = 0; i < Pagination.TotalPages; i++) {
+                        var page = {
+                            pageNo: i,
+                            isCurrentPage : ""
+                        }
+                        if (Pagination.Page === i) {
+                            page.isCurrentPage = "selected-page";
+                        }
+                        if (i > (Pagination.Page - 5) && i < (Pagination.Page + 5)) {
+                            vm.pagination.push(page);
+                        }
+                    }
                 }, function (error) {
-                    // TODO: Use proper error reporting here
+                    vm.JobActivityState = "ERROR";
                 });
             }
 
-            init();
+            vm.page = 0;
+            vm.loadActivity(vm.hrid, vm.page);
         }];
 
-        var directive = {
-            bindToController: true,
-            controller: jobAcitivityDirectiveController,
-            controllerAs: 'vm',
+        var directive = {            
+            controller: jobAcitivityDirectiveController,            
             restrict: 'E',
             scope: {
-                taskcatbase: '@'
+                hrid: '=hrid'
             },
             templateUrl: 'app/directives/JobActivity/jobActivity.html'
         };

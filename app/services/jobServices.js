@@ -10,13 +10,14 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	var job = function (id) {
 	 	return {
 	 		data : {},
+	 		loadingPage: false,
 	 		jobIsLoading: "PENDING",
-	 		jobUpdating: false,
-	 		modifying: '',
+	 		jobUpdating: false,	 		
 	 		redMessage : null,
 	 		commentStatus: '',
 	 		CommentText: "",
 	 		comments: [],
+			isUpdatingComment: false,
 	 		loadJob: function () {
 				this.jobIsLoading = "INPROGRESS";				
 				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;				
@@ -35,75 +36,84 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 				restCall('GET', jobUrl, null, successCallback, errorCallback);
 	 		},
 	 		claim: function () {
-	 			var itSelf = this;
-	 			itSelf.modifying = "CLAIMING";
+	 			var itSelf = this;	 			
+	 			itSelf.loadingPage = true;
 	 			function successFulClaim(response) {
-	 				console.log(response);
-	 				itSelf.modifying = "";
-	 				$window.location.reload();
+	 				console.log(response);	 					 				
+	 				itSelf.loadingPage = false;
+					itSelf.loadJob();
 	 			}
 	 			function failedClaim(error) {
-	 				console.log(error);
-	 				itSelf.modifying = "";
+	 				console.log(error);	 				
 	 				itSelf.redMessage = "Unable to Claim";
 	 			}
 	 			console.log("claim")
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
-	 		stateUpdate: function (taskId, state, task) {
-	 			var itSelf = this;
-	 			function stateUpdateSuccess(response) {
-	 				itSelf.modifying = "";
-	 				$window.location.reload();
-	 			}
-	 			function stateUpdateError(error) {
-	 				console.log(error)
-	 				itSelf.modifying = "FAILED";
-	 				itSelf.redMessage = error.data.Message;
-	 			}
-	 			if (task === "FetchDeliveryMan") {
-	 				this.modifying = "FetchDeliveryMan_UPDATING";
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			else if (task === "PackagePickUp") {
-	 				this.modifying = "PackagePickUp_UPDATING";
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-	 			}
-	 			else if (task === "Delivery") {
-	 				this.modifying = "Delivery_UPDATING";
-	 				if (this.data.Tasks[3] === undefined) {
-	 					function _stateUpdateSuccess(response) {
-			 				itSelf.modifying = "";
-			 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-			 			}	 					
-	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
-	 				} else {
-	 					patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
+	 		taskTitle: function (taskType, variant) {	 			 		
+	 			if (taskType === "Delivery") {
+	 				switch(variant){
+	 					case "default":
+	 						return  taskType + " to " + "Recipient";
+	 						break;
+	 					case "retry":
+	 						return  "Retry" + " " + taskType + " to " + "Recipient";
+	 						break;
+	 					case "return":
+	 						return  "Return" + " " + taskType + " to " + "Owner";
+	 						break;
+	 					default:
+	 						return  taskType;
+	 						break;
 	 				}
 	 			}
-	 			else if (task === "SecureDelivery") {
-	 				this.modifying = "SecureDelivery_UPDATING";
-	 				function _stateUpdateSuccess(response) {
-		 				itSelf.modifying = "";
-		 				patchUpdate(state, "replace", "/State", "api/job/", itSelf.data.Id, taskId, stateUpdateSuccess, stateUpdateError);
-		 			}	
-	 				patchUpdate(state, "replace", "/State", "api/job/", this.data.Id, this.data.Tasks[0].id, _stateUpdateSuccess, stateUpdateError);
+	 			else {
+	 				return taskType;
 	 			}
-	 			
 	 		},
-	 		assigningAsset: function (taskIndex) {
-	 			if (taskIndex === 0) this.modifying = "FetchDeliveryMan_UPDATING";
-	 			else if (taskIndex === 1) {
-	 				this.modifying = "PackagePickUp_UPDATING";
-	 				// Whenver we are assigning asset to pick up task, this task should go to in progress state
-	 				this.stateUpdate(this.data.Tasks[1].id, "IN_PROGRESS", "PackagePickUp");
-	 			}
-	 			else if (taskIndex === 2) this.modifying = "Delivery_UPDATING";
-	 			else if (taskIndex === 3) this.modifying = "SecureDelivery_UPDATING";
-	 		},
-	 		cancel: function (reason) {	 			
-	 			this.modifying = "CANCELLING";
+	 		stateUpdate: function (task, state) {
 	 			var itSelf = this;
+	 			itSelf.loadingPage = true;
+	 			var taskUpdate = [
+				    {
+						value: state,
+						path: "/State",
+						op: "replace"
+				    }
+				];				
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + this.data.Id + "/" + task.id;
+	 			$http({
+	 				method: 'PATCH',
+	 				url: url,
+	 				data: taskUpdate
+	 			}).then(function (success) {	 				
+	 				itSelf.loadingPage = false;
+					itSelf.loadJob();
+	 			}, function (error) {
+	 				console.log(error);
+	 				itSelf.redMessage = error.Message;
+	 			});
+	 		},
+	 		assigningAsset: function (taskId, assetId) {
+	 			var itSelf = this;
+				var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + this.data.Id + "/" + taskId;
+				var assetRefUpdateData = [{value: assetId, path: "/AssetRef",op: "replace"}];
+				itSelf.loadingPage = true;		
+				$http({
+					method: 'PATCH',
+					url: url,
+					data: assetRefUpdateData
+				}).then(function (response) {					
+					itSelf.loadingPage = false;
+					itSelf.loadJob();
+				}, function (error) {
+					itSelf.redMessage = error.Message;
+					itSelf.loadingPage = false;
+				})	 			
+	 		},
+	 		cancel: function (reason) {	 				 			
+	 			var itSelf = this;
+	 			itSelf.loadingPage = true;
 	 			$http({
 	 				method: 'POST',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/job/cancel',
@@ -111,27 +121,25 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 					JobId: itSelf.data.Id,
 	 					Reason: reason
 	 				}
-	 			}).then(function (response) {
-	 				itSelf.modifying = "";
-	 				$window.location.reload();
+	 			}).then(function (response) {	 					 				
+	 				itSelf.loadingPage = false;
+					itSelf.loadJob();
 	 			}, function (error) {
-	 				console.log(error);
-	 				itSelf.modifying = "";
+	 				console.log(error);	 				
 	 				itSelf.redMessage = error;
 	 			})
 	 		},
-	 		restore: function () {
-	 			this.modifying = "RESTORING";
+	 		restore: function () {	 			
 	 			var itSelf = this;
+	 			itSelf.loadingPage = true;
 	 			$http({
 	 				method: 'POST',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Job/restore/' + itSelf.data.Id
-	 			}).then(function (response) {
-	 				itSelf.modifying = "";
-	 				$window.location.reload();
+	 			}).then(function (response) {	 					 				
+	 				itSelf.loadingPage = false;
+					itSelf.loadJob();
 	 			}, function (error) {
-	 				console.log(error);
-	 				itSelf.modifying = "";
+	 				console.log(error);	 				
 	 				itSelf.redMessage = error;
 	 			})
 	 		},
@@ -145,16 +153,18 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			
 	 		},
 	 		updatePaymentStatus: function () {
-	 			this.modifying = 'PAYMENT_UPDATING';
+	 			var itSelf = this;	 			
+	 			itSelf.loadingPage = true;
 	 			$http({
 	 				method: 'POST',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/payment/process/' + this.data.Id,
 	 			}).then(function(response){
-	 				console.log(response);
-	 				$window.location.reload();
-	 			}, function (error) {
-	 				this.modifying = "";
-	 				this.redMessage = error;
+	 				console.log(response);	 				
+	 				itSelf.loadingPage = false;
+					itSelf.loadJob();
+	 			}, function (error) {	 				
+	 				this.redMessage = error.Message;
+	 				itSelf.loadingPage = false;
 	 			})
 	 		},
 	 		getSantizedState: function (state) {
@@ -164,22 +174,23 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			return dashboardFactory.getDeliveryType(this.data);
 	 		},
 	 		getComments : function (jobId) {
-	 			var itSelf = this;	 			
+	 			var itSelf = this;
+	 			itSelf.loadingPage = true;
 	 			$http({
 	 				method: 'GET',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/Job/' + jobId
 	 			}).then(function (response) {	 				
-	 				itSelf.comments = response.data.data.reverse();	 				
-	 				itSelf.commentStatus = '';
-	 				console.log(itSelf.comments)
-	 			}, function (error) {
-	 				itSelf.commentStatus = 'COMMENTI_LOADING_FAILED';
+	 				itSelf.comments = response.data.data.reverse();	 					 				
+	 				itSelf.loadingPage = false;					
+	 			}, function (error) {	 				
 	 				console.log(error);
+	 				itSelf.redMessage = error.Message;
+	 				itSelf.loadingPage = false;
 	 			})
 	 		},
 	 		postComment : function () {
 	 			var itSelf = this;
-	 			itSelf.commentStatus = 'COMMENTI_MODIFYING';
+	 			itSelf.loadingPage = true;
 	 			$http({
 	 				method: 'POST',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment',
@@ -189,33 +200,48 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 						CommentText: itSelf.CommentText
 					}
 	 			}).then(function (response) {
-	 				itSelf.getComments(itSelf.data.HRID);
-	 				itSelf.commentStatus = '';
 	 				itSelf.CommentText = "";
-	 			}, function (error) {
-	 				itSelf.commentStatus = '';
-	 				alert("Couldn't add comment, server error!");
+	 				itSelf.loadingPage = false;
+	 				itSelf.getComments(itSelf.data.HRID);					
+	 			}, function (error) {	 		
+		 			itSelf.loadingPage = false;		
+	 				itSelf.redMessage = error.Message;
 	 			})
 	 		},
-	 		deleteComment : function (commentId) {
-	 			console.log(commentId)
+	 		deleteComment : function (commentId) {	 			
 	 			var itSelf = this;
-	 			itSelf.commentStatus = 'COMMENTI_MODIFYING';
+	 			itSelf.loadingPage = true;
 	 			$http({
 	 				method: 'DELETE',
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/' + commentId,
-	 			}).then(function (response) {
-	 				itSelf.commentStatus = '';
+	 			}).then(function (response) {	 				
+	 				itSelf.loadingPage = false;					
 	 				itSelf.getComments(itSelf.data.HRID);
 	 			}, function (error) {
-	 				alert("Sorry, couldn't delete : " + error.Message);
-	 				itSelf.commentStatus = '';
+	 				itSelf.redMessage = error.Message;
+	 				itSelf.loadingPage = false;
 	 			})
+	 		},	 			 		
+	 		updateComment : function (comment) {	 			
+	 			var itSelf = this;
+	 			itSelf.loadingPage = true;
+	 			$http({
+	 				method: 'PUT',
+	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/',
+	 				data: comment
+	 			}).then(function (response) {	 					 				
+	 				itSelf.loadingPage = false;
+					itSelf.isUpdatingComment = false;
+					itSelf.CommentText = "";				
+	 				itSelf.getComments(itSelf.data.HRID);
+	 			}, function (error) {	 				
+	 				itSelf.redMessage = error.Message;
+	 				itSelf.loadingPage = false;
+	 			})	
 	 		}
 	 	}
 	 }
-
-
+	 
 	return {		 		
 		job: job
 	}
