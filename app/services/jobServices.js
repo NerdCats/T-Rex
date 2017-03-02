@@ -229,7 +229,8 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				url: ngAuthSettings.apiServiceBaseUri + 'api/Comment/',
 	 				data: comment
 	 			}).then(function (response) {	 					 				
-	 				itSelf.loadingPage = false;					
+	 				itSelf.loadingPage = false;
+					itSelf.CommentText = "";				
 	 				itSelf.getComments(itSelf.data.HRID);
 	 			}, function (error) {	 				
 	 				itSelf.redMessage = error.Message;
