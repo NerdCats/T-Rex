@@ -17,6 +17,7 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 		commentStatus: '',
 	 		CommentText: "",
 	 		comments: [],
+			isUpdatingComment: false,
 	 		loadJob: function () {
 				this.jobIsLoading = "INPROGRESS";				
 				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + id;				
@@ -230,6 +231,7 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 				data: comment
 	 			}).then(function (response) {	 					 				
 	 				itSelf.loadingPage = false;
+					itSelf.isUpdatingComment = false;
 					itSelf.CommentText = "";				
 	 				itSelf.getComments(itSelf.data.HRID);
 	 			}, function (error) {	 				
