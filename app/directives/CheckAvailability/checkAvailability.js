@@ -20,5 +20,5 @@ app.directive('checkAvailability', ['$q', '$http', 'ngAuthSettings', function ($
 				ngModel.$validate();
 			})
 		}
-	}
-}])
+	};
+}]);

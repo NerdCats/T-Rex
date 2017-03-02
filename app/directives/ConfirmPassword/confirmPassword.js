@@ -15,5 +15,5 @@ app.directive('confirmPassword', function () {
             });
         }
     };
-})
+});
 
