@@ -43,8 +43,8 @@ function invoiceCtrl($scope, $http, $window) {
     }
     angular.forEach(vm.jobId, function (value, key) {
         console.log(key + " : " + value)         
-        // var url =  "http://fetchprod.gobd.co/api/job/" + value;
-        var url =  "http://fetchdev.gobd.co/api/job/" + value;
+        var url =  "http://fetchprod.gobd.co/api/job/" + value;
+        // var url =  "http://fetchdev.gobd.co/api/job/" + value;
         vm.loadingJob = true;
         $http({
             method: 'GET',
