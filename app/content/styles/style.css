@@ -113,8 +113,8 @@ ng-form, form {
     color: white;
 }
 .all {
-    background-color: bisque;
-    color: black;
+    background-color: #FF8F00;
+    color: white;
 }
 .pending {
     background-color: #FF5722;  
@@ -161,6 +161,7 @@ ng-form, form {
 .b2c {
     background-color: #3F51B5;
     font-size: 14px;
+    color: white;
 }
 .small-button {
     display: inline;

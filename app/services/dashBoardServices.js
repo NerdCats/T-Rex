@@ -78,7 +78,7 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 			Orders.pages = [];
 			Orders.isCompleted = 'SUCCESSFULL';
 			var orders = response.data;
-			if (orders.data.length == 0) {
+			if (orders.data && orders.data.length == 0) {
 				Orders.isCompleted = 'EMPTY';
 			}
 			if (response.data.pagination) {				
@@ -213,7 +213,8 @@ function dashboardFactory($http, $q, $window, $interval, timeAgo, restCall, quer
 				AttemptCount: null,
 				envelope: true,
 				page: 0,
-				pageSize: 50				
+				pageSize: 50,
+				countOnly: false
 			},
 			errMsg: null,
 			selectedAssetName: null,

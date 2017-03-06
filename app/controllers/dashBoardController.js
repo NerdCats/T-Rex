@@ -11,7 +11,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.EnterpriseUsers = [];	
 
 	vm.Orders = dashboardFactory.orders(null);	
-	vm.SelectedState = null;
+	vm.SelectedState = "PENDING AND IN PROGRESS";
 	vm.SelectDateRange = {startDate: null, endDate: null};
 	vm.SearchKey = null;
 	vm.EnterpriseUser = null;
@@ -22,7 +22,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.OrderByProperty = "ModifiedTime";
 	vm.OrderByPropertyDirection = "desc";
 	vm.SelectedTimeProperty = null;
-	vm.SelectedOrderByProperty = null;
+	vm.SelectedOrderByProperty = "Latest Modified Time";
 
 	vm.onSelectUser = function ($item, $model, $label, $event){		
 		vm.EnterpriseUser = $item.UserName;		
@@ -37,7 +37,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 			console.log(vm.dateRange1);
 			console.log(vm.dateRange2);
 			switch(vm.SelectedTimeProperty){
-				case "CreateTime":
+				case "Create Time":
 					vm.Orders.searchParam.CreateTime.startDate = vm.dateRange1;
 					vm.Orders.searchParam.CreateTime.endDate = vm.dateRange2;
 
@@ -46,7 +46,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 					vm.Orders.searchParam.ModifiedTime.startDate = null;
 					vm.Orders.searchParam.ModifiedTime.endDate = null;
 					break;
-				case "CompletionTime":
+				case "Completion Time":
 					vm.Orders.searchParam.CompletionTime.startDate = vm.dateRange1;
 					vm.Orders.searchParam.CompletionTime.endDate = vm.dateRange2;
 
@@ -55,7 +55,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 					vm.Orders.searchParam.ModifiedTime.startDate = null;
 					vm.Orders.searchParam.ModifiedTime.endDate = null;
 					break;
-				case "ModifiedTime":
+				case "Modified Time":
 					vm.Orders.searchParam.ModifiedTime.startDate = vm.dateRange1;
 					vm.Orders.searchParam.ModifiedTime.endDate = vm.dateRange2;
 
@@ -89,27 +89,27 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.SelectOrderBy = function () {
 		
 			switch(vm.SelectedOrderByProperty) {
-				case "CreateTime asc":
+				case "Oldest Create Time":
 					vm.OrderByProperty = "CreateTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "CompletionTime asc":
+				case "Oldest Completion Time":
 					vm.OrderByProperty = "CompletionTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "ModifiedTime asc":
+				case "Oldest Modified Time":
 					vm.OrderByProperty = "ModifiedTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "CreateTime desc":
+				case "Latest Create Time":
 					vm.OrderByProperty = "CreateTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
-				case "CompletionTime desc":
+				case "Latest Completion Time":
 					vm.OrderByProperty = "CompletionTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
-				case "ModifiedTime desc":
+				case "Latest Modified Time":
 					vm.OrderByProperty = "ModifiedTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
@@ -175,7 +175,6 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 		if (vm.Orders.searchParam.AttemptCount === "Any") {
 			vm.Orders.searchParam.AttemptCount = null;
 		}
-
 		
 		vm.Orders.loadOrders();
 	}
@@ -184,14 +183,27 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.activate();
 
 
+	// vm.AllOrders = dashboardFactory.orders(null);
+	// vm.AllOrders.searchParam.countOnly = true;
+	// vm.AllOrders.loadOrders();
+
 	vm.EnqueuedOrders = dashboardFactory.orders("ENQUEUED");
+	vm.EnqueuedOrders.searchParam.countOnly = true;
 	vm.EnqueuedOrders.loadOrders();
+
 	vm.InProgressOrders = dashboardFactory.orders("IN_PROGRESS");
+	vm.InProgressOrders.searchParam.countOnly = true;
 	vm.InProgressOrders.loadOrders();
-	vm.CompletedOrders = dashboardFactory.orders("COMPLETED");
-	vm.CompletedOrders.loadOrders();	
-	vm.ReturnedOrders = dashboardFactory.orders("RETURNED_DELIVERY_COMPLETED");
-	vm.ReturnedOrders.loadOrders();
-	vm.CancelledOrders = dashboardFactory.orders("CANCELLED");
-	vm.CancelledOrders.loadOrders();
+
+	// vm.CompletedOrders = dashboardFactory.orders("COMPLETED");
+	// vm.CompletedOrders.searchParam.countOnly = true;
+	// vm.CompletedOrders.loadOrders();	
+
+	// vm.ReturnedOrders = dashboardFactory.orders("RETURNED_DELIVERY_COMPLETED");
+	// vm.ReturnedOrders.searchParam.countOnly = true;
+	// vm.ReturnedOrders.loadOrders();
+
+	// vm.CancelledOrders = dashboardFactory.orders("CANCELLED");
+	// vm.CancelledOrders.searchParam.countOnly = true;
+	// vm.CancelledOrders.loadOrders();
 }

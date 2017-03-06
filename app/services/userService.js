@@ -39,7 +39,8 @@ function userService($http, $window, restCall, ngAuthSettings, queryService){
 				},
 				envelope: true,
 				page: 0,
-				pageSize: 10
+				pageSize: 10,
+				countOnly: false
 			},
 			loadUsers: function () {
 				this.isCompleted = 'IN_PROGRESS';
