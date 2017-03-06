@@ -50,25 +50,25 @@ function jobFactory($http, tracking_host, ngAuthSettings, listToString, $window,
 	 			console.log("claim")
 	 			restCall('POST', ngAuthSettings.apiServiceBaseUri + "api/job/claim/" + this.data.Id, null, successFulClaim, failedClaim);
 	 		},
-	 		taskTitle: function (taskType, variant) {	 			 		
-	 			if (taskType === "Delivery") {
+	 		taskTitle: function (taskName, variant) {	 			 		
+	 			if (taskName === "Delivery") {
 	 				switch(variant){
 	 					case "default":
-	 						return  taskType + " to " + "Recipient";
+	 						return  taskName + " to " + "Recipient";
 	 						break;
 	 					case "retry":
-	 						return  "Retry" + " " + taskType + " to " + "Recipient";
+	 						return  "Retry" + " " + taskName + " to " + "Recipient";
 	 						break;
 	 					case "return":
-	 						return  "Return" + " " + taskType + " to " + "Owner";
+	 						return  "Return" + " " + taskName + " to " + "Owner";
 	 						break;
 	 					default:
-	 						return  taskType;
+	 						return  taskName;
 	 						break;
 	 				}
 	 			}
 	 			else {
-	 				return taskType;
+	 				return taskName;
 	 			}
 	 		},
 	 		stateUpdate: function (task, state) {

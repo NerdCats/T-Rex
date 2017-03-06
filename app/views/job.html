@@ -60,7 +60,7 @@
         	<div ng-repeat="task in job.data.Tasks">
 	            <div class="panel" ng-class="'panel-'+job.getSantizedState(task.State).class+'-border'">
 	                <div class="panel-heading" ng-class="job.getSantizedState(task.State).class">
-	                     {{job.taskTitle(task.Type, task.Variant)}}<span class="label pull-right">{{task.State}}</span>
+	                     {{job.taskTitle(task.Name, task.Variant)}}<span class="label pull-right">{{task.State}}</span>
 	                </div>
 	                <div class="panel-body">
                         <div class="row">
