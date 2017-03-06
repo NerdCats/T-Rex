@@ -1,14 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="all col-lg-2 col-md-2 col-sm-6 col-xs-12">
-            <div class="global-status-block">
-                <span>Total</span>
-            </div>
-            <div class="global-status-block-count">
-                <div class="text-right">{{Orders.pagination.Total}}</div>
-            </div>
-        </div>
-        <div class="pending col-lg-2 col-md-2 col-sm-6 col-xs-12">            
+        <div class="pending col-lg-4 col-md-4 col-sm-4 col-xs-12">            
             <div class="global-status-block">
                 <span>PENDING</span>
             </div>
@@ -16,7 +8,7 @@
                 <div class="text-right">{{EnqueuedOrders.pagination.Total}}</div>
             </div>
         </div>
-        <div class="in-progress col-lg-2 col-md-2 col-sm-6 col-xs-12">            
+        <div class="in-progress col-lg-4 col-md-4 col-sm-4 col-xs-12">            
             <div class="global-status-block">
                 <span>IN PROGRESS</span>
             </div>
@@ -24,7 +16,15 @@
                 <div class="text-right">{{InProgressOrders.pagination.Total}}</div>
             </div>
         </div>
-        <div class="completed col-lg-2 col-md-2 col-sm-6 col-xs-12">            
+        <div class="all col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="global-status-block">
+                <span>Total</span>
+            </div>
+            <div class="global-status-block-count">
+                <div class="text-right">{{EnqueuedOrders.pagination.Total + InProgressOrders.pagination.Total}}</div>
+            </div>
+        </div>
+<!--         <div class="completed col-lg-2 col-md-2 col-sm-6 col-xs-12">            
             <div class="global-status-block">
                 <span>COMPLETED</span>
             </div>
@@ -47,7 +47,7 @@
             <div class="global-status-block-count">
                 <div class="text-right">{{CancelledOrders.pagination.Total}}</div>
             </div>
-        </div>
+        </div> -->
     </div>
     <br>
     <div class="row">
@@ -58,6 +58,8 @@
                         <label>Select Job State</label>
                         <select class="form-control" ng-model="SelectedState" ng-change="activate()">
                             <option value="All">All</option>
+                            <option disabled>──────────────────────────────</option>
+                            <option value="ENQUEUED_IN_PROGRESS">PENDING AND IN PROGRESS</option>
                             <option disabled>──────────────────────────────</option>
                             <option value="ENQUEUED">PENDING</option>
                             <option disabled>──────────────────────────────</option>
@@ -113,7 +115,7 @@
                     <div class="col-md-3">
                         <label>Search:</label>
                         <span class="input-group-btn" style="width: 20%">
-                            <input type="text" class="form-control" ng-model="SearchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0">
+                            <input type="text" class="form-control" ng-model="SearchKey" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0">
                         </span>
                         <span class="input-group-btn">
                             <button class="btn btn-default" ng-click="SearchKey=null; activate()">
@@ -132,7 +134,7 @@
                                 ng-model="selectedUser" placeholder="Write Enterprise Users Name" 
                                 uib-typeahead="user.UserName for user in EnterpriseUsers | filter:$viewValue | limitTo:20" 
                                 typeahead-on-select="onSelectUser($item, $model, $label, $event)"
-                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
+                                class="form-control" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
                             <span class="input-group-btn">                                    
                                 <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
@@ -149,7 +151,7 @@
                             <input type="text" 
                                 ng-model="DeliveryArea"  placeholder="Write Delivery area's Name"
                                 uib-typeahead="area for area in DeliveryAreas | filter:$viewValue | limitTo:20"
-                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
+                                class="form-control" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" ng-click="DeliveryArea = null; activate()" ng-show="DeliveryAreas.length !== 0">
                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
@@ -159,7 +161,7 @@
                     </div>
                     <div class="col-md-2">
                         <label>Select Payment Status:</label>                        
-                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
                             <option value=""></option>
                             <option value="Paid">Paid</option>
                             <option value="Pending">Pending</option>
@@ -167,7 +169,7 @@
                     </div>
                     <div class="col-md-2">
                         <label>Select Delivery Attempt Time:</label>                        
-                        <select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">                            
+                        <select class="form-control" ng-model="AttemptCount" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">                            
                             <option value="Any">Any</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -183,7 +185,7 @@
                     </div>
                     <div class="col-md-1">
                         <label>Show per page:</label>                        
-                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
+                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
@@ -205,37 +207,42 @@
             </fieldset>        
         </ng-form>        
     </div>    
+    <h3>Search Filters:</h3>
     <div class="row">
-        <h3>Search Filters:</h3>
-        <ul class="list-inline">
-            <li ng-show="SelectedState">
-                Job State: <b>{{SelectedState}}</b>
-            </li>
-            <li ng-show="SelectedTimeProperty">
-                {{SelectedTimeProperty}}: <b>{{dateRange1 | date:"MMM d, y"}}</b> to <b>{{dateRange2 | date:"MMM d, y"}}</b>
-            </li>
-            <li ng-show="SelectedOrderByProperty">
-                Order By: <b>{{SelectedOrderByProperty}}</b>
-            </li>
-            <li ng-show="SearchKey">
-                Search Key word: <b>{{SearchKey}}</b>
-            </li>
-            <li ng-show="EnterpriseUser">
-                Enterprise User: <b>{{EnterpriseUser}}</b>
-            </li>
-            <li ng-show="DeliveryArea">
-                Delivery Area: <b>{{DeliveryArea}}</b>
-            </li>
-            <li ng-show="PaymentStatus">
-                Payment Status: <b>{{PaymentStatus}}</b>
-            </li>
-            <li ng-show="AttemptCount">
-                Delivery Attempt: <b>{{AttemptCount}}</b>
-            </li>
-            <li ng-show="JobsPerPage">
-                Job Per Page: <b>{{JobsPerPage}}</b>
-            </li>            
-        </ul>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+            <ul class="list-inline">
+                <li ng-show="SelectedState">
+                    Job State: <b>{{SelectedState}}</b>
+                </li>
+                <li ng-show="SelectedTimeProperty">
+                    {{SelectedTimeProperty}}: <b>{{dateRange1 | date:"MMM d, y"}}</b> to <b>{{dateRange2 | date:"MMM d, y"}}</b>
+                </li>
+                <li ng-show="SelectedOrderByProperty">
+                    Order By: <b>{{SelectedOrderByProperty}}</b>
+                </li>
+                <li ng-show="SearchKey">
+                    Search Key word: <b>{{SearchKey}}</b>
+                </li>
+                <li ng-show="EnterpriseUser">
+                    Enterprise User: <b>{{EnterpriseUser}}</b>
+                </li>
+                <li ng-show="DeliveryArea">
+                    Delivery Area: <b>{{DeliveryArea}}</b>
+                </li>
+                <li ng-show="PaymentStatus">
+                    Payment Status: <b>{{PaymentStatus}}</b>
+                </li>
+                <li ng-show="AttemptCount">
+                    Delivery Attempt: <b>{{AttemptCount}}</b>
+                </li>
+                <li ng-show="JobsPerPage">
+                    Job Per Page: <b>{{JobsPerPage}}</b>
+                </li>            
+            </ul>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <button class="btn btn-danger" ng-click="SelectedState='ENQUEUED_IN_PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
+        </div>
     </div>
     <order-table orders="Orders"></order-table>
 </div>

@@ -144,17 +144,6 @@ function queryService(restCall, ngAuthSettings){
 			}
 		}
 
-		// if (searchParam.jobState != null && searchParam.jobState  != 'all') {
-		// 	var jobStateParam = "State eq '"+ searchParam.jobState +"'";
-		// 	console.log(searchParam.jobState)
-		// 	if (!allreadyAParamIsThere) {
-		// 		queryUrl +=  jobStateParam;
-		// 		allreadyAParamIsThere = true;
-		// 	} else {
-		// 		queryUrl += " and " + jobStateParam;
-		// 	}
-		// }
-
 		if (searchParam.jobState != null && searchParam.jobState  != 'all') {
 			var jobStateParam = null;
 
@@ -165,7 +154,9 @@ function queryService(restCall, ngAuthSettings){
 				case 'CANCELLED':
 					jobStateParam = "State eq '"+ searchParam.jobState +"'";
 					break;
-
+				case 'ENQUEUED_IN_PROGRESS':
+					jobStateParam = "State eq 'ENQUEUED' or State eq 'IN_PROGRESS'";
+					break;
 				case 'PICKUP_IN_PROGRESS':
 					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'PackagePickUp')";
 					break;
@@ -294,6 +285,9 @@ function queryService(restCall, ngAuthSettings){
 		queryUrl += "&page="+ searchParam.page + 
 					 "&pageSize="+ searchParam.pageSize +
 					 "&envelope="+ searchParam.envelope;
+		if (searchParam.countOnly) {
+			queryUrl += "&countOnly=" + searchParam.countOnly;
+		}
 
 		console.log(queryUrl);
 		return searchUrl + queryUrl;
