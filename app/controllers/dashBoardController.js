@@ -22,7 +22,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.OrderByProperty = "ModifiedTime";
 	vm.OrderByPropertyDirection = "desc";
 	vm.SelectedTimeProperty = null;
-	vm.SelectedOrderByProperty = "ModifiedTime desc";
+	vm.SelectedOrderByProperty = "Modified Time Latest";
 
 	vm.onSelectUser = function ($item, $model, $label, $event){		
 		vm.EnterpriseUser = $item.UserName;		
@@ -37,7 +37,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 			console.log(vm.dateRange1);
 			console.log(vm.dateRange2);
 			switch(vm.SelectedTimeProperty){
-				case "CreateTime":
+				case "Create Time":
 					vm.Orders.searchParam.CreateTime.startDate = vm.dateRange1;
 					vm.Orders.searchParam.CreateTime.endDate = vm.dateRange2;
 
@@ -46,7 +46,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 					vm.Orders.searchParam.ModifiedTime.startDate = null;
 					vm.Orders.searchParam.ModifiedTime.endDate = null;
 					break;
-				case "CompletionTime":
+				case "Completion Time":
 					vm.Orders.searchParam.CompletionTime.startDate = vm.dateRange1;
 					vm.Orders.searchParam.CompletionTime.endDate = vm.dateRange2;
 
@@ -55,7 +55,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 					vm.Orders.searchParam.ModifiedTime.startDate = null;
 					vm.Orders.searchParam.ModifiedTime.endDate = null;
 					break;
-				case "ModifiedTime":
+				case "Modified Time":
 					vm.Orders.searchParam.ModifiedTime.startDate = vm.dateRange1;
 					vm.Orders.searchParam.ModifiedTime.endDate = vm.dateRange2;
 
@@ -89,27 +89,27 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.SelectOrderBy = function () {
 		
 			switch(vm.SelectedOrderByProperty) {
-				case "CreateTime asc":
+				case "Create Time Oldest":
 					vm.OrderByProperty = "CreateTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "CompletionTime asc":
+				case "Completion Time Oldest":
 					vm.OrderByProperty = "CompletionTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "ModifiedTime asc":
+				case "Modified Time Oldest":
 					vm.OrderByProperty = "ModifiedTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "CreateTime desc":
+				case "Create Time Latest":
 					vm.OrderByProperty = "CreateTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
-				case "CompletionTime desc":
+				case "Completion Time Latest":
 					vm.OrderByProperty = "CompletionTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
-				case "ModifiedTime desc":
+				case "Modified Time Latest":
 					vm.OrderByProperty = "ModifiedTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
