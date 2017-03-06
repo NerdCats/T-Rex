@@ -22,7 +22,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.OrderByProperty = "ModifiedTime";
 	vm.OrderByPropertyDirection = "desc";
 	vm.SelectedTimeProperty = null;
-	vm.SelectedOrderByProperty = "Modified Time Latest";
+	vm.SelectedOrderByProperty = "Latest Modified Time";
 
 	vm.onSelectUser = function ($item, $model, $label, $event){		
 		vm.EnterpriseUser = $item.UserName;		
@@ -89,27 +89,27 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.SelectOrderBy = function () {
 		
 			switch(vm.SelectedOrderByProperty) {
-				case "Create Time Oldest":
+				case "Oldest Create Time":
 					vm.OrderByProperty = "CreateTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "Completion Time Oldest":
+				case "Oldest Completion Time":
 					vm.OrderByProperty = "CompletionTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "Modified Time Oldest":
+				case "Oldest Modified Time":
 					vm.OrderByProperty = "ModifiedTime";
 					vm.OrderByPropertyDirection = "asc";
 					break;
-				case "Create Time Latest":
+				case "Latest Create Time":
 					vm.OrderByProperty = "CreateTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
-				case "Completion Time Latest":
+				case "Latest Completion Time":
 					vm.OrderByProperty = "CompletionTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
-				case "Modified Time Latest":
+				case "Latest Modified Time":
 					vm.OrderByProperty = "ModifiedTime";
 					vm.OrderByPropertyDirection = "desc";
 					break;
