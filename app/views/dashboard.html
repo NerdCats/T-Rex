@@ -159,7 +159,7 @@
                     </div>
                     <div class="col-md-2">
                         <label>Select Payment Status:</label>                        
-                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
                             <option value=""></option>
                             <option value="Paid">Paid</option>
                             <option value="Pending">Pending</option>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="col-md-2">
                         <label>Select Delivery Attempt Time:</label>                        
-                        <select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
+                        <select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">                            
                             <option value="Any">Any</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -183,7 +183,7 @@
                     </div>
                     <div class="col-md-1">
                         <label>Show per page:</label>                        
-                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
@@ -204,7 +204,38 @@
                 <br>
             </fieldset>        
         </ng-form>        
+    </div>    
+    <div class="row">
+        <h3>Search Filters:</h3>
+        <ul class="list-inline">
+            <li ng-show="SelectedState">
+                Job State: <b>{{SelectedState}}</b>
+            </li>
+            <li ng-show="SelectedTimeProperty">
+                {{SelectedTimeProperty}}: <b>{{dateRange1 | date:"MMM d, y"}}</b> to <b>{{dateRange2 | date:"MMM d, y"}}</b>
+            </li>
+            <li ng-show="SelectedOrderByProperty">
+                Order By: <b>{{SelectedOrderByProperty}}</b>
+            </li>
+            <li ng-show="SearchKey">
+                Search Key word: <b>{{SearchKey}}</b>
+            </li>
+            <li ng-show="EnterpriseUser">
+                Enterprise User: <b>{{EnterpriseUser}}</b>
+            </li>
+            <li ng-show="DeliveryArea">
+                Delivery Area: <b>{{DeliveryArea}}</b>
+            </li>
+            <li ng-show="PaymentStatus">
+                Payment Status: <b>{{PaymentStatus}}</b>
+            </li>
+            <li ng-show="AttemptCount">
+                Delivery Attempt: <b>{{AttemptCount}}</b>
+            </li>
+            <li ng-show="JobsPerPage">
+                Job Per Page: <b>{{JobsPerPage}}</b>
+            </li>            
+        </ul>
     </div>
-    <br>
     <order-table orders="Orders"></order-table>
 </div>

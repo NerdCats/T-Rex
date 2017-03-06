@@ -22,7 +22,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.OrderByProperty = "ModifiedTime";
 	vm.OrderByPropertyDirection = "desc";
 	vm.SelectedTimeProperty = null;
-	vm.SelectedOrderByProperty = null;
+	vm.SelectedOrderByProperty = "ModifiedTime desc";
 
 	vm.onSelectUser = function ($item, $model, $label, $event){		
 		vm.EnterpriseUser = $item.UserName;		
