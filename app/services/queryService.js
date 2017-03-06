@@ -149,11 +149,12 @@ function queryService(restCall, ngAuthSettings){
 
 			switch(searchParam.jobState){
 				case 'ENQUEUED':					
+				case 'IN_PROGRESS':
 				case 'COMPLETED':					
 				case 'CANCELLED':
 					jobStateParam = "State eq '"+ searchParam.jobState +"'";
 					break;
-				case 'IN_PROGRESS':
+				case 'IN PROGRESS':
 					jobStateParam = "State eq 'IN_PROGRESS'";
 					break;
 				case 'PENDING':
@@ -189,7 +190,7 @@ function queryService(restCall, ngAuthSettings){
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')";
 					break;
 				case 'DELIVERY COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and and task/Variant eq 'default' and task/Type eq 'Delivery')";
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'default' and task/Type eq 'Delivery')";
 					break;
 				case 'CASH DELIVERY COMPLETED':
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'SecureCashDelivery')";
