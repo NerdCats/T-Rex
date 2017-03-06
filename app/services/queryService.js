@@ -150,43 +150,54 @@ function queryService(restCall, ngAuthSettings){
 			switch(searchParam.jobState){
 				case 'ENQUEUED':					
 				case 'COMPLETED':					
-				case 'IN_PROGRESS':					
 				case 'CANCELLED':
 					jobStateParam = "State eq '"+ searchParam.jobState +"'";
 					break;
-				case 'ENQUEUED_IN_PROGRESS':
+				case 'IN_PROGRESS':
+					jobStateParam = "State eq 'IN_PROGRESS'";
+					break;
+				case 'PENDING':
+					jobStateParam = "State eq 'ENQUEUED'";
+					break;
+				case 'PENDING AND IN PROGRESS':
 					jobStateParam = "State eq 'ENQUEUED' or State eq 'IN_PROGRESS'";
 					break;
-				case 'PICKUP_IN_PROGRESS':
+				case 'PICKUP IN PROGRESS':
 					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'PackagePickUp')";
 					break;
-				case 'DELIVERY_IN_PROGRESS':
+				case 'ALL DELIVERY IN PROGRESS':
 					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'Delivery')";
 					break;
-				case 'CASH_DELIVERY_IN_PROGRESS':
+				case 'DELIVERY IN PROGRESS':
+					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'default' and task/Type eq 'Delivery')";
+					break;
+				case 'CASH DELIVERY IN PROGRESS':
 					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'SecureCashDelivery')";
 					break;
-				case 'RETURN_DELIVERY_IN_PROGRESS':
+				case 'RETURN DELIVERY IN PROGRESS':
 					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')";
 					break;
-				case 'RETRY_DELIVERY_IN_PROGRESS':
+				case 'RETRY DELIVERY IN PROGRESS':
 					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')";
 					break;
 
 					
-				case 'PICKUP_COMPLETED':
+				case 'PICKUP COMPLETED':
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'PackagePickUp')";
 					break;
-				case 'DELIVERY_COMPLETED':
+				case 'ALL DELIVERY COMPLETED':
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')";
 					break;
-				case 'CASH_DELIVERY_COMPLETED':
+				case 'DELIVERY COMPLETED':
+					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and and task/Variant eq 'default' and task/Type eq 'Delivery')";
+					break;
+				case 'CASH DELIVERY COMPLETED':
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'SecureCashDelivery')";
 					break;
-				case 'RETRY_DELIVERY_COMPLETED':
+				case 'RETRY DELIVERY COMPLETED':
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'retry' and task/Type eq 'Delivery')";
 					break;
-				case 'RETURNED_DELIVERY_COMPLETED':
+				case 'RETURNED DELIVERY COMPLETED':
 					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'return' and task/Type eq 'Delivery')";
 					break;
 			}

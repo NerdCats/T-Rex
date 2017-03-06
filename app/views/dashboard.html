@@ -59,23 +59,25 @@
                         <select class="form-control" ng-model="SelectedState" ng-change="activate()">
                             <option value="All">All</option>
                             <option disabled>──────────────────────────────</option>
-                            <option value="ENQUEUED_IN_PROGRESS">PENDING AND IN PROGRESS</option>
+                            <option value="PENDING AND IN PROGRESS">PENDING AND IN PROGRESS</option>
                             <option disabled>──────────────────────────────</option>
                             <option value="ENQUEUED">PENDING</option>
                             <option disabled>──────────────────────────────</option>
-                            <option value="IN_PROGRESS">IN PROGRESS</option>
-                            <option value="PICKUP_IN_IN_PROGRESS">PICKUP IN PROGRESS</option>
-                            <option value="DELIVERY_IN_PROGRESS">DELIVERY IN PROGRESS</option>
-                            <option value="CASH_DELIVERY_IN_PROGRESS">CASH DELIVERY IN PROGRESS</option>
-                            <option value="RETURN_DELIVERY_IN_PROGRESS">RETURN DELIVERY IN PROGRESS</option>
-                            <option value="RETRY_DELIVERY_IN_PROGRESS">RETRY DELIVERY IN PROGRESS</option>
+                            <option value="IN PROGRESS">IN PROGRESS</option>
+                            <option value="PICKUP IN PROGRESS">PICKUP IN PROGRESS</option>
+                            <option value="ALL DELIVERY IN PROGRESS">ALL DELIVERY IN PROGRESS</option>
+                            <option value="DELIVERY IN PROGRESS">DELIVERY IN PROGRESS</option>
+                            <option value="CASH DELIVERY IN PROGRESS">CASH DELIVERY IN PROGRESS</option>
+                            <option value="RETURN DELIVERY IN PROGRESS">RETURN DELIVERY IN PROGRESS</option>
+                            <option value="RETRY DELIVERY IN PROGRESS">RETRY DELIVERY IN PROGRESS</option>
                             <option disabled>──────────────────────────────</option>
                             <option value="COMPLETED">COMPLETED</option>
-                            <option value="PICKUP_COMPLETED">PICKUP COMPLETED</option>
-                            <option value="DELIVERY_COMPLETED">DELIVERY COMPLETED</option>
-                            <option value="CASH_DELIVERY_COMPLETED">CASH DELIVERY COMPLETED</option>
-                            <option value="RETURNED_DELIVERY_COMPLETED">RETURNED DELIVERY COMPLETED</option>
-                            <option value="RETRY_DELIVERY_COMPLETED">RETRY DELIVERY COMPLETED</option>                            
+                            <option value="PICKUP COMPLETED">PICKUP COMPLETED</option>
+                            <option value="ALL DELIVERY COMPLETED">ALL DELIVERY COMPLETED</option>
+                            <option value="DELIVERY COMPLETED">DELIVERY COMPLETED</option>
+                            <option value="CASH DELIVERY COMPLETED">CASH DELIVERY COMPLETED</option>
+                            <option value="RETURNED DELIVERY COMPLETED">RETURNED DELIVERY COMPLETED</option>
+                            <option value="RETRY DELIVERY COMPLETED">RETRY DELIVERY COMPLETED</option>                            
                             <option disabled>──────────────────────────────</option>
                             <option value="CANCELLED">CANCELLED</option>
                         </select>
@@ -241,7 +243,7 @@
             </ul>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <button class="btn btn-danger" ng-click="SelectedState='ENQUEUED_IN_PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
+            <button class="btn btn-danger" ng-click="SelectedState='PENDING AND IN PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
         </div>
     </div>
     <order-table orders="Orders"></order-table>

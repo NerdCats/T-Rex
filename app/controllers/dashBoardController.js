@@ -11,7 +11,7 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.EnterpriseUsers = [];	
 
 	vm.Orders = dashboardFactory.orders(null);	
-	vm.SelectedState = "ENQUEUED_IN_PROGRESS";
+	vm.SelectedState = "PENDING AND IN PROGRESS";
 	vm.SelectDateRange = {startDate: null, endDate: null};
 	vm.SearchKey = null;
 	vm.EnterpriseUser = null;
@@ -183,9 +183,9 @@ function dashBoardController($scope, $interval, $window, Areas, ngAuthSettings, 
 	vm.activate();
 
 
-	vm.AllOrders = dashboardFactory.orders(null);
-	vm.AllOrders.searchParam.countOnly = true;
-	vm.AllOrders.loadOrders();
+	// vm.AllOrders = dashboardFactory.orders(null);
+	// vm.AllOrders.searchParam.countOnly = true;
+	// vm.AllOrders.loadOrders();
 
 	vm.EnqueuedOrders = dashboardFactory.orders("ENQUEUED");
 	vm.EnqueuedOrders.searchParam.countOnly = true;
