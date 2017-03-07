@@ -132,7 +132,7 @@
 	                            <input type="text" 
 	                                ng-model="selectedUser" placeholder="Write Enterprise Users Name" 
 	                                uib-typeahead="user.UserName for user in EnterpriseUsers | filter:$viewValue | limitTo:20" 
-	                                typeahead-on-select="onSelectUser($item, $model, $label, $event)"
+	                                typeahead-on-select="onSelectEnterprise($item, $model, $label, $event)"
 	                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
 	                            <span class="input-group-btn">                                    
 	                                <button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
