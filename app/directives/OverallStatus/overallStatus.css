@@ -6,7 +6,13 @@
     display: block;
     margin: auto;
     left: 0;
-    right: 0;	
+    right: 0;
+    transition: top .4s ease-out;
+}      
+
+.overall-status-inactive {
+    top: -300px !important;
+    transition: top .4s ease-out !important;
 }
 
 #overall-status-dropdown-btn {
@@ -16,23 +22,10 @@
     right: 0;
 }
 
-/*.overall-status-active {
-	display: none;
-    transition: all .4s ease 0s;
-}*/
-
-.overall-status-inactive {
-    display: none !important;
-    transition: opacity 1s ease-out;
-    opacity: 0 !important;
-}
 
 #overall-status-content {
 	background-color: white;
 	border: 1px solid black;
-
-    opacity: 1;
-    display: block;
 }
 
 #current-status-wrapper div h1 {

@@ -1,45 +1,47 @@
 .row{
-	margin-left:0px;
-	margin-right:0px;
+    margin-left:0px;
+    margin-right:0px;
 }
 
 #wrapper {
-	padding-left: 70px;
-	transition: all .4s ease 0s;
-	height: 100%
+    padding-left: 70px;
+    transition: all .4s ease 0s;
+    height: 100%
 }
 
 #sidebar-wrapper {
-	margin-left: -200px;
-	left: 70px;
-	width: 200px;
-	background: #222;
-	position: fixed;
-	height: 100%;
-	z-index: 10000;
-	transition: all .4s ease 0s;
+    margin-left: -200px;
+    left: 70px;
+    width: 200px;
+    background: #222;
+    position: fixed;
+    height: 100%;
+    z-index: 10000;
+    transition: all .4s ease 0s;
 }
-
 
 .sidebar-nav {
-	display: block;
-	float: left;
-	width: 200px;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+    display: block;
+    float: left;
+    width: 200px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
 #page-content-wrapper {
-	padding-left: 0;
-	margin-left: 0;
-	width: 100%;
-	height: auto;
+    padding-left: 0;
+    margin-left: 0;
+    width: 100%;
+    height: auto;
 }
+
 #wrapper.active {
-	padding-left: 200px;
+    padding-left: 200px;
 }
+
 #wrapper.active #sidebar-wrapper {
-	left: 200px;
+    left: 200px;
 }
 
 #page-content-wrapper {
@@ -47,24 +49,24 @@
 }
 
 #sidebar_menu li a, .sidebar-nav li a {
-	color: #999;
-	display: block;
-	float: left;
-	text-decoration: none;
-	width: 200px;
-	background: #252525;
-	border-top: 1px solid #373737;
-	border-bottom: 1px solid #1A1A1A;
-	-webkit-transition: background .5s;
-	-moz-transition: background .5s;
-	-o-transition: background .5s;
-	-ms-transition: background .5s;
-	transition: background .5s;
+    color: #999;
+    display: block;
+    float: left;
+    text-decoration: none;
+    width: 200px;
+    background: #252525;
+    border-top: 1px solid #373737;
+    border-bottom: 1px solid #1A1A1A;
+    -webkit-transition: background .5s;
+    -moz-transition: background .5s;
+    -o-transition: background .5s;
+    -ms-transition: background .5s;
+    transition: background .5s;
 }
 .sidebar_name {
-	padding-top: 25px;
-	color: #fff;
-	opacity: .7;
+    padding-top: 25px;
+    color: #fff;
+    opacity: .7;
 }
 
 .sidebar-nav li {
@@ -106,14 +108,14 @@
 
 #main_icon
 {
-	float:right;
+    float:right;
    padding-right: 65px;
    padding-top:20px;
    width: 20px;
 }
 .sub_icon
 {
-	float:right;
+    float:right;
    padding-right: 65px;
    padding-top:10px;
    width: 20px;
@@ -132,18 +134,18 @@
 
 @media (max-width:767px) {
   #wrapper {
-	  padding-left: 70px;
-	  transition: all .4s ease 0s;
+      padding-left: 70px;
+      transition: all .4s ease 0s;
   }
   #sidebar-wrapper {
-	  left: 70px;
+      left: 70px;
   }
   #wrapper.active {
-	  padding-left: 200px;
+      padding-left: 200px;
   }
   #wrapper.active #sidebar-wrapper {
-	  left: 200px;
-	  width: 200px;
-	  transition: all .4s ease 0s;
+      left: 200px;
+      width: 200px;
+      transition: all .4s ease 0s;
   }
 }
