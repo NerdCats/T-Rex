@@ -1,0 +1,44 @@
+#current-status-wrapper {
+    position: fixed;
+    z-index: 3;
+    width: 400px;
+    top: 0px;
+    display: block;
+    margin: auto;
+    left: 0;
+    right: 0;	
+}
+
+#overall-status-dropdown-btn {
+	width: 100%;
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+/*.overall-status-active {
+	display: none;
+    transition: all .4s ease 0s;
+}*/
+
+.overall-status-inactive {
+    display: none !important;
+    transition: opacity 1s ease-out;
+    opacity: 0 !important;
+}
+
+#overall-status-content {
+	background-color: white;
+	border: 1px solid black;
+
+    opacity: 1;
+    display: block;
+}
+
+#current-status-wrapper div h1 {
+	margin-top: 0px;
+}
+
+#current-status-wrapper div table {
+	margin: 0px;
+}

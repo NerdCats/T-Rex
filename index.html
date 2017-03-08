@@ -37,6 +37,7 @@
         <link rel="stylesheet" type="text/css" href="app/content/styles/sidebar.css">
         <link rel="stylesheet" type="text/css" href="app/directives/jobActivity/jobActivity.css">
         <link rel="stylesheet" type="text/css" href="app/directives/Chips/angular-chips.css">
+        <link rel="stylesheet" type="text/css" href="app/directives/OverAllStatus/overallStatus.css">
 
         <link rel="stylesheet" type="text/css" href="node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css">
 
@@ -137,7 +138,7 @@
         <script type="text/javascript" src="app/directives/Chips/angular-chips.js"></script>
         <script type="text/javascript" src="app/directives/ConfirmPassword/confirmPassword.js"></script>
         <script type="text/javascript" src="app/directives/CheckAvailability/checkAvailability.js"></script>
-        
+        <script type="text/javascript" src="app/directives/OverAllStatus/overallStatus.js"></script>        
     </head>
     <body>
         <div ng-app="app" id="wrapper" class="" ng-controller="indexController">
@@ -147,8 +148,7 @@
                         <a id="menu-toggle">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a>
                     </li>
                 </ul>
-                
-                <ul class="sidebar-nav" id="sidebar">     
+                <ul class="sidebar-nav" id="sidebar">
                     <li ng-repeat="menu in menus">
                         <a href="{{menu.link}}" target="{{menu.target}}">
                             {{menu.title}}
@@ -158,8 +158,9 @@
                 </ul>
             </div>
             <div id="page-content-wrapper">
-                <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">                    
-                    <div class="col-md-7"></div>                    
+                <overall-status></overall-status>
+                <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">
+                    <div class="col-md-7"></div>
                         <form name="jobSearchForm" class="navbar-form navbar-left">
                             <div class="input-group">
                                 <div class="input-group-addon">Job - </div>
@@ -167,26 +168,25 @@
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" ng-click="saerchJob(jobId)" ng-disabled="jobSearchForm.$invalid">
                                         <i class="fa fa-search" aria-hidden="true"></i>
-                                    </button>                            
+                                    </button>
                                 </span>
-                            </div>                            
-                        </form>                    
-                    <div class="col-md-1 collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">                        
-                        <ul class="nav navbar-nav navbar-right">                            
+                            </div>
+                        </form>
+                    <div class="col-md-1 collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as {{authData.userName}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#/user/details/{{authData.userId}}">Profile</a></li>                                    
+                                    <li><a href="#/user/details/{{authData.userId}}">Profile</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a ng-click="logout()">Log Out</a></li>
                                 </ul>
                             </li>
                         </ul>
-                    </div>                    
-                </nav>            
-                
+                    </div>
+                </nav>                
             </div>
-            <section layout="row">          
+            <section layout="row">
                 <div id="ng-view" ng-view class="view-frame"></div>
             </section>            
         </div>

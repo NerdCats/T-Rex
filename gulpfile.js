@@ -62,7 +62,8 @@ const cssFilePaths = [
 	"app/content/styles/sidebar.css",
 	"node_modules/eonasdan-bootstrap-datetimepicker-npm/build/css/bootstrap-datetimepicker.min.css",
 	"app/directives/Chips/angular-chips.css",
-	"app/directives/JobActivity/jobActivity.css"
+	"app/directives/JobActivity/jobActivity.css",
+	"app/directives/OverallStatus/overallStatus.css"
 ]
 
 const fontsPath = [
