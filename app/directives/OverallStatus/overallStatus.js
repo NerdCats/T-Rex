@@ -192,9 +192,7 @@ function overallStatus(){
 			}, function (error) {
 				console.log(vm.BikroyPickupUrl);
 			});
-		}
-
-		vm.LoadJobCount();
+		}		
 	}];
 
 	return {		
