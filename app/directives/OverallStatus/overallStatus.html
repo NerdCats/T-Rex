@@ -1,0 +1,85 @@
+<div class="center-block" id="current-status-wrapper" style="z-index: 3;" ng-class="overallStatusDropdownClass">
+	<div id="overall-status-content">
+		<h1 class="text-center">Current Status</h1>
+		<table align="center" class="table-striped table-bordered table-hover" style="table-layout: fixed;">
+			<thead>
+				<tr>
+					<th class="col-xs-4 col-sm-4 col-md-4 col-lg-4">Today is {{today | date:"MMM d, y"}}</th>
+					<th class="col-xs-4 col-sm-4 col-md-4 col-lg-4">B2B</th>
+					<th class="col-xs-4 col-sm-4 col-md-4 col-lg-4">B2C</th>				
+				</tr>
+			</thead>
+			<tbody>
+				<!-- <tr>
+					<td>Total Dispatch</td>
+					<td>
+						<span ng-show="B2BTotalCompleted || B2BTotalCompleted ===0">{{B2BTotalCompleted + B2BTotalAttempted + B2BTotalReturned}}</span>
+						<span ng-show="B2BTotalCompleted===NaN">Loading</span>
+					</td>
+					<td>
+						<span ng-show="B2CTotalCompleted || B2CTotalCompleted ===0">{{B2CTotalCompleted + B2CTotalAttempted + B2CTotalReturned}}</span>
+						<span ng-show="B2CTotalCompleted===NaN">Loading</span>
+					</td>
+				</tr> -->
+				<tr>
+					<td>Completed</td>
+					<td>
+						<span ng-show="B2BTotalCompleted || B2BTotalCompleted ===0">{{B2BTotalCompleted}}</span>
+						<span ng-show="B2BTotalCompleted===NaN">Loading</span>
+					</td>
+					<td>
+						<span ng-show="B2CTotalCompleted || B2CTotalCompleted ===0">{{B2CTotalCompleted}}</span>
+						<span ng-show="B2CTotalCompleted===NaN">Loading</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Attempted</td>
+					<td>
+						<span ng-show="B2BTotalAttempted || B2BTotalAttempted ===0">{{B2BTotalAttempted}}</span>
+						<span ng-show="B2BTotalAttempted===NaN">Loading</span>
+					</td>
+					<td>
+						<span ng-show="B2CTotalAttempted || B2CTotalAttempted ===0">{{B2CTotalAttempted}}</span>
+						<span ng-show="B2CTotalAttempted===NaN">Loading</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Returned</td>
+					<td>
+						<span ng-show="B2BTotalReturned || B2BTotalReturned ===0">{{B2BTotalReturned}}</span>
+						<span ng-show="B2BTotalReturned===NaN">Loading</span>
+					</td>
+					<td>
+						<span ng-show="B2CTotalReturned || B2CTotalReturned ===0">{{B2CTotalReturned}}</span>
+						<span ng-show="B2CTotalReturned===NaN">Loading</span>
+					</td>
+				</tr>
+				<tr>
+					<td>Bikroy Pickup</td>
+					<td>
+						<span ng-show="BikroyPickup || BikroyPickup ===0">{{BikroyPickup}}</span>
+						<span ng-show="BikroyPickup===NaN">Loading</span>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Total</td>
+					<td>
+						<span ng-show="B2BTotalCompleted || B2BTotalCompleted ===0">{{B2BTotalCompleted + B2BTotalAttempted + B2BTotalReturned}}</span>
+						<span ng-show="B2BTotalCompleted===NaN">Loading</span>
+					</td>
+					<td>
+						<span ng-show="B2CTotalCompleted || B2CTotalCompleted ===0">{{B2CTotalCompleted + B2CTotalAttempted + B2CTotalReturned}}</span>
+						<span ng-show="B2CTotalCompleted===NaN">Loading</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>		
+	</div>
+	<div id="overall-status-dropdown-btn">
+		<button class="btn btn-default center-block" ng-click="toggleDropdown()">Current Status
+			<i class="fa fa-angle-double-up" aria-hidden="true" ng-show="overallStatusDropdownClass === ''"></i>
+			<i class="fa fa-angle-double-down" aria-hidden="true" ng-show="overallStatusDropdownClass === 'overall-status-inactive'"></i>
+		</button>
+	</div>
+</div>
