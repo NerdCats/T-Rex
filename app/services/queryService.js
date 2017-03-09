@@ -152,54 +152,54 @@ function queryService(restCall, ngAuthSettings){
 				case 'IN_PROGRESS':
 				case 'COMPLETED':					
 				case 'CANCELLED':
-					jobStateParam = "State eq '"+ searchParam.jobState +"'";
+					jobStateParam = "(State eq '"+ searchParam.jobState +"')";
 					break;
 				case 'IN PROGRESS':
-					jobStateParam = "State eq 'IN_PROGRESS'";
+					jobStateParam = "(State eq 'IN_PROGRESS')";
 					break;
 				case 'PENDING':
-					jobStateParam = "State eq 'ENQUEUED'";
+					jobStateParam = "(State eq 'ENQUEUED')";
 					break;
 				case 'PENDING AND IN PROGRESS':
-					jobStateParam = "State eq 'ENQUEUED' or State eq 'IN_PROGRESS'";
+					jobStateParam = "(State eq 'ENQUEUED' or State eq 'IN_PROGRESS')";
 					break;
 				case 'PICKUP IN PROGRESS':
-					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'PackagePickUp')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'PackagePickUp'))";
 					break;
 				case 'ALL DELIVERY IN PROGRESS':
-					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'Delivery'))";
 					break;
 				case 'DELIVERY IN PROGRESS':
-					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'default' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'default' and task/Type eq 'Delivery'))";
 					break;
 				case 'CASH DELIVERY IN PROGRESS':
-					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'SecureCashDelivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'SecureCashDelivery'))";
 					break;
 				case 'RETURN DELIVERY IN PROGRESS':
-					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery'))";
 					break;
 				case 'RETRY DELIVERY IN PROGRESS':
-					jobStateParam = "Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery'))";
 					break;
 
 					
 				case 'PICKUP COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'PackagePickUp')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'PackagePickUp'))";
 					break;
 				case 'ALL DELIVERY COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery'))";
 					break;
 				case 'DELIVERY COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'default' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'default' and task/Type eq 'Delivery'))";
 					break;
 				case 'CASH DELIVERY COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'SecureCashDelivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'SecureCashDelivery'))";
 					break;
 				case 'RETRY DELIVERY COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'retry' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'retry' and task/Type eq 'Delivery'))";
 					break;
 				case 'RETURNED DELIVERY COMPLETED':
-					jobStateParam = "Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'return' and task/Type eq 'Delivery')";
+					jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'return' and task/Type eq 'Delivery'))";
 					break;
 			}
 
