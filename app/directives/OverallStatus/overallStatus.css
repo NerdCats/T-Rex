@@ -1,13 +1,12 @@
 #current-status-wrapper {
     position: fixed;
-    z-index: 1000;
     width: 400px;
     top: 0px;
     display: block;
     margin: auto;
     left: 0;
     right: 0;
-    transition: top .4s ease-out;
+    transition: top .4s ease-out;    
 }      
 
 .overall-status-inactive {
