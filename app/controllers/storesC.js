@@ -1,7 +1,12 @@
-app.controller('storesC', ['$scope', 'storeService', storesC]);
+(function () {
+	
+	'use strict';
 
-function storesC($scope, storeService){
-	var vm = $scope;
-	vm.store = storeService.getStore(vm.userid);
-	vm.store.loadStores(vm.userid);
-}
+	app.controller('storesC', storesC);
+
+	function storesC($scope, storeService){
+		var vm = $scope;
+		vm.store = storeService.getStore(vm.userid);
+		vm.store.loadStores(vm.userid);
+	}
+})();

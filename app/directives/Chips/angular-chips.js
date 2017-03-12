@@ -1,5 +1,5 @@
 // Source : https://github.com/mohbasheer/angular-chips
-// Since this dude has not integrated npm with this repo, so using the direct code of his repo.
+// Since this dude has not integrated npm with this repo, so using the direct code from his repo.
 
 (function() {
     Chips.$inject = ["$compile", "$timeout", "DomUtil"];

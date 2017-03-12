@@ -1,30 +1,35 @@
-'use strict';
-app.controller('supportedOrderController', ['$scope', 'supportedOrderFactory', 'restCall', 'host','$window', supportedOrderController]);
-function supportedOrderController($scope, supportedOrderFactory, restCall, host, $window){
-	var vm = $scope;	
+(function () {
+	
+	'use strict';
 
-	var supportedOrderUrl = host + "api/Order/SupportedOrder";
-	var successCallback = function (response) {
-		vm.supportedOrder = response.data;
-		console.log(response);
-	};
-	var errorCallback = function (error) {
-		console.log(error);
-	};
-	restCall('GET', supportedOrderUrl, null, successCallback, errorCallback);
+	app.controller('supportedOrderController', supportedOrderController);
 
-	vm.update = function (order) {
-		console.log(order);
-		$window.location.href = "#/supportedOrderUpdate";
-	};
+	function supportedOrderController($scope, supportedOrderFactory, restCall, host, $window){
+		var vm = $scope;	
 
-	vm.delete = function (id) {		
-		console.log(supportedOrderUrl + "/" + id);
-		restCall('DELETE', supportedOrderUrl + "/" + id, null, function (response) {			
+		var supportedOrderUrl = host + "api/Order/SupportedOrder";
+		var successCallback = function (response) {
+			vm.supportedOrder = response.data;
 			console.log(response);
-			$window.location.reload();
-		}, function (error) {
+		};
+		var errorCallback = function (error) {
 			console.log(error);
-		})
+		};
+		restCall('GET', supportedOrderUrl, null, successCallback, errorCallback);
+
+		vm.update = function (order) {
+			console.log(order);
+			$window.location.href = "#/supportedOrderUpdate";
+		};
+
+		vm.delete = function (id) {		
+			console.log(supportedOrderUrl + "/" + id);
+			restCall('DELETE', supportedOrderUrl + "/" + id, null, function (response) {			
+				console.log(response);
+				$window.location.reload();
+			}, function (error) {
+				console.log(error);
+			})
+		}
 	}
-}
+})();

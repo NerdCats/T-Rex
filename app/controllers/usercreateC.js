@@ -1,10 +1,14 @@
-'use strict';
-app.controller('usercreateC', ['$scope', 'userService', usercreateC]);
+(function () {
+	
+	'use strict';
 
-function usercreateC($scope, userService) {
+	app.controller('usercreateC', usercreateC);
 
-  	var vm = $scope;
-  	vm.gender = ["MALE", "FEMALE"];
-  	vm.userTypes = ["USER", "CNG_DRIVER", "BIKE_MESSENGER", "ENTERPRISE"];	
-	vm.user = userService.getNewUser();
-}
+	function usercreateC($scope, userService) {
+
+	  	var vm = $scope;
+	  	vm.gender = ["MALE", "FEMALE"];
+	  	vm.userTypes = ["USER", "CNG_DRIVER", "BIKE_MESSENGER", "ENTERPRISE"];	
+		vm.user = userService.getNewUser();
+	}
+})();
