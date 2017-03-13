@@ -42,25 +42,40 @@
 			})
 		}
 
-		vm.assignAssetToTask = function (taskIndex) {
-			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {						
-				vm.Orders.assignAssetToTask(index, parseInt(taskIndex) , "AssetAssign");
-			})
-		}
-
-		vm.completeTask = function (selectedTaskIndexForComplete) {
-			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, index) {			
-				switch(selectedTaskIndexForComplete) {
-					case "1":
-						vm.Orders.assignAssetToTask(index, parseInt(selectedTaskIndexForComplete) , "PackagePickUp");
+		vm.assignAssetToTask = function (taskTypeOrName) {
+			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
+				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
+				vm.Orders.assignAssetToTask(jobIndex, task, "AssetAssign");
+				switch(taskTypeOrName){
+					case 'PackagePickup':
+						vm.Orders.data[jobIndex].isAssigningPickUpAsset= true;
 						break;
-					case "2":
-						vm.Orders.assignAssetToTask(index, parseInt(selectedTaskIndexForComplete) , "Delivery");
+					case 'Delivery':
+						vm.Orders.data[jobIndex].isAssigningDeliveryAsset = true;
 						break;
-					case "3":
-						vm.Orders.assignAssetToTask(index, parseInt(selectedTaskIndexForComplete) , "SecureDelivery");
+					case 'SecureDelivery':
+						vm.Orders.data[jobIndex].isAssigningSecureCashDeliveryAsset = true;
 						break;
 					default:
+						break;
+				}
+			});
+		}
+
+		vm.completeTask = function (taskTypeOrName) {
+			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {
+				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
+				vm.Orders.assignAssetToTask(jobIndex, task, "TaskComplete");
+
+				switch(taskTypeOrName){
+					case 'PackagePickup':
+						vm.Orders.data[jobIndex].isCompletingPickUpAsset = true;
+						break;
+					case 'Delivery':
+						vm.Orders.data[jobIndex].isCompletingDeliveryAsset = true;
+						break;
+					case 'SecureDelivery':
+						vm.Orders.data[jobIndex].isCompletingSecureCashDeliveryAsset = true;
 						break;
 				}
 			})

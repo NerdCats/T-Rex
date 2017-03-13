@@ -50,7 +50,7 @@
 				isAssigningSecureCashDeliveryAsset : false,
 				isCompletingPickUpAsset : false,
 				isCompletingDeliveryAsset : false,
-				isCompletingSecureCashDeliveryAsset : false,				
+				isCompletingSecureCashDeliveryAsset : false,
 				ETA : function () {
 					var eta = "";
 					if (job.Order.ETA) {
@@ -277,6 +277,17 @@
 						itSelf.loadSingleOrder(HRID);
 					})	
 				},
+				loadSingleTask: function (taskTypeOrName, orderIndex) {
+					var itSelf = this;
+					var task = {};
+					var Tasks = itSelf.data[orderIndex].data.Tasks;
+					for(var i = 0; i < Tasks.length; i++){
+						if (Tasks[i].Name === taskTypeOrName || Tasks[i].Type === taskTypeOrName) {
+							task = Tasks[i];
+						}
+					}					
+					return task;
+				},
 				loadSingleOrder: function (HRID) {
 					this.isCompleted = 'IN_PROGRESS';
 					var itSelf = this;
@@ -354,65 +365,31 @@
 						isAssigningCompleted();
 					})
 				},
-				assignAssetToTask: function (orderIndex, taskIndex, patchType) {
+				assignAssetToTask: function (orderIndex, task, patchType) {
 					var itSelf = this;				
 					var value = [];
-					var assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + 
-											itSelf.data[orderIndex].data.Id + "/" + 
-											itSelf.data[orderIndex].data.Tasks[taskIndex].id;
-					if (taskIndex === 1) {
+					var assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + itSelf.data[orderIndex].data.Id + "/" + task.id;
+					if (patchType === 'AssetAssign') {
+						value = [
+							{value: this.assign.assetRef, path: "/AssetRef", op: "replace"}, 
+							{value: "IN_PROGRESS", path: "/State", op: "replace"}
+						];
+						itSelf.patchToTask(orderIndex, assetAssignUrl, value);
+					}
+					if (patchType === 'TaskComplete'){
+						value = [{value: "COMPLETED", path: "/State", op: "replace"}];
+						itSelf.patchToTask(orderIndex, assetAssignUrl, value);
 
-						if (patchType === "PackagePickUp") {
-							itSelf.data[orderIndex].isCompletingPickUpAsset = true;
-							value = [{value: "COMPLETED", path: "/State", op: "replace"}];													
-							itSelf.patchToTask(orderIndex, assetAssignUrl, value);
-
-							// itSelf.data[orderIndex].isAssigningDeliveryAsset = true;
-							assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + 
-												itSelf.data[orderIndex].data.Id + "/" + 
-												itSelf.data[orderIndex].data.Tasks[0].id;
+						if (task.Type === 'PackagePickUp') {
+							assetAssignUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + itSelf.data[orderIndex].data.Id + "/" + itSelf.data[orderIndex].data.Tasks[0].id;
 							value = [{value: "COMPLETED", path: "/State", op: "replace"}];
-							itSelf.patchToTask(orderIndex, assetAssignUrl, value);
-						} else if (patchType === "AssetAssign"){
-							itSelf.data[orderIndex].isAssigningPickUpAsset = true;
-							value = [
-											{value: this.assign.assetRef, path: "/AssetRef", op: "replace"}, 
-											{value: "IN_PROGRESS", path: "/State", op: "replace"}
-										];													
 							itSelf.patchToTask(orderIndex, assetAssignUrl, value);
 						}
 					}
-					else if (taskIndex === 2) {
-						if (patchType === "Delivery") {
-							itSelf.data[orderIndex].isCompletingDeliveryAsset = true;
-							value = [{value: "COMPLETED", path: "/State", op: "replace"}];
-							itSelf.patchToTask(orderIndex, assetAssignUrl, value);	
-						} else if (patchType === "AssetAssign") {
-							itSelf.data[orderIndex].isAssigningDeliveryAsset = true;
-							value = [
-											{value: this.assign.assetRef, path: "/AssetRef", op: "replace"}, 
-											{value: "IN_PROGRESS", path: "/State", op: "replace"}
-										];
-							itSelf.patchToTask(orderIndex, assetAssignUrl, value);	
-						}					
-					}
-					else if (taskIndex === 3) {
-						if (patchType === "SecureDelivery") {
-							itSelf.data[orderIndex].isCompletingSecureCashDeliveryAsset = true;
-							value = [{value: "COMPLETED", path: "/State", op: "replace"}];
-							itSelf.patchToTask(orderIndex, assetAssignUrl, value);	
-						} else if (patchType === "AssetAssign") {
-							itSelf.data[orderIndex].isAssigningSecureCashDeliveryAsset = true;
-							value = [
-											{value: this.assign.assetRef, path: "/AssetRef", op: "replace"}, 
-											{value: "IN_PROGRESS", path: "/State", op: "replace"}
-										];
-							itSelf.patchToTask(orderIndex, assetAssignUrl, value);	
-						}					
-					}
 				}
 			}
-		};	 
+		};
+
 
 		var autoRefresh;
 		var startRefresh = function (Orders) {

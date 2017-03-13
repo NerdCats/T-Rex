@@ -18,15 +18,15 @@
 	        	<div class="row">
 		        	<div class="col-md-8">
 			        	<label>Assign selected Jobs For </label>
-		        		<select class="form-control" ng-model="selectedTaskIndexForAssign">		        		
-			        		<option value="1">pickup</option>
-			        		<option value="2">delivery</option>
-			        		<option value="3">cash delivery</option>
+		        		<select class="form-control" ng-model="selectedTaskType">		        		
+			        		<option value="PackagePickUp">Pickup</option>
+			        		<option value="Delivery">Delivery</option>
+			        		<option value="SecureDelivery">Cash Delivery</option>
 			        	</select>       
 		        	</div>
 		        	<div class="col-md-4">
 			        	<br>
-				    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskIndexForAssign" ng-click="assignAssetToTask(selectedTaskIndexForAssign)">Assign</button>
+				    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskType" ng-click="assignAssetToTask(selectedTaskType)">Assign</button>
 		        	</div>
 	        	</div>
 	        </div>
@@ -35,14 +35,14 @@
         <div class="row">        	
     		<label class="col-md-12 control-label">Select Task for Completion of {{Orders.selectedJobsCount}} selected Jobs</label>
     		<div class="col-md-8">
-        		<select class="form-control" ng-model="selectedTaskIndexForComplete">		        		
-	        		<option value="1">pickup</option>
-	        		<option value="2">delivery</option>
-	        		<option value="3">cash delivery</option>
+        		<select class="form-control" ng-model="selectedTaskTypeForComplete">		        		
+	        		<option value="PackagePickUp">Pickup</option>
+	        		<option value="Delivery">Delivery</option>
+	        		<option value="SecureDelivery">Cash Delivery</option>
 	        	</select>
     		</div>
         	<div class="col-md-4">		    	
-		    	<button class="btn btn-primary" ng-disabled="!selectedTaskIndexForComplete" ng-click="completeTask(selectedTaskIndexForComplete)">Complete</button>
+		    	<button class="btn btn-primary" ng-disabled="!selectedTaskTypeForComplete" ng-click="completeTask(selectedTaskTypeForComplete)">Complete</button>
 			</div>
         </div>
     </div>	
@@ -72,10 +72,27 @@
 	                        <label>Select Job State</label>
 	                        <select class="form-control" ng-model="SelectedState" ng-change="activate()">
 	                            <option value="All">All</option>
+	                            <option disabled>──────────────────────────────</option>
+	                            <option value="PENDING AND IN PROGRESS">PENDING AND IN PROGRESS</option>
+	                            <option disabled>──────────────────────────────</option>
 	                            <option value="ENQUEUED">PENDING</option>
-	                            <option value="IN_PROGRESS">IN PROGRESS</option>
+	                            <option disabled>──────────────────────────────</option>
+	                            <option value="IN PROGRESS">IN PROGRESS</option>
+	                            <option value="PICKUP IN PROGRESS">PICKUP IN PROGRESS</option>
+	                            <option value="ALL DELIVERY IN PROGRESS">ALL DELIVERY IN PROGRESS</option>
+	                            <option value="DELIVERY IN PROGRESS">DELIVERY IN PROGRESS</option>
+	                            <option value="CASH DELIVERY IN PROGRESS">CASH DELIVERY IN PROGRESS</option>
+	                            <option value="RETURN DELIVERY IN PROGRESS">RETURN DELIVERY IN PROGRESS</option>
+	                            <option value="RETRY DELIVERY IN PROGRESS">RETRY DELIVERY IN PROGRESS</option>
+	                            <option disabled>──────────────────────────────</option>
 	                            <option value="COMPLETED">COMPLETED</option>
-	                            <option value="RETURNED">RETURNED</option>
+	                            <option value="PICKUP COMPLETED">PICKUP COMPLETED</option>
+	                            <option value="ALL DELIVERY COMPLETED">ALL DELIVERY COMPLETED</option>
+	                            <option value="DELIVERY COMPLETED">DELIVERY COMPLETED</option>
+	                            <option value="CASH DELIVERY COMPLETED">CASH DELIVERY COMPLETED</option>
+	                            <option value="RETURNED DELIVERY COMPLETED">RETURNED DELIVERY COMPLETED</option>
+	                            <option value="RETRY DELIVERY COMPLETED">RETRY DELIVERY COMPLETED</option>                            
+	                            <option disabled>──────────────────────────────</option>
 	                            <option value="CANCELLED">CANCELLED</option>
 	                        </select>
 	                    </div>
