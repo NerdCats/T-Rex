@@ -67,32 +67,17 @@
 				vm.workOrders.loadOrders();
 			}
 		}
+
+
 		vm.assetChanged = function () {		
 			angular.forEach(vm.Assets, function (asset, index) {			
-				if (vm.selectedAssetId === asset.Id) {
-					console.log("matched!")
+				if (vm.selectedAssetId === asset.Id) {					
 					vm.selectedAsset = asset;
 				}
 			})
 			vm.activate();
 		}
 
-		vm.deliveryTask = function () {
-			var tempOrders = [];
-			angular.forEach(vm.workOrders.data, function (job, index) {				
-				vm.totalSubTotal += job.data.Order.OrderCart.SubTotal;
-				vm.totalServiceCharge += job.data.Order.OrderCart.ServiceCharge;
-				vm.totalPayable += job.data.Order.OrderCart.TotalToPay;
-
-				if (vm.selectedAssetId === job.data.Tasks[2].AssetRef) {
-					tempOrders.push(job);				
-					console.log(job.data.Tasks[1].Type);
-					console.log(vm.selectedAssetId);
-					console.log(index+1);
-				}
-			})
-			vm.workOrders.data = tempOrders;		
-		}
 
 		vm.$watch(function () {
 			return vm.workOrders.data
@@ -112,14 +97,10 @@
 					vm.totalPayable += job.data.Order.OrderCart.TotalToPay;
 
 					if (vm.selectedAssetId === job.data.Tasks[2].AssetRef) {
-						tempOrders.push(job);				
-						console.log(job.data.Tasks[2].Type);
-						console.log(vm.selectedAssetId);
-						console.log(index+1);
+						tempOrders.push(job);
 					}					
-					newVal.data = tempOrders;	
-					console.log(newVal.data.length);
-				});			
+					newVal.data = tempOrders;
+				});
 			}
 		})
 
