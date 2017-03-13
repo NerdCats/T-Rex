@@ -22,6 +22,7 @@
 		vm.OrderByPropertyDirection = "desc";
 		vm.SelectedTimeProperty = null;
 		vm.SelectedOrderByProperty = null;
+		vm.assetIdToLoadInprogressJobs = null;
 
 		vm.selectedAssetId = null;
 		vm.selectedTaskIndexForAssign = null;
@@ -31,7 +32,8 @@
 		vm.Orders.searchParam.jobState === 'IN_PROGRESS';
 		vm.Orders.assign.showPickupAssign = true;
 		vm.Orders.assign.showdeliveryAssign = true;
-		vm.Orders.assign.showsecuredeliveryAssign = true;	
+		vm.Orders.assign.showsecuredeliveryAssign = true;
+		vm.Orders.showPaymentUpdateOption = true;
 
 		vm.assetChanged = function () {			
 			vm.Orders.assign.assetRef = vm.selectedAssetId;
@@ -101,7 +103,12 @@
 
 		vm.onSelectEnterprise = function ($item, $model, $label, $event){		
 			vm.EnterpriseUser = $item.UserName;		
-			console.log($item);
+			console.log(vm.EnterpriseUser);
+		}
+
+		vm.onSelectAssetToLoadInprogressJobs = function ($item, $model, $label, $event) {
+			vm.assetIdToLoadInprogressJobs = $item.Id;
+			console.log(vm.assetIdToLoadInprogressJobs);
 		}
 
 		vm.getAssetsList = function (page) {		
@@ -215,6 +222,7 @@
 		}
 
 		vm.activate = function () {
+			vm.Orders.searchParam.userId = vm.assetIdToLoadInprogressJobs;
 			vm.Orders.searchParam.jobState = vm.SelectedState;
 			vm.Orders.searchParam.UserName = vm.EnterpriseUser;
 			vm.Orders.searchParam.PaymentStatus = vm.PaymentStatus;

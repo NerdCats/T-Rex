@@ -55,7 +55,7 @@
 		        <ng-form class="">			            
 		        	
 	                <div class="row">
-	                    <div class="col-md-3">
+	                    <div class="col-md-2">
 	                        <label>Select Job State</label>
 	                        <select class="form-control" ng-model="SelectedState" ng-change="activate()">
 	                            <option value="All">All</option>
@@ -102,7 +102,7 @@
 	                            </select>
 	                        </div>
 	                    </div>
-	                    <div class="col-md-3">
+	                    <div class="col-md-2">
 	                        <label>Order By:</label>
 	                        <div>                                                        
 	                            <select class="form-control" ng-model="SelectedOrderByProperty" ng-change="SelectOrderBy()">
@@ -114,6 +114,26 @@
 	                                <option value="ModifiedTime desc">By <b>Latest</b> Modified Time</option>
 	                            </select>
 	                        </div>
+	                    </div>
+	                    <div class="col-md-2">
+	                    	<label>Find Delivery Jobs by Asset</label>
+				            <div class="input-group">
+				                <input type="text" 
+	                                ng-model="assetNameIdToLoadInprogressJobs" placeholder="Write Assets Users Name" 
+	                                uib-typeahead="user.UserName for user in Assets | filter:$viewValue | limitTo:20" 
+	                                typeahead-on-select="onSelectAssetToLoadInprogressJobs($item, $model, $label, $event)"
+	                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
+				                <span class="input-group-btn">                                    
+				                    <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
+				                        <i class="fa fa-refresh" aria-hidden="true"></i>
+				                    </button>
+				                    <button class="btn btn-default" 
+					                    ng-click="assetIdToLoadInprogressJobs=null;assetNameIdToLoadInprogressJobs=null;activate()" 
+					                    ng-show="Assets.length !== 0">
+				                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+				                    </button>
+				                </span>
+				            </div>
 	                    </div>
 	                    <div class="col-md-3">
 	                        <label>Search:</label>

@@ -18,7 +18,12 @@
 		vm.totalPayable = 0;
 
 		vm.downloadExcelWorkOrder = function (tableId) {
-			excelWriteService.export_table_to_excel(tableId, 'xlsx', function () {});
+			console.log(vm.selectedAsset);
+			var filename = "Workorder.xlsx";
+			if(vm.selectedAsset){
+				filename = "workorder - "+ vm.selectedAsset.UserName + " - " + new Date().toDateString() + ".xlsx";
+			}
+			excelWriteService.export_table_to_excel(tableId, 'xlsx', filename);
 		}
 
 		vm.getAssetsList = function (page) {		

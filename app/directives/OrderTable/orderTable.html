@@ -139,7 +139,12 @@
 
 
                 <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'CANCELLED'">{{order.data.CancellationReason || "No Reason Mentioned"}}</td>
-                <td><span class="label {{orders.getProperWordWithCss(order.data.PaymentStatus).class}}">{{orders.getProperWordWithCss(order.data.PaymentStatus).value}}</span></td>
+                <td>
+                    <span class="label {{orders.getProperWordWithCss(order.data.PaymentStatus).class}}">{{orders.getProperWordWithCss(order.data.PaymentStatus).value}}</span>
+                    <span ng-show="orders.showPaymentUpdateOption && order.data.PaymentStatus === 'Pending'">
+                        <button class="btn btn-danger" ng-click="orders.updatePaymentStatus($index)">Update Payment</button>
+                    </span>
+                </td>
                 <td>{{order.RequestedAgo}}</td>                                                    
             </tr>
         </tbody>

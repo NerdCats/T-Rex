@@ -51,6 +51,7 @@
 				isCompletingPickUpAsset : false,
 				isCompletingDeliveryAsset : false,
 				isCompletingSecureCashDeliveryAsset : false,
+				isUpdatingPaymentStatus: false,				
 				ETA : function () {
 					var eta = "";
 					if (job.Order.ETA) {
@@ -329,7 +330,28 @@
 					showsecuredeliveryAssign: false,
 					assetRef: null				
 				},
-
+				showPaymentUpdateOption: false,
+				updatePaymentStatus: function (jobindex) {
+		 			var itSelf = this;	 			
+		 			itSelf.isUpdatingPaymentStatus = true;
+		 			$http({
+		 				method: 'POST',
+		 				url: ngAuthSettings.apiServiceBaseUri + 'api/payment/process/' + this.data[jobindex].data.Id,
+		 			}).then(function(response){		 				
+		 				itSelf.isUpdatingPaymentStatus = false;
+		 				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + itSelf.data[orderIndex].data.HRID;
+						$http({
+							method: "GET",
+							url: jobUrl
+						}).then(function (response) {
+							itSelf.data[jobindex].data = response.data;							
+						}, function (error) {					
+							console.log(error);							
+						})
+		 			}, function (error) {		 				
+		 				itSelf.isUpdatingPaymentStatus = false;
+		 			})
+		 		},
 				patchToTask: function(orderIndex, assetAssignUrl, value) {
 					var itSelf = this;
 					var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + itSelf.data[orderIndex].data.HRID;

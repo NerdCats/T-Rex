@@ -24,10 +24,10 @@
 	        </div>
     	</fieldset>
 	</ng-form>
-	<div ng-show="workOrders.isCompleted === 'SUCCESSFULL'" style="font-size: 8px !important;">
+	<div ng-show="workOrders.isCompleted === 'SUCCESSFULL'">
 		<div id="workOrders">
 			<h1>Work orders for Asset {{selectedAsset.UserName}}</h1>
-			<table id="workOrderTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" >
+			<table id="workOrderTable" class="table table-striped table-bordered table-hover" style="table-layout: fixed;">
 				<tbody>
 					<tr>
 						<td><b>S/L</b></td>
