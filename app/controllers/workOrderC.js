@@ -4,7 +4,7 @@
 
 	app.controller('workOrderC', workOrderC);
 
-	function workOrderC($scope, $window, $routeParams, $uibModal, ngAuthSettings, restCall, dashboardFactory){
+	function workOrderC($scope, $window, $routeParams, $uibModal, ngAuthSettings, restCall, dashboardFactory, excelWriteService){
 		var vm = $scope;	
 		vm.WarningMessage = null;
 		vm.selectedAssetId = $routeParams.id;
@@ -16,6 +16,10 @@
 		vm.totalSubTotal = 0;
 		vm.totalServiceCharge = 0;
 		vm.totalPayable = 0;
+
+		vm.downloadExcelWorkOrder = function (tableId) {
+			excelWriteService.export_table_to_excel(tableId, 'xlsx', function () {});
+		}
 
 		vm.getAssetsList = function (page) {		
 			var getUsersUrl = ngAuthSettings.apiServiceBaseUri + "api/Account/odata?$filter=Type eq 'BIKE_MESSENGER'&$orderby=UserName&page="+ page +"&pageSize=50";
