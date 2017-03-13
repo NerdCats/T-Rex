@@ -47,43 +47,10 @@
 					vm.LoadJobCount();
 				} else {
 					vm.overallStatusDropdownClass = 'overall-status-inactive';
-				}
-				console.log(vm.overallStatusDropdownClass)
+				}				
 			}
 
-			vm.LoadJobCount = function () {
-				// // B2B Total Dispatched
-				// $http({
-				// 	method: 'GET',
-				// 	url: vm.B2BTotalDispatchedUrl
-				// }).then(function (response) {
-					// if (response.data.pagination.Total) {
-						// 	vm.B2BTotalDispatched = response.data.pagination.Total;
-					// } else {
-						// 	vm.B2BTotalDispatched = 0;
-					// }
-				
-				// }, function (error) {
-				// console.log(vm.B2BTotalDispatchedUrl);
-				// });
-
-
-				// // B2C Total Dispatched
-				// $http({
-				// 	method: 'GET',
-				// 	url: vm.B2CTotalDispatchedUrl
-				// }).then(function (response) {
-					// if (response.data.pagination.Total) {
-						// 	vm.B2CTotalDispatched = response.data.pagination.Total;
-					// } else {
-						// 	vm.B2CTotalDispatched = 0;
-					// }
-				
-				// }, function (error) {
-				// console.log(vm.B2CTotalDispatchedUrl);
-				// });
-
-
+			vm.LoadJobCount = function () {				
 				// B2B Total Completed
 				$http({
 					method: 'GET',
