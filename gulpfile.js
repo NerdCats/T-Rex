@@ -46,8 +46,7 @@ const jsLibFilePaths = [
 	"node_modules/ms-signalr-client/jquery.signalR.min.js",
 	"node_modules/angular-signalr-hub/signalr-hub.min.js",
 	"node_modules/xlsx/dist/jszip.js",
-    "node_modules/xlsx/dist/xlsx.min.js",
-    "node_modules/xlsx/dist/ods.js",
+    "node_modules/xlsx/dist/xlsx.min.js",    
     "node_modules/jwt-decode/build/jwt-decode.min.js",
     "node_modules/bootstrap-daterangepicker/daterangepicker.js",
     "node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js"
