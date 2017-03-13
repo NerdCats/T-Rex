@@ -53,20 +53,7 @@
 	        <h3>Job Search Fields</h3><br>	        
 	        <div class="row">
 		        <ng-form class="">			            
-		        	<div class="row">	        									
-						<div class="col-md-12">
-							<label class="">Fetch Job Ids:</label>
-							<chips ng-model="listOfHRID">
-					            <chip-tmpl>
-					                <div class="default-chip">
-					                    {{chip}}
-					                    <span class="glyphicon glyphicon-remove" remove-chip></span>
-					                </div>
-					            </chip-tmpl>
-					            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
-					        </chips>
-				       </div>				        	
-			        </div><br>
+		        	
 	                <div class="row">
 	                    <div class="col-md-3">
 	                        <label>Select Job State</label>
@@ -222,6 +209,20 @@
 	                <br>			            
 		        </ng-form>        
 		    </div>
+		    <div class="row">	        									
+				<div class="col-md-12">
+					<label class="">Fetch Job Ids:</label>
+					<chips ng-model="listOfHRID">
+			            <chip-tmpl>
+			                <div class="default-chip">
+			                    {{chip}}
+			                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+			                </div>
+			            </chip-tmpl>
+			            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
+			        </chips>
+		       </div>				        	
+	        </div><br>
 	    </ng-form>
 	</div>
 	<div class="row">
