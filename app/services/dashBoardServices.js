@@ -333,13 +333,13 @@
 				showPaymentUpdateOption: false,
 				updatePaymentStatus: function (jobindex) {
 		 			var itSelf = this;	 			
-		 			itSelf.isUpdatingPaymentStatus = true;
+		 			itSelf.data[jobindex].isUpdatingPaymentStatus = true;
 		 			$http({
 		 				method: 'POST',
-		 				url: ngAuthSettings.apiServiceBaseUri + 'api/payment/process/' + this.data[jobindex].data.Id,
+		 				url: ngAuthSettings.apiServiceBaseUri + 'api/payment/process/' + itSelf.data[jobindex].data.Id,
 		 			}).then(function(response){		 				
-		 				itSelf.isUpdatingPaymentStatus = false;
-		 				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + itSelf.data[orderIndex].data.HRID;
+		 				itSelf.data[jobindex].isUpdatingPaymentStatus = false;
+		 				var jobUrl = ngAuthSettings.apiServiceBaseUri + "api/job/" + itSelf.data[jobindex].data.HRID;
 						$http({
 							method: "GET",
 							url: jobUrl
@@ -349,7 +349,7 @@
 							console.log(error);							
 						})
 		 			}, function (error) {		 				
-		 				itSelf.isUpdatingPaymentStatus = false;
+		 				itSelf.data[jobindex].isUpdatingPaymentStatus = false;
 		 			})
 		 		},
 				patchToTask: function(orderIndex, assetAssignUrl, value) {

@@ -67,7 +67,7 @@
                 <td ng-show="orders.assign.showPickupAssign">
                     <span class="label asset">{{order.data.Assets[orders.loadSingleTask('PackagePickUp', $index).AssetRef].UserName}}</span>
                     <br>
-                    <button class="btn btn-primary" style="margin-top: 25%;" 
+                    <button class="btn btn-primary small-button" style="margin-top: 25%;" 
                         ng-click="order.isAssigningPickUpAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('PackagePickUp', $index), 'AssetAssign')" 
                         ng-show="orders.selectedAssetName">
                         <span><i ng-show="order.isAssigningPickUpAsset" class="fa fa-refresh fa-spin"></i></span>
@@ -75,10 +75,8 @@
                         <span ng-show="order.data.Tasks[1].AssetRef">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                     </button>
                     <br>
-                    <button class="btn btn-primary" style="margin-top: 25%;" 
-
+                    <button class="btn btn-primary small-button" style="margin-top: 25%;" 
                             ng-click="order.isCompletingPickUpAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('PackagePickUp', $index), 'TaskComplete')" 
-
                             ng-disabled="orders.loadSingleTask('PackagePickUp', $index).State === 'COMPLETED'">
                         <span><i ng-show="order.isCompletingPickUpAsset" class="fa fa-refresh fa-spin"></i></span>
                         <span>Complete Pickup</span>                    
@@ -90,7 +88,7 @@
                 <td ng-show="orders.assign.showdeliveryAssign">
                     <span class="label asset">{{order.data.Assets[orders.loadSingleTask('Delivery', $index).AssetRef].UserName}}</span>
                     <br>
-                    <button class="btn btn-primary" style="margin-top: 25%;" 
+                    <button class="btn btn-primary small-button" style="margin-top: 25%;" 
                             ng-click="order.isAssigningDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('Delivery', $index), 'AssetAssign')" 
                             ng-show="orders.selectedAssetName">
                         <span><i ng-show="order.isAssigningDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
@@ -98,10 +96,8 @@
                         <span ng-show="order.DeliveryAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                     </button>
                     <br>
-                    <button class="btn btn-primary" style="margin-top: 25%;" 
-
+                    <button class="btn btn-primary small-button" style="margin-top: 25%;" 
                             ng-click="order.isCompletingDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('Delivery', $index), 'TaskComplete')" 
-
                             ng-disabled="orders.loadSingleTask('PackagePickUp', $index).State === 'PENDING' || orders.loadSingleTask('PackagePickUp', $index).State === 'IN_PROGRESS' || orders.loadSingleTask('Delivery', $index).State === 'COMPLETED' ">
                         <span><i ng-show="order.isCompletingDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                         <span>Complete Delivery</span>                    
@@ -114,14 +110,14 @@
                     <div ng-show="order.Type() === 'B2B + Cash Delivery'">
                         <span class="label asset">{{order.data.Assets[orders.loadSingleTask('SecureDelivery', $index).AssetRef].UserName}}</span>
                         <br>
-                        <button class="btn btn-primary" style="margin-top: 25%;" 
+                        <button class="btn btn-primary small-button" style="margin-top: 25%;" 
                                 ng-click="order.isAssigningSecureCashDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('SecureDelivery', $index), 'AssetAssign')" ng-show="orders.selectedAssetName">
                             <span><i ng-show="order.isAssigningSecureCashDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                             <span ng-hide="order.SecureDeliveryAsset().Name">{{ 'Assign to ' + orders.selectedAssetName}}</span>
                             <span ng-show="order.SecureDeliveryAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                         </button>
                         <br>
-                        <button class="btn btn-primary" style="margin-top: 25%;" 
+                        <button class="btn btn-primary small-button" style="margin-top: 25%;" 
 
                             ng-click="order.isCompletingSecureCashDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('SecureDelivery', $index), 'TaskComplete')" 
 
@@ -140,10 +136,13 @@
 
                 <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'CANCELLED'">{{order.data.CancellationReason || "No Reason Mentioned"}}</td>
                 <td>
-                    <span class="label {{orders.getProperWordWithCss(order.data.PaymentStatus).class}}">{{orders.getProperWordWithCss(order.data.PaymentStatus).value}}</span>
-                    <span ng-show="orders.showPaymentUpdateOption && order.data.PaymentStatus === 'Pending'">
-                        <button class="btn btn-danger" ng-click="orders.updatePaymentStatus($index)">Update Payment</button>
-                    </span>
+                    <div>
+                        <span class="label small-button {{orders.getProperWordWithCss(order.data.PaymentStatus).class}}">{{orders.getProperWordWithCss(order.data.PaymentStatus).value}}</span>
+                    </div>
+                    <br>                    
+                    <a class="btn btn-danger small-button" ng-click="orders.updatePaymentStatus($index)" ng-show="orders.showPaymentUpdateOption && order.data.PaymentStatus === 'Pending'">Update Payment
+                        <span><i ng-show="order.isUpdatingPaymentStatus" class="fa fa-refresh fa-spin"></i></span>
+                    </a>                    
                 </td>
                 <td>{{order.RequestedAgo}}</td>                                                    
             </tr>

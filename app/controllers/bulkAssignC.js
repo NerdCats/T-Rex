@@ -269,6 +269,6 @@
 				vm.Orders.pages = null;
 				vm.Orders.loadListOfOrders(newVal);
 			}
-		})
+		});
 	}
 })();
