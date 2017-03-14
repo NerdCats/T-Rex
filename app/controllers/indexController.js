@@ -1,42 +1,44 @@
-'use strict'
+(function () {
 
-app.controller('indexController', indexController);
+	'use strict'
 
-indexController.$inject = ['$scope', '$location', '$timeout', '$log','menus', 'templates', '$window', 'authService', 'jobNotification_link'];
+	app.controller('indexController', indexController);
 
-function indexController($scope, $location, $timeout, $log, menus, templates, $window, authService, jobNotification_link) {	
-	var vm = $scope;
-	vm.sidebarVisible = true;
-	vm.shouldShowMenuAndFooter = true;
-	vm.menus = menus;
-	vm.templates = templates.sidebar;
+	function indexController($scope, $location, $timeout, $log, menus, templates, $window, authService, jobNotification_link) {	
+		var vm = $scope;
+		vm.sidebarVisible = true;
+		vm.shouldShowMenuAndFooter = true;
+		vm.menus = menus;
+		vm.templates = templates.sidebar;
 
-	
+		
 
-  	vm.authData = {};
+	  	vm.authData = {};
 
- 
-	vm.logout = function () {		
-		authService.logOut();		
-	};
+	 
+		vm.logout = function () {		
+			authService.logOut();		
+		};
 
 
-	activate();
+		activate();
 
-	vm.menuShow = function () {
-		vm.sidebarVisible = !vm.sidebarVisible;		
+		vm.menuShow = function () {
+			vm.sidebarVisible = !vm.sidebarVisible;		
+		}
+
+		vm.saerchJob = function (jobId) {
+			$window.open("#/job/" + "Job-" + jobId.toUpperCase(), '_blank');
+		}
+
+		function activate()
+		{
+			if ($window.location.hash == '#/login'){
+				vm.sidebarVisible = false;
+				vm.shouldShowMenuAndFooter = false;
+			}   
+		    vm.authData = authService.populateAuthData();    
+		}
 	}
+})();
 
-	vm.saerchJob = function (jobId) {
-		$window.open("#/job/" + "Job-" + jobId.toUpperCase(), '_blank');
-	}
-
-	function activate()
-	{
-		if ($window.location.hash == '#/login'){
-			vm.sidebarVisible = false;
-			vm.shouldShowMenuAndFooter = false;
-		}   
-	    vm.authData = authService.populateAuthData();    
-	}
-}

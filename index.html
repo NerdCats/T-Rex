@@ -75,11 +75,11 @@
         <script type="text/javascript" src="node_modules/angular-signalr-hub/signalr-hub.min.js"></script>
 
         <script type="text/javascript" src="node_modules/xlsx/dist/jszip.js"></script>
-        <script type="text/javascript" src="node_modules/xlsx/dist/xlsx.min.js"></script>
-        <script type="text/javascript" src="node_modules/xlsx/dist/ods.js"></script>
+        <script type="text/javascript" src="node_modules/xlsx/dist/xlsx.min.js"></script>        
         <script type="text/javascript" src="node_modules/jwt-decode/build/jwt-decode.min.js"></script>
         <script type="text/javascript" src="node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
         <script type="text/javascript" src="node_modules/angular-daterangepicker/js/angular-daterangepicker.min.js"></script>
+        <script type="text/javascript" src="node_modules/file-saver/FileSaver.min.js"></script>
 
 
         <script type="text/javascript" src="app/app.js"></script>
@@ -102,6 +102,7 @@
         <script type="text/javascript" src="app/services/storeService.js"></script>
         <script type="text/javascript" src="app/services/productService.js"></script>
         <script type="text/javascript" src="app/services/bulkOrderService.js"></script>
+        <script type="text/javascript" src="app/services/excelWriteService.js"></script>
             
         <script type="text/javascript" src="app/controllers/indexController.js"></script>        
         <script type="text/javascript" src="app/controllers/dashBoardController.js"></script>
@@ -126,10 +127,6 @@
         <script type="text/javascript" src="app/controllers/productsC.js"></script>
         <script type="text/javascript" src="app/controllers/productC.js"></script>
 
-
-        <script type="text/javascript" src="app/directives/sidebarDirective.js"></script>
-        <script type="text/javascript" src="app/directives/UserValidation.js"></script>
-        <script type="text/javascript" src="app/directives/NCPlacesAutocomplete.js"></script>
         <script type="text/javascript" src="app/directives/OrderTable/OrderTable.js"></script>
         <script type="text/javascript" src="app/directives/ReportTable/reportTable.js"></script>
         <script type="text/javascript" src="app/directives/UserTable/UserTable.js"></script>
@@ -160,7 +157,10 @@
             <div id="page-content-wrapper">
                 <overall-status ng-show="sidebarVisible"></overall-status>
                 <nav class="row navbar navbar-default" role="navigation" ng-show="shouldShowMenuAndFooter">
-                    <div class="col-md-7"></div>
+                    <div class="col-md-1">
+                        <img src="app/content/img/development badge.png" style="height: 50px;margin-left: -20px;">
+                    </div>
+                    <div class="col-md-6"></div>
                         <form name="jobSearchForm" class="navbar-form navbar-left">
                             <div class="input-group">
                                 <div class="input-group-addon">Job - </div>

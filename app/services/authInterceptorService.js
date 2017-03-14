@@ -5,9 +5,7 @@
     .module('app')
     .factory('authInterceptorService', authInterceptorService);
 
-  authInterceptorService.$inject = ['$q', '$injector', '$location', 'localStorageService'];
-
-  /* @ngInject */
+  
   function authInterceptorService($q, $injector, $location, localStorageService) {
     var authInterceptorServiceFactory = {};
 

@@ -24,7 +24,7 @@
                     <div class="col-md-4">
                         <input name="username" type="text" class="form-control input-md" pattern="^[a-zA-Z0-9_]*$" ng-model="user.data.UserName" check-availability property="username" required>
                         <p ng-show="userCreateForm.username.$pending.checkAvailability">checking....</p>
-                        <p ng-show="userCreateForm.username.$error.checkAvailability">Username is not available!</p>
+                        <p ng-show="userCreateForm.username.$error.checkAvailability">This User already exist!</p>
                         <p ng-show="!userCreateForm.username.$error.checkAvailability && userCreateForm.username.$invalid && !userCreateForm.username.$pristine" class="help-block">User name can only contain alphabets, numbers and _</p>
                     </div>                    
                 </div>

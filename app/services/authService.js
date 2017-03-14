@@ -5,9 +5,6 @@
         .module('app')
         .factory('authService', authService);
 
-    authService.$inject = ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$window'];
-
-    /* @ngInject */
     function authService($http, $q, localStorageService, ngAuthSettings, $window) {
         var serviceBase = ngAuthSettings.apiServiceBaseUri;
         var service = {};

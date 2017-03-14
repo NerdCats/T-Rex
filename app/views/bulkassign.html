@@ -18,15 +18,15 @@
 	        	<div class="row">
 		        	<div class="col-md-8">
 			        	<label>Assign selected Jobs For </label>
-		        		<select class="form-control" ng-model="selectedTaskIndexForAssign">		        		
-			        		<option value="1">pickup</option>
-			        		<option value="2">delivery</option>
-			        		<option value="3">cash delivery</option>
+		        		<select class="form-control" ng-model="selectedTaskType">		        		
+			        		<option value="PackagePickUp">Pickup</option>
+			        		<option value="Delivery">Delivery</option>
+			        		<option value="SecureDelivery">Cash Delivery</option>
 			        	</select>       
 		        	</div>
 		        	<div class="col-md-4">
 			        	<br>
-				    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskIndexForAssign" ng-click="assignAssetToTask(selectedTaskIndexForAssign)">Assign</button>
+				    	<button class="btn btn-primary" ng-disabled="!selectedAssetId && !selectedTaskType" ng-click="assignAssetToTask(selectedTaskType)">Assign</button>
 		        	</div>
 	        	</div>
 	        </div>
@@ -35,14 +35,14 @@
         <div class="row">        	
     		<label class="col-md-12 control-label">Select Task for Completion of {{Orders.selectedJobsCount}} selected Jobs</label>
     		<div class="col-md-8">
-        		<select class="form-control" ng-model="selectedTaskIndexForComplete">		        		
-	        		<option value="1">pickup</option>
-	        		<option value="2">delivery</option>
-	        		<option value="3">cash delivery</option>
+        		<select class="form-control" ng-model="selectedTaskTypeForComplete">		        		
+	        		<option value="PackagePickUp">Pickup</option>
+	        		<option value="Delivery">Delivery</option>
+	        		<option value="SecureDelivery">Cash Delivery</option>
 	        	</select>
     		</div>
         	<div class="col-md-4">		    	
-		    	<button class="btn btn-primary" ng-disabled="!selectedTaskIndexForComplete" ng-click="completeTask(selectedTaskIndexForComplete)">Complete</button>
+		    	<button class="btn btn-primary" ng-disabled="!selectedTaskTypeForComplete" ng-click="completeTask(selectedTaskTypeForComplete)">Complete</button>
 			</div>
         </div>
     </div>	
@@ -53,29 +53,33 @@
 	        <h3>Job Search Fields</h3><br>	        
 	        <div class="row">
 		        <ng-form class="">			            
-		        	<div class="row">	        									
-						<div class="col-md-12">
-							<label class="">Fetch Job Ids:</label>
-							<chips ng-model="listOfHRID">
-					            <chip-tmpl>
-					                <div class="default-chip">
-					                    {{chip}}
-					                    <span class="glyphicon glyphicon-remove" remove-chip></span>
-					                </div>
-					            </chip-tmpl>
-					            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
-					        </chips>
-				       </div>				        	
-			        </div><br>
+		        	
 	                <div class="row">
-	                    <div class="col-md-3">
+	                    <div class="col-md-2">
 	                        <label>Select Job State</label>
 	                        <select class="form-control" ng-model="SelectedState" ng-change="activate()">
 	                            <option value="All">All</option>
+	                            <option disabled>──────────────────────────────</option>
+	                            <option value="PENDING AND IN PROGRESS">PENDING AND IN PROGRESS</option>
+	                            <option disabled>──────────────────────────────</option>
 	                            <option value="ENQUEUED">PENDING</option>
-	                            <option value="IN_PROGRESS">IN PROGRESS</option>
+	                            <option disabled>──────────────────────────────</option>
+	                            <option value="IN PROGRESS">IN PROGRESS</option>
+	                            <option value="PICKUP IN PROGRESS">PICKUP IN PROGRESS</option>
+	                            <option value="ALL DELIVERY IN PROGRESS">ALL DELIVERY IN PROGRESS</option>
+	                            <option value="DELIVERY IN PROGRESS">DELIVERY IN PROGRESS</option>
+	                            <option value="CASH DELIVERY IN PROGRESS">CASH DELIVERY IN PROGRESS</option>
+	                            <option value="RETURN DELIVERY IN PROGRESS">RETURN DELIVERY IN PROGRESS</option>
+	                            <option value="RETRY DELIVERY IN PROGRESS">RETRY DELIVERY IN PROGRESS</option>
+	                            <option disabled>──────────────────────────────</option>
 	                            <option value="COMPLETED">COMPLETED</option>
-	                            <option value="RETURNED">RETURNED</option>
+	                            <option value="PICKUP COMPLETED">PICKUP COMPLETED</option>
+	                            <option value="ALL DELIVERY COMPLETED">ALL DELIVERY COMPLETED</option>
+	                            <option value="DELIVERY COMPLETED">DELIVERY COMPLETED</option>
+	                            <option value="CASH DELIVERY COMPLETED">CASH DELIVERY COMPLETED</option>
+	                            <option value="RETURNED DELIVERY COMPLETED">RETURNED DELIVERY COMPLETED</option>
+	                            <option value="RETRY DELIVERY COMPLETED">RETRY DELIVERY COMPLETED</option>                            
+	                            <option disabled>──────────────────────────────</option>
 	                            <option value="CANCELLED">CANCELLED</option>
 	                        </select>
 	                    </div>
@@ -98,7 +102,7 @@
 	                            </select>
 	                        </div>
 	                    </div>
-	                    <div class="col-md-3">
+	                    <div class="col-md-2">
 	                        <label>Order By:</label>
 	                        <div>                                                        
 	                            <select class="form-control" ng-model="SelectedOrderByProperty" ng-change="SelectOrderBy()">
@@ -110,6 +114,26 @@
 	                                <option value="ModifiedTime desc">By <b>Latest</b> Modified Time</option>
 	                            </select>
 	                        </div>
+	                    </div>
+	                    <div class="col-md-2">
+	                    	<label>Find IN PROGRESS Delivery Jobs by Asset</label>
+				            <div class="input-group">
+				                <input type="text" 
+	                                ng-model="assetNameIdToLoadInprogressJobs" placeholder="Write Assets Users Name" 
+	                                uib-typeahead="user.UserName for user in Assets | filter:$viewValue | limitTo:20" 
+	                                typeahead-on-select="onSelectAssetToLoadInprogressJobs($item, $model, $label, $event)"
+	                                class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
+				                <span class="input-group-btn">                                    
+				                    <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
+				                        <i class="fa fa-refresh" aria-hidden="true"></i>
+				                    </button>
+				                    <button class="btn btn-default" 
+					                    ng-click="assetIdToLoadInprogressJobs=null;assetNameIdToLoadInprogressJobs=null;activate()" 
+					                    ng-show="Assets.length !== 0">
+				                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+				                    </button>
+				                </span>
+				            </div>
 	                    </div>
 	                    <div class="col-md-3">
 	                        <label>Search:</label>
@@ -205,8 +229,66 @@
 	                <br>			            
 		        </ng-form>        
 		    </div>
+		    <div class="row">	        									
+				<div class="col-md-12">
+					<label class="">Fetch Job Ids:</label>
+					<chips ng-model="listOfHRID">
+			            <chip-tmpl>
+			                <div class="default-chip">
+			                    {{chip}}
+			                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+			                </div>
+			            </chip-tmpl>
+			            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
+			        </chips>
+		       </div>				        	
+	        </div><br>
 	    </ng-form>
 	</div>
+	<h3>Search Filters:</h3>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <ul class="list-inline" style="font-size: 15px;">
+            	<li ng-show="assetIdToLoadInprogressJobs">
+            		Delivery IN PROGRESS jobs of <b>{{assetNameIdToLoadInprogressJobs}}</b> <b><span style="color: red">(Other filters wont work with this filter)</span></b>
+            	</li>
+                <li ng-show="SelectedState">
+                    Job State: <b>{{SelectedState}}</b>,
+                </li>
+                <li ng-show="SelectedTimeProperty">
+                    {{SelectedTimeProperty}}: <b>{{dateRange1 | date:"MMM d, y"}}</b> to <b>{{dateRange2 | date:"MMM d, y"}}</b>,
+                </li>
+                <li ng-show="SelectedOrderByProperty">
+                    Order By: <b>{{SelectedOrderByProperty}}</b>,
+                </li>
+                <li ng-show="SearchKey">
+                    Search Key word: <b>{{SearchKey}}</b>,
+                </li>
+                <li ng-show="EnterpriseUser">
+                    Enterprise User: <b>{{EnterpriseUser}}</b>,
+                </li>
+                <li ng-show="DeliveryArea">
+                    Delivery Area: <b>{{DeliveryArea}}</b>,
+                </li>
+                <li ng-show="PaymentStatus">
+                    Payment Status: <b>{{PaymentStatus}}</b>,
+                </li>
+                <li ng-show="AttemptCount">
+                    Delivery Attempt: <b>{{AttemptCount}}</b>,
+                </li>
+                <li ng-show="JobsPerPage">
+                    Job Per Page: <b>{{JobsPerPage}}</b>
+                </li>            
+            </ul>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <button class="btn btn-danger" ng-click="SelectedState='PENDING AND IN PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <button class="btn btn-primary" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
+        </div>
+        
+    </div>
 	<div class="row">
 		<h3>Selected Job Ids: </h3>
 		<span>Total {{ Orders.selectedJobsCount }} jobs selected</span>
