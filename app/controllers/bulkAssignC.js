@@ -221,8 +221,25 @@
 			vm.activate()
 		}
 
-		vm.activate = function () {
+		vm.loadDeliveryInProgresshJobsByAsset = function () {
+			if (vm.assetNameIdToLoadInprogressJobs) {				
+				vm.SelectedState = null;
+				vm.EnterpriseUser = null;
+				vm.PaymentStatus = null;
+				vm.DeliveryArea = null;
+				vm.SearchKey = null;
+				vm.OrderByProperty = null;
+				vm.OrderByPropertyDirection = null;
+				vm.AttemptCount = null;
+			}
+			if (!vm.assetNameIdToLoadInprogressJobs) {
+				vm.assetIdToLoadInprogressJobs = null;
+			}
 			vm.Orders.searchParam.userId = vm.assetIdToLoadInprogressJobs;
+		}
+
+		vm.activate = function () {
+			vm.loadDeliveryInProgresshJobsByAsset();
 			vm.Orders.searchParam.jobState = vm.SelectedState;
 			vm.Orders.searchParam.UserName = vm.EnterpriseUser;
 			vm.Orders.searchParam.PaymentStatus = vm.PaymentStatus;
@@ -232,8 +249,7 @@
 			vm.Orders.searchParam.orderby.property = vm.OrderByProperty;
 			vm.Orders.searchParam.orderby.orderbyCondition = vm.OrderByPropertyDirection;
 			vm.Orders.isCompleted = 'IN_PROGRESS';
-			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;
-			console.log("AttemptCount : " + vm.AttemptCount)
+			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;			
 			
 			if (vm.Orders.searchParam.jobState === "All") {
 				vm.Orders.searchParam.jobState = null;
