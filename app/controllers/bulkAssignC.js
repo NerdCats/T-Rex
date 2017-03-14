@@ -93,7 +93,7 @@
 				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
 				vm.Orders.assignAssetToTask(jobIndex, task, "AssetAssign");
 				switch(taskTypeOrName){
-					case 'PackagePickup':
+					case 'PackagePickUp':
 						vm.Orders.data[jobIndex].isAssigningPickUpAsset= true;
 						break;
 					case 'Delivery':
@@ -114,7 +114,7 @@
 				vm.Orders.assignAssetToTask(jobIndex, task, "TaskComplete");
 
 				switch(taskTypeOrName){
-					case 'PackagePickup':
+					case 'PackagePickUp':
 						vm.Orders.data[jobIndex].isCompletingPickUpAsset = true;
 						break;
 					case 'Delivery':
