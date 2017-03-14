@@ -4,7 +4,7 @@
 
 	app.controller('bulkAssignC', bulkAssignC);
 
-	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory){
+	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService){
 		var vm = $scope;
 		vm.listOfHRID = [];
 		vm.Assets = [];
@@ -42,6 +42,50 @@
 					vm.Orders.selectedAssetName = asset.UserName;				
 				}
 			})
+		}
+
+		vm.downloadExcelWorkOrder = function (tableId) {
+			var filename = "Workorder.xlsx";
+			if(vm.selectedAsset){
+				filename = "workorder - "+ vm.selectedAsset.UserName + " - " + new Date().toDateString() + ".xlsx";
+			}
+			var excelObjectArray = [];
+			var excelHeading = [];
+			excelHeading.push("HRID");
+			excelHeading.push("User");
+			excelHeading.push("ReferenceInvoiceId");
+			excelHeading.push("Recipient Name");
+			excelHeading.push("PhoneNumber");
+			excelHeading.push("Delivery Address");
+			excelHeading.push("TotalToPrice");
+			excelHeading.push("NoteToDeliveryMan");
+			excelObjectArray.push(excelHeading);
+
+			angular.forEach(vm.Orders.data, function (value, key) {				
+				var job = value.data;
+				var excelRow = [];
+				excelRow.push(job.HRID);
+				excelRow.push(job.User.UserName);
+				excelRow.push(job.Order.ReferenceInvoiceId);
+				excelRow.push(job.Order.BuyerInfo.Name);
+				excelRow.push(job.Order.BuyerInfo.PhoneNumber);
+				excelRow.push(job.Order.BuyerInfo.Address.Address);
+				excelRow.push(job.Order.OrderCart.TotalToPay);
+				excelRow.push(job.Order.NoteToDeliveryMan);
+
+				excelObjectArray.push(excelRow);
+			});
+
+			var rowCount = vm.Orders.data.length + 1;
+			var columnCount = 6;
+			var options = [
+				    {
+				      "s": { "r": rowCount, "c": 0 },
+				      "e": { "r": rowCount, "c": 6 }
+				    }
+				 ]
+			var data = [excelObjectArray, options];
+			excelWriteService.export_excel(data, 'xlsx', filename);
 		}
 
 		vm.assignAssetToTask = function (taskTypeOrName) {

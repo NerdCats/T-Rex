@@ -123,8 +123,13 @@
 		}
 
 		function export_table_to_excel(id, type, fn) {
-		    var theTable = document.getElementById(id);
+			var theTable = document.getElementById(id);
 		    var oo = generateArray(theTable);
+		    console.log(JSON.stringify(oo));
+		    export_excel(oo, type, fn);
+		}		
+
+		function export_excel(oo, type, fn) {		    
 		    var ranges = oo[1];
 
 		    /* original data */
@@ -158,7 +163,8 @@
 		}
 
 		return {
-			export_table_to_excel: export_table_to_excel
+			export_table_to_excel: export_table_to_excel,
+			export_excel: export_excel
 		}
 	}	
 })();

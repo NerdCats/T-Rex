@@ -247,7 +247,7 @@
 	</div>
 	<h3>Search Filters:</h3>
     <div class="row">
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <ul class="list-inline" style="font-size: 15px;">
             	<li ng-show="assetIdToLoadInprogressJobs">
             		Delivery IN PROGRESS jobs of <b>{{assetNameIdToLoadInprogressJobs}}</b> <b><span style="color: red">(Other filters wont work with this filter)</span></b>
@@ -284,6 +284,10 @@
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <button class="btn btn-danger" ng-click="SelectedState='PENDING AND IN PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
         </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <button class="btn btn-primary" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
+        </div>
+        
     </div>
 	<div class="row">
 		<h3>Selected Job Ids: </h3>
