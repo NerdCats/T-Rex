@@ -61,15 +61,27 @@
 			excelHeading.push("NoteToDeliveryMan");
 			excelObjectArray.push(excelHeading);
 
-			angular.forEach(vm.Orders.data, function (value, key) {				
+			angular.forEach(vm.Orders.data, function (value, key) {
 				var job = value.data;
 				var excelRow = [];
 				excelRow.push(job.HRID);
 				excelRow.push(job.User.UserName);
 				excelRow.push(job.Order.ReferenceInvoiceId);
-				excelRow.push(job.Order.BuyerInfo.Name);
-				excelRow.push(job.Order.BuyerInfo.PhoneNumber);
-				excelRow.push(job.Order.BuyerInfo.Address.Address);
+				if (job.Order.BuyerInfo) {
+					excelRow.push(job.Order.BuyerInfo.Name);
+				} else {
+					excelRow.push("");
+				}
+				if (job.Order.BuyerInfo) {
+					excelRow.push(job.Order.BuyerInfo.PhoneNumber);
+				} else {
+					excelRow.push("");
+				}
+				if (job.Order.BuyerInfo) {
+					excelRow.push(job.Order.BuyerInfo.Address.Address);
+				} else {
+					excelRow.push(job.Order.To.Address);
+				}
 				excelRow.push(job.Order.OrderCart.TotalToPay);
 				excelRow.push(job.Order.NoteToDeliveryMan);
 
