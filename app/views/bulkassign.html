@@ -56,7 +56,7 @@
 		        	
 	                <div class="row">
 	                    <div class="col-md-2">
-	                        <label>Select Job State</label>
+	                        <label>Job State</label>
 	                        <select class="form-control" ng-model="SelectedState" ng-change="activate()">
 	                            <option value="All">All</option>
 	                            <option disabled>──────────────────────────────</option>
@@ -84,7 +84,7 @@
 	                        </select>
 	                    </div>
 	                    <div class="col-md-3">
-	                        <label>Select Date Range:</label>
+	                        <label>Date Range:</label>
 	                        <div>
 	                        	<span class="input-group-btn" style="float: left;width: 50%">
 		                            <input class="form-control date-picker" date-range-picker placeholder="select date" type="text" ng-model="SelectDateRange"/>
@@ -116,7 +116,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="col-md-2">
-	                    	<label>Find IN PROGRESS Delivery Jobs by Asset</label>
+	                    	<label>IN PROGRESS Delivery Jobs Of</label>
 				            <div class="input-group">
 				                <input type="text" 
 	                                ng-model="assetNameIdToLoadInprogressJobs" placeholder="Write Assets Users Name" 
@@ -151,7 +151,7 @@
 	                <br>
 	                <div class="row">
 	                    <div class="col-md-3">
-	                        <label>Select Enterprise Users:</label>
+	                        <label>Enterprise Users:</label>
 	                        <div class="input-group">
 	                            <input type="text" 
 	                                ng-model="selectedUser" placeholder="Write Enterprise Users Name" 
@@ -169,7 +169,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="col-md-3">
-	                        <label>Select Delivery Area:</label>
+	                        <label>Delivery Area:</label>
 	                        <div class="input-group">
 	                            <input type="text" 
 	                                ng-model="DeliveryArea"  placeholder="Write Delivery area's Name"
@@ -183,7 +183,7 @@
 	                        </div>                        
 	                    </div>
 	                    <div class="col-md-2">
-	                        <label>Select Payment Status:</label>                        
+	                        <label>Payment Status:</label>                        
 	                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 	                            <option value=""></option>
 	                            <option value="Paid">Paid</option>
@@ -191,7 +191,7 @@
 	                        </select>                        
 	                    </div>
 	                    <div class="col-md-2">
-	                        <label>Select Delivery Attempt Time:</label>                        
+	                        <label>Delivery Attempt Time:</label>                        
 	                        <select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
 	                            <option value="Any">Any</option>
 	                            <option value="1">1</option>
@@ -207,7 +207,7 @@
 	                        </select>                        
 	                    </div>
 	                    <div class="col-md-1">
-	                        <label>Show per page:</label>                        
+	                        <label>Job per page:</label>                        
 	                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 	                            <option value="10">10</option>
 	                            <option value="20">20</option>
@@ -222,7 +222,7 @@
 	                    </div>
 	                    <div class="col-md-1">
 	                        <br>
-	                        <button class="btn btn-primary" ng-click="activate()" >SEARCH JOBS</button>
+	                        <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>
 	                    </div>
 	                </div>
 
@@ -241,13 +241,18 @@
 			            </chip-tmpl>
 			            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
 			        </chips>
-		       </div>				        	
-	        </div><br>
+		       </div>
+	        </div>
+	        <br>
+	       <div class="row">
+	       		<button class="btn btn-danger pull-right" ng-click="listOfHRID=[]">REMOVE ALL JOBID</button>
+	       </div>
+	       <br>
 	    </ng-form>
 	</div>
 	<h3>Search Filters:</h3>
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
             <ul class="list-inline" style="font-size: 15px;">
             	<li ng-show="assetIdToLoadInprogressJobs">
             		Delivery IN PROGRESS jobs of <b>{{assetNameIdToLoadInprogressJobs}}</b> <b><span style="color: red">(Other filters wont work with this filter)</span></b>
@@ -282,10 +287,7 @@
             </ul>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <button class="btn btn-danger" ng-click="SelectedState='PENDING AND IN PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <button class="btn btn-primary" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
+            <button class="btn btn-primary pull-right" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
         </div>
         
     </div>

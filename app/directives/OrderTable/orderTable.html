@@ -32,7 +32,7 @@
                     <input style="width: 20px; height: 20px;" ng-model="order.selected" type="checkbox">
                 </td>
                 <td ng-click="orders.selectJob($index)">                
-                    <label style="font-size: 18px;">{{$index + orders.pagination.Start}}</label>                
+                    <label style="font-size: 18px;">{{$index + (orders.pagination.Start || 1)}}</label>                
                 </td>
                 <td>
                     <div>
