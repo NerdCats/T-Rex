@@ -237,7 +237,7 @@
 						itSelf.selectJob(index);
 					})				
 					itSelf.selectAll = false;
-				},			
+				},
 				selectAllJobs : function () {
 					var itSelf = this;
 					if (itSelf.selectAll) {
@@ -254,7 +254,7 @@
 						}					
 					} else {
 						itSelf.clearSelectedJobs()
-					}
+					}					
 				},
 				getProperWordWithCss : function (word) {
 					return getProperWordWithCss(word);
@@ -290,7 +290,8 @@
 					}, function (error) {
 						itSelf.isCompleted = 'SUCCESSFULL'; // Since I dont want to block UI with Just server error message
 															// Rather show them which job couldn't be loaded						
-						itSelf.errMsg += "Couldn't load " + HRID + " + \n";
+						itSelf.errMsg = (itSelf.errMsg)? itSelf.errMsg : [];						
+						itSelf.errMsg.push(HRID);
 					});
 				},
 				loadSingleTask: function (taskTypeOrName, orderIndex) {
