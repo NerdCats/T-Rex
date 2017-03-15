@@ -1,5 +1,5 @@
 <div class="row table-responsive" ng-show="orders.isCompleted == 'SUCCESSFULL'">
-    <h3>{{orders.pagination.Total}} Job found</h3>
+    <h3>{{orders.pagination.Total || orders.data.length}} Job found</h3>
     <table class="table-striped table-bordered table-hover" id="jobs-table" style="table-layout: fixed;">
         <thead>
             <tr>
@@ -169,4 +169,4 @@
             <a ng-click="orders.loadNextPage()" ng-hide="orders.pagination.NextPage === undefined" href=""> >> </a>
         </li>
     </ul>                
-</nav>            
+</nav>
