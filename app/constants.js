@@ -9,25 +9,25 @@
       	{ 
       		title : "Create Order",
       		link: '#/order/create/new',
-      		target: "_blank",
+      		target: "",
       		class: "fa fa-plus-square"
       	},
       	{ 
       		title : "Work Order",
       		link: '#/workorder',
-      		target: "_blank",
+      		target: "",
       		class: "fa fa-pencil-square-o"
       	},
       	{ 
       		title : "Bulk Order",
       		link: '#/bulkorder',
-      		target: "_blank",
+      		target: "",
       		class: "fa fa-list-alt"
       	},
       	{ 
       		title : "Bulk Assign",
       		link: '#/bulkassign',
-      		target: "_blank",
+      		target: "",
       		class: "fa fa-list-alt"
       	},
       	{ 
@@ -45,13 +45,13 @@
       	{ 
       		title : "Tracking Map",
       		link: '#/tracking-map',
-      		target: "_blank",
+      		target: "",
       		class: "fa fa-crosshairs"
       	},
       	{ 
       		title : "Product Category",
       		link: '#/products-category',
-      		target: "_blank",
+      		target: "",
       		class: "fa fa-tags"
       	},
       	{ 
