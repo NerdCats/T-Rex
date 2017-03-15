@@ -56,7 +56,7 @@
 		        	
 	                <div class="row">
 	                    <div class="col-md-2">
-	                        <label>Select Job State</label>
+	                        <label>Job State</label>
 	                        <select class="form-control" ng-model="SelectedState" ng-change="activate()">
 	                            <option value="All">All</option>
 	                            <option disabled>──────────────────────────────</option>
@@ -84,7 +84,7 @@
 	                        </select>
 	                    </div>
 	                    <div class="col-md-3">
-	                        <label>Select Date Range:</label>
+	                        <label>Date Range:</label>
 	                        <div>
 	                        	<span class="input-group-btn" style="float: left;width: 50%">
 		                            <input class="form-control date-picker" date-range-picker placeholder="select date" type="text" ng-model="SelectDateRange"/>
@@ -116,7 +116,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="col-md-2">
-	                    	<label>Find IN PROGRESS Delivery Jobs by Asset</label>
+	                    	<label>IN PROGRESS Delivery Jobs Of</label>
 				            <div class="input-group">
 				                <input type="text" 
 	                                ng-model="assetNameIdToLoadInprogressJobs" placeholder="Write Assets Users Name" 
@@ -151,7 +151,7 @@
 	                <br>
 	                <div class="row">
 	                    <div class="col-md-3">
-	                        <label>Select Enterprise Users:</label>
+	                        <label>Enterprise Users:</label>
 	                        <div class="input-group">
 	                            <input type="text" 
 	                                ng-model="selectedUser" placeholder="Write Enterprise Users Name" 
@@ -169,7 +169,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="col-md-3">
-	                        <label>Select Delivery Area:</label>
+	                        <label>Delivery Area:</label>
 	                        <div class="input-group">
 	                            <input type="text" 
 	                                ng-model="DeliveryArea"  placeholder="Write Delivery area's Name"
@@ -183,7 +183,7 @@
 	                        </div>                        
 	                    </div>
 	                    <div class="col-md-2">
-	                        <label>Select Payment Status:</label>                        
+	                        <label>Payment Status:</label>                        
 	                        <select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 	                            <option value=""></option>
 	                            <option value="Paid">Paid</option>
@@ -191,7 +191,7 @@
 	                        </select>                        
 	                    </div>
 	                    <div class="col-md-2">
-	                        <label>Select Delivery Attempt Time:</label>                        
+	                        <label>Delivery Attempt Time:</label>                        
 	                        <select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
 	                            <option value="Any">Any</option>
 	                            <option value="1">1</option>
@@ -207,7 +207,7 @@
 	                        </select>                        
 	                    </div>
 	                    <div class="col-md-1">
-	                        <label>Show per page:</label>                        
+	                        <label>Job per page:</label>                        
 	                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 	                            <option value="10">10</option>
 	                            <option value="20">20</option>
@@ -222,7 +222,7 @@
 	                    </div>
 	                    <div class="col-md-1">
 	                        <br>
-	                        <button class="btn btn-primary" ng-click="activate()" >SEARCH JOBS</button>
+	                        <button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>
 	                    </div>
 	                </div>
 
@@ -241,13 +241,26 @@
 			            </chip-tmpl>
 			            <input placeholder="insert GO! Fetch Job IDs" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" chip-control></input>
 			        </chips>
-		       </div>				        	
-	        </div><br>
+		       </div>
+	        </div>
+	        <br>
+	       <div class="row">
+	       		<button class="btn btn-danger pull-right" ng-click="listOfHRID=[]">REMOVE ALL JOB ID</button>
+	       </div>	       
 	    </ng-form>
+	</div>
+	<div class="alert alert-danger alert-dismissable" ng-show="Orders.errMsg">
+		<a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<h3>Couldn't load the following Jobs:</h3>
+		<ul class="list-inline">
+			<li ng-repeat="hrid in Orders.errMsg">
+				<a class="btn btn-danger" href="#/job/{{hrid}}" target="_blank">{{hrid}}</a>
+			</li>
+		</ul>		
 	</div>
 	<h3>Search Filters:</h3>
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <ul class="list-inline" style="font-size: 15px;">
             	<li ng-show="assetIdToLoadInprogressJobs">
             		Delivery IN PROGRESS jobs of <b>{{assetNameIdToLoadInprogressJobs}}</b> <b><span style="color: red">(Other filters wont work with this filter)</span></b>
@@ -281,28 +294,23 @@
                 </li>            
             </ul>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <button class="btn btn-danger" ng-click="SelectedState='PENDING AND IN PROGRESS';activate()">LOAD CURRENT PENDING + IN PROGRESS</button>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <button class="btn btn-primary" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
-        </div>
-        
     </div>
-	<div class="row">
+	<div class="row" ng-show="Orders.selectedJobsCount !== 0">
 		<h3>Selected Job Ids: </h3>
 		<span>Total {{ Orders.selectedJobsCount }} jobs selected</span>
 		<ul class="list-inline">
 			<li ng-repeat="(index, jobid) in Orders.selectedJobsIndexes">
 				<div class="default-chip">
-					{{" " + jobid}}
+					<b>{{" " + jobid}}</b>
 					<span class="glyphicon glyphicon-remove" ng-click="Orders.selectJob(index)"></span>
 				</div>
 			</li>
 		</ul>
-		<button class="btn btn-danger" ng-click="Orders.clearSelectedJobs()">Clear Selected Job Ids</button>
 	</div>
-	<br>
+	<div class="row">
+	    <button class="btn btn-primary pull-right" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
+	</div>
+	<div class="row">
+		<order-table orders="Orders"></order-table>		
+	</div>
 </div>
-
-<order-table orders="Orders"></order-table>

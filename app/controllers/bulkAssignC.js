@@ -295,6 +295,7 @@
 		}
 
 		vm.activate = function () {
+			vm.Orders.errMsg = null;
 			vm.loadDeliveryInProgresshJobsByAsset();
 			vm.Orders.searchParam.jobState = vm.SelectedState;
 			vm.Orders.searchParam.UserName = vm.EnterpriseUser;

@@ -237,7 +237,7 @@
 						itSelf.selectJob(index);
 					})				
 					itSelf.selectAll = false;
-				},			
+				},
 				selectAllJobs : function () {
 					var itSelf = this;
 					if (itSelf.selectAll) {
@@ -254,7 +254,7 @@
 						}					
 					} else {
 						itSelf.clearSelectedJobs()
-					}
+					}					
 				},
 				getProperWordWithCss : function (word) {
 					return getProperWordWithCss(word);
@@ -271,10 +271,28 @@
 				},
 				loadListOfOrders: function (HRIDList) {
 					this.data = [];
-					var itSelf = this;
+					var itSelf = this;					
 					angular.forEach(HRIDList, function (HRID, key) {
+						HRID = HRID.includes('Job-') ? HRID : "Job-" + HRID;
 						itSelf.loadSingleOrder(HRID);
-					})	
+					});
+				},
+				loadSingleOrder: function (HRID) {
+					var itSelf = this;
+					this.isCompleted = 'IN_PROGRESS';
+					$http({
+						method: 'GET',
+						url: ngAuthSettings.apiServiceBaseUri + "api/Job/" + HRID
+					}).then(function (response) {
+						var newOrder = addSingleJobOnList(response.data);
+						itSelf.data.push(newOrder);
+						itSelf.isCompleted = 'SUCCESSFULL';
+					}, function (error) {
+						itSelf.isCompleted = 'SUCCESSFULL'; // Since I dont want to block UI with Just server error message
+															// Rather show them which job couldn't be loaded						
+						itSelf.errMsg = (itSelf.errMsg)? itSelf.errMsg : [];						
+						itSelf.errMsg.push(HRID);
+					});
 				},
 				loadSingleTask: function (taskTypeOrName, orderIndex) {
 					var itSelf = this;
@@ -286,22 +304,6 @@
 						}
 					}					
 					return task;
-				},
-				loadSingleOrder: function (HRID) {
-					this.isCompleted = 'IN_PROGRESS';
-					var itSelf = this;
-					$http({
-						method: 'GET',
-						url: ngAuthSettings.apiServiceBaseUri + "api/Job/" + HRID
-					}).then(function (response) {
-						var newOrder = addSingleJobOnList(response.data);
-						itSelf.data.push(newOrder);
-						itSelf.isCompleted = 'SUCCESSFULL';
-					}, function (error) {
-						itSelf.isCompleted = 'FAILED';
-						// TODO: not sure how to handle this
-						// itSelf.errMsg += ""
-					})
 				},
 				loadPage: function (pageNo) {
 					this.isCompleted = 'IN_PROGRESS';		

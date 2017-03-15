@@ -1,9 +1,9 @@
-<div class="row table-responsive" ng-show="orders.isCompleted == 'SUCCESSFULL'">
-    <h3>{{orders.pagination.Total}} Job found</h3>
+<div class="row table-responsive" ng-show="orders.isCompleted == 'SUCCESSFULL'">    
+    <h3>{{orders.pagination.Total || orders.data.length}} Job found</h3>
     <table class="table-striped table-bordered table-hover" id="jobs-table" style="table-layout: fixed;">
         <thead>
             <tr>
-                <th ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign ||orders.assign.showsecuredeliveryAssign">
+                <th class="col-md-1" ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign ||orders.assign.showsecuredeliveryAssign">
                     <input style="width: 20px; height: 20px;" type="checkbox" ng-model="orders.selectAll" ng-click="orders.selectAllJobs()">
                 </th>
                 <th style="width: 30px;">S\L</th>
@@ -32,7 +32,7 @@
                     <input style="width: 20px; height: 20px;" ng-model="order.selected" type="checkbox">
                 </td>
                 <td ng-click="orders.selectJob($index)">                
-                    <label style="font-size: 18px;">{{$index + orders.pagination.Start}}</label>                
+                    <label style="font-size: 18px;">{{$index + (orders.pagination.Start || 1)}}</label>                
                 </td>
                 <td>
                     <div>
@@ -169,4 +169,4 @@
             <a ng-click="orders.loadNextPage()" ng-hide="orders.pagination.NextPage === undefined" href=""> >> </a>
         </li>
     </ul>                
-</nav>            
+</nav>

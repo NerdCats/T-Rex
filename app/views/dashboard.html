@@ -31,7 +31,7 @@
             <fieldset>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Select Job State</label>
+                        <label>Job State</label>
                         <select class="form-control" ng-model="SelectedState" ng-change="activate()">
                             <option value="All">All</option>
                             <option disabled>──────────────────────────────</option>
@@ -59,7 +59,7 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label>Select Date Range:</label>
+                        <label>Date Range:</label>
                         <div>
                             <span class="input-group-btn" style="float: left;width: 50%">
                                 <input class="form-control date-picker" date-range-picker placeholder="select date" type="text" ng-model="SelectDateRange"/>
@@ -106,7 +106,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-3">
-                        <label>Select Enterprise Users:</label>
+                        <label>Enterprise Users:</label>
                         <div class="input-group">
                             <input type="text" 
                                 ng-model="selectedUser" placeholder="Write Enterprise Users Name" 
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label>Select Delivery Area:</label>
+                        <label>Delivery Area:</label>
                         <div class="input-group">
                             <input type="text" 
                                 ng-model="DeliveryArea"  placeholder="Write Delivery area's Name"
@@ -138,7 +138,7 @@
                         </div>                        
                     </div>
                     <div class="col-md-2">
-                        <label>Select Payment Status:</label>                        
+                        <label>Payment Status:</label>                        
                         <select class="form-control" ng-model="PaymentStatus" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">
                             <option value=""></option>
                             <option value="Paid">Paid</option>
@@ -146,7 +146,7 @@
                         </select>                        
                     </div>
                     <div class="col-md-2">
-                        <label>Select Delivery Attempt Time:</label>                        
+                        <label>Delivery Attempt Time:</label>                        
                         <select class="form-control" ng-model="AttemptCount" ng-disabled="Orders.isCompleted === 'IN_PROGRESS'" ng-change="activate()">                            
                             <option value="Any">Any</option>
                             <option value="1">1</option>

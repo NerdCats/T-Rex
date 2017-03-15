@@ -19,8 +19,16 @@
         return {
             add: function(val) {
                 var modelCopy = angular.copy(modelCtrl.$modelValue) || [];
-                // "Job-" + added manually
-                modelCopy.push("Job-" + val.trim());
+                val = val.trim()
+                if (val.includes(',') || val.includes(' ')) {
+                    var valArray = val.split(/[ ,]+/);
+                    // modelCopy.concat(valArray);
+                    angular.forEach(valArray, function (value, key) {
+                        modelCopy.push(value)
+                    });
+                } else {
+                    modelCopy.push(val);
+                }
                 modelCtrl.$setViewValue(modelCopy);
             },
             delete: function(index) {
@@ -125,8 +133,16 @@
                 }
 
                 function update(data) {
-                    // "Job-" +  added manually                    
-                    $scope.chips.list.push("Job-" + data.trim());
+                    data = data.trim()
+                    if (data.includes(',') || data.includes(' ')) {
+                        var dataArray = data.split(/[ ,]+/);
+                        // $scope.chips.list.concat(dataArray);
+                        angular.forEach(dataArray, function (value, key) {
+                            $scope.chips.list.push(value);
+                        });
+                    } else {
+                        $scope.chips.list.push(data);
+                    }                    
                     model.add(data);
                 }
 
