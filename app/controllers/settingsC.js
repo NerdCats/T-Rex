@@ -15,6 +15,18 @@
 		vm.userProfile = {};
 		vm.errMessage = null;
 		vm.successMessage = null;
+		vm.newUserName = null;
+
+		vm.passwordUpdate = {
+			CurrentPassword : null,
+			NewPassword: null,
+			ConfirmPassword: null
+		}
+
+		vm.contacts = {			
+			  Email: null,
+			  PhoneNumber: null			
+		}
 
 		vm.loadProfile = function () {
 			$http({
@@ -31,32 +43,62 @@
 			$http({
 				method: 'PUT',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Account/password",
-				data: {
-						"CurrentPassword": vm.currentPassword,
-						"NewPassword": vm.newPassword,
-						"ConfirmPassword": vm.confirmPassword
-					}
+				data: vm.passwordUpdate
 			}).then(function (response) {
-				vm.successMessage = "Password successfully updated!";
+				if (response.data.Succeeded) {
+					vm.successMessage = "Password successfully updated!";
+					vm.errMessage = null;
+					vm.passwordUpdate = {
+						CurrentPassword : null,
+						NewPassword: null,
+						ConfirmPassword: null
+					}
+				} else {
+					vm.errMessage = "Couldn't update password. ";
+					vm.successMessage = null;
+					angular.forEach(response.data.Errors, function (value, key) {
+						vm.errMessage += "\n " + value;
+					});
+				}
 			}, function (err) {
 				vm.errMessage = "Couldn't update password!";
 			})
 		}
 
+		vm.changeUserName = function () {
+			$http({
+				method: 'PUT',
+				url: ngAuthSettings.apiServiceBaseUri + "api/Account/username/" + vm.userId + "?newUsername=" + vm.newUserName
+			}).then(function (response) {
+				vm.successMessage = "UserName updated successfully! Next time, during login, use the new UserName!"
+				vm.errMessage = null;
+				vm.newUserName = null;
+			}, function () {
+				vm.errMessage = "Couldn't update the UserName!";
+				vm.successMessage = null;
+			})
+		}
+
+		vm.changePhoneNumberEmail = function () {
+			$http({
+				method: 'PUT',
+				url: ngAuthSettings.apiServiceBaseUri + "api/Account/contacts/" + vm.userId + "?newUsername=" + vm.newUserName,
+				data: contacts
+			}).then(function (response) {
+				vm.successMessage = "UserName updated successfully! Next time, during login, use the new UserName!"
+				vm.errMessage = null;
+				vm.newUserName = null;
+				vm.contacts = {			
+					  Email: null,
+					  PhoneNumber: null			
+				}
+			}, function () {
+				vm.errMessage = "Couldn't update the UserName!";
+				vm.successMessage = null;
+			})
+		}
+
 		vm.loadProfile();
-
-
-		// aud:"GoFetchDevWebApp"
-		// email:"tareq@gmail.com"
-		// exp:1489816344
-		// given_name:"Muhammed Tareq Aziz Aziz"
-		// http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authenticatio"true"
-		// iss:"TaskCat.Auth"
-		// nameid:"587b437862eb2f30c0a97494"
-		// nbf:1489643544
-		// role:"Administrator"
-		// sub:"tareq"
-		// unique_name:"tareq"
 	}
 
 })();
