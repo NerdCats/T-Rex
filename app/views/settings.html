@@ -1,0 +1,146 @@
+<div class="container">
+	<div class="row">
+		<div class="media-object col-md-2">
+			<img src="{{ userProfile.PicUri || '../../../app/content/img/ppnotfound.png'}}">
+		</div>
+		<div class="col-md-10">
+			<div style="font-size: 30px;">Currently You Are Logged in as <b style="font-size: 36px;">{{loggedInUserName}}</b></div>
+			<div style="font-size: 18px;">Role : {{role}}</div>
+		</div>
+	</div>
+	<br>
+	<div class="row" style="font-size: 14px;">
+		<uib-tabset active="active">
+			<uib-tab index="0" select="" heading="Update Profile">
+				<br>
+				<div class="col-md-6">
+					<form>						
+						<legend>Update UserName</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">New UserName</label>
+							<div class="col-md-6">
+								<input type="password" name="currentPassword" class="form-control">
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-primary pull-right">Update</button>
+							</div>
+						</div><br>
+						<legend>Update Email</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">New Email</label>
+							<div class="col-md-6">
+								<input type="password" name="currentPassword" class="form-control">
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-primary pull-right">Update</button>
+							</div>
+						</div><br>
+						<legend>Update PhoneNumber</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">New PhoneNumber</label>
+							<div class="col-md-6">
+								<input type="password" name="currentPassword" class="form-control">
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-primary pull-right">Update</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-6">
+					<form>						
+						<legend>Changed Password</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">Current Password</label>
+							<div class="col-md-8">
+								<input type="password" name="currentPassword" class="form-control">
+							</div>
+						</div><br>
+						<div class="row">
+							<label class="col-md-4 control-label">New Password</label>
+							<div class="col-md-8">
+								<input type="password" name="currentPassword" class="form-control">
+							</div>
+						</div><br>
+						<div class="row">
+							<label class="col-md-4 control-label">Confirm Password</label>
+							<div class="col-md-8">
+								<input type="password" name="currentPassword" class="form-control">
+							</div>
+						</div><br>
+						<div class="row">							
+							<div class="col-md-12">
+								<button class="btn btn-primary pull-right">Update Password</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+			</uib-tab>
+			<uib-tab index="1" heading="Profile Info">
+				<div class="row">
+					<hr>
+					<div ng-show="userProfile.UserName">
+						<b><span>User Name : </span></b>
+						<span>{{ userProfile.UserName }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.PhoneNumber">
+						<b><span>User PhoneNumber : </span></b>
+						<span>{{ userProfile.PhoneNumber }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Email">
+						<b><span>User Email : </span></b>
+						<span>{{ userProfile.Email }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Profile.FirstName + ' ' + userProfile.Profile.LastName">
+						<b><span>First Name + Last Name : </span></b>
+						<span>{{ userProfile.Profile.FirstName + ' ' + userProfile.Profile.LastName }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Profile.Age">
+						<b><span>Age : </span></b>
+						<span>{{ userProfile.Profile.Age }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Profile.Gender">
+						<b><span>Gender : </span></b>
+						<span>{{ userProfile.Profile.Gender }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Profile.NationalId">
+						<b><span>NationalId : </span></b>
+						<span>{{ userProfile.Profile.NationalId }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Profile.DriversLicenseId">
+						<b><span>DriversLicenseId : </span></b>
+						<span>{{ userProfile.Profile.DriversLicenseId }}</span>
+						<hr>
+					</div>					
+					<div ng-show="userProfile.Profile.ContactPersonName">
+						<b><span>ContactPersonName : </span></b>
+						<span>{{ userProfile.Profile.ContactPersonName }}</span>
+						<hr>
+					</div>
+
+					<div ng-show="userProfile.Profile.Website">
+						<b><span>Website : </span></b>
+						<span>{{ userProfile.Profile.Website }}</span>
+						<hr>
+					</div>
+				</div>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<div class="row"></div>
+</div>

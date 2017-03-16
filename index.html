@@ -126,6 +126,7 @@
         <script type="text/javascript" src="app/controllers/storeC.js"></script>
         <script type="text/javascript" src="app/controllers/productsC.js"></script>
         <script type="text/javascript" src="app/controllers/productC.js"></script>
+        <script type="text/javascript" src="app/controllers/settingsC.js"></script>
 
         <script type="text/javascript" src="app/directives/OrderTable/OrderTable.js"></script>
         <script type="text/javascript" src="app/directives/ReportTable/reportTable.js"></script>
@@ -177,7 +178,7 @@
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as {{authData.userName}}<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#/user/details/{{authData.userId}}">Profile</a></li>
+                                    <li><a href="#/settings">Profile</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a ng-click="logout()">Log Out</a></li>
                                 </ul>
