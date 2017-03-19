@@ -9,7 +9,15 @@
 		vm.authorizationData = localStorageService.get('authorizationData');
 		var decoded_token = jwt_decode(vm.authorizationData.token);
 		vm.loggedInUserName = decoded_token.unique_name;
-		vm.role = decoded_token.role;
+
+		if (decoded_token.role.constructor === Array) {
+			vm.Roles = decoded_token.role;
+		} else {
+			vm.Roles = [decoded_token.role];
+		}
+
+		
+
 		vm.expirationtime = new Date(decoded_token.exp * 1000);
 		vm.userId = decoded_token.nameid;
 		vm.userProfile = {};

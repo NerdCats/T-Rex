@@ -5,7 +5,12 @@
 		</div>
 		<div class="col-md-10">
 			<div style="font-size: 30px;">Currently You Are Logged in as <b style="font-size: 36px;">{{loggedInUserName}}</b></div>
-			<div style="font-size: 18px;">Role : {{role}}</div>
+			<div style="font-size: 18px;">				
+				<ul class="list-inline">
+					<li>Role : </li>
+					<li ng-repeat="(key, role) in Roles">{{role}} <span ng-if="(Roles.length -1) !== key">,</span></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<br>
@@ -33,7 +38,7 @@
 					</div>
 
 					<div ng-show="userProfile.Profile.FirstName + ' ' + userProfile.Profile.LastName">
-						<b><span>First Name + Last Name : </span></b>
+						<b><span>Full Name : </span></b>
 						<span>{{ userProfile.Profile.FirstName + ' ' + userProfile.Profile.LastName }}</span>
 						<hr>
 					</div>
@@ -130,7 +135,7 @@
 				</div>
 				<div class="col-md-6">
 					<form>						
-						<legend>Changed Password</legend>
+						<legend>Update Password</legend>
 						<div class="row">
 							<label class="col-md-4 control-label">Current Password</label>
 							<div class="col-md-8">
