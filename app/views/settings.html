@@ -11,91 +11,7 @@
 	<br>
 	<div class="row" style="font-size: 14px;">
 		<uib-tabset active="active">
-			<uib-tab index="0" select="" heading="Update Profile">
-				<br>
-				<div class="alert alert-danger alert-dismissable" ng-show="errMessage">
-					<a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<h3>{{ errMessage }}</h3>
-				</div>
-				<div class="alert alert-success alert-dismissable" ng-show="successMessage">
-					<a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<h3>{{ successMessage }}</h3>
-				</div>
-				<br>
-				<div class="col-md-6">
-					<form name="UpdateProfileForm">						
-						<legend>Update UserName</legend>
-						<div class="row">
-							<label class="col-md-4 control-label">New UserName</label>							
-							<div class="col-md-6" ng-class="{ 'has-error': UpdateProfileForm.username.$invalid && !UpdateProfileForm.username.$pristine }"> 
-								<input type="text" name="username" class="form-control" pattern="^[a-zA-Z0-9_]*$" ng-model="newUserName" check-availability property="username" autocomplete="off">
-								<p ng-show="UpdateProfileForm.username.$pending.checkAvailability">checking....</p>
-		                        <p ng-show="UpdateProfileForm.username.$error.checkAvailability">This UserName is already taken!</p>
-		                        <p ng-show="!UpdateProfileForm.username.$error.checkAvailability && UpdateProfileForm.username.$invalid && !UpdateProfileForm.username.$pristine" class="help-block">User name can only contain alphabets, numbers and _</p>
-							</div>
-							<div class="col-md-2">
-								<button class="btn btn-primary pull-right" ng-disabled="!newUserName" ng-click="changeUserName()">Update</button>
-							</div>
-						</div><br>
-						<legend>Update Email</legend>
-						<div class="row">
-							<label class="col-md-4 control-label">New Email</label>
-							<div class="col-md-6" ng-class="{ 'has-error': UpdateProfileForm.email.$invalid && !UpdateProfileForm.email.$pristine }">
-								<input type="text" name="email" class="form-control" ng-model="contacts.Email" check-availability property="email" autocomplete="off">
-								<p ng-show="UpdateProfileForm.email.$pending.checkAvailability">checking....</p>
-		                        <p ng-show="UpdateProfileForm.email.$error.checkAvailability">This Email already taken!</p>
-		                        <p ng-show="!UpdateProfileForm.email.$error.checkAvailability && UpdateProfileForm.email.$invalid && !UpdateProfileForm.email.$pristine" class="help-block">email name can only contain alphabets, numbers and _</p>
-							</div>
-							<div class="col-md-2">
-								<button class="btn btn-primary pull-right" ng-disabled="!contacts.Email">Update</button>
-							</div>
-						</div><br>
-						<legend>Update PhoneNumber</legend>
-						<div class="row">
-							<label class="col-md-4 control-label">New PhoneNumber</label>
-							<div class="col-md-6" ng-class="{ 'has-error': UpdateProfileForm.phonenumber.$invalid && !UpdateProfileForm.phonenumber.$pristine }">
-								<input type="text" name="phonenumber" class="form-control" ng-model="contacts.PhoneNumber" check-availability property="phonenumber" autocomplete="off">								
-								<p ng-show="UpdateProfileForm.phonenumber.$pending.checkAvailability">checking....</p>
-		                        <p ng-show="UpdateProfileForm.phonenumber.$error.checkAvailability">This phonenumber already taken!</p>
-		                        <p ng-show="!UpdateProfileForm.phonenumber.$error.checkAvailability && UpdateProfileForm.phonenumber.$invalid && !UpdateProfileForm.phonenumber.$pristine" class="help-block">PhoneNumber can only contain numbers</p>
-							</div>
-							<div class="col-md-2">
-								<button class="btn btn-primary pull-right" ng-disabled="!contacts.PhoneNumber">Update</button>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="col-md-6">
-					<form>						
-						<legend>Changed Password</legend>
-						<div class="row">
-							<label class="col-md-4 control-label">Current Password</label>
-							<div class="col-md-8">
-								<input type="password" name="currentPassword" class="form-control" ng-model="passwordUpdate.CurrentPassword" ng-minlength="6" autocomplete="off">
-							</div>
-						</div><br>
-						<div class="row">
-							<label class="col-md-4 control-label">New Password</label>
-							<div class="col-md-8">
-								<input type="password" name="newPassword" class="form-control" ng-model="passwordUpdate.NewPassword" ng-minlength="6" autocomplete="off">
-							</div>
-						</div><br>
-						<div class="row">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-8" ng-class="{ 'has-error': UpdateProfileForm.confirmPassword.$invalid && !UpdateProfileForm.confirmPassword.$pristine }">
-								<input type="password" name="confirmPassword" class="form-control" confirm-password="passwordUpdate.NewPassword" ng-model="passwordUpdate.ConfirmPassword" ng-minlength="6" autocomplete="off">
-							</div>
-						</div><br>
-						<div class="row">							
-							<div class="col-md-12">
-								<button class="btn btn-primary pull-right" ng-disabled="(!passwordUpdate.CurrentPassword || !passwordUpdate.NewPassword || !passwordUpdate.ConfirmPassword)" ng-click="changePassword()">Update Password</button>
-							</div>
-						</div>
-					</form>
-				</div>
-				
-			</uib-tab>
-			<uib-tab index="1" heading="Profile Info">
+			<uib-tab index="0" heading="Profile Info">
 				<div class="row">
 					<hr>
 					<div ng-show="userProfile.UserName">
@@ -158,6 +74,89 @@
 					</div>
 				</div>
 			</uib-tab>
+			<uib-tab index="1" select="" heading="Update Profile">
+				<br>
+				<div class="alert alert-danger alert-dismissable" ng-show="errMessage">
+					<a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<h3>{{ errMessage }}</h3>
+				</div>
+				<div class="alert alert-success alert-dismissable" ng-show="successMessage">
+					<a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<h3>{{ successMessage }}</h3>
+				</div>
+				<br>
+				<div class="col-md-6">
+					<form name="UpdateProfileForm">						
+						<legend>Update UserName</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">New UserName</label>							
+							<div class="col-md-6" ng-class="{ 'has-error': UpdateProfileForm.username.$invalid && !UpdateProfileForm.username.$pristine }"> 
+								<input type="text" name="username" class="form-control" pattern="^[a-zA-Z0-9_]*$" ng-model="newUserName.UserName" check-availability property="username" autocomplete="off">
+								<p ng-show="UpdateProfileForm.username.$pending.checkAvailability">checking....</p>
+		                        <p ng-show="UpdateProfileForm.username.$error.checkAvailability">This UserName is already taken!</p>
+		                        <p ng-show="!UpdateProfileForm.username.$error.checkAvailability && UpdateProfileForm.username.$invalid && !UpdateProfileForm.username.$pristine" class="help-block">User name can only contain alphabets, numbers and _</p>
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-primary pull-right" ng-disabled="!newUserName.UserName" ng-click="updateUserName()">Update</button>
+							</div>
+						</div><br>
+						<legend>Update Email</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">New Email</label>
+							<div class="col-md-6" ng-class="{ 'has-error': UpdateProfileForm.email.$invalid && !UpdateProfileForm.email.$pristine }">
+								<input type="text" name="email" class="form-control" ng-model="contacts.Email" check-availability property="email" autocomplete="off">
+								<p ng-show="UpdateProfileForm.email.$pending.checkAvailability">checking....</p>
+		                        <p ng-show="UpdateProfileForm.email.$error.checkAvailability">This Email already taken!</p>
+		                        <p ng-show="!UpdateProfileForm.email.$error.checkAvailability && UpdateProfileForm.email.$invalid && !UpdateProfileForm.email.$pristine" class="help-block">email name can only contain alphabets, numbers and _</p>
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-primary pull-right" ng-disabled="!contacts.Email" ng-click="updateContact()">Update</button>
+							</div>
+						</div><br>
+						<legend>Update PhoneNumber</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">New PhoneNumber</label>
+							<div class="col-md-6" ng-class="{ 'has-error': UpdateProfileForm.phonenumber.$invalid && !UpdateProfileForm.phonenumber.$pristine }">
+								<input type="text" name="phonenumber" class="form-control" ng-model="contacts.PhoneNumber" check-availability property="phonenumber" autocomplete="off">								
+								<p ng-show="UpdateProfileForm.phonenumber.$pending.checkAvailability">checking....</p>
+		                        <p ng-show="UpdateProfileForm.phonenumber.$error.checkAvailability">This phonenumber already taken!</p>
+		                        <p ng-show="!UpdateProfileForm.phonenumber.$error.checkAvailability && UpdateProfileForm.phonenumber.$invalid && !UpdateProfileForm.phonenumber.$pristine" class="help-block">PhoneNumber can only contain numbers</p>
+							</div>
+							<div class="col-md-2">
+								<button class="btn btn-primary pull-right" ng-disabled="!contacts.PhoneNumber" ng-click="updateContact()">Update</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-6">
+					<form>						
+						<legend>Changed Password</legend>
+						<div class="row">
+							<label class="col-md-4 control-label">Current Password</label>
+							<div class="col-md-8">
+								<input type="password" name="currentPassword" class="form-control" ng-model="passwordUpdate.CurrentPassword" ng-minlength="6" autocomplete="off">
+							</div>
+						</div><br>
+						<div class="row">
+							<label class="col-md-4 control-label">New Password</label>
+							<div class="col-md-8">
+								<input type="password" name="newPassword" class="form-control" ng-model="passwordUpdate.NewPassword" ng-minlength="6" autocomplete="off">
+							</div>
+						</div><br>
+						<div class="row">
+							<label class="col-md-4 control-label">Confirm Password</label>
+							<div class="col-md-8" ng-class="{ 'has-error': UpdateProfileForm.confirmPassword.$invalid && !UpdateProfileForm.confirmPassword.$pristine }">
+								<input type="password" name="confirmPassword" class="form-control" confirm-password="passwordUpdate.NewPassword" ng-model="passwordUpdate.ConfirmPassword" ng-minlength="6" autocomplete="off">
+							</div>
+						</div><br>
+						<div class="row">							
+							<div class="col-md-12">
+								<button class="btn btn-primary pull-right" ng-disabled="(!passwordUpdate.CurrentPassword || !passwordUpdate.NewPassword || !passwordUpdate.ConfirmPassword)" ng-click="updatePassword()">Update Password</button>
+							</div>
+						</div>
+					</form>
+				</div>				
+			</uib-tab>			
 		</uib-tabset>
 	</div>
 	<div class="row"></div>

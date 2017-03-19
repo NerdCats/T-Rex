@@ -15,7 +15,7 @@
 		vm.userProfile = {};
 		vm.errMessage = null;
 		vm.successMessage = null;
-		vm.newUserName = null;
+		vm.newUserName = { UserName : null };
 
 		vm.passwordUpdate = {
 			CurrentPassword : null,
@@ -39,7 +39,7 @@
 			});
 		}
 
-		vm.changePassword = function () {
+		vm.updatePassword = function () {
 			$http({
 				method: 'PUT',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Account/password",
@@ -65,35 +65,54 @@
 			})
 		}
 
-		vm.changeUserName = function () {
+		vm.updateUserName = function () {
+			console.log(vm.newUserName);
 			$http({
 				method: 'PUT',
-				url: ngAuthSettings.apiServiceBaseUri + "api/Account/username/" + vm.userId + "?newUsername=" + vm.newUserName
+				url: ngAuthSettings.apiServiceBaseUri + "api/Account/username/" + vm.userId + "?newUsername=" + vm.newUserName.UserName
 			}).then(function (response) {
-				vm.successMessage = "UserName updated successfully! Next time, during login, use the new UserName!"
-				vm.errMessage = null;
-				vm.newUserName = null;
-			}, function () {
-				vm.errMessage = "Couldn't update the UserName!";
-				vm.successMessage = null;
-			})
-		}
-
-		vm.changePhoneNumberEmail = function () {
-			$http({
-				method: 'PUT',
-				url: ngAuthSettings.apiServiceBaseUri + "api/Account/contacts/" + vm.userId + "?newUsername=" + vm.newUserName,
-				data: contacts
-			}).then(function (response) {
-				vm.successMessage = "UserName updated successfully! Next time, during login, use the new UserName!"
-				vm.errMessage = null;
-				vm.newUserName = null;
-				vm.contacts = {			
-					  Email: null,
-					  PhoneNumber: null			
+				if (response.data.Succeeded) {
+					vm.successMessage = "UserName updated successfully! Next time, during login, use the new UserName!"
+					vm.errMessage = null;
+					vm.newUserName = null;
+				} else {
+					vm.errMessage = "Couldn't update UserName. ";
+					vm.successMessage = null;
+					angular.forEach(response.data.Errors, function (value, key) {
+						vm.errMessage += "\n " + value;
+					});
 				}
 			}, function () {
 				vm.errMessage = "Couldn't update the UserName!";
+				vm.successMessage = null;
+				vm.newUserName = null;
+			})
+		}
+
+		vm.updateContact = function () {
+			$http({
+				method: 'PUT',
+				url: ngAuthSettings.apiServiceBaseUri + "api/Account/contacts",
+				data: vm.contacts
+			}).then(function (response) {
+				if (response.data.Succeeded) {
+					vm.successMessage = "PhoneNumber/Email updated successfully!";
+					vm.errMessage = null;					
+					vm.contacts = {			
+						  Email: null,
+						  PhoneNumber: null			
+					}
+				} else {
+					vm.errMessage = "Couldn't update UserName. ";
+					vm.successMessage = null;
+					angular.forEach(response.data.Errors, function (value, key) {
+						vm.errMessage += "\n " + value;
+					});
+				}
+				
+								
+			}, function () {
+				vm.errMessage = "Couldn't update the PhoneNumber/ Email!";
 				vm.successMessage = null;
 			})
 		}
