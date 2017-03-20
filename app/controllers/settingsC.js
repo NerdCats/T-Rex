@@ -98,13 +98,16 @@
 
 		vm.updateContact = function () {
 			var data = vm.contacts;
-			if (vm.contacts) {
-				vm.contacts.Email = vm.userProfile.Email;				
+			if (!data.Email) {
+				data.Email = vm.userProfile.Email;				
+			}
+			if (!data.PhoneNumber) {
+				data.PhoneNumber = vm.userProfile.PhoneNumber;
 			}
 			$http({
 				method: 'PUT',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Account/contacts",
-				data: vm.contacts
+				data: data
 			}).then(function (response) {
 				if (response.data.Succeeded) {
 					vm.successMessage = "PhoneNumber/Email updated successfully!";
