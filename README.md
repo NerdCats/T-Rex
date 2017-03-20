@@ -4,12 +4,12 @@
 T-Rex is the Dashboard for TaskCat, built as an angular-1 single page application.
 The different versions of T-Rex can be found by checking git tags.
 
-#Release Notes
+# Release Notes
 
-##Version
+## Version
 v0.1.0 - 2016-06-09 , production
 
-###Features
+### Features
 - Log in, Log Out
 - See a list of Pending, In Progress and Completed Jobs with pagination
 - Create Order as an Admin of the TaskCat
@@ -20,10 +20,10 @@ v0.1.0 - 2016-06-09 , production
 - User, Enterprise User, Asset Registration Page
 - Create, Update, Delete Supported Order
 
-##Version
+## Version
 v0.2.0 - 2016-09-27 , production
 
-###Features
+### Features
 - Css framework changed to Bootstrap
 - Invoice
 - Report
