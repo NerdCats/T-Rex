@@ -74,7 +74,6 @@
 		}
 
 		vm.updateUserName = function () {
-			console.log(vm.newUserName);
 			$http({
 				method: 'PUT',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Account/username/" + vm.userId + "?newUsername=" + vm.newUserName.UserName
@@ -98,6 +97,10 @@
 		}
 
 		vm.updateContact = function () {
+			var data = vm.contacts;
+			if (vm.contacts) {
+				vm.contacts.Email = vm.userProfile.Email;				
+			}
 			$http({
 				method: 'PUT',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Account/contacts",
