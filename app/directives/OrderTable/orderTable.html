@@ -1,6 +1,6 @@
 <div class="row table-responsive" ng-show="orders.isCompleted == 'SUCCESSFULL'">    
     <h3>{{orders.pagination.Total || orders.data.length}} Job found</h3>
-    <table class="table-striped table-bordered table-hover" id="jobs-table" style="table-layout: fixed;">
+    <table class="table-hover table-bordered" id="jobs-table" style="table-layout: fixed;">
         <thead>
             <tr>
                 <th class="col-md-1" ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign ||orders.assign.showsecuredeliveryAssign">
@@ -11,7 +11,7 @@
                 <th class="col-md-2">Current Status</th>
                 <th class="col-md-1">Ref. Invoice</th>
                 <th class="col-md-1">Create Time</th>
-                <th class="col-md-1" ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">Last Modified</th>
+                <!-- <th class="col-md-1">Last Modified</th> -->
                 <th class="col-md-1" ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
                 <th class="col-md-1">User</th>            
                 <th class="col-md-1">Pickup Area</th>
@@ -22,13 +22,12 @@
                 <th class="col-md-1" ng-show="orders.assign.showdeliveryAssign">Delivery Asset</th>
                 <th class="col-md-1" ng-show="orders.assign.showsecuredeliveryAssign">SecureDelivery Asset</th>
                 <th class="col-md-1" ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
-                <th class="col-md-1">Payment</th>
-                <th class="col-md-1">Time Elapsed</th>
+                <th class="col-md-1">Payment</th>                
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="order in orders.data track by $index">
-                <td ng-click="orders.selectJob($index)" ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign ||orders.assign.showsecuredeliveryAssign">
+            <tr ng-repeat="order in orders.data track by $index" ng-class="{'late-12-hours': (order.RequestedAgo > 12 && order.data.State === 'ENQUEUED'), 'late-72-hours': (order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS')}">
+                <td ng-click="orders.selectJob($index)" ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign || orders.assign.showsecuredeliveryAssign">
                     <input style="width: 20px; height: 20px;" ng-model="order.selected" type="checkbox">
                 </td>
                 <td ng-click="orders.selectJob($index)">                
@@ -45,12 +44,21 @@
                 <td>
                     <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{order.data.HRState}}</span>
                     <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}" ng-show="order.data.AttemptCount > 1">Attempted {{order.data.AttemptCount}} Time</span>
+                    <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}" 
+                            ng-hide="!order.RequestedAgo || (order.RequestedAgo > 12 && order.data.State === 'ENQUEUED') || (order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS') || (order.data.PaymentStatus === 'Paid') || (order.data.State === 'CANCELLED')">
+                        Last Modified <b>{{order.RequestedAgo}}</b> hours ago
+                    </span>
+                    <br><br>
+                    <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 12 && order.data.State === 'ENQUEUED')">
+                        It has been more than <b>{{order.RequestedAgo}} hours</b> in <b>PENDING</b>, take action
+                    </span>
+                    <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS')">
+                        It has been more than <b>{{order.RequestedAgo}} hours</b> in <b>IN PROGRESS</b>, take action
+                    </span>
                 </td>
                 <td>{{order.data.Order.ReferenceInvoiceId}}</td>
                 <td>{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
-                <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'IN_PROGRESS' || orders.searchParam.jobState === 'CANCELLED'">
-                    {{order.data.ModifiedTime | date:"EEE MMM d, y h:mm:ss a"}}
-                </td>
+                <!-- <td>{{order.data.ModifiedTime | date:"EEE MMM d, y h:mm:ss a"}}</td> -->
                 <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">
                     {{order.data.CompletionTime | date:"EEE MMM d, y h:mm:ss a"}}
                 </td>
@@ -143,8 +151,7 @@
                     <a class="btn btn-danger small-button" ng-click="orders.updatePaymentStatus($index)" ng-show="orders.showPaymentUpdateOption && order.data.PaymentStatus === 'Pending'">Update Payment
                         <span><i ng-show="order.isUpdatingPaymentStatus" class="fa fa-refresh fa-spin"></i></span>
                     </a>                    
-                </td>
-                <td>{{order.RequestedAgo}}</td>                                                    
+                </td>                
             </tr>
         </tbody>
     </table>

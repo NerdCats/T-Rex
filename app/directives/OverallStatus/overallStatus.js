@@ -11,23 +11,42 @@
 			var startDate = new Date(vm.today.getFullYear(), vm.today.getMonth(), vm.today.getDate(), 0, 0, 0).toISOString();
 			var endDate = new Date(vm.today.getFullYear(), vm.today.getMonth(), vm.today.getDate(), 23, 59, 59).toISOString();
 
-			var dateRangeQuery = "ModifiedTime gt datetime'"+ startDate +"' and ModifiedTime lt datetime'"+ endDate +"'";
-			vm.baseUrl = ngAuthSettings.apiServiceBaseUri + "api/job/odata?$filter=" + dateRangeQuery + " and ";
+			// var dateRangeQuery = "ModifiedTime gt datetime'"+ startDate +"' and ModifiedTime lt datetime'"+ endDate +"'";
+			vm.baseUrl = ngAuthSettings.apiServiceBaseUri;
+			// vm.baseUrl += "api/job/odata?$filter=" + dateRangeQuery + " and ";
 
 
 			// vm.B2BTotalDispatchedUrl = vm.baseUrl + "User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Type eq 'Delivery' and task/Variant eq 'default')&countOnly=true"
 			// vm.B2CTotalDispatchedUrl = vm.baseUrl + ""
 
-			vm.B2BTotalCompletedUrl = vm.baseUrl + "User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')&countOnly=true";
-			vm.B2CTotalCompletedUrl = vm.baseUrl + "User/UserName eq 'B2C' and Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')&countOnly=true";
-			
-			vm.B2BTotalAttemptedUrl = vm.baseUrl + "User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')&countOnly=true";
-			vm.B2CTotalAttemptedUrl = vm.baseUrl + "User/UserName eq 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')&countOnly=true";
-			
-			vm.B2BTotalReturnedUrl = vm.baseUrl + "User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')&countOnly=true";		
-			vm.B2CTotalReturnedUrl = vm.baseUrl + "User/UserName eq 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')&countOnly=true";
+			vm.B2BTotalCompletedUrl = vm.baseUrl + "api/job/odata?$filter=" + 
+										"CompletionTime gt datetime'"+ startDate +"' and CompletionTime lt datetime'"+ endDate +"'" +
+										" and User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')&countOnly=true";
 
-			vm.BikroyPickupUrl = vm.baseUrl + "User/UserName eq 'Bikroy' and Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'PackagePickup')&countOnly=true";
+			vm.B2CTotalCompletedUrl = vm.baseUrl + "api/job/odata?$filter=" + 
+										"CompletionTime gt datetime'"+ startDate +"' and CompletionTime lt datetime'"+ endDate +"'" +
+										" and User/UserName eq 'B2C' and Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'Delivery')&countOnly=true";
+
+			
+			vm.B2BTotalAttemptedUrl = vm.baseUrl + "api/job/odata?$filter=" + 
+										"ModifiedTime gt datetime'"+ startDate +"' and ModifiedTime lt datetime'"+ endDate +"'" +
+										" and User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')&countOnly=true";
+
+			vm.B2CTotalAttemptedUrl = vm.baseUrl + "api/job/odata?$filter=" + 
+										"ModifiedTime gt datetime'"+ startDate +"' and ModifiedTime lt datetime'"+ endDate +"'" +
+										" and User/UserName eq 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'retry' and task/Type eq 'Delivery')&countOnly=true";
+
+			
+			vm.B2BTotalReturnedUrl = vm.baseUrl + "api/job/odata?$filter=" + 
+										"ModifiedTime gt datetime'"+ startDate +"' and ModifiedTime lt datetime'"+ endDate +"'" +
+										" and User/UserName ne 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')&countOnly=true";		
+
+			vm.B2CTotalReturnedUrl = vm.baseUrl + "api/job/odata?$filter=" + 
+										"ModifiedTime gt datetime'"+ startDate +"' and ModifiedTime lt datetime'"+ endDate +"'" +
+										" and User/UserName eq 'B2C' and Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery')&countOnly=true";
+
+
+			vm.BikroyPickupUrl = vm.baseUrl + " and User/UserName eq 'Bikroy' and Tasks/any(task: task/State eq 'COMPLETED' and task/Type eq 'PackagePickup')&countOnly=true";
 
 			vm.B2BTotalDispatch = NaN;
 			vm.B2CTotalDispatch = NaN;

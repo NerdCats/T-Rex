@@ -71,7 +71,7 @@
 					});
 					return description;
 				},					
-				RequestedAgo : timeAgo(job.CreateTime)
+				RequestedAgo : timeAgo(job.ModifiedTime)
 			}
 		}
 

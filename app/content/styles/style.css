@@ -112,6 +112,19 @@ ng-form, form {
     background-color: #33691E;
     color: white;
 }
+
+.late-12-hours {
+    background-color: #ef5350;
+    color: white;
+} 
+
+.late-72-hours {
+    background-color: #F57F17;
+    color: black;
+}
+.late-72-hours:hover , .late-12-hours:hover {
+    color: black;
+}
 .all {
     background-color: #FF8F00;
     color: white;
