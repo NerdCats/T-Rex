@@ -93,6 +93,10 @@ var app = angular.module('app', [
 				}).
 				when('/jobactivity', {
 					templateUrl: 'app/views/jobActivity.html'				
+				}).
+				when('/settings', {
+					templateUrl: 'app/views/settings.html',
+					controller: 'settingsC'
 				})
 				// when('/supportedOrder',{
 				// 	templateUrl: 'app/views/supportedOrders.html',

@@ -44,7 +44,7 @@
                 })
                 .success(function(response) {                    
                     var authorizationData = {};
-                    var decoded_token = jwt_decode(response.access_token);                                        
+                    var decoded_token = jwt_decode(response.access_token);
                     if (decoded_token.role.indexOf("BackOfficeAdmin") !== -1 || decoded_token.role.indexOf("Administrator") !== -1) {
                         authorizationData.token = response.access_token;
                         authorizationData.userName = response.userName;

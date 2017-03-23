@@ -19,9 +19,9 @@
             vm.loadActivity = function (hrid, page, pageSize) {
                 var activityUrl = "";
                 if (hrid === undefined) {
-                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
+                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=50";
                 } else {
-                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=10";
+                    activityUrl = ngAuthSettings.apiServiceBaseUri + "api/JobActivity?$filter=HRID eq '"+ hrid +"'&$orderby=TimeStamp desc&$select=ActionText,HRID,TimeStamp&page="+ page +"&pageSize=50";
                 }
                 vm.JobActivityState = "IN_PROGRESS";
                 $http({
