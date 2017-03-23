@@ -53,7 +53,7 @@
                         Last Modified <b>{{order.RequestedAgo}}</b> hours ago
                     </span>
                     <br><br>
-                    <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 24 && order.data.State === 'ENQUEUED')">
+                    <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 12 && order.data.State === 'ENQUEUED')">
                         It has been more than <b>{{order.RequestedAgo}} hours</b> in <b>PENDING</b>, take action
                     </span>
                     <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS')">
