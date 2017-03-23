@@ -42,18 +42,22 @@
                     <a class="small-button small-button-color" href="/app/content/invoice/invoice.html?{{order.data.HRID}}" target="_blank">Invoice</a>
                 </td>
                 <td>
-                    <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}">{{order.data.HRState}}</span>
-                    <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}" ng-show="order.data.AttemptCount > 1">Attempted {{order.data.AttemptCount}} Time</span>
+                    <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}">
+                        {{order.data.HRState}}
+                    </span>
+                    <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}" ng-show="order.data.AttemptCount > 1">
+                        Attempted {{order.data.AttemptCount}} Time
+                    </span>
                     <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}" 
                             ng-hide="!order.RequestedAgo || (order.RequestedAgo > 12 && order.data.State === 'ENQUEUED') || (order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS') || (order.data.PaymentStatus === 'Paid') || (order.data.State === 'CANCELLED')">
                         Last Modified <b>{{order.RequestedAgo}}</b> hours ago
                     </span>
                     <br><br>
-                    <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 12 && order.data.State === 'ENQUEUED')">
+                    <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 24 && order.data.State === 'ENQUEUED')">
                         It has been more than <b>{{order.RequestedAgo}} hours</b> in <b>PENDING</b>, take action
                     </span>
                     <span class="small-button text-center" style="font-size: 18px;" ng-show="(order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS')">
-                        It has been more than <b>{{order.RequestedAgo}} hours</b> in <b>IN PROGRESS</b>, take action
+                        It has been more than <b>3 days</b> in <b>IN PROGRESS</b>, take action
                     </span>
                 </td>
                 <td>{{order.data.Order.ReferenceInvoiceId}}</td>
