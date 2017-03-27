@@ -45,6 +45,17 @@
 		}
 		vm.getAssetsList(0);
 
+		vm.assetAssign = function (taskId, selectedAssetId) {
+			if (vm.job.data.Tasks[0].id === taskId) {
+				vm.stateUpdate(vm.job.data.Tasks[0], 'COMPLETED');
+			}
+			if (vm.job.data.Tasks[1].id === taskId && (vm.job.data.Tasks[0].State === 'PENDING' || vm.job.data.Tasks[0].State === 'IN_PROGRESS')) {
+				vm.stateUpdate(vm.job.data.Tasks[0], 'COMPLETED');
+				vm.stateUpdate(vm.job.data.Tasks[1], 'IN_PROGRESS');
+			}
+			vm.job.assigningAsset(taskId, selectedAssetId);
+		}
+
 
 		vm.stateUpdate = function (task, state) {
 			console.log(task)
@@ -95,37 +106,7 @@
 			}, function (discarded) {
 				console.log("Decided not to delete comment");
 			})
-		}
-
-		// vm.openAssetsList = function (taskIndex) {
-		// 	var modalInstance = $uibModal.open({
-		// 		animation: $scope.animationsEnabled,
-		// 		templateUrl: 'app/views/detailsJob/availableAsset.html',
-		// 		controller: 'ModalInstanceCtrl'
-		// 	});
-
-		// 	modalInstance.result.then(function (selectedItem) {
-		// 			vm.selected = selectedItem;
-		// 			console.log($scope.selected);
-		// 			vm.job.assigningAsset(taskIndex);
-		// 			var success = function (response) {
-		// 				vm.job.assigningAsset(false);
-		// 	  			$window.location.reload();
-		// 			};
-		// 			var error = function (error) {
-		// 	  			console.log(error);
-		// 	  			vm.job.redMessage = error;
-		// 	  			vm.job.assigningAsset(false);
-		// 			};
-
-		// 			var url = ngAuthSettings.apiServiceBaseUri + "api/job/" + vm.job.data.Id + "/" + vm.job.data.Tasks[taskIndex].id;
-		// 			var assetRefUpdateData = [{value: vm.selected.Id, path: "/AssetRef",op: "replace"}];
-		// 			var result = restCall("PATCH", url, assetRefUpdateData, success, error);
-		// 		}, function () {
-		// 			console.log('Modal dismissed at: ' + new Date());
-		// 		});
-		// 	};
-		// }
+		}		
 	}
 })();
 
