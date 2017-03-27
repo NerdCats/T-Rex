@@ -10,8 +10,7 @@
                 <th class="col-md-2">Job Id</th>
                 <th class="col-md-1">Current Status</th>
                 <th class="col-md-1">Ref. Invoice</th>
-                <th class="col-md-1">Create Time</th>
-                <!-- <th class="col-md-1">Last Modified</th> -->
+                <th class="col-md-1">Create Time</th>                
                 <th class="col-md-1" ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">Complete Time</th>
                 <th class="col-md-1">User</th>            
                 <th class="col-md-1">Pickup Area</th>
@@ -20,6 +19,7 @@
                 <th class="col-md-1">Delivery</th>
                 <th class="col-md-1" ng-show="orders.assign.showPickupAssign">Pickup Asset</th>
                 <th class="col-md-1" ng-show="orders.assign.showdeliveryAssign">Delivery Asset</th>
+                <th class="col-md-1" ng-show="orders.assign.showReturnDeliveryAssign">Retrun Delivery Asset</th>
                 <th class="col-md-1" ng-show="orders.assign.showsecuredeliveryAssign">SecureDelivery Asset</th>
                 <th class="col-md-1" ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'CANCELLED'">Cancellation Reason</th>            
                 <th class="col-md-1">Payment</th>                
@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="order in orders.data track by $index" ng-class="{'late-12-hours': (order.RequestedAgo > 12 && order.data.State === 'ENQUEUED'), 'late-72-hours': (order.RequestedAgo > 72 && order.data.State === 'IN_PROGRESS')}">
-                <td ng-click="orders.selectJob($index)" ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign || orders.assign.showsecuredeliveryAssign">
+                <td ng-click="orders.selectJob($index)" ng-show="orders.assign.showPickupAssign || orders.assign.showdeliveryAssign || orders.assign.showsecuredeliveryAssign || orders.assign.showReturnDeliveryAssign">
                     <input style="width: 20px; height: 20px;" ng-model="order.selected" type="checkbox">
                 </td>
                 <td ng-click="orders.selectJob($index)">                
@@ -61,8 +61,7 @@
                     </span>
                 </td>
                 <td>{{order.data.Order.ReferenceInvoiceId}}</td>
-                <td>{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>
-                <!-- <td>{{order.data.ModifiedTime | date:"EEE MMM d, y h:mm:ss a"}}</td> -->
+                <td>{{order.data.CreateTime | date:"EEE MMM d, y h:mm:ss a"}}</td>                
                 <td ng-show="orders.searchParam.jobState === null || orders.searchParam.jobState === 'COMPLETED'">
                     {{order.data.CompletionTime | date:"EEE MMM d, y h:mm:ss a"}}
                 </td>
@@ -110,10 +109,32 @@
                     <br>
                     <button class="btn btn-primary small-button" style="margin-top: 25%;" 
                             ng-click="order.isCompletingDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('Delivery', $index), 'TaskComplete')" 
-                            ng-disabled="orders.loadSingleTask('PackagePickUp', $index).State === 'PENDING' || orders.loadSingleTask('PackagePickUp', $index).State === 'IN_PROGRESS' || orders.loadSingleTask('Delivery', $index).State === 'COMPLETED' ">
+                            ng-disabled="orders.loadSingleTask('PackagePickUp', $index).State === 'PENDING' || orders.loadSingleTask('PackagePickUp', $index).State === 'IN_PROGRESS' || orders.loadSingleTask('Delivery', $index).State === 'COMPLETED' || orders.loadSingleTask('Delivery', $index).Variant === 'return' ">
                         <span><i ng-show="order.isCompletingDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                         <span>Complete Delivery</span>                    
                     </button>
+                </td>
+
+
+                <td ng-show="orders.assign.showReturnDeliveryAssign">
+                    <div ng-show="order.data.HRState.includes('Return Delivery')">                        
+                        <span class="label asset">{{order.data.Assets[orders.loadSingleTask('Delivery', $index).AssetRef].UserName}}</span>
+                        <br>
+                        <button class="btn btn-primary small-button" style="margin-top: 25%;" 
+                                ng-click="order.isAssigningReturnDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('Delivery', $index, 'return'), 'AssetAssign')" 
+                                ng-show="orders.selectedAssetName">
+                            <span><i ng-show="order.isAssigningReturnDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
+                            <span ng-hide="order.DeliveryAsset().Name">{{ 'Assign to ' + orders.selectedAssetName}}</span>
+                            <span ng-show="order.DeliveryAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
+                        </button>
+                        <br>
+                        <button class="btn btn-primary small-button" style="margin-top: 25%;" 
+                                ng-click="order.isCompletingReturnDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('Delivery', $index, 'return'), 'TaskComplete')" 
+                                ng-disabled="orders.loadSingleTask('PackagePickUp', $index).State === 'PENDING' || orders.loadSingleTask('PackagePickUp', $index).State === 'IN_PROGRESS' || orders.loadSingleTask('Delivery', $index).State === 'COMPLETED' ">
+                            <span><i ng-show="order.isCompletingReturnDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
+                            <span>Complete Return Delivery</span>                    
+                        </button>
+                    </div>
                 </td>
 
 
@@ -123,24 +144,19 @@
                         <span class="label asset">{{order.data.Assets[orders.loadSingleTask('SecureDelivery', $index).AssetRef].UserName}}</span>
                         <br>
                         <button class="btn btn-primary small-button" style="margin-top: 25%;" 
-                                ng-click="order.isAssigningSecureCashDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('SecureDelivery', $index), 'AssetAssign')" ng-show="orders.selectedAssetName">
+                                ng-click="order.isAssigningSecureCashDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('SecureDelivery', $index), 'AssetAssign')" 
+                                ng-show="orders.selectedAssetName">
                             <span><i ng-show="order.isAssigningSecureCashDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                             <span ng-hide="order.SecureDeliveryAsset().Name">{{ 'Assign to ' + orders.selectedAssetName}}</span>
                             <span ng-show="order.SecureDeliveryAsset().Name">{{ 'Re Assign to  ' + orders.selectedAssetName}}</span>
                         </button>
                         <br>
                         <button class="btn btn-primary small-button" style="margin-top: 25%;" 
-
                             ng-click="order.isCompletingSecureCashDeliveryAsset=true;orders.assignAssetToTask($index, orders.loadSingleTask('SecureDelivery', $index), 'TaskComplete')" 
-
                             ng-disabled="orders.loadSingleTask('Delivery', $index).State === 'PENDING' || orders.loadSingleTask('Delivery', $index).State === 'IN_PROGRESS' || orders.loadSingleTask('SecureDelivery', $index).State === 'COMPLETED' ">
-
                             <span><i ng-show="order.isCompletingSecureCashDeliveryAsset" class="fa fa-refresh fa-spin"></i></span>
                             <span>Complete SecureDelivery</span>                    
                         </button>                  
-                    </div>
-                    <div ng-hide="order.Type() === 'B2B + Cash Delivery'">
-                        <span class="label {{order.SecureDeliveryState().class}}">{{order.SecureDeliveryState().value}}</span>
                     </div>
                 </td>
 

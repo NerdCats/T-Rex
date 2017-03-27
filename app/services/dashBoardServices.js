@@ -45,12 +45,17 @@
 					}
 				},
 				selected: false,			
+				
 				isAssigningPickUpAsset : false,
 				isAssigningDeliveryAsset : false,
+				isAssigningReturnDeliveryAsset : false,
 				isAssigningSecureCashDeliveryAsset : false,
+
 				isCompletingPickUpAsset : false,
 				isCompletingDeliveryAsset : false,
+				isCompletingReturnDeliveryAsset : false,
 				isCompletingSecureCashDeliveryAsset : false,
+				
 				isUpdatingPaymentStatus: false,				
 				ETA : function () {
 					var eta = "";
@@ -294,13 +299,17 @@
 						itSelf.errMsg.push(HRID);
 					});
 				},
-				loadSingleTask: function (taskTypeOrName, orderIndex) {
+				loadSingleTask: function (taskTypeOrName, orderIndex, variant) {
 					var itSelf = this;
 					var task = {};
 					var Tasks = itSelf.data[orderIndex].data.Tasks;
 					for(var i = 0; i < Tasks.length; i++){
-						if (Tasks[i].Name === taskTypeOrName || Tasks[i].Type === taskTypeOrName) {
-							task = Tasks[i];
+						if (Tasks[i].Name === taskTypeOrName || Tasks[i].Type === taskTypeOrName) {							
+							if (variant && Tasks[i].Variant === variant) {
+								task = Tasks[i];								
+							} else {
+								task = Tasks[i];
+							}
 						}
 					}					
 					return task;
@@ -329,6 +338,7 @@
 				assign: {
 					showPickupAssign: false,
 					showdeliveryAssign: false,
+					showReturnDeliveryAssign: false,
 					showsecuredeliveryAssign: false,
 					assetRef: null				
 				},
@@ -360,10 +370,12 @@
 					function isAssigningCompleted (){						
 						itSelf.data[orderIndex].isAssigningPickUpAsset = false;
 						itSelf.data[orderIndex].isAssigningDeliveryAsset = false;
+						itSelf.data[orderIndex].isAssigningReturnDeliveryAsset = false;
 						itSelf.data[orderIndex].isAssigningSecureCashDeliveryAsset = false;
 
 						itSelf.data[orderIndex].isCompletingPickUpAsset = false;
 						itSelf.data[orderIndex].isCompletingDeliveryAsset = false;
+						itSelf.data[orderIndex].isCompletingReturnDeliveryAsset = false;
 						itSelf.data[orderIndex].isCompletingSecureCashDeliveryAsset = false;
 					}
 					$http({

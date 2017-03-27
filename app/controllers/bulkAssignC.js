@@ -32,6 +32,7 @@
 		vm.Orders.searchParam.jobState === 'IN_PROGRESS';
 		vm.Orders.assign.showPickupAssign = true;
 		vm.Orders.assign.showdeliveryAssign = true;
+		vm.Orders.assign.showReturnDeliveryAssign = true;
 		vm.Orders.assign.showsecuredeliveryAssign = true;
 		vm.Orders.showPaymentUpdateOption = true;
 
@@ -102,7 +103,7 @@
 
 		vm.assignAssetToTask = function (taskTypeOrName) {
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
-				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
+				var task = taskTypeOrName === "ReturnDelivery"? vm.Orders.loadSingleTask("Delivery", jobIndex, 'return') : vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
 				vm.Orders.assignAssetToTask(jobIndex, task, "AssetAssign");
 				switch(taskTypeOrName){
 					case 'PackagePickUp':
@@ -110,6 +111,9 @@
 						break;
 					case 'Delivery':
 						vm.Orders.data[jobIndex].isAssigningDeliveryAsset = true;
+						break;
+					case 'ReturnDelivery':
+						vm.Orders.data[jobIndex].isAssigningReturnDeliveryAsset = true;
 						break;
 					case 'SecureDelivery':
 						vm.Orders.data[jobIndex].isAssigningSecureCashDeliveryAsset = true;
@@ -122,7 +126,7 @@
 
 		vm.completeTask = function (taskTypeOrName) {
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {
-				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
+				var task = taskTypeOrName === "ReturnDelivery"? vm.Orders.loadSingleTask("Delivery", jobIndex, 'return') : vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
 				vm.Orders.assignAssetToTask(jobIndex, task, "TaskComplete");
 
 				switch(taskTypeOrName){
@@ -131,6 +135,9 @@
 						break;
 					case 'Delivery':
 						vm.Orders.data[jobIndex].isCompletingDeliveryAsset = true;
+						break;
+					case 'ReturnDelivery':
+						vm.Orders.data[jobIndex].isCompletingReturnDeliveryAsset = true;
 						break;
 					case 'SecureDelivery':
 						vm.Orders.data[jobIndex].isCompletingSecureCashDeliveryAsset = true;
