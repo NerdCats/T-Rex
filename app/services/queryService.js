@@ -74,6 +74,7 @@
 			
 			if (searchParam.subStringOf.SearchKey != null) {
 				var RecipientsPhoneNumberParam = "(substringof('"+ searchParam.subStringOf.SearchKey + "',Order/To/Address) "+
+													"or substringof('"+ searchParam.subStringOf.SearchKey +"',Order/From/Address) "+
 													"or substringof('"+ searchParam.subStringOf.SearchKey +"',Order/ReferenceInvoiceId) "+
 													"or substringof('"+ searchParam.subStringOf.SearchKey +"',HRID))";
 				if (!allreadyAParamIsThere) {
