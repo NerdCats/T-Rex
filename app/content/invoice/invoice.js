@@ -14,6 +14,9 @@ function invoiceCtrl($scope, $http, $window) {
     vm.failedToLoadJobs = [];
     vm.failedToLoadJobFlag = false;
 
+    vm.showPickUpAddress = true;
+    vm.showDeliveryAddress = true;
+
     vm.bc = {
         format: 'CODE39',
         lineColor: '#000000',
@@ -25,7 +28,7 @@ function invoiceCtrl($scope, $http, $window) {
         textAlign: 'center',
         textPosition: 'bottom',
         textMargin: 2,
-        fontSize: 14,
+        fontSize: 16,
         background: '#ffffff',
         margin: 0,
         marginTop: undefined,
