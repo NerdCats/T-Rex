@@ -48,9 +48,12 @@
                 </div>
                 <hr class="style-one">
                 <div>
-                    <h3 class="address-header">Pickup Address</h3>                
-                    <div class="address" ng-show="job.Tasks[1].ETA">Pickup Time: {{job.Tasks[1].ETA | date: 'medium'}}</div>
-                    <div class="address">{{job.Order.From.AddressLine1}}</div>
+                    
+                    <div>
+                        <h3 class="address-header">Pickup Address</h3>                
+                        <div class="address" ng-show="job.Tasks[1].ETA">Pickup Time: {{job.Tasks[1].ETA | date: 'medium'}}</div>
+                        <div class="address">{{job.Order.From.AddressLine1}}</div>
+                    </div>
                 </div>
                 <hr class="style-one">
                 <div>

@@ -58,12 +58,12 @@
 				} else {
 					excelRow.push("");
 				}
-				if (job.Order.BuyerInfo) {
+				if (job.Order.BuyerInfo && job.Order.BuyerInfo.PhoneNumber) {
 					excelRow.push(job.Order.BuyerInfo.PhoneNumber);
 				} else {
 					excelRow.push("");
 				}
-				if (job.Order.BuyerInfo) {
+				if (job.Order.BuyerInfo && job.Order.BuyerInfo.Address) {
 					excelRow.push(job.Order.BuyerInfo.Address.Address);
 				} else {
 					excelRow.push(job.Order.To.Address);
