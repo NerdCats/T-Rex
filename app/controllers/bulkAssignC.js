@@ -4,7 +4,7 @@
 
 	app.controller('bulkAssignC', bulkAssignC);
 
-	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService){
+	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, queryService){
 		var vm = $scope;
 		vm.listOfHRID = [];
 		vm.Assets = [];
@@ -45,7 +45,36 @@
 			})
 		}
 
-		vm.downloadExcelWorkOrder = function (tableId) {
+		var JOBS_FOR_REPORT = [];
+		var REPORT_ERROR_COUNTER = 0;
+		vm.getReport = function (page) {
+			var searchParam = Object.assign({}, vm.Orders.searchParam);
+			searchParam.page = page;
+			var url = queryService.getOdataQuery(searchParam);
+			$http({
+				method: 'GET',
+				url: url
+			}).then(function (response) {
+				angular.forEach(response.data.data, function (job, index) {
+					JOBS_FOR_REPORT.push(job);
+				});
+				if (response.data.pagination.NextPage) {
+					vm.getReport(page+1);
+				} else {
+					vm.downloadExcelWorkOrder(JOBS_FOR_REPORT);
+					JOBS_FOR_REPORT = [];
+				}
+			}, function (error) {
+				REPORT_ERROR_COUNTER += 1;
+				if (REPORT_ERROR_COUNTER < 3) {
+					vm.getReport(page);					
+				} else {
+					vm.errMsg = "Couldn't Generate Report, Try sometime later!";
+				}
+			})
+		}
+
+		vm.downloadExcelWorkOrder = function (JobsForReport) {
 			var filename = "Workorder.xlsx";
 			if(vm.selectedAsset){
 				filename = "workorder - "+ vm.selectedAsset.UserName + " - " + new Date().toDateString() + ".xlsx";
@@ -61,9 +90,8 @@
 			excelHeading.push("TotalToPrice");
 			excelHeading.push("NoteToDeliveryMan");
 			excelObjectArray.push(excelHeading);
-
-			angular.forEach(vm.Orders.data, function (value, key) {
-				var job = value.data;
+			
+			angular.forEach(JobsForReport, function (job, key) {
 				var excelRow = [];
 				excelRow.push(job.HRID);
 				excelRow.push(job.User.UserName);
