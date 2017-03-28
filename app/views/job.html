@@ -101,7 +101,7 @@
                                 		<option ng-repeat="asset in BikeMessengers" value="{{asset.Id}}">{{asset.UserName}}</option>
                                 	</select>
                                 	<span class="input-group-btn">
-	                                    <button class="btn btn-primary" ng-click="job.assigningAsset(task.id, selectedAssetid)" ng-disabled="task.State === 'COMPLETED'">
+	                                    <button class="btn btn-primary" ng-click="assetAssign(task.id, selectedAssetid)" ng-disabled="task.State === 'COMPLETED'">
 	                                        ASSIGN
 	                                        <span ng-show="job.modifying === 'FetchDeliveryMan_UPDATING'" class="fa fa-refresh fa-spin"></span>
 	                                    </button>                                		

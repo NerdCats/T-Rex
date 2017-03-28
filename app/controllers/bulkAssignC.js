@@ -32,6 +32,7 @@
 		vm.Orders.searchParam.jobState === 'IN_PROGRESS';
 		vm.Orders.assign.showPickupAssign = true;
 		vm.Orders.assign.showdeliveryAssign = true;
+		vm.Orders.assign.showReturnDeliveryAssign = true;
 		vm.Orders.assign.showsecuredeliveryAssign = true;
 		vm.Orders.showPaymentUpdateOption = true;
 
@@ -43,66 +44,23 @@
 				}
 			})
 		}
-
-		vm.downloadExcelWorkOrder = function (tableId) {
-			var filename = "Workorder.xlsx";
-			if(vm.selectedAsset){
-				filename = "workorder - "+ vm.selectedAsset.UserName + " - " + new Date().toDateString() + ".xlsx";
+		
+		vm.getReport = function (page) {
+			if (vm.listOfHRID.length !== 0) {
+				var jobs = [];
+				angular.forEach(vm.Orders.data, function (value, index) {
+					jobs.push(value.data);
+				});
+				excelWriteService.downloadExcelWorkOrder(jobs);
+			} else {
+				var searchParam = Object.assign({}, vm.Orders.searchParam);
+			 	excelWriteService.getReport(searchParam);
 			}
-			var excelObjectArray = [];
-			var excelHeading = [];
-			excelHeading.push("HRID");
-			excelHeading.push("User");
-			excelHeading.push("ReferenceInvoiceId");
-			excelHeading.push("Recipient Name");
-			excelHeading.push("PhoneNumber");
-			excelHeading.push("Delivery Address");
-			excelHeading.push("TotalToPrice");
-			excelHeading.push("NoteToDeliveryMan");
-			excelObjectArray.push(excelHeading);
-
-			angular.forEach(vm.Orders.data, function (value, key) {
-				var job = value.data;
-				var excelRow = [];
-				excelRow.push(job.HRID);
-				excelRow.push(job.User.UserName);
-				excelRow.push(job.Order.ReferenceInvoiceId);
-				if (job.Order.BuyerInfo) {
-					excelRow.push(job.Order.BuyerInfo.Name);
-				} else {
-					excelRow.push("");
-				}
-				if (job.Order.BuyerInfo) {
-					excelRow.push(job.Order.BuyerInfo.PhoneNumber);
-				} else {
-					excelRow.push("");
-				}
-				if (job.Order.BuyerInfo) {
-					excelRow.push(job.Order.BuyerInfo.Address.Address);
-				} else {
-					excelRow.push(job.Order.To.Address);
-				}
-				excelRow.push(job.Order.OrderCart.TotalToPay);
-				excelRow.push(job.Order.NoteToDeliveryMan);
-
-				excelObjectArray.push(excelRow);
-			});
-
-			var rowCount = vm.Orders.data.length + 1;
-			var columnCount = 6;
-			var options = [
-				    {
-				      "s": { "r": rowCount, "c": 0 },
-				      "e": { "r": rowCount, "c": 6 }
-				    }
-				 ]
-			var data = [excelObjectArray, options];
-			excelWriteService.export_excel(data, 'xlsx', filename);
 		}
 
 		vm.assignAssetToTask = function (taskTypeOrName) {
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
-				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
+				var task = taskTypeOrName === "ReturnDelivery"? vm.Orders.loadSingleTask("Delivery", jobIndex, 'return') : vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
 				vm.Orders.assignAssetToTask(jobIndex, task, "AssetAssign");
 				switch(taskTypeOrName){
 					case 'PackagePickUp':
@@ -110,6 +68,9 @@
 						break;
 					case 'Delivery':
 						vm.Orders.data[jobIndex].isAssigningDeliveryAsset = true;
+						break;
+					case 'ReturnDelivery':
+						vm.Orders.data[jobIndex].isAssigningReturnDeliveryAsset = true;
 						break;
 					case 'SecureDelivery':
 						vm.Orders.data[jobIndex].isAssigningSecureCashDeliveryAsset = true;
@@ -122,7 +83,7 @@
 
 		vm.completeTask = function (taskTypeOrName) {
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {
-				var task = vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
+				var task = taskTypeOrName === "ReturnDelivery"? vm.Orders.loadSingleTask("Delivery", jobIndex, 'return') : vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
 				vm.Orders.assignAssetToTask(jobIndex, task, "TaskComplete");
 
 				switch(taskTypeOrName){
@@ -131,6 +92,9 @@
 						break;
 					case 'Delivery':
 						vm.Orders.data[jobIndex].isCompletingDeliveryAsset = true;
+						break;
+					case 'ReturnDelivery':
+						vm.Orders.data[jobIndex].isCompletingReturnDeliveryAsset = true;
 						break;
 					case 'SecureDelivery':
 						vm.Orders.data[jobIndex].isCompletingSecureCashDeliveryAsset = true;

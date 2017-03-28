@@ -3,7 +3,90 @@
 
 	app.service('excelWriteService', excelWriteService);
 
-	function excelWriteService(){
+	function excelWriteService(queryService, $http){
+
+		var JOBS_FOR_REPORT = [];
+		var REPORT_ERROR_COUNTER = 0;
+		function getReport(searchParam) {			
+			var url = queryService.getOdataQuery(searchParam);
+			$http({
+				method: 'GET',
+				url: url
+			}).then(function (response) {
+				angular.forEach(response.data.data, function (job, index) {
+					JOBS_FOR_REPORT.push(job);
+				});
+				if (response.data.pagination.NextPage) {
+					searchParam.page += 1;
+					getReport(searchParam);
+				} else {
+					downloadExcelWorkOrder(JOBS_FOR_REPORT);
+					JOBS_FOR_REPORT = [];
+				}
+			}, function (error) {
+				REPORT_ERROR_COUNTER += 1;
+				if (REPORT_ERROR_COUNTER < 3) {
+					getReport(page);					
+				} else {
+					// errMsg = "Couldn't Generate Report, Try sometime later!";
+					console.log("Couldn't Generate Report, Try sometime later!");
+				}
+			});
+		}
+
+		function downloadExcelWorkOrder(JobsForReport) {
+			var filename = "Workorder.xlsx" + new Date().toDateString() + ".xlsx";			
+			var excelObjectArray = [];
+			var excelHeading = [];
+			excelHeading.push("HRID");
+			excelHeading.push("User");
+			excelHeading.push("ReferenceInvoiceId");
+			excelHeading.push("Recipient Name");
+			excelHeading.push("PhoneNumber");
+			excelHeading.push("Delivery Address");
+			excelHeading.push("TotalToPrice");
+			excelHeading.push("NoteToDeliveryMan");
+			excelObjectArray.push(excelHeading);
+			
+			angular.forEach(JobsForReport, function (job, key) {
+				var excelRow = [];
+				excelRow.push(job.HRID);
+				excelRow.push(job.User.UserName);
+				excelRow.push(job.Order.ReferenceInvoiceId);
+				if (job.Order.BuyerInfo) {
+					excelRow.push(job.Order.BuyerInfo.Name);
+				} else {
+					excelRow.push("");
+				}
+				if (job.Order.BuyerInfo && job.Order.BuyerInfo.PhoneNumber) {
+					excelRow.push(job.Order.BuyerInfo.PhoneNumber);
+				} else {
+					excelRow.push("");
+				}
+				if (job.Order.BuyerInfo && job.Order.BuyerInfo.Address) {
+					excelRow.push(job.Order.BuyerInfo.Address.Address);
+				} else {
+					excelRow.push(job.Order.To.Address);
+				}
+				excelRow.push(job.Order.OrderCart.TotalToPay);
+				excelRow.push(job.Order.NoteToDeliveryMan);
+
+				excelObjectArray.push(excelRow);
+			});
+
+			var rowCount = JobsForReport.length + 1;
+			var columnCount = 6;
+			var options = [
+				    {
+				      "s": { "r": rowCount, "c": 0 },
+				      "e": { "r": rowCount, "c": 6 }
+				    }
+				 ]
+			var data = [excelObjectArray, options];
+			export_excel(data, 'xlsx', filename);
+		};
+
+
 		function generateArray(table) {
 		    var out = [];
 		    var rows = table.getElementsByTagName('tr');
@@ -59,7 +142,7 @@
 		    var epoch = v.getTime();
 		    if (date1904) epoch += 1462 * 24 * 60 * 60 * 1000;
 		    return (epoch + 2209161600000) / (24 * 60 * 60 * 1000);
-		}
+		};
 
 		function sheet_from_array_of_arrays(data, opts) {
 		    var ws = {};
@@ -164,7 +247,9 @@
 
 		return {
 			export_table_to_excel: export_table_to_excel,
-			export_excel: export_excel
+			export_excel: export_excel,
+			getReport: getReport,
+			downloadExcelWorkOrder: downloadExcelWorkOrder
 		}
 	}	
 })();

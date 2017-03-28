@@ -21,6 +21,7 @@
 		        		<select class="form-control" ng-model="selectedTaskType">		        		
 			        		<option value="PackagePickUp">Pickup</option>
 			        		<option value="Delivery">Delivery</option>
+			        		<option value="ReturnDelivery">Return Delivery</option>
 			        		<option value="SecureDelivery">Cash Delivery</option>
 			        	</select>       
 		        	</div>
@@ -38,6 +39,7 @@
         		<select class="form-control" ng-model="selectedTaskTypeForComplete">		        		
 	        		<option value="PackagePickUp">Pickup</option>
 	        		<option value="Delivery">Delivery</option>
+	        		<option value="ReturnDelivery">Return Delivery</option>
 	        		<option value="SecureDelivery">Cash Delivery</option>
 	        	</select>
     		</div>
@@ -308,7 +310,7 @@
 		</ul>
 	</div>
 	<div class="row">
-	    <button class="btn btn-primary pull-right" ng-click="downloadExcelWorkOrder('jobs-table')">EXPORT TABLE AS EXCEL</button>
+	    <button class="btn btn-primary pull-right" ng-click="getReport(0)">EXPORT TABLE AS EXCEL</button>
 	</div>
 	<div class="row">
 		<order-table orders="Orders"></order-table>		
