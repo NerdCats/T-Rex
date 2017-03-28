@@ -4,7 +4,7 @@
 
 	app.controller('bulkAssignC', bulkAssignC);
 
-	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, queryService){
+	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService){
 		var vm = $scope;
 		vm.listOfHRID = [];
 		vm.Assets = [];
@@ -44,89 +44,10 @@
 				}
 			})
 		}
-
-		var JOBS_FOR_REPORT = [];
-		var REPORT_ERROR_COUNTER = 0;
+		
 		vm.getReport = function (page) {
 			var searchParam = Object.assign({}, vm.Orders.searchParam);
-			searchParam.page = page;
-			var url = queryService.getOdataQuery(searchParam);
-			$http({
-				method: 'GET',
-				url: url
-			}).then(function (response) {
-				angular.forEach(response.data.data, function (job, index) {
-					JOBS_FOR_REPORT.push(job);
-				});
-				if (response.data.pagination.NextPage) {
-					vm.getReport(page+1);
-				} else {
-					vm.downloadExcelWorkOrder(JOBS_FOR_REPORT);
-					JOBS_FOR_REPORT = [];
-				}
-			}, function (error) {
-				REPORT_ERROR_COUNTER += 1;
-				if (REPORT_ERROR_COUNTER < 3) {
-					vm.getReport(page);					
-				} else {
-					vm.errMsg = "Couldn't Generate Report, Try sometime later!";
-				}
-			})
-		}
-
-		vm.downloadExcelWorkOrder = function (JobsForReport) {
-			var filename = "Workorder.xlsx";
-			if(vm.selectedAsset){
-				filename = "workorder - "+ vm.selectedAsset.UserName + " - " + new Date().toDateString() + ".xlsx";
-			}
-			var excelObjectArray = [];
-			var excelHeading = [];
-			excelHeading.push("HRID");
-			excelHeading.push("User");
-			excelHeading.push("ReferenceInvoiceId");
-			excelHeading.push("Recipient Name");
-			excelHeading.push("PhoneNumber");
-			excelHeading.push("Delivery Address");
-			excelHeading.push("TotalToPrice");
-			excelHeading.push("NoteToDeliveryMan");
-			excelObjectArray.push(excelHeading);
-			
-			angular.forEach(JobsForReport, function (job, key) {
-				var excelRow = [];
-				excelRow.push(job.HRID);
-				excelRow.push(job.User.UserName);
-				excelRow.push(job.Order.ReferenceInvoiceId);
-				if (job.Order.BuyerInfo) {
-					excelRow.push(job.Order.BuyerInfo.Name);
-				} else {
-					excelRow.push("");
-				}
-				if (job.Order.BuyerInfo) {
-					excelRow.push(job.Order.BuyerInfo.PhoneNumber);
-				} else {
-					excelRow.push("");
-				}
-				if (job.Order.BuyerInfo) {
-					excelRow.push(job.Order.BuyerInfo.Address.Address);
-				} else {
-					excelRow.push(job.Order.To.Address);
-				}
-				excelRow.push(job.Order.OrderCart.TotalToPay);
-				excelRow.push(job.Order.NoteToDeliveryMan);
-
-				excelObjectArray.push(excelRow);
-			});
-
-			var rowCount = vm.Orders.data.length + 1;
-			var columnCount = 6;
-			var options = [
-				    {
-				      "s": { "r": rowCount, "c": 0 },
-				      "e": { "r": rowCount, "c": 6 }
-				    }
-				 ]
-			var data = [excelObjectArray, options];
-			excelWriteService.export_excel(data, 'xlsx', filename);
+		 	excelWriteService.getReport(searchParam);
 		}
 
 		vm.assignAssetToTask = function (taskTypeOrName) {
