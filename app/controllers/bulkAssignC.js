@@ -46,8 +46,16 @@
 		}
 		
 		vm.getReport = function (page) {
-			var searchParam = Object.assign({}, vm.Orders.searchParam);
-		 	excelWriteService.getReport(searchParam);
+			if (vm.listOfHRID.length !== 0) {
+				var jobs = [];
+				angular.forEach(vm.Orders.data, function (value, index) {
+					jobs.push(value.data);
+				});
+				excelWriteService.downloadExcelWorkOrder(jobs);
+			} else {
+				var searchParam = Object.assign({}, vm.Orders.searchParam);
+			 	excelWriteService.getReport(searchParam);
+			}
 		}
 
 		vm.assignAssetToTask = function (taskTypeOrName) {
