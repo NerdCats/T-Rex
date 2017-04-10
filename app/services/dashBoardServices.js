@@ -34,7 +34,14 @@
 			return "Delivery"		
 		}
 
+		var checkHRStateString = function (job) {
+			var hrStateString = job.HRState.includes("Enqueued")? job.HRState.replace("Enqueued", "Pending"): job.HRState;
+			job.HRState = hrStateString;
+			return job;
+		}
+
 		var addSingleJobOnList = function (job) {
+			job = checkHRStateString(job);
 			return {
 				data: job,					
 				Type :  function(){
