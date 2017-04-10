@@ -304,7 +304,7 @@
 			if (newVal != oldVal) {
 				vm.Orders.pagination = null;
 				vm.Orders.pages = null;
-				vm.Orders.loadListOfOrders(newVal);
+				vm.Orders.loadListOfOrders(newVal);				
 			}
 		});
 	}

@@ -299,11 +299,13 @@
 						var newOrder = addSingleJobOnList(response.data);
 						itSelf.data.push(newOrder);
 						itSelf.isCompleted = 'SUCCESSFULL';
+						document.getElementById("bulk-assign-job-chips").focus();
 					}, function (error) {
 						itSelf.isCompleted = 'SUCCESSFULL'; // Since I dont want to block UI with Just server error message
 															// Rather show them which job couldn't be loaded						
 						itSelf.errMsg = (itSelf.errMsg)? itSelf.errMsg : [];						
 						itSelf.errMsg.push(HRID);
+						document.getElementById("bulk-assign-job-chips").focus();
 					});
 				},
 				loadSingleTask: function (taskTypeOrName, orderIndex, variant) {
