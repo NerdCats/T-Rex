@@ -34,7 +34,14 @@
 			return "Delivery"		
 		}
 
+		var checkHRStateString = function (job) {
+			var hrStateString = job.HRState.includes("Enqueued")? job.HRState.replace("Enqueued", "Pending"): job.HRState;
+			job.HRState = hrStateString;
+			return job;
+		}
+
 		var addSingleJobOnList = function (job) {
+			job = checkHRStateString(job);
 			return {
 				data: job,					
 				Type :  function(){
@@ -292,11 +299,13 @@
 						var newOrder = addSingleJobOnList(response.data);
 						itSelf.data.push(newOrder);
 						itSelf.isCompleted = 'SUCCESSFULL';
+						document.getElementById("bulk-assign-job-chips").focus();
 					}, function (error) {
 						itSelf.isCompleted = 'SUCCESSFULL'; // Since I dont want to block UI with Just server error message
 															// Rather show them which job couldn't be loaded						
 						itSelf.errMsg = (itSelf.errMsg)? itSelf.errMsg : [];						
 						itSelf.errMsg.push(HRID);
+						document.getElementById("bulk-assign-job-chips").focus();
 					});
 				},
 				loadSingleTask: function (taskTypeOrName, orderIndex, variant) {

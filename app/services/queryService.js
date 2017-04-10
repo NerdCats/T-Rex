@@ -177,7 +177,7 @@
 					case 'CASH DELIVERY IN PROGRESS':
 						jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Name eq 'SecureDelivery'))";
 						break;
-					case 'RETURN DELIVERY IN PROGRESS':
+					case 'PACKAGE RETURN IN PROGRESS':
 						jobStateParam = "(Tasks/any(task: task/State eq 'IN_PROGRESS' and task/Variant eq 'return' and task/Type eq 'Delivery'))";
 						break;
 					case 'RETRY DELIVERY IN PROGRESS':
@@ -200,7 +200,7 @@
 					case 'RETRY DELIVERY COMPLETED':
 						jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'retry' and task/Type eq 'Delivery'))";
 						break;
-					case 'RETURNED DELIVERY COMPLETED':
+					case 'PACKAGE RETURN COMPLETED':
 						jobStateParam = "(Tasks/any(task: task/State eq 'COMPLETED' and task/Variant eq 'return' and task/Type eq 'Delivery'))";
 						break;
 				}
