@@ -64,7 +64,7 @@
 					excelRow.push("");
 				}
 				if (job.Order.BuyerInfo && job.Order.BuyerInfo.Address) {
-					excelRow.push(job.Order.BuyerInfo.Address.Address);
+					excelRow.push(job.Order.To.Address);
 				} else {
 					excelRow.push(job.Order.To.Address);
 				}
