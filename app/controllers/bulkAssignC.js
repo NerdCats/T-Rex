@@ -4,7 +4,7 @@
 
 	app.controller('bulkAssignC', bulkAssignC);
 
-	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService){
+	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, bulkOrderService){
 		var vm = $scope;
 		vm.listOfHRID = [];
 		vm.Assets = [];
@@ -35,6 +35,15 @@
 		vm.Orders.assign.showReturnDeliveryAssign = true;
 		vm.Orders.assign.showsecuredeliveryAssign = true;
 		vm.Orders.showPaymentUpdateOption = true;
+
+		vm.goToInvoicePage = function () {
+			var bulkOrder = bulkOrderService.getBulkOrder();
+			var onlyOrdersList = [];
+			angular.forEach(this.Orders.data, function (value, key) {
+				onlyOrdersList.push(value.data);
+			});
+			bulkOrder.goToInvoicePage(onlyOrdersList);
+		} 
 
 		vm.assetChanged = function () {			
 			vm.Orders.assign.assetRef = vm.selectedAssetId;
