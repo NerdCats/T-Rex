@@ -37,7 +37,7 @@
 		    	<button class="btn btn-primary pull-right" ng-click="bulkOrder.createAll()">Create All Order</button>
 		    </div>
 		    <div class="col-md-1" ng-show="isUploaded">
-		    	<button class="btn btn-primary" ng-click="bulkOrder.goToInvoicePage()">Print Invoices</button>
+		    	<button class="btn btn-primary" ng-click="bulkOrder.goToInvoicePage(bulkOrder.Orders)">Print Invoices</button>
 		    </div>
 		    <div class="col-md-1" ng-hide="isUploaded">
 		    	<button class="btn btn-primary" ng-click="upload()">upload</button>			

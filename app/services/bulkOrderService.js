@@ -10,10 +10,10 @@
 				Orders: [],
 				EnterpriseUser: null,
 				EnterpriseUsers: [],
-				goToInvoicePage : function () {
+				goToInvoicePage : function (invoicesToBePrintedOrders) {
 					var HRIDCSVlist = "";
-					console.log(this.Orders);
-					angular.forEach(this.Orders, function (value, key) {
+					console.log(invoicesToBePrintedOrders);
+					angular.forEach(invoicesToBePrintedOrders, function (value, key) {
 						HRIDCSVlist += value.HRID + ",";
 					});
 					HRIDCSVlist = HRIDCSVlist.slice(0, -1);
