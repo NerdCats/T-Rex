@@ -7,7 +7,11 @@
 		var vm = $scope;
 		vm.createTag = false;
 		vm.isLoading = false;
-		vm.tagLists = [];
+		vm.tagLists = {};
+		vm.pageSize = 50;
+		vm.page = 0;
+		vm.envelope = true;
+		vm.pagination = [];
 
 		vm.getNewTag = function () {
 			return {
@@ -15,7 +19,19 @@
 			}
 		}
 
+			var populatePagination = function () {
+			vm.pagination = [];
+			for(var i=0; i<vm.productsCategories.pagination.TotalPages; i++) {
+				vm.pagination.push(i)
+			}
+		}
+
 		vm.getNewTags = vm.getNewTag();
+
+			vm.loadByPageNumber = function (pageSize) {
+			vm.pageSize = pageSize;
+			vm.getTags();
+		}
 
 			vm.createTags = function () {
 			vm.createTag = true;
@@ -38,7 +54,9 @@
 			vm.isLoading = true;
 			$http({
 				method: 'GET',
-				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag"	
+				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag/odata?pageSize="+ vm.pageSize 
+																				+"&page="+ vm.page 
+																				+"&envelope="+ vm.envelope	
 			}).then(function success(success) {			
 				vm.isLoading = false;
 				vm.tagLists = success.data;
@@ -48,6 +66,6 @@
 				vm.isLoading = false;
 			});
 		}
-		vm.getNewTag();
+		vm.getTags();
 	}
 }();

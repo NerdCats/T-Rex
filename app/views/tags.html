@@ -1,5 +1,5 @@
 <div class="container">
-	<ng-form ng-mouseleave="productsCategoryC">
+	<ng-form ng-mouseleave="tagsController">
 		<fieldset>
 
 			<!-- Form Name -->
@@ -16,9 +16,9 @@
 	                    </div>
 	                </div>
     		</div>        	
-            <div class="col-md-2">
-            	 <span ng-show="isLoading" class="fa fa-refresh fa-spin"></span>            	
+            <div class="col-md-2">            	
                 <button class="btn btn-primary col-md-6" ng-click="createTags()" ng-show="!updateMode">
+                	<span ng-show="isLoading" class="fa fa-refresh fa-spin"></span>
                 	Add
                 </button>        
 	        </div>
@@ -33,7 +33,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="cat in tagLists.data track by $index">
-				<td>{{ cat.Id }}</td>
+				<td>{{ cat.Tags }}</td>
 			</tr>
 		</tbody>
 	</table>
