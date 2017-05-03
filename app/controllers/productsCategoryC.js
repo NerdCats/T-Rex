@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	app.controller('productsCategoryC', productsCategoryC)
+	app.controller('productsCategoryC', productsCategoryC);
 
 	function productsCategoryC($scope, $http, $window, ngAuthSettings){
 

@@ -91,6 +91,10 @@ var app = angular.module('app', [
 					templateUrl: 'app/views/products.html',
 					controller: 'productsC'				
 				}).
+				when('/tags', {
+					templateUrl: 'app/views/tags.html',
+					controller: 'storeC'
+				}).
 				when('/jobactivity', {
 					templateUrl: 'app/views/jobActivity.html'				
 				}).
