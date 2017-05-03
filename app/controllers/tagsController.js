@@ -38,17 +38,16 @@
 			vm.isLoading = true;
 			$http({
 				method: 'GET',
-				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag/odata?pageSize="+ vm.pageSize 
-																				+"&page="+ vm.page 
-																				+"&envelope="+ vm.envelope		
+				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag"	
 			}).then(function success(success) {			
 				vm.isLoading = false;
+				vm.tagLists = success.data;
 			}, function error(error) {
 				console.log(error);
 				$window.location.href = "#/tags";
 				vm.isLoading = false;
 			});
 		}
-
+		vm.getNewTag();
 	}
 }();
