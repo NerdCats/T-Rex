@@ -47,6 +47,30 @@
 		    	<button class="btn btn-primary" ng-disabled="!selectedTaskTypeForComplete" ng-click="completeTask(selectedTaskTypeForComplete)">Complete</button>
 			</div>
         </div>
+        <br>
+        <div class="row">
+        	<label class="col-md-12 control-label">Add Tag</label>
+        	<div class="col-md-8">
+        		<div class="input-group">
+	                <input type="text" 
+	                    ng-model="selectedTag" placeholder="Type and select a Tag" 
+	                    uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
+	                    typeahead-on-select="onSelectTag($item, $model, $label, $event)"
+	                    class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="">
+	                <span class="input-group-btn">                                    
+	                    <button class="btn btn-default" ng-click="getTagsList(0)" ng-show="Tags.length === 0">
+	                        <i class="fa fa-refresh" aria-hidden="true"></i>
+	                    </button>
+	                    <button class="btn btn-default" ng-click="selectedTag = null" ng-show="Tags.length !== 0">
+	                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+	                    </button>
+	                </span>
+	            </div>
+        	</div>
+        	<div class="col-md-4">		    	
+		    	<button class="btn btn-primary" ng-disabled="!selectedTag" ng-click="assignTag()">Assign Tag</button>
+			</div>
+        </div>
     </div>	
 </div>
 <div class="container-fluid">

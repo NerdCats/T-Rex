@@ -28,6 +28,10 @@
 		vm.selectedTaskIndexForAssign = null;
 		vm.selectedTaskIndexForComplete = null;
 
+		vm.selectedTag = null;
+		vm.Tags = [];
+
+
 		vm.Orders = dashboardFactory.orders("ENQUEUED");
 		vm.Orders.searchParam.jobState === 'IN_PROGRESS';
 		vm.Orders.assign.showPickupAssign = true;
@@ -130,9 +134,31 @@
 			});
 		}	
 
+		vm.getTagsList = function (page) {
+			var getTagsUrl = ngAuthSettings.apiServiceBaseUri + "api/datatag/odata?&page="+ page +"&pageSize=50";
+			$http({
+				method: "GET",
+				url: getTagsUrl
+			}).then(function (response) {
+				angular.forEach(response.data.data, function (tag, index) {
+					vm.Tags.push(tag);					
+				});
+				if (response.data.pagination.TotalPages > page) {
+					vm.getTagsUrl(page + 1);
+				}
+			}, function (error) {
+				console.log(error);
+			})
+		}
+
 		vm.onSelectEnterprise = function ($item, $model, $label, $event){		
 			vm.EnterpriseUser = $item.UserName;		
 			console.log(vm.EnterpriseUser);
+		}
+
+		vm.onSelectTag = function ($item, $model, $label, $event) {
+			vm.selectedTag = $item.Id;
+			console.log(vm.selectedTag);
 		}
 
 		vm.onSelectAssetToLoadInprogressJobs = function ($item, $model, $label, $event) {
@@ -301,6 +327,7 @@
 			vm.Orders.loadOrders();
 		}
 		vm.getAssetsList(0);
+		vm.getTagsList(0);
 		vm.getEnterpriseUsersList(0);
 
 
