@@ -1,5 +1,5 @@
 <div class="container">
-	<ng-form ng-mouseleave="tagsController">
+	<ng-form class="form-horizontal" ng-mouseleave="tagsController">
 		<fieldset>
 
 			<!-- Form Name -->
@@ -33,7 +33,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="cat in tagLists.data track by $index">
-				<td>{{ cat.Tags }}</td>
+				<td>{{ cat.Id }}</td>
 			</tr>
 		</tbody>
 	</table>

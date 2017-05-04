@@ -21,7 +21,7 @@
 
 			var populatePagination = function () {
 			vm.pagination = [];
-			for(var i=0; i<vm.productsCategories.pagination.TotalPages; i++) {
+			for(var i=0; i<vm.tagLists.pagination.TotalPages; i++) {
 				vm.pagination.push(i)
 			}
 		}
@@ -60,6 +60,8 @@
 			}).then(function success(success) {			
 				vm.isLoading = false;
 				vm.tagLists = success.data;
+				populatePagination();
+				console.log(vm.tagLists);
 			}, function error(error) {
 				console.log(error);
 				$window.location.href = "#/tags";

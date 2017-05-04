@@ -93,7 +93,7 @@ var app = angular.module('app', [
 				}).
 				when('/tags', {
 					templateUrl: 'app/views/tags.html',
-					controller: 'storeC'
+					controller: 'tagsController'
 				}).
 				when('/jobactivity', {
 					templateUrl: 'app/views/jobActivity.html'				
