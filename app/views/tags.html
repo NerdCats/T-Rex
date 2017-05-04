@@ -1,33 +1,26 @@
 <div class="container">
-	<ng-form class="form-horizontal" ng-mouseleave="tagsController">
-		<fieldset>
-
-			<!-- Form Name -->
-			<legend>Tag</legend>
-
-			<!-- Text input-->
+	<ng-form class="form-horizontal">
+		<legend>Tag</legend>
 		 <fieldset>        	
     		<div class="col-md-4">              
-	                <label class="col-md-4">Add a new tag</label>                
-	                <div class="col-md-8">
-	                    <div class="input-group">
-	                    	<input type="text" class="form-control" ng-model="getNewTags.Id">
-	                    	<span class="help-block">ex: Banani 11, Mirpur 10, Farmgate</span>  		                        
-	                    </div>
-	                </div>
+                <label class="col-md-4">Add a new tag</label>                
+                <div class="col-md-8">
+                    <div class="input-group">
+                    	<input type="text" class="form-control" ng-model="newTag.Id">
+                    	<span class="help-block">ex: Banani 11, Mirpur 10, Farmgate</span>  		                        
+                    </div>
+                </div>
     		</div>        	
             <div class="col-md-2">            	
-                <button class="btn btn-primary col-md-6" ng-click="createTags()" ng-show="!updateMode">
-                	<span ng-show="isLoading" class="fa fa-refresh fa-spin"></span>
-                	Add
+                <button class="btn btn-primary col-md-6" ng-click="createTag()">
+                	Add <span ng-show="isCreatingTag" class="fa fa-refresh fa-spin"></span>	                	
                 </button>        
 	        </div>
     	</fieldset>
-
 	</ng-form>
 
 	<div ng-show="isLoading" ng-include="'../app/content/component/loadinSnake/loading-snake.html'"></div>
-		<table ng-show="!isLoading" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+	<table ng-show="!isLoading" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 		<thead>	
 			<th>Tags</th>
 		</thead>

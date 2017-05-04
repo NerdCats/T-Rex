@@ -3,9 +3,9 @@
 
 	app.controller('tagsController', tagsController);
 
-	function tagsController($scope, $http, $window, $ngAuthSettings) {
+	function tagsController($scope, $http, $window, ngAuthSettings) {
 		var vm = $scope;
-		vm.createTag = false;
+		vm.isCreatingTag = false;
 		vm.isLoading = false;
 		vm.tagLists = {};
 		vm.pageSize = 50;
@@ -19,38 +19,37 @@
 			}
 		}
 
-			var populatePagination = function () {
+		var populatePagination = function () {
 			vm.pagination = [];
 			for(var i=0; i<vm.tagLists.pagination.TotalPages; i++) {
 				vm.pagination.push(i)
 			}
 		}
 
-		vm.getNewTags = vm.getNewTag();
+		vm.newTag = vm.getNewTag();
 
-			vm.loadByPageNumber = function (pageSize) {
+		vm.loadByPageNumber = function (pageSize) {
 			vm.pageSize = pageSize;
 			vm.getTags();
 		}
 
-			vm.createTags = function () {
-			vm.createTag = true;
+		vm.createTag = function () {
+			vm.isCreatingTag = true;
 
 			$http({
 				method: 'POST',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Tag",
-				data: vm.getNewTags
+				data: vm.newTag
 			}).then(function success(success) {
 				vm.getTags();
-				vm.createTag = false;
+				vm.isCreatingTag = false;
 			}, function error(error) {
 				console.log(error);
-				vm.createTag = false;
+				vm.isCreatingTag = false;
 			});
-
 		}
 
-			vm.getTags = function () {
+		vm.getTags = function () {
 			vm.isLoading = true;
 			$http({
 				method: 'GET',
@@ -70,4 +69,4 @@
 		}
 		vm.getTags();
 	}
-}();
+})();
