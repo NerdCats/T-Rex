@@ -7,7 +7,7 @@
 		var vm = $scope;
 		vm.isCreatingTag = false;
 		vm.isLoading = false;
-		vm.tagLists = {};
+		vm.tagLists = [];
 		vm.pageSize = 50;
 		vm.page = 0;
 		vm.envelope = true;
@@ -16,13 +16,6 @@
 		vm.getNewTag = function () {
 			return {
 				Id: null
-			}
-		}
-
-		var populatePagination = function () {
-			vm.pagination = [];
-			for(var i=0; i<vm.tagLists.pagination.TotalPages; i++) {
-				vm.pagination.push(i)
 			}
 		}
 
@@ -40,10 +33,10 @@
 				method: 'POST',
 				url: ngAuthSettings.apiServiceBaseUri + "api/Tag",
 				data: vm.newTag
-			}).then(function success(success) {
+			}).then(function(response) {
 				vm.getTags();
 				vm.isCreatingTag = false;
-			}, function error(error) {
+			}, function(error) {
 				console.log(error);
 				vm.isCreatingTag = false;
 			});
@@ -56,15 +49,35 @@
 				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag/odata?pageSize="+ vm.pageSize 
 																				+"&page="+ vm.page 
 																				+"&envelope="+ vm.envelope	
-			}).then(function success(success) {			
+			}).then(function(response) {			
 				vm.isLoading = false;
-				vm.tagLists = success.data;
-				populatePagination();
+				vm.tagLists = response.data.data;
+				angular.forEach(vm.tagLists, function (tag, index) {
+					tag.updateMode = false;
+				});
+				
+				vm.pagination = [];
+				for(var i=0; i<response.data.pagination.TotalPages; i++) {
+					vm.pagination.push(i)
+				}
 				console.log(vm.tagLists);
-			}, function error(error) {
+			}, function (error) {
 				console.log(error);
 				$window.location.href = "#/tags";
 				vm.isLoading = false;
+			});
+		}
+
+
+		vm.updateTag = function (updatedTag) {
+			$http({
+				method: 'PUT',
+				url: ngAuthSettings.apiServiceBaseUri + "api/Tag",
+				data: { Id: updatedTag }
+			}).then(function (response) {
+				vm.tagLists[index].updateMode = false;
+			}, function (error) {
+				
 			});
 		}
 		vm.getTags();
