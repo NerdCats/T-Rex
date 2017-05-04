@@ -94,6 +94,13 @@
 			});
 		}
 
+		vm.assignTag = function () {			
+			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
+					// vm.Orders.data[jobIndex].isAssigningPickUpAsset= true;	
+					// TODO: will write the code to add tag on a job				
+			});		
+		}
+
 		vm.completeTask = function (taskTypeOrName) {
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {
 				var task = taskTypeOrName === "ReturnDelivery"? vm.Orders.loadSingleTask("Delivery", jobIndex, 'return') : vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
@@ -340,7 +347,7 @@
 			if (newVal != oldVal) {
 				vm.Orders.pagination = null;
 				vm.Orders.pages = null;
-				vm.Orders.loadListOfOrders(newVal);				
+				vm.Orders.loadListOfOrders(newVal);
 			}
 		});
 	}
