@@ -17,10 +17,25 @@
 	                    </div>
 	                </div>
 	            </div>
-    		</div>        	
+    		</div>
+
             <div class="col-md-6">            	
                 <button class="btn btn-primary col-md-6" ng-click="printWorkOrder()" >PRINT WORK ORDER</button>
                 <button class="btn btn-primary col-md-6" ng-click="downloadExcelWorkOrder('workOrderTable')" >DOWNLOAD WORK ORDER</button>	            
+	        </div>
+	        <br>
+	        <div class="row">	        									
+	        	<div class="col-md-12">
+	        		<chips ng-model="listOfHRID">
+	        			<chip-tmpl>
+	        				<div class="default-chip">
+	        					{{chip}}
+	        					<span class="glyphicon glyphicon-remove" remove-chip></span>
+	        				</div>
+	        			</chip-tmpl>
+	        			<input placeholder="Insert job tags" chip-control></input>
+	        		</chips>
+	        	</div>
 	        </div>
     	</fieldset>
 	</ng-form>
