@@ -80,6 +80,24 @@
 				
 			});
 		}
+
+		vm.deleteTag = function (tagId) {
+			var itSelf = this;
+			itSelf.isLoading = true; 
+			$http({
+				method: 'DELETE',
+				url: ngAuthSettings.apiServiceBaseUri + "api/Tag/" + tagId,
+			}).then(function(response) {
+				itSelf.isLoading = false;
+				vm.getTags();
+				vm.isCreatingTag = false;
+			}, function(error) {
+				console.log(error);
+				vm.isCreatingTag = false;
+			});
+		}
+
+
 		vm.getTags();
 	}
 })();
