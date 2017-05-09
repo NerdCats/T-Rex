@@ -9,6 +9,7 @@
 		vm.listOfHRID = [];
 		vm.Assets = [];
 		vm.DeliveryAreas = Areas;
+		vm.loadingPage = false;
 		
 		vm.SelectedState = "ENQUEUED";
 		vm.SelectDateRange = {startDate: null, endDate: null};
@@ -94,10 +95,28 @@
 			});
 		}
 
-		vm.assignTag = function () {			
+		vm.assignTag = function (tag) {			
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
 					// vm.Orders.data[jobIndex].isAssigningPickUpAsset= true;	
-					// TODO: will write the code to add tag on a job				
+					// TODO: will write the code to add tag on a job
+					var itSelf = this;
+					var patchUpdate =  [
+						{
+							value: tag,
+							path: "/Tags/",
+							op: "add"
+						}
+					];
+					var patchUrl = ngAuthSettings.apiServiceBaseUri + "api/Job/" + jobIndex.Id + "/tag"
+					$http ({
+						method: 'PATCH',
+						url: patchUrl,
+						data: patchUpdate
+					}).then(function(success){
+						console.log(tag);
+					}, function (error){
+						console.log(error);
+					});
 			});		
 		}
 
