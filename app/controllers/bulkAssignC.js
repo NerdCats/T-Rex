@@ -107,7 +107,7 @@
 							op: "add"
 						}
 					];
-					var patchUrl = ngAuthSettings.apiServiceBaseUri + "api/Job/" + jobIndex.Id + "/tag"
+					var patchUrl = ngAuthSettings.apiServiceBaseUri + "api/Job/" + vm.Orders.data[jobIndex].data.Id + "/tag"
 					$http ({
 						method: 'PATCH',
 						url: patchUrl,
