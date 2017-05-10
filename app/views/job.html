@@ -409,13 +409,15 @@
                     Tags
                 </div>
                 <div class="panel-body">
-                    <div>
-                        <a href="">                            
-                            <div class="row">
-                                <div class="col-md-8">
-                                </div>
+                    <div>                          
+                        <div class="row">
+                            <div class="col-md-8">
+                                <ul ng-repeat="tag in job.data.Tags" style="list-style-type: none;">
+                                    <li style="font-size: 14px; font-weight: bold;">{{ tag }}</li>
+                                </ul>
+
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
