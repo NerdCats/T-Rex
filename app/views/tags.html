@@ -41,7 +41,7 @@
 					<button class="btn btn-primary" ng-show="tag.updateMode" ng-click="updateTag(updatedTagValue)">UPDATE</button>
 					<button class="btn btn-primary" ng-show="tag.updateMode" ng-click="tag.updateMode=false;">DISCARD</button>
 				</td>
-				<td><button class="btn btn-danger" ng-click=deleteTag(tag.Id)>DELETE</button></td>
+				<td><button class="btn btn-danger" ng-disabled="!updateMode" ng-click=deleteTag(tag.Id)>DELETE</button></td>
 			</tr>
 		</tbody>
 	</table>
