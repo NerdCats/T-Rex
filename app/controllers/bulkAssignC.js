@@ -103,7 +103,7 @@
 					var patchUpdate =  [
 						{
 							value: tag,
-							path: "/Tags/",
+							path: "/Tags/0",
 							op: "add"
 						}
 					];
