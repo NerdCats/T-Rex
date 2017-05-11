@@ -233,17 +233,8 @@
 	                        </select>                        
 	                    </div>
 	                    <div class="col-md-1">
-	                        <label>Job per page:</label>                        
-	                        <select class="form-control" ng-model="JobsPerPage" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-	                            <option value="10">10</option>
-	                            <option value="20">20</option>
-	                            <option value="30">30</option>
-	                            <option value="40">40</option>
-	                            <option value="50">60</option>
-	                            <option value="50">70</option>
-	                            <option value="50">80</option>
-	                            <option value="50">90</option>
-	                            <option value="50">100</option>
+	                        <label>Search by Tags:</label>                        
+	                        <select class="form-control" ng-model="ShowJobTags" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 	                        </select>                        
 	                    </div>
 	                    <div class="col-md-1">
@@ -315,8 +306,8 @@
                 <li ng-show="AttemptCount">
                     Delivery Attempt: <b>{{AttemptCount}}</b>,
                 </li>
-                <li ng-show="JobsPerPage">
-                    Job Per Page: <b>{{JobsPerPage}}</b>
+                <li ng-show="ShowJobTags">
+                    Job Per Page: <b>{{ShowJobTags}}</b>
                 </li>            
             </ul>
         </div>
