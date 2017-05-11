@@ -31,6 +31,7 @@
 
 		vm.selectedTag = null;
 		vm.Tags = [];
+		vm.JobsWithTag = null;
 
 
 		vm.Orders = dashboardFactory.orders("ENQUEUED");
@@ -161,7 +162,7 @@
 		}	
 
 		vm.getTagsList = function (page) {
-			var getTagsUrl = ngAuthSettings.apiServiceBaseUri + "api/datatag/odata?&page="+ page +"&pageSize=50";
+			var getTagsUrl = ngAuthSettings.apiServiceBaseUri + "api/datatag/odata?filter=Type eq 'ENTERPRISE' $$orderby=UserName&page="+ page +"&pageSize=50$select=tag";
 			$http({
 				method: "GET",
 				url: getTagsUrl
@@ -331,7 +332,8 @@
 			vm.Orders.searchParam.orderby.property = vm.OrderByProperty;
 			vm.Orders.searchParam.orderby.orderbyCondition = vm.OrderByPropertyDirection;
 			vm.Orders.isCompleted = 'IN_PROGRESS';
-			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;			
+			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;
+			vm.Orders.searchParam.tag = vm.JobsWithTag		
 			
 			if (vm.Orders.searchParam.jobState === "All") {
 				vm.Orders.searchParam.jobState = null;

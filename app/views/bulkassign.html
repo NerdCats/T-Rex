@@ -239,12 +239,12 @@
 							ng-model="selectedTag" placeholder="Type and select a Tag" 
 							uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
 							typeahead-on-select="onSelectTag($item, $model, $label, $event)"
-							class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="">
+							class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
 							<span class="input-group-btn">                                    
 								<button class="btn btn-default" ng-click="getTagsList()" ng-show="Tags.length === 0">
 									<i class="fa fa-refresh" aria-hidden="true"></i>
 								</button>
-								<button class="btn btn-default" ng-click= "selectedTag = null; activate()" ng-show="Tags.length !== 0">
+								<button class="btn btn-default" ng-click= "JobsWithTag = null; selectedTag = null; activate()" ng-show="Tags.length !== 0">
 									<i class="fa fa-minus-circle" aria-hidden="true"></i>
 								</button>
 							</span>
@@ -321,7 +321,7 @@
 				Delivery Attempt: <b>{{AttemptCount}}</b>,
 			</li>
 			<li ng-show="selectedTag">
-				Job Per Page: <b>{{selectedTag}}</b>
+				Tag: <b>{{selectedTag}}</b>
 			</li>            
 		</ul>
 	</div>
