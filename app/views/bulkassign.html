@@ -110,7 +110,7 @@
 							</select>
 						</div>
 						<div class="col-md-3">
-							<label>Date Range:</label>
+							<label>Date Range</label>
 							<div>
 								<span class="input-group-btn" style="float: left;width: 50%">
 									<input class="form-control date-picker" date-range-picker placeholder="select date" type="text" ng-model="SelectDateRange"/>
@@ -129,7 +129,7 @@
 							</div>
 						</div>
 						<div class="col-md-2">
-							<label>Order By:</label>
+							<label>Order By</label>
 							<div>                                                        
 								<select class="form-control" ng-model="SelectedOrderByProperty" ng-change="SelectOrderBy()">
 									<option value="CreateTime asc">By <b>Oldest</b> Create Time</option>
@@ -162,7 +162,7 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<label>Search:</label>
+						<label>Search</label>
 						<span class="input-group-btn" style="width: 20%">
 							<input type="text" class="form-control" ng-model="SearchKey" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" placeholder="Recipeint's Phone, GO! Fetch Tracking No"  ng-keypress="($event.which === 13)?activate():0">
 						</span>
@@ -177,7 +177,7 @@
 				<br>
 				<div class="row">
 					<div class="col-md-3">
-						<label>Enterprise Users:</label>
+						<label>Enterprise Users</label>
 						<div class="input-group">
 							<input type="text" 
 							ng-model="selectedUser" placeholder="Write Enterprise Users Name" 
@@ -195,7 +195,7 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<label>Delivery Area:</label>
+						<label>Delivery Area</label>
 						<div class="input-group">
 							<input type="text" 
 							ng-model="DeliveryArea"  placeholder="Write Delivery area's Name"
@@ -209,7 +209,7 @@
 						</div>                        
 					</div>
 					<div class="col-md-1">
-						<label>Payment Status:</label>                        
+						<label>Payment Status</label>                        
 						<select class="form-control" ng-model="PaymentStatus" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
 							<option value=""></option>
 							<option value="Paid">Paid</option>
@@ -217,7 +217,7 @@
 						</select>                        
 					</div>
 					<div class="col-md-2">
-						<label>Delivery Attempt Time:</label>                        
+						<label>Delivery Attempt Time</label>                        
 						<select class="form-control" ng-model="AttemptCount" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">                            
 							<option value="Any">Any</option>
 							<option value="1">1</option>
@@ -233,26 +233,24 @@
 						</select>                        
 					</div>
 					<div class="col-md-2">
-						<label>Search by Tags:</label>                        
-						<!-- <select class="form-control" ng-model="ShowJobTags" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-					</select> -->
-					<div class="input-group">
-						<input type="text" 
-						ng-model="selectedTag" placeholder="Type and select a Tag" 
-						uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
-						typeahead-on-select="onSelectTag($item, $model, $label, $event)"
-						class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="">
-						<span class="input-group-btn">                                    
-							<button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
-								<i class="fa fa-refresh" aria-hidden="true"></i>
-							</button>
-							<button class="btn btn-default" ng-click="EnterpriseUser = null; selectedUser = null; activate()" ng-show="EnterpriseUsers.length !== 0">
-								<i class="fa fa-minus-circle" aria-hidden="true"></i>
-							</button>
-						</span>
+						<label>Search by Tags</label>                        
+						<div class="input-group">
+							<input type="text" 
+							ng-model="selectedTag" placeholder="Type and select a Tag" 
+							uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
+							typeahead-on-select="onSelectTag($item, $model, $label, $event)"
+							class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="">
+							<span class="input-group-btn">                                    
+								<button class="btn btn-default" ng-click="getTagsList()" ng-show="Tags.length === 0">
+									<i class="fa fa-refresh" aria-hidden="true"></i>
+								</button>
+								<button class="btn btn-default" ng-click= "selectedTag = null; activate()" ng-show="Tags.length !== 0">
+									<i class="fa fa-minus-circle" aria-hidden="true"></i>
+								</button>
+							</span>
 
-					</div>                 
-				</div>
+						</div>                 
+					</div>
 					<div class="col-md-1">
 						<br>
 						<button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>
@@ -322,8 +320,8 @@
 			<li ng-show="AttemptCount">
 				Delivery Attempt: <b>{{AttemptCount}}</b>,
 			</li>
-			<li ng-show="ShowJobTags">
-				Job Per Page: <b>{{ShowJobTags}}</b>
+			<li ng-show="selectedTag">
+				Job Per Page: <b>{{selectedTag}}</b>
 			</li>            
 		</ul>
 	</div>
