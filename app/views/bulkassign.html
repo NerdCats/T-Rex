@@ -234,9 +234,25 @@
 					</div>
 					<div class="col-md-2">
 						<label>Search by Tags:</label>                        
-						<select class="form-control" ng-model="ShowJobTags" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
-						</select>                        
-					</div>
+						<!-- <select class="form-control" ng-model="ShowJobTags" ng-change="searchJobs()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'">
+					</select> -->
+					<div class="input-group">
+						<input type="text" 
+						ng-model="selectedTag" placeholder="Type and select a Tag" 
+						uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
+						typeahead-on-select="onSelectTag($item, $model, $label, $event)"
+						class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="">
+						<span class="input-group-btn">                                    
+							<button class="btn btn-default" ng-click="getEnterpriseUsersList()" ng-show="EnterpriseUsers.length === 0">
+								<i class="fa fa-refresh" aria-hidden="true"></i>
+							</button>
+							<button class="btn btn-default" ng-click="EnterpriseUser = null; selectedUser = null; activate()" ng-show="EnterpriseUsers.length !== 0">
+								<i class="fa fa-minus-circle" aria-hidden="true"></i>
+							</button>
+						</span>
+
+					</div>                 
+				</div>
 					<div class="col-md-1">
 						<br>
 						<button class="btn btn-primary pull-right" ng-click="activate()" >SEARCH JOBS</button>
