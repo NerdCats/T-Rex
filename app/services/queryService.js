@@ -19,6 +19,10 @@
 				searchParam.DeliveryArea = null;
 			}
 
+			if(searchParam.Id == "All") {
+				searchParam.Id = null;
+			}
+
 			if (
 				!searchParam.jobState && 
 				!searchParam.CreateTime.startDate && 
@@ -29,6 +33,7 @@
 				!searchParam.CompletionTime.endDate && 
 				!searchParam.subStringOf.SearchKey&& 
 				!searchParam.UserName && 
+				!searchParam.Id &&
 				!searchParam.userType &&
 				!searchParam.DeliveryArea &&
 				!searchParam.PaymentStatus &&
@@ -48,6 +53,7 @@
 					searchParam.CompletionTime.endDate  ||
 					searchParam.subStringOf.SearchKey ||
 					searchParam.UserName || 
+					searchParam.Id ||
 					searchParam.userType ||
 					searchParam.DeliveryArea ||
 					searchParam.PaymentStatus ||
@@ -68,6 +74,16 @@
 					allreadyAParamIsThere = true;
 				} else {
 					queryUrl += " and " + UserNameParam;
+				}
+			}
+
+			if (searchParam.Id != null) {
+				var TagIdParam = "Tags/Id eq '"+ searchParam.Id +"'";
+				if (!allreadyAParamIsThere) {
+					queryUrl +=  TagIdParam;
+					allreadyAParamIsThere = true;
+				} else {
+					queryUrl += " and " + TagIdParam;
 				}
 			}
 

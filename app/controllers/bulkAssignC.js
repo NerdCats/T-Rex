@@ -31,7 +31,6 @@
 
 		vm.selectedTag = null;
 		vm.Tags = [];
-		// vm.JobsWithTag = null;
 
 
 		vm.Orders = dashboardFactory.orders("ENQUEUED");
@@ -313,6 +312,7 @@
 				vm.OrderByProperty = null;
 				vm.OrderByPropertyDirection = null;
 				vm.AttemptCount = null;
+				vm.selectedTag = null;
 			}
 			if (!vm.assetNameIdToLoadInprogressJobs) {
 				vm.assetIdToLoadInprogressJobs = null;
@@ -333,7 +333,7 @@
 			vm.Orders.searchParam.orderby.orderbyCondition = vm.OrderByPropertyDirection;
 			vm.Orders.isCompleted = 'IN_PROGRESS';
 			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;
-			// vm.Orders.searchParam.tag = vm.JobsWithTag		
+			vm.Orders.searchParam.Id = vm.selectedTag		
 			
 			if (vm.Orders.searchParam.jobState === "All") {
 				vm.Orders.searchParam.jobState = null;
