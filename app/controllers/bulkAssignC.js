@@ -10,6 +10,7 @@
 		vm.Assets = [];
 		vm.DeliveryAreas = Areas;
 		vm.loadingPage = false;
+		vm.isAssignningTag = false;
 		
 		vm.SelectedState = "ENQUEUED";
 		vm.SelectDateRange = {startDate: null, endDate: null};
@@ -99,6 +100,7 @@
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
 					// vm.Orders.data[jobIndex].isAssigningPickUpAsset= true;	
 					// TODO: will write the code to add tag on a job
+					vm.isAssignningTag = true;
 					var itSelf = this;
 					var patchUpdate =  [
 						{
@@ -114,8 +116,10 @@
 						data: patchUpdate
 					}).then(function(success){
 						console.log(tag);
+						vm.isAssignningTag = false;
 					}, function (error){
 						console.log(error);
+						vm.isAssignningTag = false;
 					});
 			});		
 		}

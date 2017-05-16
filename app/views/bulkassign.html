@@ -68,7 +68,9 @@
 				</div>
 			</div>
 			<div class="col-md-4">		    	
-				<button class="btn btn-primary" ng-disabled="!selectedTag" ng-click="assignTag(selectedTag)">Assign Tag</button>
+				<button class="btn btn-primary" ng-disabled="!selectedTag" ng-click="assignTag(selectedTag)">Assign Tag
+					<span ng-show="isAssignningTag" class="fa fa-refresh fa-spin"></span>
+				</button>
 			</div>
 		</div>
 	</div>	
