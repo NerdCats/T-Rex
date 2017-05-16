@@ -78,7 +78,7 @@
 			}
 
 			if (searchParam.Id != null) {
-				var TagIdParam = "Tags/Id eq '"+ searchParam.Id +"'";
+				var TagIdParam = "Tags/any(Tag: Id eq '"+ searchParam.Id +"')";
 				if (!allreadyAParamIsThere) {
 					queryUrl +=  TagIdParam;
 					allreadyAParamIsThere = true;
