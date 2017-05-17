@@ -39,7 +39,7 @@
 						<td><b>Package</b></td>
 						<td><b>Price</b></td>
 						<td><b>Special Note</b></td>					
-						<td><b>Complete Time</b></td>
+						<td><b>Zone</b></td>
 						<td><b>Comment</b></td>
 					</tr>
 					<tr ng-repeat="order in workOrders.data track by $index">
@@ -50,7 +50,10 @@
 						<td class="col-md-2">{{ order.PackageDescription() }}</td>
 						<td>{{ order.data.Order.OrderCart.TotalToPay }}</td>						
 						<td class="col-md-2">{{ order.data.Order.NoteToDeliveryMan }}</td>
-						<td class="col-md-1">{{order.data.Assets[order.data.Tasks[2].AssetRef].UserName}}</td>
+						<!-- <td class="col-md-1">{{order.data.Assets[order.data.Tasks[2].AssetRef].UserName}}</td> -->
+						<td class="col-md-1">
+							<div ng-repeat="tag in order.data.Tags"> {{ tag }}</div>
+						</td>
 						<td class="col-md-1"></td>
 					</tr>					
 					<tr>

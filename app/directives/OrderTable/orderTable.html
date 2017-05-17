@@ -44,9 +44,10 @@
                 </td>
 
                 <td>
-                <ul ng-repeat="tag in order.data.Tags" style="list-style-type: none;">
-                        <li class="small-button tag-color">{{ tag }}</li>
-                    </ul>
+                    <div ng-repeat="tag in order.data.Tags" class= "small-button tag-color" style="list-style-type: none;">
+                        {{ tag }}
+                        <br>
+                    </div>
 
                 </td>
 
