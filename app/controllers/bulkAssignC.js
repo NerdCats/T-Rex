@@ -4,7 +4,7 @@
 
 	app.controller('bulkAssignC', bulkAssignC);
 
-	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, bulkOrderService){
+	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, bulkOrderService, $route){
 		var vm = $scope;
 		vm.listOfHRID = [];
 		vm.Assets = [];
@@ -116,6 +116,7 @@
 						data: patchUpdate
 					}).then(function(success){
 						console.log(tag);
+						$route.reload();
 						vm.isAssignningTag = false;
 					}, function (error){
 						console.log(error);
