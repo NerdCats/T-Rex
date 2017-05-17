@@ -191,6 +191,11 @@ ng-form, form {
     color: #fff;
 }
 
+.tag-color {
+    background-color: #991de6;    
+    color: #fff;
+}
+
 .claimed-by {
     background-color: #9C27B0;
     color: white;
