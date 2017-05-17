@@ -75,8 +75,11 @@
 		</div>
 		<br>
 		<div class="row">
+			<div class="col-md-1">
+				<input type="checkbox" style="width: 20px; height: 20px;" ng-model="checked">
+			</div>
 			<div class="col-md-6">		    	
-				<a class="btn btn-primary" href="">Work Order for {{ selectedTag }}</a>
+				<a class="btn btn-primary" ng-disabled = "!checked" href="">Work Order for {{ selectedTag }}</a>
 			</div>
 		</div>
 	</div>	
