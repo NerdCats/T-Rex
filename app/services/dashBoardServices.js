@@ -275,7 +275,7 @@
 					var pageUrl = "";
 					// if there is an searchParam.userId, it means We need to load assigned jobs of an asset				
 					if (this.searchParam.userId) {
-						pageUrl = ngAuthSettings.apiServiceBaseUri + "api/job/odata?$filter=(Tasks/any(task: task/State eq 'IN_PROGRESS' and Task/Type eq 'Delivery' and task/AssetRef eq '"+ this.searchParam.userId +"'))&pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
+						pageUrl = ngAuthSettings.apiServiceBaseUri + "api/job/odata?$filter=(Tasks/any(task: task/State eq 'IN_PROGRESS' and Task/Type eq 'PackagePickUp' and task/AssetRef eq '"+ this.searchParam.userId +"'))&pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
 					} else {
 						pageUrl = queryService.getOdataQuery(this.searchParam);
 					}
