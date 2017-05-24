@@ -31,7 +31,7 @@
 
 			$http({
 				method: 'POST',
-				url: ngAuthSettings.apiServiceBaseUri + "api/Tag",
+				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag",
 				data: vm.newTag
 			}).then(function(response) {
 				vm.getTags();
@@ -72,7 +72,7 @@
 		vm.updateTag = function (updatedTag) {
 			$http({
 				method: 'PUT',
-				url: ngAuthSettings.apiServiceBaseUri + "api/Tag",
+				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag",
 				data: { Id: updatedTag }
 			}).then(function (response) {
 				vm.tagLists[index].updateMode = false;
@@ -86,7 +86,7 @@
 			itSelf.isLoading = true; 
 			$http({
 				method: 'DELETE',
-				url: ngAuthSettings.apiServiceBaseUri + "api/Tag/" + tagId,
+				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag/" + tagId,
 			}).then(function(response) {
 				itSelf.isLoading = false;
 				vm.getTags();
