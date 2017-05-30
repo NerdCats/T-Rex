@@ -1,35 +1,35 @@
 <div class="container">
 	<ng-form>
-		 <fieldset>        	
-    		<div class="col-md-6">
-    			<div class="form-group">                
-	                <label class="control-label col-md-4">Select Asset:</label>                
-	                <div class="col-md-8">
-	                    <div class="input-group">                        
-	                        <select class="form-control" ng-model="selectedAssetId" ng-change="assetChanged()" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" style="width: 300px;">
-	                            <option ng-repeat="user in Assets" ng-value="user.Id">{{user.UserName}}</option>
-	                        </select>
-	                        <span class="input-group-btn">                                    
-	                            <button class="btn btn-default" ng-click="getAssetsList()" ng-show="Assets.length === 0">
-	                                <i class="fa fa-refresh" aria-hidden="true"></i>
-	                            </button>
-	                        </span>			                        
-	                    </div>
-	                </div>
-	            </div>
-    		</div>
+		<fieldset>
+	        <div class="row">
+	        	<div class="col-md-6">
+	        		<div class="input-group">
+	        			<input type="text" 
+	        			ng-model="selectedTag" placeholder="Type and select a Tag" 
+	        			uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
+	        			typeahead-on-select="onSelectTag($item, $model, $label, $event)"
+	        			class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
+	        			<span class="input-group-btn">                                    
+	        				<button class="btn btn-default" ng-click="getTagsList()" ng-show="Tags.length === 0">
+	        					<i class="fa fa-refresh" aria-hidden="true"></i>
+	        				</button>
+	        				<button class="btn btn-default" ng-click= "selectedTag = null; selectedTag = null; activate()" ng-show="Tags.length !== 0">
+	        					<i class="fa fa-minus-circle" aria-hidden="true"></i>
+	        				</button>
+	        			</span>
+	        		</div> 
+	        	</div>
+	        	<div class="col-md-6">            	
+	        		<button class="btn btn-primary col-md-6" ng-click="printWorkOrder()" >PRINT WORK ORDER</button>
+	        		<button class="btn btn-primary col-md-6" ng-click="downloadExcelWorkOrder('workOrderTable')" >DOWNLOAD WORK ORDER</button>	            
+	        	</div>
+	        </div> 
 
-            <div class="col-md-6">            	
-                <button class="btn btn-primary col-md-6" ng-click="printWorkOrder()" >PRINT WORK ORDER</button>
-                <button class="btn btn-primary col-md-6" ng-click="downloadExcelWorkOrder('workOrderTable')" >DOWNLOAD WORK ORDER</button>	            
-	        </div>
-	        
-    	</fieldset>
+	    </fieldset>
 	</ng-form>
 	<div ng-show="workOrders.isCompleted === 'SUCCESSFULL'">
 		<div id="workOrders">
-			<h1>Work orders for Asset {{selectedAsset.UserName}}</h1>
-			<!-- <h1>Work orders for Zone {{selectedAsset.UserName}}</h1> -->
+			<h1>Work orders for Zone {{ selectedTag.Id }}</h1>
 			<table id="workOrderTable" class="table table-striped table-bordered table-hover" style="table-layout: fixed;">
 				<tbody>
 					<tr>

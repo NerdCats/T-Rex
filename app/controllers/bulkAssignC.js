@@ -338,7 +338,7 @@
 			vm.Orders.searchParam.orderby.orderbyCondition = vm.OrderByPropertyDirection;
 			vm.Orders.isCompleted = 'IN_PROGRESS';
 			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;
-			vm.Orders.searchParam.Id = vm.selectedTag		
+			vm.Orders.searchParam.Id = vm.selectedTag;		
 			
 			if (vm.Orders.searchParam.jobState === "All") {
 				vm.Orders.searchParam.jobState = null;
