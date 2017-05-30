@@ -127,8 +127,6 @@
 				angular.forEach(newVal, function (job, index) {				
 					vm.totalSubTotal += job.data.Order.OrderCart.SubTotal;
 					vm.totalServiceCharge += job.data.Order.OrderCart.ServiceCharge;
-					vm.totalPayable += job.data.Order.OrderCart.TotalToPay;
-
 					vm.totalSubTotal += job.data.Order.OrderCart.SubTotal;
 					vm.totalServiceCharge += job.data.Order.OrderCart.ServiceCharge;
 					vm.totalPayable += job.data.Order.OrderCart.TotalToPay;
