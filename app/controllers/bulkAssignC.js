@@ -4,11 +4,13 @@
 
 	app.controller('bulkAssignC', bulkAssignC);
 
-	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, bulkOrderService){
+	function bulkAssignC($scope, $http, ngAuthSettings, Areas, dashboardFactory, excelWriteService, bulkOrderService, $route){
 		var vm = $scope;
 		vm.listOfHRID = [];
 		vm.Assets = [];
 		vm.DeliveryAreas = Areas;
+		vm.loadingPage = false;
+		vm.isAssignningTag = false;
 		
 		vm.SelectedState = "ENQUEUED";
 		vm.SelectDateRange = {startDate: null, endDate: null};
@@ -27,6 +29,10 @@
 		vm.selectedAssetId = null;
 		vm.selectedTaskIndexForAssign = null;
 		vm.selectedTaskIndexForComplete = null;
+
+		vm.selectedTag = null;
+		vm.Tags = [];
+
 
 		vm.Orders = dashboardFactory.orders("ENQUEUED");
 		vm.Orders.searchParam.jobState === 'IN_PROGRESS';
@@ -90,6 +96,35 @@
 			});
 		}
 
+		vm.assignTag = function (tag) {			
+			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {						
+					// vm.Orders.data[jobIndex].isAssigningPickUpAsset= true;	
+					// TODO: will write the code to add tag on a job
+					vm.isAssignningTag = true;
+					var itSelf = this;
+					var patchUpdate =  [
+						{
+							value: tag,
+							path: "/Tags/0",
+							op: "add"
+						}
+					];
+					var patchUrl = ngAuthSettings.apiServiceBaseUri + "api/Job/" + vm.Orders.data[jobIndex].data.Id + "/tag"
+					$http ({
+						method: 'PATCH',
+						url: patchUrl,
+						data: patchUpdate
+					}).then(function(success){
+						console.log(tag);
+						$route.reload();
+						vm.isAssignningTag = false;
+					}, function (error){
+						console.log(error);
+						vm.isAssignningTag = false;
+					});
+			});		
+		}
+
 		vm.completeTask = function (taskTypeOrName) {
 			angular.forEach(vm.Orders.selectedJobsIndexes, function (HRID, jobIndex) {
 				var task = taskTypeOrName === "ReturnDelivery"? vm.Orders.loadSingleTask("Delivery", jobIndex, 'return') : vm.Orders.loadSingleTask(taskTypeOrName, jobIndex);
@@ -130,9 +165,31 @@
 			});
 		}	
 
+		vm.getTagsList = function (page) {
+			var getTagsUrl = ngAuthSettings.apiServiceBaseUri + "api/datatag/odata?&page="+ page +"&pageSize=50";
+			$http({
+				method: "GET",
+				url: getTagsUrl
+			}).then(function (response) {
+				angular.forEach(response.data.data, function (tag, index) {
+					vm.Tags.push(tag);					
+				});
+				if (response.data.pagination.TotalPages > page) {
+					vm.getTagsUrl(page + 1);
+				}
+			}, function (error) {
+				console.log(error);
+			})
+		}
+
 		vm.onSelectEnterprise = function ($item, $model, $label, $event){		
 			vm.EnterpriseUser = $item.UserName;		
 			console.log(vm.EnterpriseUser);
+		}
+
+		vm.onSelectTag = function ($item, $model, $label, $event) {
+			vm.selectedTag = $item.Id;
+			console.log(vm.selectedTag);
 		}
 
 		vm.onSelectAssetToLoadInprogressJobs = function ($item, $model, $label, $event) {
@@ -260,6 +317,7 @@
 				vm.OrderByProperty = null;
 				vm.OrderByPropertyDirection = null;
 				vm.AttemptCount = null;
+				vm.selectedTag = null;
 			}
 			if (!vm.assetNameIdToLoadInprogressJobs) {
 				vm.assetIdToLoadInprogressJobs = null;
@@ -279,7 +337,8 @@
 			vm.Orders.searchParam.orderby.property = vm.OrderByProperty;
 			vm.Orders.searchParam.orderby.orderbyCondition = vm.OrderByPropertyDirection;
 			vm.Orders.isCompleted = 'IN_PROGRESS';
-			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;			
+			vm.Orders.searchParam.AttemptCount = vm.AttemptCount;
+			vm.Orders.searchParam.Id = vm.selectedTag;		
 			
 			if (vm.Orders.searchParam.jobState === "All") {
 				vm.Orders.searchParam.jobState = null;
@@ -301,6 +360,7 @@
 			vm.Orders.loadOrders();
 		}
 		vm.getAssetsList(0);
+		vm.getTagsList(0);
 		vm.getEnterpriseUsersList(0);
 
 
@@ -313,7 +373,7 @@
 			if (newVal != oldVal) {
 				vm.Orders.pagination = null;
 				vm.Orders.pages = null;
-				vm.Orders.loadListOfOrders(newVal);				
+				vm.Orders.loadListOfOrders(newVal);
 			}
 		});
 	}

@@ -8,6 +8,7 @@
                 </th>
                 <th style="width: 30px;">S\L</th>
                 <th class="col-md-2">Job Id</th>
+                <th class="col-md-1">Tags</th>
                 <th class="col-md-1">Current Status</th>
                 <th class="col-md-1">Ref. Invoice</th>
                 <th class="col-md-1">Create Time</th>                
@@ -41,6 +42,15 @@
                     <a class="small-button small-button-color" href="#/job/{{order.data.HRID}}" target="_blank">Details</a>
                     <a class="small-button small-button-color" href="/app/content/invoice/invoice.html?{{order.data.HRID}}" target="_blank">Invoice</a>
                 </td>
+
+                <td>
+                    <div ng-repeat="tag in order.data.Tags" class= "small-button tag-color" style="list-style-type: none;">
+                        {{ tag }}
+                        <br>
+                    </div>
+
+                </td>
+
                 <td>
                     <span class="small-button text-center {{orders.getProperWordWithCss(order.data.State).class}}">
                         {{order.data.HRState}}

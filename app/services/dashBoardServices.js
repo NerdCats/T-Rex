@@ -221,6 +221,7 @@
 					subStringOf : {
 						SearchKey : null,					
 					},
+					Tag: null,
 					AttemptCount: null,
 					envelope: true,
 					page: 0,
@@ -274,8 +275,8 @@
 				loadOrders: function () {				
 					var pageUrl = "";
 					// if there is an searchParam.userId, it means We need to load assigned jobs of an asset				
-					if (this.searchParam.userId) {
-						pageUrl = ngAuthSettings.apiServiceBaseUri + "api/job/odata?$filter=(Tasks/any(task: task/State eq 'IN_PROGRESS' and Task/Type eq 'Delivery' and task/AssetRef eq '"+ this.searchParam.userId +"'))&pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
+					if (this.searchParam.Tag) {
+						pageUrl = ngAuthSettings.apiServiceBaseUri + "api/job/odata?$filter= Tags/any(Tag: Tag eq '"+Tag+"') and (Tasks/any(task: task/State eq 'IN_PROGRESS' and Task/Type eq 'PackagePickUp' or Task/Type eq Delivery))&pageSize="+ this.searchParam.pageSize +"&page="+ this.searchParam.page +"&sortDirection=Descending";
 					} else {
 						pageUrl = queryService.getOdataQuery(this.searchParam);
 					}
