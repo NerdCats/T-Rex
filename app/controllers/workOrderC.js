@@ -91,14 +91,16 @@
 		}
 
 		vm.activate = function () {		
-			if (!vm.selectedAssetId) {
-				vm.WarningMessage = "Please select an Asset first!";			
+			if (!vm.selectedTag) {
+				vm.WarningMessage = "Please select a Zone first!";
+				console.log(vm.WarningMessage);		
 			} else {
 				vm.WarningMessage = null;
 				vm.workOrders.searchParam.pageSize = vm.jobPerPage;
 				vm.workOrders.isCompleted = 'IN_PROGRESS';
 				vm.workOrders.searchParam.userId = vm.selectedAssetId;
 				vm.workOrders.searchParam.Id = vm.selectedTag;
+				console.log(vm.workOrders.searchParam.Id);
 				vm.workOrders.loadOrders();
 			}
 		}

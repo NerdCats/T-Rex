@@ -10,7 +10,7 @@
 	        			typeahead-on-select="onSelectTag($item, $model, $label, $event)"
 	        			class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
 	        			<span class="input-group-btn">                                    
-	        				<button class="btn btn-default" ng-click="getTagsList()" ng-show="Tags.length === 0">
+	        				<button class="btn btn-default" ng-click="getTagsList(0)" ng-show="Tags.length === 0">
 	        					<i class="fa fa-refresh" aria-hidden="true"></i>
 	        				</button>
 	        				<button class="btn btn-default" ng-click= "selectedTag = null; selectedTag = null; activate()" ng-show="Tags.length !== 0">
@@ -29,7 +29,7 @@
 	</ng-form>
 	<div ng-show="workOrders.isCompleted === 'SUCCESSFULL'">
 		<div id="workOrders">
-			<h1>Work orders for Zone {{ selectedTag.Id }}</h1>
+			<h1>Work orders for Zone {{ selectedTag }}</h1>
 			<table id="workOrderTable" class="table table-striped table-bordered table-hover" style="table-layout: fixed;">
 				<tbody>
 					<tr>
