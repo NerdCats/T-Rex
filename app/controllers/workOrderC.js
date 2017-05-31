@@ -98,21 +98,10 @@
 				vm.WarningMessage = null;
 				vm.workOrders.searchParam.pageSize = vm.jobPerPage;
 				vm.workOrders.isCompleted = 'IN_PROGRESS';
-				vm.workOrders.searchParam.userId = vm.selectedAssetId;
 				vm.workOrders.searchParam.Id = vm.selectedTag;
 				console.log(vm.workOrders.searchParam.Id);
 				vm.workOrders.loadOrders();
 			}
-		}
-
-
-		vm.assetChanged = function () {		
-			angular.forEach(vm.Assets, function (asset, index) {			
-				if (vm.selectedAssetId === asset.Id) {					
-					vm.selectedAsset = asset;
-				}
-			})
-			vm.activate();
 		}
 
 
