@@ -6,7 +6,7 @@
 	        		<div class="input-group">
 	        			<input type="text" 
 	        			ng-model="selectedTag" placeholder="Type and select a Tag" 
-	        			uib-typeahead="tag.Id for tag in Tags | filter:$viewValue | limitTo:20" 
+	        			uib-typeahead="tag.Value for tag in Tags | filter:$viewValue | limitTo:20" 
 	        			typeahead-on-select="onSelectTag($item, $model, $label, $event)"
 	        			class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
 	        			<span class="input-group-btn">                                    

@@ -188,7 +188,7 @@
 		}
 
 		vm.onSelectTag = function ($item, $model, $label, $event) {
-			vm.selectedTag = $item.Id;
+			vm.selectedTag = $item.Value;
 			console.log(vm.selectedTag);
 		}
 
