@@ -69,15 +69,15 @@
 		}
 
 
-		vm.updateTag = function (updatedTag) {
+		vm.updateTag = function (tagId, DataTag) {
 			$http({
 				method: 'PUT',
-				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag",
-				data: { Id: updatedTag }
+				url: ngAuthSettings.apiServiceBaseUri + "api/DataTag/" + tagId,
+				data: { Id: tagId, Value: DataTag }
 			}).then(function (response) {
-				vm.tagLists[index].updateMode = false;
+				vm.getTags();
 			}, function (error) {
-				
+				console.log(error);
 			});
 		}
 

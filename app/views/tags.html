@@ -31,14 +31,14 @@
 			<tr ng-repeat="tag in tagLists track by $index">
 				<td>{{ $index + 1 }}</td>
 				<td>
-					<div ng-show="!tag.updateMode">{{ tag.Id }}</div>
+					<div ng-show="!tag.updateMode">{{ tag.Value }}</div>
 					<div ng-show="tag.updateMode">
 						<input class="form-control" type="text" ng-model="updatedTagValue">
 					</div>
 				</td>
 				<td>
-					<button class="btn btn-primary" ng-show="!tag.updateMode" ng-click="tag.updateMode=true;updatedTagValue=tag.Id">EDIT</button>
-					<button class="btn btn-primary" ng-show="tag.updateMode" ng-click="updateTag(updatedTagValue)">UPDATE</button>
+					<button class="btn btn-primary" ng-show="!tag.updateMode" ng-click="tag.updateMode=true;updatedTagValue=tag.Value">EDIT</button>
+					<button class="btn btn-primary" ng-show="tag.updateMode" ng-click="updateTag(tag.Id, updatedTagValue)">UPDATE</button>
 					<button class="btn btn-primary" ng-show="tag.updateMode" ng-click="tag.updateMode=false;">DISCARD</button>
 				</td>
 				<td><button class="btn btn-danger" ng-click=deleteTag(tag.Id)>DELETE</button></td>
