@@ -406,6 +406,23 @@
             </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
+                    Tags
+                </div>
+                <div class="panel-body">
+                    <div>                          
+                        <div class="row">
+                            <div class="col-md-8">
+                                <ul ng-repeat="tag in job.data.Tags" style="list-style-type: none;">
+                                    <li class="small-button tag-color">{{ tag }}</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
                     Assets List
                 </div>
                 <div class="panel-body">
@@ -423,6 +440,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- Customer Info, Order Status Information End-->
     </div>

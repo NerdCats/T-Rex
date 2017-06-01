@@ -52,8 +52,14 @@
       		title : "Product Category",
       		link: '#/products-category',
       		target: "",
-      		class: "fa fa-tags"
+      		class: "fa fa-list-ul"
       	},
+            { 
+                  title : "Tags",
+                  link: '#/tags',
+                  target: "",
+                  class: "fa fa-tags"
+            },
       	{ 
       		title : "Stores", 
       		link: '#/stores',

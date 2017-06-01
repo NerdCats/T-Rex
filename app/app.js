@@ -91,13 +91,17 @@ var app = angular.module('app', [
 					templateUrl: 'app/views/products.html',
 					controller: 'productsC'				
 				}).
+				when('/tags', {
+					templateUrl: 'app/views/tags.html',
+					controller: 'tagsController'
+				}).
 				when('/jobactivity', {
 					templateUrl: 'app/views/jobActivity.html'				
 				}).
 				when('/settings', {
 					templateUrl: 'app/views/settings.html',
 					controller: 'settingsC'
-				})
+				});
 				// when('/supportedOrder',{
 				// 	templateUrl: 'app/views/supportedOrders.html',
 				// 	controller: 'supportedOrderController'			

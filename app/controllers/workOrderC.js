@@ -4,7 +4,7 @@
 
 	app.controller('workOrderC', workOrderC);
 
-	function workOrderC($scope, $window, $routeParams, $uibModal, ngAuthSettings, restCall, dashboardFactory, excelWriteService){
+	function workOrderC($scope, $http, $window, $routeParams, $uibModal, ngAuthSettings, restCall, dashboardFactory, excelWriteService){
 		var vm = $scope;	
 		vm.WarningMessage = null;
 		vm.selectedAssetId = $routeParams.id;
@@ -12,6 +12,8 @@
 		vm.jobPerPage = 50;
 		vm.Assets = [];
 		vm.workOrders = dashboardFactory.orders("IN_PROGRESS");
+		vm.Tags = [];
+		vm.selectedTag = null;
 
 		vm.totalSubTotal = 0;
 		vm.totalServiceCharge = 0;
@@ -45,8 +47,31 @@
 				console.log(error);
 			});
 		};
+     
+		vm.getTagsList = function (page) {
+			var getTagsUrl = ngAuthSettings.apiServiceBaseUri + "api/datatag/odata?&page="+ page +"&pageSize=50";
+			$http({
+				method: "GET",
+				url: getTagsUrl
+			}).then(function (response) {
+				angular.forEach(response.data.data, function (tag, index) {
+					vm.Tags.push(tag);					
+				});
+				if (response.data.pagination.TotalPages > page) {
+					vm.getTagsUrl(page + 1);
+				}
+			}, function (error) {
+				console.log(error);
+			})
+		}
+
+		vm.onSelectTag = function ($item, $model, $label, $event) {
+			vm.selectedTag = $item.Value;
+			console.log(vm.selectedTag);
+		}
 
 		vm.getAssetsList(0);
+		vm.getTagsList(0);
 		
 		vm.printWorkOrder = function () {
 			$("#workOrders").print({
@@ -66,25 +91,17 @@
 		}
 
 		vm.activate = function () {		
-			if (!vm.selectedAssetId) {
-				vm.WarningMessage = "Please select an Asset first!";			
+			if (!vm.selectedTag) {
+				vm.WarningMessage = "Please select a Zone first!";
+				console.log(vm.WarningMessage);		
 			} else {
 				vm.WarningMessage = null;
 				vm.workOrders.searchParam.pageSize = vm.jobPerPage;
 				vm.workOrders.isCompleted = 'IN_PROGRESS';
-				vm.workOrders.searchParam.userId = vm.selectedAssetId;
+				vm.workOrders.searchParam.Id = vm.selectedTag;
+				console.log(vm.workOrders.searchParam.Id);
 				vm.workOrders.loadOrders();
 			}
-		}
-
-
-		vm.assetChanged = function () {		
-			angular.forEach(vm.Assets, function (asset, index) {			
-				if (vm.selectedAssetId === asset.Id) {					
-					vm.selectedAsset = asset;
-				}
-			})
-			vm.activate();
 		}
 
 
@@ -99,8 +116,6 @@
 				angular.forEach(newVal, function (job, index) {				
 					vm.totalSubTotal += job.data.Order.OrderCart.SubTotal;
 					vm.totalServiceCharge += job.data.Order.OrderCart.ServiceCharge;
-					vm.totalPayable += job.data.Order.OrderCart.TotalToPay;
-
 					vm.totalSubTotal += job.data.Order.OrderCart.SubTotal;
 					vm.totalServiceCharge += job.data.Order.OrderCart.ServiceCharge;
 					vm.totalPayable += job.data.Order.OrderCart.TotalToPay;
