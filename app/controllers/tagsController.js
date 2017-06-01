@@ -15,7 +15,8 @@
 
 		vm.getNewTag = function () {
 			return {
-				Id: null
+				Id: null,
+				Value:null
 			}
 		}
 
