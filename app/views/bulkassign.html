@@ -239,7 +239,7 @@
 						<label>Search by Tags</label>                        
 						<div class="input-group">
 							<input type="text" 
-							ng-model="selectedTag" placeholder="Type and select a Tag" 
+							ng-model="selectedTag" placeholder="Type and select a tag to search" 
 							uib-typeahead="tag.Value for tag in Tags | filter:$viewValue | limitTo:20" 
 							typeahead-on-select="onSelectTag($item, $model, $label, $event)"
 							class="form-control" ng-disabled="newOrders.isCompleted === 'IN_PROGRESS'" ng-keypress="($event.which === 13)?activate():0">
@@ -251,7 +251,6 @@
 									<i class="fa fa-minus-circle" aria-hidden="true"></i>
 								</button>
 							</span>
-
 						</div>                 
 					</div>
 					<div class="col-md-1">
