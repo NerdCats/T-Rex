@@ -55,7 +55,7 @@
                 </div>
                 <hr class="style-one">
                 <div>
-                    <button class="show-button" ng-click="showDeliveryAddress= !showDeliveryAddress">SHOW PICKUP ADDRESS</button>
+                    <button class="show-button" ng-click="showDeliveryAddress= !showDeliveryAddress">SHOW DELIVERY ADDRESS</button>
                     <div ng-show="showDeliveryAddress">
                         <h3 class="address-header">Delivery Address</h3>                
                         <div class="address" ng-show="job.Tasks[2].ETA">Delivery Time: {{job.Tasks[2].ETA | date: 'medium'}}</div>
