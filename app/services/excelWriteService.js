@@ -43,6 +43,7 @@
 			excelHeading.push("ReferenceInvoiceId");
 			excelHeading.push("Recipient Name");
 			excelHeading.push("PhoneNumber");
+			excelHeading.push("Pickup Address");
 			excelHeading.push("Delivery Address");
 			excelHeading.push("TotalToPrice");
 			excelHeading.push("NoteToDeliveryMan");
@@ -62,6 +63,11 @@
 					excelRow.push(job.Order.BuyerInfo.PhoneNumber);
 				} else {
 					excelRow.push("");
+				}
+				if(job.Order.BuyerInfo || job.Order.BuyerInfo.Address) {
+					excelRow.push(job.Order.From.Address);
+				} else {
+					excelRow.push("No pickup address is given!");
 				}
 				if (job.Order.BuyerInfo && job.Order.BuyerInfo.Address) {
 					excelRow.push(job.Order.To.Address);
