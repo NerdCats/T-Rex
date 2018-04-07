@@ -64,10 +64,10 @@
 				} else {
 					excelRow.push("");
 				}
-				if(job.Order.BuyerInfo || job.Order.BuyerInfo.Address) {
-					excelRow.push(job.Order.From.Address);
+				if(job.Order.From.Address === null){
+					excelRow.push("No pickup address has been given!")
 				} else {
-					excelRow.push("No pickup address is given!");
+					excelRow.push(job.Order.From.Address);
 				}
 				if (job.Order.BuyerInfo && job.Order.BuyerInfo.Address) {
 					excelRow.push(job.Order.To.Address);
