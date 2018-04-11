@@ -50,6 +50,7 @@
                     <div ng-show="showPickUpAddress">
                         <h3 class="address-header">Pickup Address</h3>                
                         <div class="address" ng-show="job.Tasks[1].ETA">Pickup Time: {{job.Tasks[1].ETA | date: 'medium'}}</div>
+                        <div class="address">{{job.Order.SellerInfo.Name}}</div>
                         <div class="address">{{job.Order.From.AddressLine1}}</div>
                         <div class="address">{{job.Order.From.AddressLine2}}</div>
                     </div>
